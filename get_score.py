@@ -24,8 +24,11 @@ starts = []
 innings = []
 teams = []
 scores = []
+output = []
 
 soup = bs4.BeautifulSoup(res.text, "html.parser")
+
+games = len(soup.select('.teams'))
 
 raw_teams = soup.select('.teams .yjMS')
 for raw_team in raw_teams:
@@ -50,6 +53,22 @@ for raw_inning in raw_innings:
 raw_starts = soup.select('.teams .yjSt')
 for raw_info in raw_starts:
     info = raw_info.text
-    if info != '予告先発' && info != '戦評':
+    if info != '予告先発' and info != '戦評':
         starts.append(info)
-    
+
+for i in range(games):
+    game_score = {
+        'info': {
+            'start': starts[i],
+            'inning': innings[i]
+        },
+        'home': {
+            'team': teams[i*2+1],
+            'score': scores[i*2+1]
+        },
+        'away': {
+            'team': teams[i*2],
+            'score': scores[i*2]
+        }
+    }
+    output.append(game_score)
