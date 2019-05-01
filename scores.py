@@ -2,7 +2,8 @@ import requests
 import bs4
 import json
 
-def startArray(soup):
+
+def start_array(soup):
     starts = []
     raw_starts = soup.select('.teams .yjSt')
     for raw_info in raw_starts:
@@ -11,26 +12,28 @@ def startArray(soup):
             starts.append(info)
     return starts
 
-def inningArray(soup):
+
+def inning_array(soup):
     innings = []
     raw_innings = soup.select('.teams .yjMSt')
     for raw_inning in raw_innings:
         inning = raw_inning.text
-        inning = inning.replace("回", "")
-        inning = inning.replace("表", "t")
-        inning = inning.replace("裏", "b")
-        inning = inning.replace("試合前", "yet")
-        inning = inning.replace("結果", "end")
-        inning = inning.replace("中止", "stop")
+        inning = inning.replace('回', '')
+        inning = inning.replace('表', 't')
+        inning = inning.replace('裏', 'b')
+        inning = inning.replace('試合前', 'yet')
+        inning = inning.replace('結果', 'end')
+        inning = inning.replace('中止', 'stop')
         innings.append(inning)
     return innings
 
-def teamArray(soup):
+
+def team_array(soup):
     teams = []
     team_alp = {
         '広島': 'C',
         '阪神': 'T',
-        'DeNA': 'DB',
+        'ＤｅＮＡ': 'DB',
         '巨人': 'G',
         '中日': 'D',
         'ヤクルト': 'YS',
@@ -47,26 +50,28 @@ def teamArray(soup):
         teams.append(alp)
     return teams
 
-def scoreArray(soup):
+
+def score_array(soup):
     scores = []
     raw_scores = soup.select('.teams .score_r')
     for raw_score in raw_scores:
         scores.append(raw_score.text)
     return scores
 
-def liveScores():
-    
+
+def live_scores():
+
     url = 'http://baseball.yahoo.co.jp/npb/schedule/'
     res = requests.get(url)
     res.raise_for_status()
 
-    soup = bs4.BeautifulSoup(res.text, "html.parser")
+    soup = bs4.BeautifulSoup(res.text, 'html.parser')
 
     games = len(soup.select('.teams'))
-    starts = startArray(soup)
-    innings = inningArray(soup)
-    teams = teamArray(soup)
-    scores = scoreArray(soup)
+    starts = start_array(soup)
+    innings = inning_array(soup)
+    teams = team_array(soup)
+    scores = score_array(soup)
 
     output = []
     for i in range(games):
@@ -76,14 +81,17 @@ def liveScores():
                 'inning': innings[i]
             },
             'home': {
-                'team': teams[i*2+1],
-                'score': scores[i*2+1]
+                'team': teams[i * 2 + 1],
+                'score': scores[i * 2 + 1]
             },
             'away': {
-                'team': teams[i*2],
-                'score': scores[i*2]
+                'team': teams[i * 2],
+                'score': scores[i * 2]
             }
         }
         output.append(game_score)
 
     return json.dumps(output)
+
+
+print(live_scores())
