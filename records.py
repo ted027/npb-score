@@ -46,9 +46,9 @@ def confirm_pitcher_tables(tables):
     records_table = rl_table = None
     for table in tables:
         table_type = table.find('tr').text.replace('\n', '')
-        if '投手成績' in table_type:
+        if table_type == '投手成績':
             records_table = table
-        elif '左右打者別成績' in table_type:
+        elif table_type == '左右打者別成績':
             rl_table = table
     return records_table, rl_table
 
@@ -60,15 +60,15 @@ def confirm_hitter_tables(tables):
     records_table = chance_table = rl_table = count_table = runner_table = None
     for table in tables:
         table_type = table.find('tr').text.replace('\n', '')
-        if '打者成績' in table_type:
+        if table_type == '打者成績':
             records_table = table
-        elif '得点圏成績' in table_type:
+        elif table_type == '得点圏成績':
             chance_table = table
-        elif '左右投手別成績' in table_type:
+        elif table_type == '左右投手別成績':
             rl_table = table
-        elif 'カウント別成績' in table_type:
+        elif table_type == 'カウント別成績':
             count_table = table
-        elif '塁状況別成績' in table_type:
+        elif table_type == '塁状況別成績':
             runner_table = table
     return records_table, chance_table, rl_table, count_table, runner_table
 
@@ -96,8 +96,6 @@ def records_by_rl(rl_table, dump_val):
             hitter: 2 ('投手', '打席')
     """
     rl_header = [th.text for th in rl_table.find_all('th')][dump_val:]
-    r_header = ['対右' + h for h in rl_header]
-    l_header = ['対左' + h for h in rl_header]
 
     rl_trs = rl_table.find_all('tr')[EXCEPT_TITLE_HEADER:]
     rl_records = {}
