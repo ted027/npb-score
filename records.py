@@ -1,6 +1,6 @@
 import requests
-import bs4
 import json
+from bs4 import BeautifulSoup
 
 BASEURL = 'https://baseball.yahoo.co.jp/'
 
@@ -8,7 +8,7 @@ BASEURL = 'https://baseball.yahoo.co.jp/'
 def request_soup(url):
     res = requests.get(url)
     res.raise_for_status()
-    return bs4.BeautifulSoup(res.content, "html.parser")
+    return BeautifulSoup(res.content, "html.parser")
 
 
 def link_tail_list(url):
@@ -16,6 +16,46 @@ def link_tail_list(url):
     table = soup.find("table")
     td_player_list = table.find_all('td', class_='lt yjM')
     return [pl.find('a').get('href') for pl in td_player_list]
+
+
+def basic_information(personal_soup):
+    name = personal_soup.find_all('h1')[-1].text.split('（')[0]
+    team = personal_soup.find_all('h1')[-2].text
+    return {'Name': name, 'Team': team}
+
+
+def confirm_pitcher_tables(tables):
+    """
+    return basic and right/left records
+    """
+    records_table = rl_table = None
+    for table in tables:
+        table_type = table.find('tr').text.replace('\n', '')
+        if '投手成績' in table_type:
+            records_table = table
+        elif '左右打者別成績' in table_type:
+            rl_table = table
+    return records_table, rl_table
+
+
+def confirm_hitter_tables(tables):
+    """
+    return basic, chance, right/left, count, runner records
+    """
+    records_table = chance_table = rl_table = count_table = runner_table = None
+    for table in tables:
+        table_type = table.find('tr').text.replace('\n', '')
+        if '打者成績' in table_type:
+            records_table = table
+        elif '得点圏成績' in table_type:
+            chance_table = table
+        elif '左右投手別成績' in table_type:
+            rl_table = table
+        elif 'カウント別成績' in table_type:
+            count_table = table
+        elif '塁状況別成績' in table_type:
+            runner_table = table
+    return records_table, chance_table, rl_table, count_table, runner_table
 
 
 def dict_records(records_table):
@@ -27,6 +67,8 @@ def dict_records(records_table):
 
 def chance_records(chance_table):
     chheader_raw = [th.text for th in chance_table.find_all('th')]
+    # [0][:4]'得点圏' + header値
+    # [1:] remove table title
     chheader = [chheader_raw[0][:4] + h for h in chheader_raw[1:]]
 
     chbody = [td.text for td in chance_table.find_all('td')]
@@ -35,12 +77,10 @@ def chance_records(chance_table):
 
 def records_by_rl(rl_table, dump_val):
     rl_header = [th.text for th in rl_table.find_all('th')]
-    print(rl_header)
     r_header = ['対右' + h for h in rl_header]
     l_header = ['対左' + h for h in rl_header]
 
     rl_tr = rl_table.find_all('tr')
-    print(rl_tr)
     rl_body1 = [td.text for td in rl_tr[-2].find_all('td')]
     if not '右' in rl_body1[0]:
         raise BaseException('cannot find the word that means right records')
@@ -54,22 +94,16 @@ def records_by_rl(rl_table, dump_val):
 
 
 def records_by_count_or_runner(table_by):
-    # cut count or runner
+    # [1:] remove header content 'カウント/ランナー'
     header = [th.text for th in table_by.find_all('th')][1:]
 
-    # 2: cut title and header
+    # [2:] remove title and header row
     body_tr = table_by.find_all('tr')[2:]
     records_by_count_or_runner = {}
     for tr in body_tr:
         body = [td.text for td in tr.find_all('td')]
         records_by_count_or_runner[body[0]] = dict(zip(header, body[1:]))
     return records_by_count_or_runner
-
-
-def basic_information(personal_soup):
-    name = personal_soup.find_all('h1')[-1].text.split('（')[0]
-    team = personal_soup.find_all('h1')[-2].text
-    return {'Name': name, 'Team': team}
 
 
 def append_team_pitcher_array(link_tail_list):
@@ -86,10 +120,7 @@ def append_team_pitcher_array(link_tail_list):
         # personal_dict['ID'] = personal_id
 
         tables = personal_soup.find_all('table')
-        if len(tables) < 8:
-            continue
-        records_table = tables[1]
-        rl_table = tables[-3]
+        records_table, rl_table = confirm_pitcher_tables(tables)
         # 0: profile
         # 1: **pitch records
         # (2): hit records
@@ -127,13 +158,7 @@ def append_team_hitter_array(link_tail_list):
         # personal_dict['ID'] = personal_id
 
         tables = personal_soup.find_all('table')
-        if len(tables) < 10:
-            continue
-        records_table = tables[1]
-        chance_table = tables[2]
-        rl_table = tables[-5]
-        count_table = tables[-4]
-        runner_table = tables[-3]
+        records_table, chance_table, rl_table, count_table, runner_table = confirm_hitter_tables(tables)
         # 0: profile
         # 1: **records
         # (2): **chance
