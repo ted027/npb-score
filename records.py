@@ -7,12 +7,14 @@ BASEURL = 'https://baseball.yahoo.co.jp/'
 NAME_HI = -1
 TEAM_H1 = -2
 
+TRAINING_NUM_DIGIT = 3
+
 EXCEPT_TITLE = 1
 EXCEPT_TITLE_HEADER = 2
 
 EXCEPT_HEAD_CONTENT = 1
 
-CHANCE_STR_DIVIDER = 4
+CHANCE_STR_DIVIDER = 3
 
 PITCHER_DUMP_VAL = 1
 HITTER_DUMP_VAL = 2
@@ -23,14 +25,19 @@ TEAM_NUM_LIST = [376 if i == 10 else i for i in list(range(1, 13))]
 def request_soup(url):
     res = requests.get(url)
     res.raise_for_status()
-    return BeautifulSoup(res.content, "html.parser")
+    return BeautifulSoup(res.content, 'html.parser')
 
 
 def link_tail_list(url):
     soup = request_soup(url)
-    table = soup.find("table")
+    table = soup.find('table')
+    td_number_list = table.find_all('td', class_='ct active')
     td_player_list = table.find_all('td', class_='lt yjM')
-    return [pl.find('a').get('href') for pl in td_player_list]
+    return [
+        pl.find('a').get('href')
+        for num, pl in zip(td_number_list, td_player_list)
+        if len(num.text) < TRAINING_NUM_DIGIT
+    ]
 
 
 def basic_information(personal_soup):
@@ -83,7 +90,10 @@ def chance_records(chance_table):
     chheader_raw = [th.text for th in chance_table.find_all('th')]
     # [0][:4]'得点圏' + header値
     # [1:] remove table title
-    chheader = [chheader_raw[0][:CHANCE_STR_DIVIDER] + h for h in chheader_raw[EXCEPT_HEAD_CONTENT:]]
+    chheader = [
+        chheader_raw[0][:CHANCE_STR_DIVIDER] + h
+        for h in chheader_raw[EXCEPT_HEAD_CONTENT:]
+    ]
 
     chbody = [td.text for td in chance_table.find_all('td')]
     return dict(zip(chheader, chbody))
@@ -118,7 +128,8 @@ def records_by_count_or_runner(table_by):
     records_by_count_or_runner = {}
     for tr in body_tr:
         body = [td.text for td in tr.find_all('td')]
-        records_by_count_or_runner[body[0]] = dict(zip(header, body[EXCEPT_HEAD_CONTENT:]))
+        records_by_count_or_runner[body[0]] = dict(
+            zip(header, body[EXCEPT_HEAD_CONTENT:]))
     return records_by_count_or_runner
 
 
@@ -175,7 +186,8 @@ def append_team_hitter_array(link_tail_list):
         # personal_dict['ID'] = personal_id
 
         tables = personal_soup.find_all('table')
-        records_table, chance_table, rl_table, count_table, runner_table = confirm_hitter_tables(tables)
+        records_table, chance_table, rl_table, count_table, runner_table = confirm_hitter_tables(
+            tables)
         # 0: profile
         # 1: **records
         # (2): **chance
