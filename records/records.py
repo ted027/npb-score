@@ -88,7 +88,7 @@ def dict_records(records_table):
 
 def chance_records(chance_table):
     chheader_raw = [th.text for th in chance_table.find_all('th')]
-    # [0][:4]'得点圏' + header値
+    # [0][:3]'得点圏' + header値
     # [1:] remove table title
     chheader = [
         chheader_raw[0][:CHANCE_STR_DIVIDER] + h
@@ -245,7 +245,7 @@ def append_records_array():
 
     return pitcher_list, hitter_list
 
-def write_json():
+def write_y_records():
     pitcher_list, hitter_list = append_records_array()
 
     with open('pitchers.json', 'w') as pf:
