@@ -1,6 +1,7 @@
 import requests
-import bs4
 import json
+from bs4 import BeautifulSoup
+from pprint import pprint
 
 
 def start_array(soup):
@@ -65,7 +66,7 @@ def live_scores():
     res = requests.get(url)
     res.raise_for_status()
 
-    soup = bs4.BeautifulSoup(res.text, 'html.parser')
+    soup = BeautifulSoup(res.text, 'html.parser')
 
     games = len(soup.select('.teams'))
     starts = start_array(soup)
@@ -76,17 +77,17 @@ def live_scores():
     output = []
     for i in range(games):
         game_score = {
-            'info': {
-                'start': starts[i],
-                'inning': innings[i]
+            'Info': {
+                'Start': starts[i],
+                'Inning': innings[i]
             },
-            'home': {
-                'team': teams[i * 2 + 1],
-                'score': scores[i * 2 + 1]
+            'Home': {
+                'Team': teams[i * 2 + 1],
+                'Score': scores[i * 2 + 1]
             },
-            'away': {
-                'team': teams[i * 2],
-                'score': scores[i * 2]
+            'Away': {
+                'Team': teams[i * 2],
+                'Score': scores[i * 2]
             }
         }
         output.append(game_score)
@@ -94,4 +95,4 @@ def live_scores():
     return json.dumps(output)
 
 
-print(live_scores())
+pprint(live_scores())
