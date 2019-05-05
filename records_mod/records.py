@@ -40,6 +40,12 @@ def link_tail_list(url):
     ]
 
 
+def full_val(str_val):
+    if str_val == '-':
+        return '0'
+    return str_val
+
+
 def basic_information(personal_soup):
     name = personal_soup.find_all('h1')[NAME_HI].text.split('（')[0]
     team = personal_soup.find_all('h1')[TEAM_H1].text
@@ -82,7 +88,7 @@ def confirm_hitter_tables(tables):
 
 def dict_records(records_table):
     rheader = [th.text for th in records_table.find_all('th')[EXCEPT_TITLE:]]
-    rbody = [td.text for td in records_table.find_all('td')]
+    rbody = [full_val(td.text) for td in records_table.find_all('td')]
     return dict(zip(rheader, rbody))
 
 
@@ -95,7 +101,7 @@ def chance_records(chance_table):
         for h in chheader_raw[EXCEPT_HEAD_CONTENT:]
     ]
 
-    chbody = [td.text for td in chance_table.find_all('td')]
+    chbody = [full_val(td.text) for td in chance_table.find_all('td')]
     return dict(zip(chheader, chbody))
 
 
@@ -110,11 +116,12 @@ def records_by_rl(rl_table, dump_val):
     rl_trs = rl_table.find_all('tr')[EXCEPT_TITLE_HEADER:]
     rl_records = {}
     for rl_tr in rl_trs:
-        rl_body = [td.text for td in rl_tr.find_all('td')]
-        if '右' in rl_body[0]:
-            rl_records['対右'] = dict(zip(rl_header, rl_body[dump_val:]))
-        elif '左' in rl_body[0]:
-            rl_records['対左'] = dict(zip(rl_header, rl_body[dump_val:]))
+        rl_text = rl_tr.find('td').text
+        rl_body = [full_val(td.text) for td in rl_tr.find_all('td')[dump_val:]]
+        if '右' in rl_text:
+            rl_records['対右'] = dict(zip(rl_header, rl_body))
+        elif '左' in rl_text:
+            rl_records['対左'] = dict(zip(rl_header, rl_body))
 
     return rl_records
 
@@ -127,9 +134,11 @@ def records_by_count_or_runner(table_by):
     body_tr = table_by.find_all('tr')[EXCEPT_TITLE_HEADER:]
     records_by_count_or_runner = {}
     for tr in body_tr:
-        body = [td.text for td in tr.find_all('td')]
-        records_by_count_or_runner[body[0]] = dict(
-            zip(header, body[EXCEPT_HEAD_CONTENT:]))
+        situation = tr.find('td').text
+        body = [
+            full_val(td.text) for td in tr.find_all('td')[EXCEPT_HEAD_CONTENT:]
+        ]
+        records_by_count_or_runner[situation] = dict(zip(header, body))
     return records_by_count_or_runner
 
 
@@ -244,6 +253,7 @@ def append_records_array():
         hitter_list.extend(team_hitter_list)
 
     return pitcher_list, hitter_list
+
 
 def write_y_records():
     pitcher_list, hitter_list = append_records_array()

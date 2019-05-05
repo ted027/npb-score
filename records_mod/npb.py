@@ -27,8 +27,8 @@ def update_y_records():
         hitter_list = json.load(hf)['Hitter']
 
     for hitter in hitter_list:
-        if hitter['Records']['試合'] == '-':
-            intentional_bb = '-'
+        if not hitter['Records']['試合']:
+            intentional_bb = '0'
         else:
             intentional_bb = intentional_bb_dict.get(hitter['Name'], '0')
         hitter['Records']['故意四球'] = intentional_bb
