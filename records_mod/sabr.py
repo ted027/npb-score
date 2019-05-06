@@ -184,6 +184,112 @@ def bb_per_k(hitter):
     return hitter
 
 
+def iso_p(hitter):
+    """
+    長打力指標
+    IsoP＝（二塁打＋三塁打×2＋本塁打×3）÷打数
+    """
+    atbat = Decimal(hitter['Records']['打数'])
+    if not atbat:
+        iso_p = 0
+    else:
+        numerator = Decimal(hitter['Records']['二塁打']) + 2 * Decimal(
+            hitter['Records']['三塁打']) + 3 * Decimal(hitter['Records']['本塁打'])
+        raw_iso_p = numerator / atbat
+        iso_p = _digits_under_one(raw_iso_p, 3)
+    hitter['Records']['IsoP'] = str(iso_p)
+    return hitter
+
+
+def iso_d(hitter):
+    """
+    選球眼指標
+    IsoD＝ 出塁率 - 打率
+    """
+    iso_d = Decimal(hitter['Records']['出塁率']) - Decimal(hitter['Records']['打率'])
+    hitter['Records']['IsoD'] = str(iso_d)
+    return hitter
+
+
+def bb_percent(hitter):
+    """
+    選球眼指標
+    BB% = 四球 / 打席
+    """
+    apperance = Decimal(hitter['Records']['打席'])
+    if not apperance:
+        bb_percent = 0
+    else:
+        raw_bb_percent = Decimal(hitter['Records']['四球']) / apperance
+        bb_percent = _digits_under_one(raw_bb_percent, 3)
+    hitter['Records']['BB%'] = str(bb_percent)
+    return hitter
+
+
+def babip(hitter):
+    """
+    フェアグラウンド打球の安打率
+    BABIP = (安打 - 本塁打) / (打数 - 三振 - 本塁打 + 犠飛)
+    """
+    denominator = Decimal(hitter['Records']['打数']) - Decimal(
+        hitter['Records']['三振']) - Decimal(hitter['Records']['本塁打']) + Decimal(
+            hitter['Records']['犠飛'])
+    if not denominator:
+        babip = IGNORE_VALIE
+    else:
+        numerator = Decimal(hitter['Records']['安打']) - Decimal(
+            hitter['Records']['本塁打'])
+        raw_babip = numerator / denominator
+        babip = _digits_under_one(raw_babip, 3)
+    hitter['Records']['BABIP'] = str(babip)
+    return hitter
+
+
+# A = 安打 + 四球 + 死球 - 盗塁死 - 併殺打
+# B = 塁打 + 0.26 ×（四球 + 死球） + 0.53 ×（犠飛 + 犠打） + 0.64 × 盗塁 - 0.03 × 三振
+# C = 打数 + 四球 + 死球 + 犠飛 + 犠打
+def rc_basic(hitter):
+    """
+    総合得点能力指標
+    """
+    opportunity = Decimal(hitter['Records']['打数']) + Decimal(
+        hitter['Records']['四球']) + Decimal(hitter['Records']['死球']) + Decimal(
+            hitter['Records']['犠打']) + Decimal(hitter['Records']['犠飛'])
+    if not opportunity:
+        rc = IGNORE_VALIE
+    else:
+        on_base = Decimal(hitter['Records']['安打']) + Decimal(
+            hitter['Records']['四球']) + Decimal(
+                hitter['Records']['死球']) - Decimal(
+                    hitter['Records']['盗塁死']) - Decimal(
+                        hitter['Records']['併殺打'])
+        advance_base = Decimal(hitter['Records']['塁打']) + 0.26 * (
+            Decimal(hitter['Records']['四球']) + Decimal(hitter['Records']['死球'])
+        ) + 0.53 * (Decimal(hitter['Records']['犠飛']) +
+                    Decimal(hitter['Records']['犠打'])) + 0.64 * Decimal(
+                        hitter['Records']['盗塁']) - 0.03 * Decimal(
+                            hitter['Records']['三振'])
+        raw_rc = ((on_base + 2.4 * opportunity) * (advance_base + 3 * opportunity) / (9 * opportunity)) - 0.9 * opportunity
+        rc = _digits_under_one(raw_rc, 2)
+    hitter['Records']['RC'] = str(rc)
+    return hitter, raw_rc
+
+
+def rc_27(hitter, rc):
+    """
+    総合得点能力指標
+    RC27 = RC * 27 / (打数 - 安打 + 犠打 + 犠飛 + 盗塁死 + 併殺打)
+    """
+    total_out = Decimal(hitter['Records']['打数']) - Decimal(hitter['Records']['安打']) + Decimal(hitter['Records']['犠打']) + Decimal(hitter['Records']['犠飛']) + Decimal(hitter['Records']['盗塁死']) + Decimal(hitter['Records']['併殺打'])
+    if not total_out:
+        rc = IGNORE_VALIE
+    else:
+        raw_rc_27 = rc * 27 / total_out
+        rc_27 = _digits_under_one(raw_rc_27, 2)
+    hitter['Records']['RC27'] = str(rc_27)
+    return hitter
+
+
 def add_sabr_pitcher():
     with open('pitchers.json', 'r') as pf:
         pitcher_list = json.load(pf)['Pitcher']
