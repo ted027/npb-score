@@ -375,6 +375,14 @@ def add_sabr_hitter():
         hitter = woba(hitter)
         hitter = woba_basic(hitter)
         hitter = woba_speed(hitter)
+        hitter, raw_rc = rc_basic(hitter)
+        hitter = rc_27(hitter, raw_rc)
+        hitter, raw_xr = xr_basic(hitter)
+        hitter = xr_27(hitter, raw_xr)
+        hitter = babip(hitter)
+        hitter = iso_p(hitter)
+        hitter = iso_d(hitter)
+        hitter = bb_percent(hitter)
         hitter = bb_per_k(hitter)
 
     with open('hitters.json', 'w') as hf:
