@@ -20,6 +20,14 @@ HITTER_DUMP_VAL = 2
 
 TEAM_NUM_LIST = [376 if i == 10 else i for i in list(range(1, 13))]
 
+CENTRAL_LIST = [
+    '広島東洋カープ', '読売ジャイアンツ', '東京ヤクルトスワローズ', '横浜ＤｅＮＡベイスターズ', '中日ドラゴンズ', '阪神タイガース'
+]
+PACIFIC_LIST = [
+    '埼玉西武ライオンズ', '福岡ソフトバンクホークス', '北海道日本ハムファイターズ', 'オリックス・バファローズ', '千葉ロッテマリーンズ',
+    '東北楽天ゴールデンイーグルス'
+]
+
 BASEURL = 'https://baseball.yahoo.co.jp/'
 
 
@@ -50,7 +58,13 @@ def full_val(str_val):
 def basic_information(personal_soup):
     name = personal_soup.find_all('h1')[NAME_HI].text.split('（')[0]
     team = personal_soup.find_all('h1')[TEAM_H1].text
-    return {'Name': name, 'Team': team}
+    if team in CENTRAL_LIST:
+        league = 'Central'
+    elif team in PACIFIC_LIST:
+        league = 'Pacific'
+    else:
+        raise BaseException('String of Team Name is invalid.')
+    return {'Name': name, 'Team': team, 'League': league}
 
 
 def confirm_pitcher_tables(tables):
@@ -87,21 +101,13 @@ def confirm_hitter_tables(tables):
     return records_table, chance_table, rl_table, count_table, runner_table
 
 
-def add_league_dict(keys, values, league_dict):
-    for key, value in zip(keys, values):
-        decimal_value = Decimal(league_dict.get(key, '0')) + Decimal(value)
-        league_dict[key] = str(decimal_value)
-    return league_dict
-
-
-def dict_records(records_table, league_dict):
+def dict_records(records_table):
     rheader = [th.text for th in records_table.find_all('th')[EXCEPT_TITLE:]]
     rbody = [full_val(td.text) for td in records_table.find_all('td')]
-    add_league_dict(rheader, rbody, league_dict)
     return dict(zip(rheader, rbody))
 
 
-def chance_records(chance_table, league_dict):
+def chance_records(chance_table):
     chheader_raw = [th.text for th in chance_table.find_all('th')]
     # [0][:3]'得点圏' + header値
     # [1:] remove table title
@@ -111,11 +117,10 @@ def chance_records(chance_table, league_dict):
     ]
 
     chbody = [full_val(td.text) for td in chance_table.find_all('td')]
-    add_league_dict(chheader, chbody, league_dict)
     return dict(zip(chheader, chbody))
 
 
-def records_by_rl(rl_table, dump_val, league_dict):
+def records_by_rl(rl_table, dump_val):
     """
     dump_val: remove top contentof
             pitcher: 1 ('打者')
@@ -129,18 +134,14 @@ def records_by_rl(rl_table, dump_val, league_dict):
         rl_text = rl_tr.find('td').text
         rl_body = [full_val(td.text) for td in rl_tr.find_all('td')[dump_val:]]
         if '右' in rl_text:
-            league_dict['対右'] = add_league_dict(rl_header, rl_body,
-                                                league_dict.get('対右', {}))
             rl_records['対右'] = dict(zip(rl_header, rl_body))
         elif '左' in rl_text:
-            league_dict['対左'] = add_league_dict(rl_header, rl_body,
-                                                league_dict.get('対左', {}))
             rl_records['対左'] = dict(zip(rl_header, rl_body))
 
     return rl_records
 
 
-def records_by_count_or_runner(table_by, league_dict):
+def records_by_count_or_runner(table_by):
     # [1:] remove header content 'カウント/ランナー'
     header = [th.text for th in table_by.find_all('th')][EXCEPT_HEAD_CONTENT:]
 
@@ -152,13 +153,11 @@ def records_by_count_or_runner(table_by, league_dict):
         body = [
             full_val(td.text) for td in tr.find_all('td')[EXCEPT_HEAD_CONTENT:]
         ]
-        league_dict[situation] = add_league_dict(
-            header, body, league_dict.get(situation, {}))
         records_by_count_or_runner[situation] = dict(zip(header, body))
-    return records_by_count_or_runner, league_dict
+    return records_by_count_or_runner
 
 
-def append_team_pitcher_array(link_tail_list, league_dict):
+def append_team_pitcher_array(link_tail_list):
     team_pitcher_list = []
     for ptail in link_tail_list:
         # personal id
@@ -184,21 +183,25 @@ def append_team_pitcher_array(link_tail_list, league_dict):
         # -2: field
         # -1: open
 
-        records = dict_records(records_table, league_dict)
+        records = dict_records(records_table)
 
         if rl_table:
             # 1: dump '○打'
-            records_rl = records_by_rl(rl_table, PITCHER_DUMP_VAL, league_dict)
+            records_rl = records_by_rl(rl_table, PITCHER_DUMP_VAL)
             records.update(records_rl)
 
-        personal_dict['Records'] = records
+        records['被打数'] = str(
+            Decimal(records.get('対右', '0').get('被打数', '0')) +
+            Decimal(records.get('対左', '0').get('被打数', '0')))
+
+        personal_dict.update(records)
 
         team_pitcher_list.append(personal_dict)
 
     return team_pitcher_list
 
 
-def append_team_hitter_array(link_tail_list, league_dict):
+def append_team_hitter_array(link_tail_list):
     team_hitter_list = []
     for htail in link_tail_list:
         # personal id
@@ -225,28 +228,28 @@ def append_team_hitter_array(link_tail_list, league_dict):
         # 10: field
         # -1: open
 
-        records = dict_records(records_table, league_dict)
+        records = dict_records(records_table)
+
+        del records['得点圏']
 
         if chance_table:
-            ch_records = chance_records(chance_table, league_dict)
+            ch_records = chance_records(chance_table)
             records.update(ch_records)
 
         if rl_table:
             # 2: dump '○投' | '○打席'
-            records_rl = records_by_rl(rl_table, HITTER_DUMP_VAL, league_dict)
+            records_rl = records_by_rl(rl_table, HITTER_DUMP_VAL)
             records.update(records_rl)
 
         if count_table:
-            records_by_count, league_dict['カウント'] = records_by_count_or_runner(
-                count_table, league_dict.get('カウント', {}))
+            records_by_count = records_by_count_or_runner(count_table)
             records.update({'カウント': records_by_count})
 
         if runner_table:
-            records_by_runner, league_dict['走者'] = records_by_count_or_runner(
-                runner_table, league_dict.get('走者', {}))
+            records_by_runner = records_by_count_or_runner(runner_table)
             records.update({'走者': records_by_runner})
 
-        personal_dict['Records'] = records
+        personal_dict.update(records)
 
         team_hitter_list.append(personal_dict)
 
@@ -256,13 +259,7 @@ def append_team_hitter_array(link_tail_list, league_dict):
 def append_records_array():
     pitcher_list = []
     hitter_list = []
-    league_pitcher_dic = {'Central': {}, 'Pacific': {}}
-    league_hitter_dic = {'Central': {}, 'Pacific': {}}
     for i in TEAM_NUM_LIST:
-        if i < 7:
-            league = 'Central'
-        else:
-            league = 'Pacific'
 
         purl = BASEURL + 'npb/teams/' + str(i) + '/memberlist?type=p'
         hurl = BASEURL + 'npb/teams/' + str(i) + '/memberlist?type=b'
@@ -270,28 +267,11 @@ def append_records_array():
         pit_link_tail_list = link_tail_list(purl)
         hit_link_tail_list = link_tail_list(hurl)
 
-        team_pitcher_list = append_team_pitcher_array(
-            pit_link_tail_list, league_pitcher_dic[league])
+        team_pitcher_list = append_team_pitcher_array(pit_link_tail_list)
         pitcher_list.extend(team_pitcher_list)
 
-        team_hitter_list = append_team_hitter_array(hit_link_tail_list,
-                                                    league_hitter_dic[league])
+        team_hitter_list = append_team_hitter_array(hit_link_tail_list)
         hitter_list.extend(team_hitter_list)
-
-    pitcher_list.extend([{
-        'Name': 'Central',
-        'Records': league_pitcher_dic['Central']
-    }, {
-        'Name': 'Pacific',
-        'Records': league_pitcher_dic['Pacific']
-    }])
-    hitter_list.extend([{
-        'Name': 'Central',
-        'Records': league_hitter_dic['Central']
-    }, {
-        'Name': 'Pacific',
-        'Records': league_hitter_dic['Pacific']
-    }])
 
     return pitcher_list, hitter_list
 
