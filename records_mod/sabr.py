@@ -86,6 +86,28 @@ def whip(pitcher):
     return pitcher
 
 
+def _fip_part(pitcher):
+    innings = Decimal(pitcher['投球回'])
+    outcounts = _return_outcounts(innings)
+    if not outcounts:
+        fip_part = IGNORE_VALIE
+    else:
+        fip_part = (Decimal('13') * Decimal(pitcher['被本塁打']) + Decimal('3') *
+                    (Decimal(pitcher['与四球']) + Decimal(pitcher['与死球']) -
+                     Decimal(pitcher['故意四球'])) -
+                    Decimal('2') * Decimal(pitcher['奪三振'])) * 3 / outcounts
+    return fip_part
+
+
+def fip(pitcher, league):
+    pit_fip = _fip_part(pitcher)
+    lg_fip = _fip_part(league)
+    raw_fip = pit_fip + Decimal(league['防御率']) - lg_fip
+    fip = digits_under_one(raw_fip, 2)
+    pitcher['FIP'] = fip
+    return pitcher
+
+
 def _single(hitter):
     return Decimal(hitter['安打']) - Decimal(hitter['二塁打']) - Decimal(
         hitter['三塁打']) - Decimal(hitter['本塁打'])
@@ -337,10 +359,15 @@ def add_sabr_pitcher():
     with open('pitchers.json', 'r') as pf:
         pitcher_list = json.load(pf)['Pitcher']
 
+    with open('league_pitcher.json', 'r') as lpf:
+        league_pitcher_dic = json.load(lpf)
+
     for pitcher in pitcher_list:
+        league_dic = league_pitcher_dic[pitcher['League']]
         pitcher = qs_rate(pitcher)
         pitcher = bb_per_nine(pitcher)
         pitcher = hr_per_nine(pitcher)
+        # pitcher = fip(pitcher, league_dic)
 
     with open('pitchers.json', 'w') as pf:
         json.dump({'Pitcher': pitcher_list}, pf, indent=2, ensure_ascii=False)
