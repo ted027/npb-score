@@ -91,7 +91,7 @@ def fip(pitcher, league):
     lg_fip = _fip_efira(league)
     raw_fip = pit_fip + Decimal(league['防御率']) - lg_fip
     fip = digits_under_one(raw_fip, 2)
-    pitcher['FIP'] = fip
+    pitcher['FIP'] = str(fip)
     return pitcher
 
 

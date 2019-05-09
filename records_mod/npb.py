@@ -8,7 +8,7 @@ TEAM_INITIAL_LIST = [
     'l', 'h', 'f', 'b', 'm', 'e', 'c', 's', 'g', 'db', 'd', 't'
 ]
 
-INTENTIONAL_BB_COLUMN = 17
+IBB_COLUMN_DICT = {'p': 18, 'b': 17}
 
 
 def create_intentional_bb_dict(p_or_b):
@@ -19,7 +19,7 @@ def create_intentional_bb_dict(p_or_b):
         player_trs = soup.find_all('tr', class_='ststats')
         team_intentional_bb_dict = {
             pl_trs.find('td', class_='stplayer').text.replace('　', ' '):
-            pl_trs.find_all('td')[INTENTIONAL_BB_COLUMN].text
+            pl_trs.find_all('td')[IBB_COLUMN_DICT[p_or_b]].text
             for pl_trs in player_trs
         }
         intentional_bb_dict.update(team_intentional_bb_dict)
