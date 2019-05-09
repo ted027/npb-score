@@ -1,25 +1,12 @@
 import json
 from decimal import Decimal, ROUND_HALF_UP
-
-FULL_OUTCOUNTS = 27
-IGNORE_VALIE = -1
-
-
-def digits_under_one(value, digits):
-    base = 10**(-1 * digits)
-    return value.quantize(Decimal(str(base)), rounding=ROUND_HALF_UP)
-
-
-def _return_outcounts(innings):
-    int_innings = int(innings)
-    dec_innings = innings - int_innings
-    return 3 * int_innings + 10 * dec_innings
+from common import digits_under_one, return_outcounts, single, FULL_OUTCOUNTS, ZERO_VALUE, IGNORE_VALUE
 
 
 def qs_rate(pitcher):
     start = Decimal(pitcher['先発'])
     if not start:
-        qsrate = 0
+        qsrate = Decimal('0')
     else:
         raw_qsrate = Decimal(pitcher['QS']) * 100 / start
         qsrate = digits_under_one(raw_qsrate, 2)
@@ -27,33 +14,33 @@ def qs_rate(pitcher):
     return pitcher
 
 
-def k_per_bb(pitcher):
-    bb = Decimal(pitcher['与四球'])
-    if not bb:
-        k_per_bb = IGNORE_VALIE
-    else:
-        raw_k_per_bb = Decimal(pitcher['奪三振']) / bb
-        k_per_bb = digits_under_one(raw_k_per_bb, 2)
-    pitcher['K/BB'] = str(k_per_bb)
-    return pitcher
+# def k_per_bb(pitcher):
+#     bb = Decimal(pitcher['与四球'])
+#     if not bb:
+#         k_per_bb = IGNORE_VALUE
+#     else:
+#         raw_k_per_bb = Decimal(pitcher['奪三振']) / bb
+#         k_per_bb = digits_under_one(raw_k_per_bb, 2)
+#     pitcher['K/BB'] = str(k_per_bb)
+#     return pitcher
 
-def k_per_nine(pitcher):
-    innings = Decimal(pitcher['投球回'])
-    outcounts = _return_outcounts(innings)
-    if not outcounts:
-        k_per_n = IGNORE_VALIE
-    else:
-        raw_k_per_n = Decimal(pitcher['奪三振']) * FULL_OUTCOUNTS / outcounts
-        k_per_n = digits_under_one(raw_k_per_n, 2)
-    pitcher['奪三振率'] = str(k_per_n)
-    return pitcher
+# def k_per_nine(pitcher):
+#     innings = Decimal(pitcher['投球回'])
+#     outcounts = return_outcounts(innings)
+#     if not outcounts:
+#         k_per_n = IGNORE_VALUE
+#     else:
+#         raw_k_per_n = Decimal(pitcher['奪三振']) * FULL_OUTCOUNTS / outcounts
+#         k_per_n = digits_under_one(raw_k_per_n, 2)
+#     pitcher['奪三振率'] = str(k_per_n)
+#     return pitcher
 
 
 def bb_per_nine(pitcher):
     innings = Decimal(pitcher['投球回'])
-    outcounts = _return_outcounts(innings)
+    outcounts = return_outcounts(innings)
     if not outcounts:
-        bb_per_n = IGNORE_VALIE
+        bb_per_n = IGNORE_VALUE
     else:
         raw_bb_per_n = Decimal(pitcher['与四球']) * FULL_OUTCOUNTS / outcounts
         bb_per_n = digits_under_one(raw_bb_per_n, 2)
@@ -63,9 +50,9 @@ def bb_per_nine(pitcher):
 
 def hr_per_nine(pitcher):
     innings = Decimal(pitcher['投球回'])
-    outcounts = _return_outcounts(innings)
+    outcounts = return_outcounts(innings)
     if not outcounts:
-        hr_per_n = IGNORE_VALIE
+        hr_per_n = IGNORE_VALUE
     else:
         raw_hr_per_n = Decimal(pitcher['被本塁打']) * FULL_OUTCOUNTS / outcounts
         hr_per_n = digits_under_one(raw_hr_per_n, 2)
@@ -73,44 +60,39 @@ def hr_per_nine(pitcher):
     return pitcher
 
 
-def whip(pitcher):
-    innings = Decimal(pitcher['投球回'])
-    outcounts = _return_outcounts(innings)
-    if not outcounts:
-        whip = IGNORE_VALIE
-    else:
-        raw_whip = (Decimal(pitcher['与四球']) +
-                    Decimal(pitcher['被安打'])) * 3 / outcounts
-        whip = digits_under_one(raw_whip, 2)
-    pitcher['WHIP'] = str(whip)
-    return pitcher
+# def whip(pitcher):
+#     innings = Decimal(pitcher['投球回'])
+#     outcounts = return_outcounts(innings)
+#     if not outcounts:
+#         whip = IGNORE_VALUE
+#     else:
+#         raw_whip = (Decimal(pitcher['与四球']) +
+#                     Decimal(pitcher['被安打'])) * 3 / outcounts
+#         whip = digits_under_one(raw_whip, 2)
+#     pitcher['WHIP'] = str(whip)
+#     return pitcher
 
 
-def _fip_part(pitcher):
+def _fip_efira(pitcher):
     innings = Decimal(pitcher['投球回'])
-    outcounts = _return_outcounts(innings)
+    outcounts = return_outcounts(innings)
     if not outcounts:
-        fip_part = IGNORE_VALIE
+        fip_efira = ZERO_VALUE
     else:
-        fip_part = (Decimal('13') * Decimal(pitcher['被本塁打']) + Decimal('3') *
+        fip_efira = (Decimal('13') * Decimal(pitcher['被本塁打']) + Decimal('3') *
                     (Decimal(pitcher['与四球']) + Decimal(pitcher['与死球']) -
                      Decimal(pitcher['故意四球'])) -
                     Decimal('2') * Decimal(pitcher['奪三振'])) * 3 / outcounts
-    return fip_part
+    return fip_efira
 
 
 def fip(pitcher, league):
-    pit_fip = _fip_part(pitcher)
-    lg_fip = _fip_part(league)
+    pit_fip = _fip_efira(pitcher)
+    lg_fip = _fip_efira(league)
     raw_fip = pit_fip + Decimal(league['防御率']) - lg_fip
     fip = digits_under_one(raw_fip, 2)
     pitcher['FIP'] = fip
     return pitcher
-
-
-def _single(hitter):
-    return Decimal(hitter['安打']) - Decimal(hitter['二塁打']) - Decimal(
-        hitter['三塁打']) - Decimal(hitter['本塁打'])
 
 
 WOBA_BB = Decimal('0.692')
@@ -125,11 +107,11 @@ def woba(hitter):
     denominator = Decimal(hitter['打数']) + Decimal(hitter['四球']) - Decimal(
         hitter['故意四球']) + Decimal(hitter['死球']) + Decimal(hitter['犠飛'])
     if not denominator or denominator < 0:
-        woba = IGNORE_VALIE
+        woba = IGNORE_VALUE
     else:
         numerator = WOBA_BB * (Decimal(hitter['四球']) - Decimal(
             hitter['故意四球'])) + WOBA_HBP * Decimal(hitter[
-                '死球']) + WOBA_SINGLE * _single(hitter) + WOBA_DOUBLE * Decimal(
+                '死球']) + WOBA_SINGLE * single(hitter) + WOBA_DOUBLE * Decimal(
                     hitter['二塁打']) + WOBA_TRIPLE * Decimal(
                         hitter['三塁打']) + WOBA_HR * Decimal(hitter['本塁打'])
         raw_woba = numerator / denominator
@@ -153,10 +135,10 @@ def woba_basic(hitter):
     denominator = Decimal(hitter['打席']) - Decimal(hitter['故意四球']) - Decimal(
         hitter['犠打'])
     if not denominator or denominator < 0:
-        woba_b = IGNORE_VALIE
+        woba_b = IGNORE_VALUE
     else:
         numerator = SWOBA_BB * (Decimal(hitter['四球']) + Decimal(
-            hitter['死球']) - Decimal(hitter['故意四球'])) + SWOBA_SINGLE * _single(
+            hitter['死球']) - Decimal(hitter['故意四球'])) + SWOBA_SINGLE * single(
                 hitter) + SWOBA_DOUBLE_TIPLE * (
                     Decimal(hitter['二塁打']) + Decimal(
                         hitter['三塁打'])) + SWOBA_HR * Decimal(hitter['本塁打'])
@@ -170,10 +152,10 @@ def woba_speed(hitter):
     denominator = Decimal(hitter['打席']) - Decimal(hitter['故意四球']) - Decimal(
         hitter['犠打'])
     if not denominator or denominator < 0:
-        woba_s = IGNORE_VALIE
+        woba_s = IGNORE_VALUE
     else:
         numerator = SWOBA_BB * (Decimal(hitter['四球']) + Decimal(
-            hitter['死球']) - Decimal(hitter['故意四球'])) + SWOBA_SINGLE * _single(
+            hitter['死球']) - Decimal(hitter['故意四球'])) + SWOBA_SINGLE * single(
                 hitter) + SWOBA_S_DOUBLE * Decimal(
                     hitter['二塁打']) + SWOBA_S_TRIPLE * Decimal(
                         hitter['三塁打']) + SWOBA_HR * Decimal(
@@ -189,7 +171,7 @@ def woba_speed(hitter):
 def bb_per_k(hitter):
     k = Decimal(hitter['三振'])
     if not k:
-        bb_per_k = IGNORE_VALIE
+        bb_per_k = IGNORE_VALUE
     else:
         raw_bb_per_k = Decimal(hitter['四球']) / k
         bb_per_k = digits_under_one(raw_bb_per_k, 2)
@@ -247,7 +229,7 @@ def babip(hitter):
     denominator = Decimal(hitter['打数']) - Decimal(hitter['三振']) - Decimal(
         hitter['本塁打']) + Decimal(hitter['犠飛'])
     if not denominator:
-        babip = IGNORE_VALIE
+        babip = IGNORE_VALUE
     else:
         numerator = Decimal(hitter['安打']) - Decimal(hitter['本塁打'])
         raw_babip = numerator / denominator
@@ -266,7 +248,7 @@ def rc_basic(hitter):
     opportunity = Decimal(hitter['打数']) + Decimal(hitter['四球']) + Decimal(
         hitter['死球']) + Decimal(hitter['犠打']) + Decimal(hitter['犠飛'])
     if not opportunity:
-        rc = IGNORE_VALIE
+        rc = IGNORE_VALUE
     else:
         on_base = Decimal(hitter['安打']) + Decimal(hitter['四球']) + Decimal(
             hitter['死球']) - Decimal(hitter['盗塁死']) - Decimal(hitter['併殺打'])
@@ -292,7 +274,7 @@ def rc_27(hitter, rc):
         hitter['犠打']) + Decimal(hitter['犠飛']) + Decimal(
             hitter['盗塁死']) + Decimal(hitter['併殺打'])
     if not total_out:
-        rc_27 = IGNORE_VALIE
+        rc_27 = IGNORE_VALUE
     else:
         raw_rc_27 = rc * 27 / total_out
         rc_27 = digits_under_one(raw_rc_27, 2)
@@ -319,7 +301,7 @@ def xr_basic(hitter):
     """
     総合得点能力指標
     """
-    raw_xr = XR_SINGLE * _single(hitter) + XR_DOUBLE * Decimal(
+    raw_xr = XR_SINGLE * single(hitter) + XR_DOUBLE * Decimal(
         hitter['二塁打']) + XR_TRIPLE * Decimal(hitter['三塁打']) + XR_HR * Decimal(
             hitter['本塁打']) + XR_BB * (Decimal(hitter['四球']) + Decimal(
                 hitter['死球']) - Decimal(hitter['故意四球'])) + XR_IBB * Decimal(
@@ -347,7 +329,7 @@ def xr_27(hitter, xr):
         hitter['犠打']) + Decimal(hitter['犠飛']) + Decimal(
             hitter['盗塁死']) + Decimal(hitter['併殺打'])
     if not total_out:
-        xr_27 = IGNORE_VALIE
+        xr_27 = IGNORE_VALUE
     else:
         raw_xr_27 = xr * 27 / total_out
         xr_27 = digits_under_one(raw_xr_27, 2)
@@ -359,7 +341,7 @@ def add_sabr_pitcher():
     with open('pitchers.json', 'r') as pf:
         pitcher_list = json.load(pf)['Pitcher']
 
-    with open('league_pitcher.json', 'r') as lpf:
+    with open('league_pitchers.json', 'r') as lpf:
         league_pitcher_dic = json.load(lpf)
 
     for pitcher in pitcher_list:
@@ -367,7 +349,7 @@ def add_sabr_pitcher():
         pitcher = qs_rate(pitcher)
         pitcher = bb_per_nine(pitcher)
         pitcher = hr_per_nine(pitcher)
-        # pitcher = fip(pitcher, league_dic)
+        pitcher = fip(pitcher, league_dic)
 
     with open('pitchers.json', 'w') as pf:
         json.dump({'Pitcher': pitcher_list}, pf, indent=2, ensure_ascii=False)

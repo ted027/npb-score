@@ -191,8 +191,8 @@ def append_team_pitcher_array(link_tail_list):
             records.update(records_rl)
 
         records['被打数'] = str(
-            Decimal(records.get('対右', '0').get('被打数', '0')) +
-            Decimal(records.get('対左', '0').get('被打数', '0')))
+            Decimal(records.get('対右', {}).get('被打数', '0')) +
+            Decimal(records.get('対左', {}).get('被打数', '0')))
 
         personal_dict.update(records)
 
