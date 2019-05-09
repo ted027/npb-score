@@ -160,7 +160,7 @@ def woba_speed(hitter):
                     hitter['二塁打']) + SWOBA_S_TRIPLE * Decimal(
                         hitter['三塁打']) + SWOBA_HR * Decimal(
                             hitter['本塁打']) + SWOBA_S_STEAL * Decimal(
-                                hitter['Records']['盗塁']
+                                hitter['盗塁']
                             ) + SWOBA_S_FAILED_STEAL * Decimal(hitter['盗塁死'])
         raw_woba_s = numerator / denominator
         woba_s = digits_under_one(raw_woba_s, 3)
@@ -248,7 +248,7 @@ def rc_basic(hitter):
     opportunity = Decimal(hitter['打数']) + Decimal(hitter['四球']) + Decimal(
         hitter['死球']) + Decimal(hitter['犠打']) + Decimal(hitter['犠飛'])
     if not opportunity:
-        rc = IGNORE_VALUE
+        rc = raw_rc = IGNORE_VALUE
     else:
         on_base = Decimal(hitter['安打']) + Decimal(hitter['四球']) + Decimal(
             hitter['死球']) - Decimal(hitter['盗塁死']) - Decimal(hitter['併殺打'])

@@ -45,7 +45,7 @@ def fix_rate_records(dic):
                                         Decimal(dic['得点圏打数']))
             dic[key] = str(digits_under_one(fix_value, 3))
         elif key == '防御率':
-            numerator = Decimal(dic['自責点']) * Decimal('3')
+            numerator = Decimal(dic['自責点']) * FULL_OUTCOUNTS
             denominator = return_outcounts(Decimal(dic['投球回']))
             fix_value = fix_rate_common(dic, numerator, denominator)
             dic[key] = str(digits_under_one(fix_value, 2))
