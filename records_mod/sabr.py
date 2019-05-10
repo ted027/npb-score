@@ -80,9 +80,9 @@ def _fip_efira(pitcher):
         fip_efira = ZERO_VALUE
     else:
         fip_efira = (Decimal('13') * Decimal(pitcher['被本塁打']) + Decimal('3') *
-                    (Decimal(pitcher['与四球']) + Decimal(pitcher['与死球']) -
-                     Decimal(pitcher['故意四球'])) -
-                    Decimal('2') * Decimal(pitcher['奪三振'])) * 3 / outcounts
+                     (Decimal(pitcher['与四球']) + Decimal(pitcher['与死球']) -
+                      Decimal(pitcher['故意四球'])) -
+                     Decimal('2') * Decimal(pitcher['奪三振'])) * 3 / outcounts
     return fip_efira
 
 
@@ -160,11 +160,34 @@ def woba_speed(hitter):
                     hitter['二塁打']) + SWOBA_S_TRIPLE * Decimal(
                         hitter['三塁打']) + SWOBA_HR * Decimal(
                             hitter['本塁打']) + SWOBA_S_STEAL * Decimal(
-                                hitter['盗塁']
-                            ) + SWOBA_S_FAILED_STEAL * Decimal(hitter['盗塁死'])
+                                hitter['盗塁']) + SWOBA_S_FAILED_STEAL * Decimal(
+                                    hitter['盗塁死'])
         raw_woba_s = numerator / denominator
         woba_s = digits_under_one(raw_woba_s, 3)
     hitter['wOBA(Speed)'] = str(woba_s)
+    return hitter
+
+
+WOBA_SCALE = Decimal('1.24')
+
+
+def wraa(hitter, league):
+    """
+    wRAA = (対象打者のwOBA - リーグwOBA) ÷ wOBAscale × 打席数
+    """
+    raw_wraa = (Decimal(hitter['wOBA']) - Decimal(league['wOBA'])) / WOBA_SCALE * Decimal(hitter['打席'])
+    wraa = digits_under_one(raw_wraa, 3)
+    hitter['wRAA'] = str(wraa)
+    return hitter
+
+
+def wrc(hitter, league):
+    """
+    wRC = wRAA + (リーグ総得点数 / リーグ総打席数) × 打席数
+    """
+    raw_wrc = Decimal(hitter['wRAA']) + (Decimal(league['得点']) / Decimal(league['打席'])) * Decimal(hitter['打席'])
+    wrc = digits_under_one(raw_wrc, 3)
+    hitter['wRC'] = str(wrc)
     return hitter
 
 
@@ -337,6 +360,34 @@ def xr_27(hitter, xr):
     return hitter
 
 
+def calc_sabr_pitcher(pitcher, league_pitcher_dic=None):
+    pitcher = qs_rate(pitcher)
+    pitcher = bb_per_nine(pitcher)
+    pitcher = hr_per_nine(pitcher)
+    if league_pitcher_dic:
+        pitcher = fip(pitcher, league_pitcher_dic)
+    return pitcher
+
+
+def calc_sabr_hitter(hitter, league_hitter_dic=None):
+    hitter = woba(hitter)
+    hitter = woba_basic(hitter)
+    hitter = woba_speed(hitter)
+    hitter, raw_rc = rc_basic(hitter)
+    hitter = rc_27(hitter, raw_rc)
+    hitter, raw_xr = xr_basic(hitter)
+    hitter = xr_27(hitter, raw_xr)
+    hitter = babip(hitter)
+    hitter = iso_p(hitter)
+    hitter = iso_d(hitter)
+    hitter = bb_percent(hitter)
+    hitter = bb_per_k(hitter)
+    # if league_hitter_dic:
+        # hitter = wraa(hitter, league_hitter_dic)
+        # hitter = wrc(hitter, league_hitter_dic)
+    return hitter
+
+
 def add_sabr_pitcher():
     with open('pitchers.json', 'r') as pf:
         pitcher_list = json.load(pf)['Pitcher']
@@ -344,12 +395,11 @@ def add_sabr_pitcher():
     with open('league_pitchers.json', 'r') as lpf:
         league_pitcher_dic = json.load(lpf)
 
+    for league in league_pitcher_dic.values():
+        league = calc_sabr_pitcher(league)
+
     for pitcher in pitcher_list:
-        league_dic = league_pitcher_dic[pitcher['League']]
-        pitcher = qs_rate(pitcher)
-        pitcher = bb_per_nine(pitcher)
-        pitcher = hr_per_nine(pitcher)
-        pitcher = fip(pitcher, league_dic)
+        pitcher = calc_sabr_pitcher(pitcher, league_pitcher_dic[pitcher['League']])
 
     with open('pitchers.json', 'w') as pf:
         json.dump({'Pitcher': pitcher_list}, pf, indent=2, ensure_ascii=False)
@@ -359,19 +409,14 @@ def add_sabr_hitter():
     with open('hitters.json', 'r') as hf:
         hitter_list = json.load(hf)['Hitter']
 
+    with open('league_hitters.json', 'r') as lhf:
+        league_hitter_dic = json.load(lhf)
+    
+    for league in league_hitter_dic.values():
+        league = calc_sabr_hitter(league)
+
     for hitter in hitter_list:
-        hitter = woba(hitter)
-        hitter = woba_basic(hitter)
-        hitter = woba_speed(hitter)
-        hitter, raw_rc = rc_basic(hitter)
-        hitter = rc_27(hitter, raw_rc)
-        hitter, raw_xr = xr_basic(hitter)
-        hitter = xr_27(hitter, raw_xr)
-        hitter = babip(hitter)
-        hitter = iso_p(hitter)
-        hitter = iso_d(hitter)
-        hitter = bb_percent(hitter)
-        hitter = bb_per_k(hitter)
+        hitter = calc_sabr_hitter(hitter, league_hitter_dic[hitter['League']])
 
     with open('hitters.json', 'w') as hf:
         json.dump({'Hitter': hitter_list}, hf, indent=2, ensure_ascii=False)
