@@ -89,8 +89,8 @@ def wsb(hitter, league):
     """
     盗塁指標
     """
-    steal_chance, steal_score = _wsb_part(hitter)
-    league_steal_chance, league_steal_score = _wsb_part(league)
+    steal_score, steal_chance = _wsb_part(hitter)
+    league_steal_score, league_steal_chance = _wsb_part(league)
     if not league_steal_chance:
         wsb = IGNORE_VALUE
     else:

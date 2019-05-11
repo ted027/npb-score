@@ -47,6 +47,18 @@ def rc_27(hitter, rc):
     return hitter
 
 
+def rcaa(hitter, league, rc, league_rc):
+    on_base = Decimal(hitter['打席'])
+    league_on_base = Decimal(league['打席'])
+    if not league_on_base:
+        rcaa = ZERO_VALUE
+    else:
+        raw_rcaa = rc - league_rc / league_on_base * on_base
+        rcaa = digits_under_one(raw_rcaa, 2)
+    hitter['RCAA'] = str(rcaa)
+    return hitter
+
+
 XR_SINGLE = Decimal('0.5')
 XR_DOUBLE = Decimal('0.72')
 XR_TRIPLE = Decimal('1.04')
