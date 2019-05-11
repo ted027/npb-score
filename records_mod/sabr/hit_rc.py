@@ -1,7 +1,8 @@
 import json
 import math
 from decimal import Decimal
-from .common import (digits_under_one, return_outcounts, single, FULL_OUTCOUNTS, ZERO_VALUE, IGNORE_VALUE)
+from .common import (digits_under_one, return_outcounts, single,
+                     FULL_OUTCOUNTS, ZERO_VALUE, IGNORE_VALUE)
 
 
 # A = 安打 + 四球 + 死球 - 盗塁死 - 併殺打
@@ -20,9 +21,9 @@ def rc_basic(hitter):
             hitter['死球']) - Decimal(hitter['盗塁死']) - Decimal(hitter['併殺打'])
         advance_base = Decimal(hitter['塁打']) + Decimal('0.26') * (Decimal(
             hitter['四球']) + Decimal(hitter['死球'])) + Decimal('0.53') * (
-                Decimal(hitter['犠飛']) + Decimal(
-                    hitter['犠打'])) + Decimal('0.64') * Decimal(
-                        hitter['盗塁']) - Decimal('0.03') * Decimal(hitter['三振'])
+                Decimal(hitter['犠飛']) +
+                Decimal(hitter['犠打'])) + Decimal('0.64') * Decimal(
+                    hitter['盗塁']) - Decimal('0.03') * Decimal(hitter['三振'])
         raw_rc = ((on_base + Decimal('2.4') * opportunity) *
                   (advance_base + Decimal('3') * opportunity) /
                   (Decimal('9') * opportunity)) - Decimal('0.9') * opportunity
@@ -56,8 +57,8 @@ def xr_basic(hitter):
                     hitter['故意四球']) + XR_STEAL * Decimal(
                         hitter['盗塁']) + XR_FAILED_STEAL * Decimal(
                             hitter['盗塁死']) + XR_OUT * (
-                                Decimal(hitter['打数']) - Decimal(
-                                    hitter['安打']) - Decimal(hitter['三振'])
+                                Decimal(hitter['打数']) - Decimal(hitter['安打']) -
+                                Decimal(hitter['三振'])
                             ) + XR_STRIKE_OUT * Decimal(
                                 hitter['三振']) + XR_DOUBLE_PLAY * Decimal(
                                     hitter['併殺打']) + XR_SAC_FLY * Decimal(
@@ -101,7 +102,8 @@ def rc_xr_win(hitter, full_league, rc_xr_plus):
     if not outcounts:
         rc_xr_win = ZERO_VALUE
     else:
-        runs_per_inning = Decimal('3') * (Decimal(league_hitter['得点']) + Decimal(league_pitcher['失点'])) / outcounts
+        runs_per_inning = Decimal('3') * (Decimal(
+            league_hitter['得点']) + Decimal(league_pitcher['失点'])) / outcounts
         runs_per_win = Decimal('10') * math.sqrt(runs_per_inning)
         raw_rc_xr_win = rc_xr_plus / runs_per_win
         rc_xr_win = digits_under_one(raw_rc_xr_win, 2)
