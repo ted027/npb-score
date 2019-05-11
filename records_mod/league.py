@@ -1,6 +1,7 @@
 import json
 from decimal import Decimal
-from common import digits_under_one, return_outcounts, FULL_OUTCOUNTS, ZERO_VALUE, IGNORE_VALUE
+from sabr.common import (digits_under_one, return_outcounts, RECORDS_DIRECTORY,
+                         FULL_OUTCOUNTS, ZERO_VALUE, IGNORE_VALUE)
 
 PERSONAL_DATA_KEY = ['Name', 'Team', 'League']
 
@@ -97,17 +98,17 @@ def sum_league_records(player_list):
 
 
 def write_league_records():
-    with open('pitchers.json', 'r') as pf:
+    with open(f'{RECORDS_DIRECTORY}/pitchers.json', 'r') as pf:
         pitcher_list = json.load(pf)['Pitcher']
 
-    with open('hitters.json', 'r') as hf:
+    with open(f'{RECORDS_DIRECTORY}/hitters.json', 'r') as hf:
         hitter_list = json.load(hf)['Hitter']
 
     league_pitcher_dic = sum_league_records(pitcher_list)
     league_hitter_dic = sum_league_records(hitter_list)
 
-    with open('league_pitchers.json', 'w') as pf:
+    with open(f'{RECORDS_DIRECTORY}/league_pitchers.json', 'w') as pf:
         json.dump(league_pitcher_dic, pf, indent=2, ensure_ascii=False)
 
-    with open('league_hitters.json', 'w') as hf:
+    with open(f'{RECORDS_DIRECTORY}/league_hitters.json', 'w') as hf:
         json.dump(league_hitter_dic, hf, indent=2, ensure_ascii=False)

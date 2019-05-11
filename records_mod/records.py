@@ -2,6 +2,7 @@ import requests
 import json
 from decimal import Decimal
 from bs4 import BeautifulSoup
+from sabr.common import RECORDS_DIRECTORY
 
 NAME_HI = -1
 TEAM_H1 = -2
@@ -279,8 +280,8 @@ def append_records_array():
 def write_y_records():
     pitcher_list, hitter_list = append_records_array()
 
-    with open('pitchers.json', 'w') as pf:
+    with open(f'{RECORDS_DIRECTORY}/pitchers.json', 'w') as pf:
         json.dump({'Pitcher': pitcher_list}, pf, indent=2, ensure_ascii=False)
 
-    with open('hitters.json', 'w') as hf:
+    with open(f'{RECORDS_DIRECTORY}/hitters.json', 'w') as hf:
         json.dump({'Hitter': hitter_list}, hf, indent=2, ensure_ascii=False)

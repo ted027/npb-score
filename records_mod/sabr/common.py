@@ -1,5 +1,7 @@
 from decimal import Decimal, ROUND_HALF_UP
 
+RECORDS_DIRECTORY = 'records'
+
 FULL_OUTCOUNTS = Decimal('27')
 ZERO_VALUE = Decimal('0')
 IGNORE_VALUE = Decimal('-1')
