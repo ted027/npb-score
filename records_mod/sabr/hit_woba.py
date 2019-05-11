@@ -23,8 +23,7 @@ def woba(hitter):
                         hitter['三塁打']) + WOBA_HR * Decimal(hitter['本塁打'])
         raw_woba = numerator / denominator
         woba = digits_under_one(raw_woba, 3)
-    hitter['wOBA'] = str(woba)
-    return hitter
+    return str(woba)
 
 
 SWOBA_BB = Decimal('0.7')
@@ -51,8 +50,7 @@ def woba_basic(hitter):
                         hitter['三塁打'])) + SWOBA_HR * Decimal(hitter['本塁打'])
         raw_woba_b = numerator / denominator
         woba_b = digits_under_one(raw_woba_b, 3)
-    hitter['wOBA(Basic)'] = str(woba_b)
-    return hitter
+    return str(woba_b)
 
 
 def woba_speed(hitter):
@@ -71,8 +69,7 @@ def woba_speed(hitter):
                                     hitter['盗塁死'])
         raw_woba_s = numerator / denominator
         woba_s = digits_under_one(raw_woba_s, 3)
-    hitter['wOBA(Speed)'] = str(woba_s)
-    return hitter
+    return str(woba_s)
 
 
 WOBA_SCALE = Decimal('1.24')
@@ -85,8 +82,7 @@ def wraa(hitter, league):
     raw_wraa = (Decimal(hitter['wOBA']) - Decimal(
         league['wOBA'])) / WOBA_SCALE * Decimal(hitter['打席'])
     wraa = digits_under_one(raw_wraa, 3)
-    hitter['wRAA'] = str(wraa)
-    return hitter
+    return str(wraa)
 
 
 def wrc(hitter, league):
@@ -96,5 +92,4 @@ def wrc(hitter, league):
     raw_wrc = Decimal(hitter['wRAA']) + (
         Decimal(league['得点']) / Decimal(league['打席'])) * Decimal(hitter['打席'])
     wrc = digits_under_one(raw_wrc, 3)
-    hitter['wRC'] = str(wrc)
-    return hitter
+    return str(wrc)

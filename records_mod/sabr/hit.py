@@ -10,8 +10,7 @@ def bb_per_k(hitter):
     else:
         raw_bb_per_k = Decimal(hitter['四球']) / k
         bb_per_k = digits_under_one(raw_bb_per_k, 2)
-    hitter['BB/K'] = str(bb_per_k)
-    return hitter
+    return str(bb_per_k)
 
 
 def iso_p(hitter):
@@ -27,8 +26,7 @@ def iso_p(hitter):
             hitter['三塁打']) + 3 * Decimal(hitter['本塁打'])
         raw_iso_p = numerator / atbat
         iso_p = digits_under_one(raw_iso_p, 3)
-    hitter['IsoP'] = str(iso_p)
-    return hitter
+    return str(iso_p)
 
 
 def iso_d(hitter):
@@ -37,8 +35,7 @@ def iso_d(hitter):
     IsoD＝ 出塁率 - 打率
     """
     iso_d = Decimal(hitter['出塁率']) - Decimal(hitter['打率'])
-    hitter['IsoD'] = str(iso_d)
-    return hitter
+    return str(iso_d)
 
 
 def bb_percent(hitter):
@@ -52,8 +49,7 @@ def bb_percent(hitter):
     else:
         raw_bb_percent = Decimal(hitter['四球']) / apperance
         bb_percent = digits_under_one(raw_bb_percent, 3)
-    hitter['BB%'] = str(bb_percent)
-    return hitter
+    return str(bb_percent)
 
 
 def babip(hitter):
@@ -69,8 +65,7 @@ def babip(hitter):
         numerator = Decimal(hitter['安打']) - Decimal(hitter['本塁打'])
         raw_babip = numerator / denominator
         babip = digits_under_one(raw_babip, 3)
-    hitter['BABIP'] = str(babip)
-    return hitter
+    hreturn str(babip)
 
 
 STEAL_SCORE = Decimal('0.18')
@@ -96,5 +91,4 @@ def wsb(hitter, league):
     else:
         raw_wsb = steal_score - league_steal_score * steal_chance / league_steal_chance
         wsb = digits_under_one(raw_wsb, 2)
-    hitter['wSB'] = str(wsb)
-    return hitter
+    return str(wsb)

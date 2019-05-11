@@ -11,8 +11,7 @@ def qs_rate(pitcher):
     else:
         raw_qsrate = Decimal(pitcher['QS']) * 100 / start
         qsrate = digits_under_one(raw_qsrate, 2)
-    pitcher['QS率'] = str(qsrate)
-    return pitcher
+    return str(qsrate)
 
 
 # def k_per_bb(pitcher):
@@ -22,8 +21,8 @@ def qs_rate(pitcher):
 #     else:
 #         raw_k_per_bb = Decimal(pitcher['奪三振']) / bb
 #         k_per_bb = digits_under_one(raw_k_per_bb, 2)
-#     pitcher['K/BB'] = str(k_per_bb)
-#     return pitcher
+#     return  str(k_per_bb)
+
 
 # def k_per_nine(pitcher):
 #     innings = Decimal(pitcher['投球回'])
@@ -33,8 +32,7 @@ def qs_rate(pitcher):
 #     else:
 #         raw_k_per_n = Decimal(pitcher['奪三振']) * FULL_OUTCOUNTS / outcounts
 #         k_per_n = digits_under_one(raw_k_per_n, 2)
-#     pitcher['奪三振率'] = str(k_per_n)
-#     return pitcher
+#     preturn str(k_per_n)
 
 
 def bb_per_nine(pitcher):
@@ -45,8 +43,7 @@ def bb_per_nine(pitcher):
     else:
         raw_bb_per_n = Decimal(pitcher['与四球']) * FULL_OUTCOUNTS / outcounts
         bb_per_n = digits_under_one(raw_bb_per_n, 2)
-    pitcher['BB/9'] = str(bb_per_n)
-    return pitcher
+    return str(bb_per_n)
 
 
 def hr_per_nine(pitcher):
@@ -57,8 +54,7 @@ def hr_per_nine(pitcher):
     else:
         raw_hr_per_n = Decimal(pitcher['被本塁打']) * FULL_OUTCOUNTS / outcounts
         hr_per_n = digits_under_one(raw_hr_per_n, 2)
-    pitcher['HR/9'] = str(hr_per_n)
-    return pitcher
+    return str(hr_per_n)
 
 
 # def whip(pitcher):
@@ -70,8 +66,7 @@ def hr_per_nine(pitcher):
 #         raw_whip = (Decimal(pitcher['与四球']) +
 #                     Decimal(pitcher['被安打'])) * 3 / outcounts
 #         whip = digits_under_one(raw_whip, 2)
-#     pitcher['WHIP'] = str(whip)
-#     return pitcher
+#     return str(whip)
 
 
 def _fip_efira(pitcher):
@@ -92,5 +87,4 @@ def fip(pitcher, league):
     lg_fip = _fip_efira(league)
     raw_fip = pit_fip + Decimal(league['防御率']) - lg_fip
     fip = digits_under_one(raw_fip, 2)
-    pitcher['FIP'] = str(fip)
-    return pitcher
+    return str(fip)

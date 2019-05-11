@@ -1,6 +1,7 @@
 import json
+import math
 from decimal import Decimal
-from .common import (digits_under_one, single, ZERO_VALUE, IGNORE_VALUE)
+from .common import (digits_under_one, return_outcounts, single, FULL_OUTCOUNTS, ZERO_VALUE, IGNORE_VALUE)
 
 
 # A = 安打 + 四球 + 死球 - 盗塁死 - 併殺打
@@ -26,37 +27,7 @@ def rc_basic(hitter):
                   (advance_base + Decimal('3') * opportunity) /
                   (Decimal('9') * opportunity)) - Decimal('0.9') * opportunity
         rc = digits_under_one(raw_rc, 2)
-    hitter['RC'] = str(rc)
-    return hitter, raw_rc
-
-
-def rc_27(hitter, rc):
-    """
-    総合得点能力指標
-    RC27 = RC * 27 / (打数 - 安打 + 犠打 + 犠飛 + 盗塁死 + 併殺打)
-    """
-    total_out = Decimal(hitter['打数']) - Decimal(hitter['安打']) + Decimal(
-        hitter['犠打']) + Decimal(hitter['犠飛']) + Decimal(
-            hitter['盗塁死']) + Decimal(hitter['併殺打'])
-    if not total_out:
-        rc_27 = IGNORE_VALUE
-    else:
-        raw_rc_27 = rc * 27 / total_out
-        rc_27 = digits_under_one(raw_rc_27, 2)
-    hitter['RC27'] = str(rc_27)
-    return hitter
-
-
-def rcaa(hitter, league, rc, league_rc):
-    on_base = Decimal(hitter['打席'])
-    league_on_base = Decimal(league['打席'])
-    if not league_on_base:
-        rcaa = ZERO_VALUE
-    else:
-        raw_rcaa = rc - league_rc / league_on_base * on_base
-        rcaa = digits_under_one(raw_rcaa, 2)
-    hitter['RCAA'] = str(rcaa)
-    return hitter
+    return str(rc), raw_rc
 
 
 XR_SINGLE = Decimal('0.5')
@@ -93,22 +64,45 @@ def xr_basic(hitter):
                                         hitter['犠飛']) + XR_SAC_BUNT * Decimal(
                                             hitter['犠打'])
     xr = digits_under_one(raw_xr, 2)
-    hitter['XR'] = str(xr)
-    return hitter, raw_xr
+    return str(xr), raw_xr
 
 
-def xr_27(hitter, xr):
+def rc_xr_27(hitter, rc_xr):
     """
     総合得点能力指標
-    XR27 = XR * 27 / (打数 - 安打 + 犠打 + 犠飛 + 盗塁死 + 併殺打)
+    RC(XR)27 = RC(XR) * 27 / (打数 - 安打 + 犠打 + 犠飛 + 盗塁死 + 併殺打)
     """
     total_out = Decimal(hitter['打数']) - Decimal(hitter['安打']) + Decimal(
         hitter['犠打']) + Decimal(hitter['犠飛']) + Decimal(
             hitter['盗塁死']) + Decimal(hitter['併殺打'])
     if not total_out:
-        xr_27 = IGNORE_VALUE
+        rc_xr_27 = IGNORE_VALUE
     else:
-        raw_xr_27 = xr * 27 / total_out
-        xr_27 = digits_under_one(raw_xr_27, 2)
-    hitter['XR27'] = str(xr_27)
-    return hitter
+        raw_rc_xr_27 = rc_xr * FULL_OUTCOUNTS / total_out
+        rc_xr_27 = digits_under_one(raw_rc_xr_27, 2)
+    return str(rc_xr_27)
+
+
+def rc_xr_plus(hitter, league, rc_xr, league_rc_xr):
+    on_base = Decimal(hitter['打席'])
+    league_on_base = Decimal(league['打席'])
+    if not league_on_base:
+        rc_xr_plus = raw_rc_xr_plus = ZERO_VALUE
+    else:
+        raw_rc_xr_plus = rc_xr - league_rc_xr / league_on_base * on_base
+        rc_xr_plus = digits_under_one(raw_rc_xr_plus, 2)
+    return str(rc_xr_plus), raw_rc_xr_plus
+
+
+def rc_xr_win(hitter, full_league, rc_xr_plus):
+    league_pitcher = full_league['Pitcher'][hitter['League']]
+    league_hitter = full_league['Hitter'][hitter['League']]
+    outcounts = return_outcounts(Decimal(league_pitcher['投球回']))
+    if not outcounts:
+        rc_xr_win = ZERO_VALUE
+    else:
+        runs_per_inning = Decimal('3') * (Decimal(league_hitter['得点']) + Decimal(league_pitcher['失点'])) / outcounts
+        runs_per_win = Decimal('10') * math.sqrt(runs_per_inning)
+        raw_rc_xr_win = rc_xr_plus / runs_per_win
+        rc_xr_win = digits_under_one(raw_rc_xr_win, 2)
+    return str(rc_xr_win)

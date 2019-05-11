@@ -7,12 +7,12 @@ PERSONAL_DATA_KEY = ['Name', 'Team', 'League']
 
 
 def fix_rate_records_obp(dic):
-    denominator = (Decimal(dic['打数']) + Decimal(dic['四球']) + Decimal(dic['死球'])
-                   + Decimal(dic['犠飛']))
+    denominator = (Decimal(dic['打数']) + Decimal(dic['四球']) +
+                   Decimal(dic['死球']) + Decimal(dic['犠飛']))
     if not denominator:
         return ZERO_VALUE
-    return (Decimal(dic['安打']) + Decimal(dic['四球']) + Decimal(
-        dic['死球'])) / denominator
+    return (Decimal(dic['安打']) + Decimal(dic['四球']) +
+            Decimal(dic['死球'])) / denominator
 
 
 def fix_rate_common(dic, decimal_nume, decimal_deno):
@@ -68,8 +68,8 @@ def fix_rate_records(dic):
             fix_value = fix_rate_common(dic, numerator, denominator)
             dic[key] = str(digits_under_one(fix_value, 2))
         elif key == 'WHIP':
-            numerator = Decimal('3') * (
-                Decimal(dic['与四球']) + Decimal(dic['被安打']))
+            numerator = Decimal('3') * (Decimal(dic['与四球']) +
+                                        Decimal(dic['被安打']))
             denominator = return_outcounts(Decimal(dic['投球回']))
             fix_value = fix_rate_common(dic, numerator, denominator)
             dic[key] = str(digits_under_one(fix_value, 2))
@@ -107,8 +107,7 @@ def write_league_records():
     league_pitcher_dic = sum_league_records(pitcher_list)
     league_hitter_dic = sum_league_records(hitter_list)
 
-    with open(f'{RECORDS_DIRECTORY}/league_pitchers.json', 'w') as pf:
-        json.dump(league_pitcher_dic, pf, indent=2, ensure_ascii=False)
+    league_dic = {'Pitcher': league_pitcher_dic, 'Hitter': league_hitter_dic}
 
-    with open(f'{RECORDS_DIRECTORY}/league_hitters.json', 'w') as hf:
-        json.dump(league_hitter_dic, hf, indent=2, ensure_ascii=False)
+    with open(f'{RECORDS_DIRECTORY}/league.json', 'w') as lf:
+        json.dump(league_dic, lf, indent=2, ensure_ascii=False)
