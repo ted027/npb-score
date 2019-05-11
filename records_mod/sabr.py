@@ -209,7 +209,7 @@ def iso_p(hitter):
     """
     atbat = Decimal(hitter['打数'])
     if not atbat:
-        iso_p = 0
+        iso_p = ZERO_VALUE
     else:
         numerator = Decimal(hitter['二塁打']) + 2 * Decimal(
             hitter['三塁打']) + 3 * Decimal(hitter['本塁打'])
@@ -236,7 +236,7 @@ def bb_percent(hitter):
     """
     apperance = Decimal(hitter['打席'])
     if not apperance:
-        bb_percent = 0
+        bb_percent = ZERO_VALUE
     else:
         raw_bb_percent = Decimal(hitter['四球']) / apperance
         bb_percent = digits_under_one(raw_bb_percent, 3)
@@ -360,6 +360,31 @@ def xr_27(hitter, xr):
     return hitter
 
 
+STEAL_SCORE = Decimal('0.18')
+FAILED_STEAL_SCORE = Decimal('-0.32')
+
+
+def _wsb_part(record):
+    steal_score = Decimal(record['盗塁']) * STEAL_SCORE + Decimal(record['盗塁死']) * FAILED_STEAL_SCORE
+    steal_chance = single(record) + Decimal(record['四球']) +  Decimal(record['死球']) - Decimal(record['故意四球'])
+    return steal_score, steal_chance
+
+
+def wsb(hitter, league):
+    """
+    盗塁指標
+    """
+    steal_chance, steal_score = _wsb_part(hitter)
+    league_steal_chance, league_steal_score = _wsb_part(league)
+    if not league_steal_chance:
+        wsb = IGNORE_VALUE
+    else:
+        raw_wsb = steal_score - league_steal_score * steal_chance / league_steal_chance
+        wsb = digits_under_one(raw_wsb, 2)
+    hitter['wSB'] = str(wsb)
+    return hitter
+   
+
 def calc_sabr_pitcher(pitcher, league_pitcher_dic=None):
     pitcher = qs_rate(pitcher)
     pitcher = bb_per_nine(pitcher)
@@ -382,9 +407,10 @@ def calc_sabr_hitter(hitter, league_hitter_dic=None):
     hitter = iso_d(hitter)
     hitter = bb_percent(hitter)
     hitter = bb_per_k(hitter)
-    # if league_hitter_dic:
-        # hitter = wraa(hitter, league_hitter_dic)
-        # hitter = wrc(hitter, league_hitter_dic)
+    if league_hitter_dic:
+        hitter = wraa(hitter, league_hitter_dic)
+        hitter = wrc(hitter, league_hitter_dic)
+        hitter = wsb(hitter, league_hitter_dic)
     return hitter
 
 
