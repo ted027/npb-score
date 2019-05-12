@@ -3,6 +3,7 @@ import json
 from bs4 import BeautifulSoup
 from records import request_soup
 from sabr.common import RECORDS_DIRECTORY
+from datastore_json import read_json, write_json
 
 YEAR = 2019
 TEAM_INITIAL_LIST = [
@@ -29,9 +30,8 @@ def create_intentional_bb_dict(p_or_b):
 
 def update_hitter_y_records():
     hitter_ibb_dict = create_intentional_bb_dict('b')
-
-    with open(f'{RECORDS_DIRECTORY}/hitters.json', 'r') as hf:
-        hitter_list = json.load(hf)['Hitter']
+    
+    hitter_list = read_json('hitters.json')['Hitter']
 
     for hitter in hitter_list:
         if not hitter['試合']:
@@ -40,15 +40,13 @@ def update_hitter_y_records():
             intentional_bb = hitter_ibb_dict.get(hitter['Name'], '0')
         hitter['故意四球'] = intentional_bb
 
-    with open(f'{RECORDS_DIRECTORY}/hitters.json', 'w') as hf:
-        json.dump({'Hitter': hitter_list}, hf, indent=2, ensure_ascii=False)
+    write_json('hitters.json', {'Hitter': hitter_list})
 
 
 def update_pitcher_y_records():
     pitcher_ibb_dict = create_intentional_bb_dict('p')
-
-    with open(f'{RECORDS_DIRECTORY}/pitchers.json', 'r') as pf:
-        pitcher_list = json.load(pf)['Pitcher']
+    
+    pitcher_list = read_json('pitchers.json')['Pitcher']
 
     for pitcher in pitcher_list:
         if not pitcher['登板']:
@@ -56,6 +54,5 @@ def update_pitcher_y_records():
         else:
             intentional_bb = pitcher_ibb_dict.get(pitcher['Name'], '0')
         pitcher['故意四球'] = intentional_bb
-
-    with open(f'{RECORDS_DIRECTORY}/pitchers.json', 'w') as pf:
-        json.dump({'Pitcher': pitcher_list}, pf, indent=2, ensure_ascii=False)
+    
+    write_json('pitchers.json', {'Pitcher': pitcher_list})

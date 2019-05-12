@@ -65,7 +65,7 @@ def babip(hitter):
         numerator = Decimal(hitter['安打']) - Decimal(hitter['本塁打'])
         raw_babip = numerator / denominator
         babip = digits_under_one(raw_babip, 3)
-    hreturn str(babip)
+    return str(babip)
 
 
 STEAL_SCORE = Decimal('0.18')

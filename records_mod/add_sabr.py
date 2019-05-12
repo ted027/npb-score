@@ -5,6 +5,7 @@ from sabr.hit import (babip, iso_d, iso_p, bb_percent, bb_per_k, wsb)
 from sabr.hit_woba import (woba, woba_basic, woba_speed, wraa, wrc)
 from sabr.hit_rc import (rc_basic, xr_basic, rc_xr_27, rc_xr_plus, rc_xr_win)
 from sabr.common import RECORDS_DIRECTORY
+from datastore_json import read_json, write_json
 
 
 def calc_sabr_pitcher(pitcher, league_pitcher_dic=None):
@@ -50,11 +51,9 @@ def calc_sabr_hitter(hitter,
 
 
 def add_sabr_pitcher():
-    with open(f'{RECORDS_DIRECTORY}/pitchers.json', 'r') as pf:
-        pitcher_list = json.load(pf)['Pitcher']
+    pitcher_list = read_json('pitchers.json')['Pitcher']
 
-    with open(f'{RECORDS_DIRECTORY}/league.json', 'r') as lf:
-        league_dic = json.load(lf)
+    league_dic = read_json('league.json')
     
     league_pitcher_dic = league_dic['Pitcher']
 
@@ -64,20 +63,16 @@ def add_sabr_pitcher():
     for pitcher in pitcher_list:
         pitcher = calc_sabr_pitcher(pitcher,
                                     league_pitcher_dic[pitcher['League']])
-
-    with open(f'{RECORDS_DIRECTORY}/league.json', 'w') as lf:
-        json.dump(league_dic, lf, indent=2, ensure_ascii=False)
-
-    with open(f'{RECORDS_DIRECTORY}/pitchers.json', 'w') as pf:
-        json.dump({'Pitcher': pitcher_list}, pf, indent=2, ensure_ascii=False)
+    
+    write_json('league.json', league_dic)
+    
+    write_json('pitchers.json', {'Pitcher': pitcher_list})
 
 
 def add_sabr_hitter():
-    with open(f'{RECORDS_DIRECTORY}/hitters.json', 'r') as hf:
-        hitter_list = json.load(hf)['Hitter']
+    hitter_list = read_json('hitters.json')['Hitter']
 
-    with open(f'{RECORDS_DIRECTORY}/league.json', 'r') as lf:
-        league_dic = json.load(lf)
+    league_dic = read_json('league.json')
 
     league_hitter_dic = league_dic['Hitter']
 
@@ -88,8 +83,6 @@ def add_sabr_hitter():
         hitter = calc_sabr_hitter(hitter, league_dic,
                                   league_rc, league_xr)
 
-    with open(f'{RECORDS_DIRECTORY}/league.json', 'w') as lf:
-        json.dump(league_dic, lf, indent=2, ensure_ascii=False)
+    write_json('league.json', league_dic)
 
-    with open(f'{RECORDS_DIRECTORY}/hitters.json', 'w') as hf:
-        json.dump({'Hitter': hitter_list}, hf, indent=2, ensure_ascii=False)
+    write_json('hitters.json', {'Hitter': hitter_list})

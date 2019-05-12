@@ -2,6 +2,7 @@ import json
 from decimal import Decimal
 from sabr.common import (digits_under_one, return_outcounts, RECORDS_DIRECTORY,
                          FULL_OUTCOUNTS, ZERO_VALUE, IGNORE_VALUE)
+from datastore_json import read_json, write_json
 
 PERSONAL_DATA_KEY = ['Name', 'Team', 'League']
 
@@ -98,16 +99,13 @@ def sum_league_records(player_list):
 
 
 def write_league_records():
-    with open(f'{RECORDS_DIRECTORY}/pitchers.json', 'r') as pf:
-        pitcher_list = json.load(pf)['Pitcher']
+    pitcher_list = read_json('pitchers.json')['Pitcher']
 
-    with open(f'{RECORDS_DIRECTORY}/hitters.json', 'r') as hf:
-        hitter_list = json.load(hf)['Hitter']
+    hitter_list = read_json('hitters.json')['Hitter']
 
     league_pitcher_dic = sum_league_records(pitcher_list)
     league_hitter_dic = sum_league_records(hitter_list)
 
     league_dic = {'Pitcher': league_pitcher_dic, 'Hitter': league_hitter_dic}
 
-    with open(f'{RECORDS_DIRECTORY}/league.json', 'w') as lf:
-        json.dump(league_dic, lf, indent=2, ensure_ascii=False)
+    write_json('league.json', league_dic)

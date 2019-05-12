@@ -104,7 +104,7 @@ def rc_xr_win(hitter, full_league, rc_xr_plus):
     else:
         runs_per_inning = Decimal('3') * (Decimal(
             league_hitter['得点']) + Decimal(league_pitcher['失点'])) / outcounts
-        runs_per_win = Decimal('10') * math.sqrt(runs_per_inning)
+        runs_per_win = Decimal('10') * Decimal(str(math.sqrt(runs_per_inning)))
         raw_rc_xr_win = rc_xr_plus / runs_per_win
         rc_xr_win = digits_under_one(raw_rc_xr_win, 2)
     return str(rc_xr_win)
