@@ -1,5 +1,6 @@
 import os
 import json
+import copy
 import psycopg2
 from psycopg2.extras import DictCursor
 from psycopg2.extensions import AsIs
@@ -22,30 +23,35 @@ def get_records(table_name):
     return records_list
 
 
+def get_key_value_tuple(records):
+    columns = records.keys()
+    values = [
+        json.dumps(records[key])
+        if isinstance(records[key], dict) else records[key]
+        for key in records.keys()
+    ]
+    return columns, tuple(values)
+
+
 def write_records(table_name, records_list):
-    for record in records_list:
-        columns = record.keys()
-        values = [
-            json.dumps(record[key])
-            if isinstance(record[key], dict) else record[key]
-            for key in record.keys()
-        ]
+    for records in records_list:
+        update_records = copy.deepcopy(records)
+
+        del update_records['id']
+
+        ins_columns, ins_values = get_key_value_tuple(records)
+        upd_columns, upd_values = get_key_value_tuple(update_records)
 
         upsert_sql = f'''
-            INSERT INTO {table_name} (%s) values %s
+            INSERT INTO {table_name} (%s)
                 VALUES %s
                 ON CONFLICT (id)
                 DO UPDATE SET
-                    (%s)
-                    = (EXCLUDED.col1, EXCLUDED.col2, EXCLUDED.col3) ;
+                    (%s) = %s ;
         '''
-
-        for value in values:
-            if isinstance(value, dict):
-                value = json.dumps(value)
 
         with get_connection() as conn:
             with conn.cursor() as cur:
                 cur.execute(upsert_sql,
-                            (AsIs(','.join(columns)), tuple(values),
-                             AsIs(','.join(columns)), tuple(values)))
+                            (AsIs(','.join(ins_columns)), ins_values,
+                             AsIs(','.join(upd_columns)), upd_values))

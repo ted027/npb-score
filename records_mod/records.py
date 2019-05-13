@@ -165,13 +165,14 @@ def append_team_pitcher_array(link_tail_list):
     for ptail in link_tail_list:
         # personal id
         # [-1] is null
-        # personal_id = ptail.split('/')[-2]
+        personal_id = ptail.split('/')[-2]
+        personal_dict = {'id': personal_id}
 
         personal_link = BASEURL + ptail
         personal_soup = request_soup(personal_link)
 
-        personal_dict = basic_information(personal_soup)
-        # personal_dict['ID'] = personal_id
+        basic_info_dict = basic_information(personal_soup)
+        personal_dict.update(basic_info_dict)
 
         tables = personal_soup.find_all('table')
         records_table, rl_table = confirm_pitcher_tables(tables)
@@ -212,12 +213,14 @@ def append_team_hitter_array(link_tail_list):
     for htail in link_tail_list:
         # personal id
         # [-1] is null
-        # personal_id = ptail.split('/')[-2]
+        personal_id = htail.split('/')[-2]
+        personal_dict = {'id': personal_id}
+
         personal_link = BASEURL + htail
         personal_soup = request_soup(personal_link)
 
-        personal_dict = basic_information(personal_soup)
-        # personal_dict['ID'] = personal_id
+        basic_info_dict = basic_information(personal_soup)
+        personal_dict.update(basic_info_dict)
 
         tables = personal_soup.find_all('table')
         records_table, chance_table, rl_table, count_table, runner_table = confirm_hitter_tables(
