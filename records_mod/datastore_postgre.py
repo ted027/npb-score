@@ -31,11 +31,21 @@ def write_records(table_name, records_list):
             for key in record.keys()
         ]
 
+        upsert_sql = f'''
+            INSERT INTO {table_name} (%s) values %s
+                VALUES %s
+                ON CONFLICT (id)
+                DO UPDATE SET
+                    (%s)
+                    = (EXCLUDED.col1, EXCLUDED.col2, EXCLUDED.col3) ;
+        '''
+
         for value in values:
             if isinstance(value, dict):
                 value = json.dumps(value)
 
         with get_connection() as conn:
             with conn.cursor() as cur:
-                cur.execute(f'insert into {table_name} (%s) values %s',
-                            (AsIs(','.join(columns)), values))
+                cur.execute(upsert_sql,
+                            (AsIs(','.join(columns)), tuple(values),
+                             AsIs(','.join(columns)), tuple(values)))
