@@ -1,6 +1,9 @@
 import requests
 import json
+from decimal import Decimal
 from bs4 import BeautifulSoup
+from sabr.common import RECORDS_DIRECTORY
+from datastore_json import read_json, write_json
 
 NAME_HI = -1
 TEAM_H1 = -2
@@ -18,6 +21,14 @@ PITCHER_DUMP_VAL = 1
 HITTER_DUMP_VAL = 2
 
 TEAM_NUM_LIST = [376 if i == 10 else i for i in list(range(1, 13))]
+
+CENTRAL_LIST = [
+    '広島東洋カープ', '読売ジャイアンツ', '東京ヤクルトスワローズ', '横浜ＤｅＮＡベイスターズ', '中日ドラゴンズ', '阪神タイガース'
+]
+PACIFIC_LIST = [
+    '埼玉西武ライオンズ', '福岡ソフトバンクホークス', '北海道日本ハムファイターズ', 'オリックス・バファローズ', '千葉ロッテマリーンズ',
+    '東北楽天ゴールデンイーグルス'
+]
 
 BASEURL = 'https://baseball.yahoo.co.jp/'
 
@@ -49,7 +60,13 @@ def full_val(str_val):
 def basic_information(personal_soup):
     name = personal_soup.find_all('h1')[NAME_HI].text.split('（')[0]
     team = personal_soup.find_all('h1')[TEAM_H1].text
-    return {'Name': name, 'Team': team}
+    if team in CENTRAL_LIST:
+        league = 'Central'
+    elif team in PACIFIC_LIST:
+        league = 'Pacific'
+    else:
+        raise BaseException('String of Team Name is invalid.')
+    return {'Name': name, 'Team': team, 'League': league}
 
 
 def confirm_pitcher_tables(tables):
@@ -89,6 +106,7 @@ def confirm_hitter_tables(tables):
 def dict_records(records_table):
     rheader = [th.text for th in records_table.find_all('th')[EXCEPT_TITLE:]]
     rbody = [full_val(td.text) for td in records_table.find_all('td')]
+    dict(zip(rheader, rbody))
     return dict(zip(rheader, rbody))
 
 
@@ -147,13 +165,14 @@ def append_team_pitcher_array(link_tail_list):
     for ptail in link_tail_list:
         # personal id
         # [-1] is null
-        # personal_id = ptail.split('/')[-2]
+        personal_id = ptail.split('/')[-2]
+        personal_dict = {'id': personal_id}
 
         personal_link = BASEURL + ptail
         personal_soup = request_soup(personal_link)
 
-        personal_dict = basic_information(personal_soup)
-        # personal_dict['ID'] = personal_id
+        basic_info_dict = basic_information(personal_soup)
+        personal_dict.update(basic_info_dict)
 
         tables = personal_soup.find_all('table')
         records_table, rl_table = confirm_pitcher_tables(tables)
@@ -170,12 +189,19 @@ def append_team_pitcher_array(link_tail_list):
 
         records = dict_records(records_table)
 
+        if not Decimal(records['登板']):
+            continue
+
         if rl_table:
             # 1: dump '○打'
             records_rl = records_by_rl(rl_table, PITCHER_DUMP_VAL)
             records.update(records_rl)
 
-        personal_dict['Records'] = records
+        records['被打数'] = str(
+            Decimal(records.get('対右', {}).get('被打数', '0')) +
+            Decimal(records.get('対左', {}).get('被打数', '0')))
+
+        personal_dict.update(records)
 
         team_pitcher_list.append(personal_dict)
 
@@ -187,12 +213,14 @@ def append_team_hitter_array(link_tail_list):
     for htail in link_tail_list:
         # personal id
         # [-1] is null
-        # personal_id = ptail.split('/')[-2]
+        personal_id = htail.split('/')[-2]
+        personal_dict = {'id': personal_id}
+
         personal_link = BASEURL + htail
         personal_soup = request_soup(personal_link)
 
-        personal_dict = basic_information(personal_soup)
-        # personal_dict['ID'] = personal_id
+        basic_info_dict = basic_information(personal_soup)
+        personal_dict.update(basic_info_dict)
 
         tables = personal_soup.find_all('table')
         records_table, chance_table, rl_table, count_table, runner_table = confirm_hitter_tables(
@@ -211,6 +239,11 @@ def append_team_hitter_array(link_tail_list):
 
         records = dict_records(records_table)
 
+        if not Decimal(records['試合']):
+            continue
+
+        del records['得点圏']
+
         if chance_table:
             ch_records = chance_records(chance_table)
             records.update(ch_records)
@@ -228,7 +261,7 @@ def append_team_hitter_array(link_tail_list):
             records_by_runner = records_by_count_or_runner(runner_table)
             records.update({'走者': records_by_runner})
 
-        personal_dict['Records'] = records
+        personal_dict.update(records)
 
         team_hitter_list.append(personal_dict)
 
@@ -258,8 +291,6 @@ def append_records_array():
 def write_y_records():
     pitcher_list, hitter_list = append_records_array()
 
-    with open('pitchers.json', 'w') as pf:
-        json.dump({'Pitcher': pitcher_list}, pf, indent=2, ensure_ascii=False)
+    write_json('pitchers.json', {'Pitcher': pitcher_list})
 
-    with open('hitters.json', 'w') as hf:
-        json.dump({'Hitter': hitter_list}, hf, indent=2, ensure_ascii=False)
+    write_json('hitters.json', {'Hitter': hitter_list})
