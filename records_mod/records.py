@@ -5,7 +5,6 @@ from bs4 import BeautifulSoup
 from sabr.common import RECORDS_DIRECTORY
 from datastore_json import read_json, write_json
 
-
 NAME_HI = -1
 TEAM_H1 = -2
 
@@ -107,6 +106,7 @@ def confirm_hitter_tables(tables):
 def dict_records(records_table):
     rheader = [th.text for th in records_table.find_all('th')[EXCEPT_TITLE:]]
     rbody = [full_val(td.text) for td in records_table.find_all('td')]
+    dict(zip(rheader, rbody))
     return dict(zip(rheader, rbody))
 
 
@@ -188,6 +188,9 @@ def append_team_pitcher_array(link_tail_list):
 
         records = dict_records(records_table)
 
+        if not Decimal(records['登板']):
+            continue
+
         if rl_table:
             # 1: dump '○打'
             records_rl = records_by_rl(rl_table, PITCHER_DUMP_VAL)
@@ -232,6 +235,9 @@ def append_team_hitter_array(link_tail_list):
         # -1: open
 
         records = dict_records(records_table)
+
+        if not Decimal(records['試合']):
+            continue
 
         del records['得点圏']
 
@@ -281,7 +287,7 @@ def append_records_array():
 
 def write_y_records():
     pitcher_list, hitter_list = append_records_array()
-    
+
     write_json('pitchers.json', {'Pitcher': pitcher_list})
 
     write_json('hitters.json', {'Hitter': hitter_list})
