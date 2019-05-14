@@ -1,6 +1,6 @@
 import json
 from decimal import Decimal, ROUND_HALF_UP
-from sabr.pitch import (qs_rate, bb_per_nine, hr_per_nine, fip)
+from sabr.pitch import (qs_rate, bb_per_nine, hr_per_nine, fip, babip)
 from sabr.hit import (babip, iso_d, iso_p, bb_percent, bb_per_k, wsb)
 from sabr.hit_woba import (woba, woba_basic, woba_speed, wraa, wrc)
 from sabr.hit_rc import (rc_basic, xr_basic, rc_xr_27, rc_xr_plus, rc_xr_win)
@@ -10,6 +10,7 @@ from datastore_json import read_json, write_json
 
 def calc_sabr_pitcher(pitcher, league_pitcher_dic=None):
     pitcher['QS率'] = qs_rate(pitcher)
+    pitcher['BABIP'] = babip(pitcher)
     pitcher['BB/9'] = bb_per_nine(pitcher)
     pitcher['HR/9'] = hr_per_nine(pitcher)
     if league_pitcher_dic:

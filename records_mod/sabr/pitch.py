@@ -88,3 +88,17 @@ def fip(pitcher, league):
     raw_fip = pit_fip + Decimal(league['防御率']) - lg_fip
     fip = digits_under_one(raw_fip, 2)
     return str(fip)
+
+
+def babip(pitcher):
+    # denominator = Decimal(pitcher['被打数']) - Decimal(pitcher['奪三振']) - Decimal(
+    #     pitcher['被本塁打']) + Decimal(pitcher['犠飛'])
+    denominator = Decimal(pitcher['被打数']) - Decimal(pitcher['奪三振']) - Decimal(
+        pitcher['被本塁打'])
+    if not denominator:
+        babip = Decimal('0')
+    else:
+        numerator = Decimal(pitcher['被安打']) - Decimal(pitcher['被本塁打'])
+        raw_babip = numerator / denominator
+        babip = digits_under_one(raw_babip, 3)
+    return str(babip)
