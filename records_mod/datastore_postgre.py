@@ -13,7 +13,7 @@ def get_connection():
     return psycopg2.connect(dsn)
 
 
-def get_records(table_name):
+def read_records(table_name):
     with get_connection() as conn:
         with conn.cursor(cursor_factory=DictCursor) as cur:
             cur.execute(f'SELECT * from {table_name}')
