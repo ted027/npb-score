@@ -21,3 +21,9 @@ def return_outcounts(innings):
 def single(hitter):
     return Decimal(hitter['安打']) - Decimal(hitter['二塁打']) - Decimal(
         hitter['三塁打']) - Decimal(hitter['本塁打'])
+
+
+def pick_dick(list_of_dict, str_key, str_value):
+    for dic in list_of_dict:
+        if dic[str_key] == str_value:
+            return dic

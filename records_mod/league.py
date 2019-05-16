@@ -4,16 +4,16 @@ from sabr.common import (digits_under_one, return_outcounts, RECORDS_DIRECTORY,
                          FULL_OUTCOUNTS, ZERO_VALUE, IGNORE_VALUE)
 from datastore_json import read_json, write_json
 
-PERSONAL_DATA_KEY = ['Name', 'Team', 'League']
+PERSONAL_DATA_KEY = ['Name', 'Team', 'League', '規定']
 
 
 def fix_rate_records_obp(dic):
-    denominator = (Decimal(dic['打数']) + Decimal(dic['四球']) +
-                   Decimal(dic['死球']) + Decimal(dic['犠飛']))
+    denominator = (Decimal(dic['打数']) + Decimal(dic['四球']) + Decimal(dic['死球'])
+                   + Decimal(dic['犠飛']))
     if not denominator:
         return ZERO_VALUE
-    return (Decimal(dic['安打']) + Decimal(dic['四球']) +
-            Decimal(dic['死球'])) / denominator
+    return (Decimal(dic['安打']) + Decimal(dic['四球']) + Decimal(
+        dic['死球'])) / denominator
 
 
 def fix_rate_common(dic, decimal_nume, decimal_deno):
@@ -69,8 +69,8 @@ def fix_rate_records(dic):
             fix_value = fix_rate_common(dic, numerator, denominator)
             dic[key] = str(digits_under_one(fix_value, 2))
         elif key == 'WHIP':
-            numerator = Decimal('3') * (Decimal(dic['与四球']) +
-                                        Decimal(dic['被安打']))
+            numerator = Decimal('3') * (
+                Decimal(dic['与四球']) + Decimal(dic['被安打']))
             denominator = return_outcounts(Decimal(dic['投球回']))
             fix_value = fix_rate_common(dic, numerator, denominator)
             dic[key] = str(digits_under_one(fix_value, 2))
