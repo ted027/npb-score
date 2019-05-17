@@ -1,8 +1,15 @@
 import requests
 import json
 from decimal import Decimal
-from sabr.common import pick_dick
+from sabr.common import pick_dick, fix_rate_records, TEAM_LIST
 from datastore_json import read_json, write_json
+
+PARK_LIST = [
+    "メットライフ", "ヤフオクドーム", "札幌ドーム", "京セラＤ大阪", "ＺＯＺＯマリン", "楽天生命パーク", "マツダスタジアム",
+    "神宮", "東京ドーム", "横浜", "ナゴヤドーム", "甲子園"
+]
+
+HOME_DIC = dict(zip(TEAM_LIST, PARK_LIST))
 
 
 def sum_park_dick(team_park_dic, player_park_dic):
@@ -34,7 +41,9 @@ def update_team_park_records():
         park_dic[team] = park_dic.get(team, {})
         sum_park_dick(park_dic[team], hitter['球場'])
 
+    fix_rate_records(park_dic)
+
     for team_dic in team_list:
-        team_dic.update(park_dic[team_dic['チーム']])
+        team_dic['球場'] = park_dic[team_dic['チーム']]
 
     write_json('teams.json', {'Team': team_list})
