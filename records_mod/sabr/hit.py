@@ -52,7 +52,7 @@ def bb_percent(hitter):
     return str(bb_percent)
 
 
-def babip(hitter):
+def babip_h(hitter):
     """
     フェアグラウンド打球の安打率
     BABIP = (安打 - 本塁打) / (打数 - 三振 - 本塁打 + 犠飛)

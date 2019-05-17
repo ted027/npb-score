@@ -85,12 +85,12 @@ def update_hitter_y_records(hitter_list, team_list):
     for hitter in hitter_list:
         if not hitter['試合']:
             intentional_bb = '0'
-            regulation_at_bat = False
+            reg_at_bat = False
         else:
             intentional_bb = hitter_ibb_dict.get(hitter['Name'], '0')
             team = pick_dick(team_list, 'チーム', hitter['Team'])
-            regulation_at_bat = regulation_at_bat(team['試合'], hitter['打席'])
-        hitter['規定'] = regulation_at_bat
+            reg_at_bat = regulation_at_bat(team['試合'], hitter['打席'])
+        hitter['規定'] = reg_at_bat
         hitter['故意四球'] = intentional_bb
 
     return hitter_list
