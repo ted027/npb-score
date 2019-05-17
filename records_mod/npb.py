@@ -3,7 +3,7 @@ import json
 from bs4 import BeautifulSoup
 from decimal import Decimal
 from records import request_soup
-from sabr.common import RECORDS_DIRECTORY, pick_dick
+from sabr.common import RECORDS_DIRECTORY, pick_dick, unify_teams
 from datastore_json import read_json, write_json
 from datastore_postgre import read_records, write_records
 
@@ -37,6 +37,8 @@ def create_team_list():
                 body_td.text.replace('\u3000', '')
                 for body_td in body_tds[2:-TEAM_NUM]  # rm team cell
             ]
+            # unify team notation
+            body[0] = unify_teams(body[0])
             team_list.append(dict(zip(header, body)))
     return team_list
 

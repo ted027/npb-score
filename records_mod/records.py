@@ -2,7 +2,7 @@ import requests
 import json
 from decimal import Decimal
 from bs4 import BeautifulSoup
-from sabr.common import RECORDS_DIRECTORY
+from sabr.common import RECORDS_DIRECTORY, unify_teams
 from datastore_json import read_json, write_json
 
 NAME_HI = -1
@@ -22,15 +22,10 @@ HITTER_DUMP_VAL = 2
 
 TEAM_NUM_LIST = [376 if i == 10 else i for i in list(range(1, 13))]
 
-CENTRAL_LIST = [
-    '広島東洋カープ', '読売ジャイアンツ', '東京ヤクルトスワローズ', '横浜ＤｅＮＡベイスターズ', '中日ドラゴンズ', '阪神タイガース'
-]
-PACIFIC_LIST = [
-    '埼玉西武ライオンズ', '福岡ソフトバンクホークス', '北海道日本ハムファイターズ', 'オリックス・バファローズ', '千葉ロッテマリーンズ',
-    '東北楽天ゴールデンイーグルス'
-]
+CENTRAL_LIST = ['広島', '読売', 'ヤクルト', 'ＤｅＮＡ', '中日', '阪神']
+PACIFIC_LIST = ['西武', 'ソフトバンク', '日本ハム', 'オリックス', 'ロッテ', '楽天']
 
-BASEURL = 'https://baseball.yahoo.co.jp/'
+BASEURL = 'https://baseball.yahoo.co.jp'
 
 
 def request_soup(url):
@@ -59,7 +54,7 @@ def full_val(str_val):
 
 def basic_information(personal_soup):
     name = personal_soup.find_all('h1')[NAME_HI].text.split('（')[0]
-    team = personal_soup.find_all('h1')[TEAM_H1].text
+    team = unify_teams(personal_soup.find_all('h1')[TEAM_H1].text)
     if team in CENTRAL_LIST:
         league = 'Central'
     elif team in PACIFIC_LIST:
@@ -285,8 +280,8 @@ def append_records_array():
     hitter_list = []
     for i in TEAM_NUM_LIST:
 
-        purl = BASEURL + 'npb/teams/' + str(i) + '/memberlist?type=p'
-        hurl = BASEURL + 'npb/teams/' + str(i) + '/memberlist?type=b'
+        purl = BASEURL + '/npb/teams/' + str(i) + '/memberlist?type=p'
+        hurl = BASEURL + '/npb/teams/' + str(i) + '/memberlist?type=b'
 
         pit_link_tail_list = link_tail_list(purl)
         hit_link_tail_list = link_tail_list(hurl)
