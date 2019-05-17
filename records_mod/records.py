@@ -71,23 +71,25 @@ def basic_information(personal_soup):
 
 def confirm_pitcher_tables(tables):
     """
-    return basic and right/left records
+    return basic, right/left, park records
     """
-    records_table = rl_table = None
+    records_table = rl_table = park_table = None
     for table in tables:
         table_type = table.find('tr').text.replace('\n', '')
         if table_type == '投手成績':
             records_table = table
         elif table_type == '左右打者別成績':
             rl_table = table
-    return records_table, rl_table
+        elif table_type == '球場別成績':
+            park_table = table
+    return records_table, rl_table, park_table
 
 
 def confirm_hitter_tables(tables):
     """
-    return basic, chance, right/left, count, runner records
+    return basic, chance, right/left, count, runner, park records
     """
-    records_table = chance_table = rl_table = count_table = runner_table = None
+    records_table = chance_table = rl_table = count_table = runner_table = park_table = None
     for table in tables:
         table_type = table.find('tr').text.replace('\n', '')
         if table_type == '打者成績':
@@ -100,7 +102,9 @@ def confirm_hitter_tables(tables):
             count_table = table
         elif table_type == '塁状況別成績':
             runner_table = table
-    return records_table, chance_table, rl_table, count_table, runner_table
+        elif table_type == '球場別成績':
+            park_table = table
+    return records_table, chance_table, rl_table, count_table, runner_table, park_table
 
 
 def dict_records(records_table):
@@ -144,20 +148,20 @@ def records_by_rl(rl_table, dump_val):
     return rl_records
 
 
-def records_by_count_or_runner(table_by):
-    # [1:] remove header content 'カウント/ランナー'
+def records_by_count_runner_park(table_by):
+    # [1:] remove header content 'カウント/ランナー/球場'
     header = [th.text for th in table_by.find_all('th')][EXCEPT_HEAD_CONTENT:]
 
     # [2:] remove title and header row
     body_tr = table_by.find_all('tr')[EXCEPT_TITLE_HEADER:]
-    records_by_count_or_runner = {}
+    records_by_count_runner_park = {}
     for tr in body_tr:
         situation = tr.find('td').text
         body = [
             full_val(td.text) for td in tr.find_all('td')[EXCEPT_HEAD_CONTENT:]
         ]
-        records_by_count_or_runner[situation] = dict(zip(header, body))
-    return records_by_count_or_runner
+        records_by_count_runner_park[situation] = dict(zip(header, body))
+    return records_by_count_runner_park
 
 
 def append_team_pitcher_array(link_tail_list):
@@ -175,7 +179,7 @@ def append_team_pitcher_array(link_tail_list):
         personal_dict.update(basic_info_dict)
 
         tables = personal_soup.find_all('table')
-        records_table, rl_table = confirm_pitcher_tables(tables)
+        records_table, rl_table, park_table = confirm_pitcher_tables(tables)
         # 0: profile
         # 1: **pitch records
         # (2): hit records
@@ -196,6 +200,10 @@ def append_team_pitcher_array(link_tail_list):
             # 1: dump '○打'
             records_rl = records_by_rl(rl_table, PITCHER_DUMP_VAL)
             records.update(records_rl)
+
+        if park_table:
+            records_by_park = records_by_count_runner_park(park_table)
+            records.update({'球場': records_by_park})
 
         records['被打数'] = str(
             Decimal(records.get('対右', {}).get('被打数', '0')) +
@@ -223,7 +231,7 @@ def append_team_hitter_array(link_tail_list):
         personal_dict.update(basic_info_dict)
 
         tables = personal_soup.find_all('table')
-        records_table, chance_table, rl_table, count_table, runner_table = confirm_hitter_tables(
+        records_table, chance_table, rl_table, count_table, runner_table, park_table = confirm_hitter_tables(
             tables)
         # 0: profile
         # 1: **records
@@ -254,12 +262,16 @@ def append_team_hitter_array(link_tail_list):
             records.update(records_rl)
 
         if count_table:
-            records_by_count = records_by_count_or_runner(count_table)
+            records_by_count = records_by_count_runner_park(count_table)
             records.update({'カウント': records_by_count})
 
         if runner_table:
-            records_by_runner = records_by_count_or_runner(runner_table)
+            records_by_runner = records_by_count_runner_park(runner_table)
             records.update({'走者': records_by_runner})
+
+        if park_table:
+            records_by_park = records_by_count_runner_park(park_table)
+            records.update({'球場': records_by_park})
 
         personal_dict.update(records)
 

@@ -100,12 +100,12 @@ def update_pitcher_y_records(pitcher_list, team_list):
     for pitcher in pitcher_list:
         if not pitcher['登板']:
             intentional_bb = '0'
-            regulation_innings = False
+            reg_innings = False
         else:
             intentional_bb = pitcher_ibb_dict.get(pitcher['Name'], '0')
             team = pick_dick(team_list, 'チーム', pitcher['Team'])
-            regulation_innings = regulation_innings(team['試合'], pitcher['投球回'])
-        pitcher['規定'] = regulation_innings
+            reg_innings = regulation_innings(team['試合'], pitcher['投球回'])
+        pitcher['規定'] = reg_innings
         pitcher['故意四球'] = intentional_bb
 
     return pitcher_list
@@ -115,10 +115,10 @@ def update_records_by_official():
     pitcher_list = read_json('pitchers.json')['Pitcher']
     hitter_list = read_json('hitters.json')['Hitter']
 
-    team_list = read_json('teams.json')['Teams']
+    team_list = read_json('teams.json')['Team']
 
     pitcher_list = update_pitcher_y_records(pitcher_list, team_list)
-    hitter_list = update_hitter_y_records(hitter_list, teaml_list)
+    hitter_list = update_hitter_y_records(hitter_list, team_list)
 
     write_json('pitchers.json', {'Pitcher': pitcher_list})
     write_json('hitters.json', {'Hitter': hitter_list})
