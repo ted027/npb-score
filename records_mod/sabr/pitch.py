@@ -23,7 +23,6 @@ def qs_rate(pitcher):
 #         k_per_bb = digits_under_one(raw_k_per_bb, 2)
 #     return  str(k_per_bb)
 
-
 # def k_per_nine(pitcher):
 #     innings = Decimal(pitcher['投球回'])
 #     outcounts = return_outcounts(innings)
@@ -90,7 +89,7 @@ def fip(pitcher, league):
     return str(fip)
 
 
-def babip(pitcher):
+def babip_p(pitcher):
     # denominator = Decimal(pitcher['被打数']) - Decimal(pitcher['奪三振']) - Decimal(
     #     pitcher['被本塁打']) + Decimal(pitcher['犠飛'])
     denominator = Decimal(pitcher['被打数']) - Decimal(pitcher['奪三振']) - Decimal(
