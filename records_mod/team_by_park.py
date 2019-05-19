@@ -1,5 +1,6 @@
 import requests
 import json
+import copy
 from decimal import Decimal
 from sabr.common import pick_dick, fix_rate_records, TEAM_LIST
 from datastore_json import read_json, write_json
@@ -23,6 +24,19 @@ def sum_park_dick(team_park_dic, player_park_dic):
             team_park_dic[key] = str(decimal_team_value)
 
 
+def sum_visitor_park_dick(sum_visitor_dic, team_parks_dic, team):
+    for key, value in team_parks_dic.items():
+        if key == HOME_DIC[team]:
+            continue
+        elif isinstance(value, dict):
+            sum_visitor_park_dick(sum_visitor_dic, value, team)
+        else:
+            sum_visitor_dic[key] = sum_visitor_dic.get(key, '0')
+            decimal_visitor_value = Decimal(
+                sum_visitor_dic[key]) + Decimal(value)
+            sum_visitor_dic[key] = str(decimal_visitor_value)
+
+
 def update_team_park_records():
     pitcher_list = read_json('pitchers.json')['Pitcher']
 
@@ -41,9 +55,14 @@ def update_team_park_records():
         park_dic[team] = park_dic.get(team, {})
         sum_park_dick(park_dic[team], hitter['球場'])
 
-    fix_rate_records(park_dic)
-
     for team_dic in team_list:
-        team_dic['球場'] = park_dic[team_dic['チーム']]
+        team = team_dic['チーム']
+        # team_dic['球場'] = park_dic[team]
+        team_dic['本拠地'] = park_dic[team][HOME_DIC[team]]
+        sum_visitor_dic = {}
+        sum_visitor_park_dick(sum_visitor_dic, park_dic[team], team)
+        team_dic['非本拠地'] = sum_visitor_dic
+
+    fix_rate_records(team_dic)
 
     write_json('teams.json', {'Team': team_list})
