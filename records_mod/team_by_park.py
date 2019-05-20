@@ -66,6 +66,8 @@ def update_team_park_records():
 
     park_dic = {}
     for pitcher in pitcher_list:
+        if not pitcher.get('球場', 0):
+            continue
         team = pitcher['Team']
         park_dic[team] = park_dic.get(team, {})
         sum_park_dick(park_dic[team], pitcher['球場'])
@@ -75,12 +77,15 @@ def update_team_park_records():
         regular_dic[team]['試合'] = regular_dic[team].get('試合', '0')
         if Decimal(hitter['試合']) > Decimal(regular_dic[team]['試合']):
             regular_dic[team]['試合'] = hitter['試合']
-            for key, value in hitter['球場']:
+            regular_dic[team]['球場'] = regular_dic[team].get('球場', {})
+            for key, value in hitter['球場'].items():
                 regular_dic[team]['球場'][key] = {'試合': value['試合']}
 
     regular_dic = {}
 
     for hitter in hitter_list:
+        if not hitter.get('球場', 0):
+            continue
         team = hitter['Team']
         park_dic[team] = park_dic.get(team, {})
         sum_park_dick(park_dic[team], hitter['球場'])
@@ -88,7 +93,7 @@ def update_team_park_records():
         tmp_regular_dic(regular_dic, team, hitter)
 
     for team in TEAM_LIST:
-        for key, value in regular_dic[team]['球場']:
+        for key, value in regular_dic[team]['球場'].items():
             park_dic[team][key]['試合'] = value['試合']
 
     fix_rate_records(park_dic)
@@ -101,7 +106,7 @@ def update_team_park_records():
         sum_visitor_park_dick(sum_visitor_dic, park_dic[team], team)
         team_dic['非本拠地'] = sum_visitor_dic
 
-        team_dic['得点PF'] = park_factor(team_dic, '得点', '失点')
+        team_dic['得点PF'] = park_factor(team_dic, '打点', '失点')
         team_dic['HRPF'] = park_factor(team_dic, '本塁打', '被本塁打')
 
     write_json('teams.json', {'Team': team_list})
