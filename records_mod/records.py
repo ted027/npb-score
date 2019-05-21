@@ -145,7 +145,7 @@ def records_by_rl(rl_table, dump_val):
 
 def records_by_count_runner_park(table_by):
     # [1:] remove header content 'カウント/ランナー/球場'
-    header = [th.text.replace('｜', 'ー')
+    header = [th.text.replace('|', 'ー')
               for th in table_by.find_all('th')][EXCEPT_HEAD_CONTENT:]
 
     # [2:] remove title and header row
