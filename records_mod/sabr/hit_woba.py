@@ -105,10 +105,10 @@ def wrc_plus(hitter, league, pf_list, raw_wrc):
     """
     if not Decimal(hitter['打席']) * Decimal(league['打席']):
         return '0'
-    pf_wrc = _pf_wrc(hitter, league, raw_wrc)
+    pf_wrc = _pf_wrc(hitter, pf_list, raw_wrc)
     numerator = pf_wrc / Decimal(hitter['打席'])
-    denominator = Decimal(league['得点']) / Decimal(league['打席']) * Decimal('100')
+    denominator = Decimal(league['得点']) / Decimal(league['打席'])
 
-    raw_wrc_plus = numerator / denominator
+    raw_wrc_plus = numerator / denominator * Decimal('100')
     wrc_plus = digits_under_one(raw_wrc_plus, 0)
     return str(wrc_plus)
