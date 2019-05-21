@@ -27,6 +27,7 @@ def pick_dick(list_of_dict, str_key, str_value):
     for dic in list_of_dict:
         if dic[str_key] == str_value:
             return dic
+    return {}
 
 
 TEAM_LIST = [

@@ -96,6 +96,7 @@ def update_team_park_records():
         for key, value in regular_dic[team]['球場'].items():
             park_dic[team][key]['試合'] = value['試合']
 
+    pf_list = []
     for team_dic in team_list:
         team = team_dic['チーム']
         # team_dic['球場'] = park_dic[team]
@@ -104,9 +105,14 @@ def update_team_park_records():
         sum_visitor_park_dick(sum_visitor_dic, park_dic[team], team)
         team_dic['非本拠地'] = sum_visitor_dic
 
-        team_dic['得点PF'] = park_factor(team_dic, '打点', '失点')
-        team_dic['HRPF'] = park_factor(team_dic, '本塁打', '被本塁打')
-
         fix_rate_records(team_dic)
 
+        pf_list.append({
+            '球場': HOME_DIC[team],
+            '得点PF': park_factor(team_dic, '打点', '失点'),
+            'HRPF': park_factor(team_dic, '本塁打', '被本塁打')
+        })
+
     write_json('teams.json', {'Team': team_list})
+
+    write_json('parks.json', {'Park': pf_list})

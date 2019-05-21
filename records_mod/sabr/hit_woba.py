@@ -1,6 +1,6 @@
 import json
 from decimal import Decimal
-from .common import (digits_under_one, single)
+from .common import (digits_under_one, single, pick_dick)
 
 WOBA_BB = Decimal('0.692')
 WOBA_HBP = Decimal('0.73')
@@ -76,14 +76,39 @@ def wraa(hitter, league):
     raw_wraa = (Decimal(hitter['wOBA']) - Decimal(
         league['wOBA'])) / WOBA_SCALE * Decimal(hitter['打席'])
     wraa = digits_under_one(raw_wraa, 3)
-    return str(wraa)
+    return str(wraa), raw_wraa
 
 
-def wrc(hitter, league):
+def wrc(hitter, league, raw_wraa):
     """
     wRC = wRAA + (リーグ総得点数 / リーグ総打席数) × 打席数
     """
-    raw_wrc = Decimal(hitter['wRAA']) + (
+    if not Decimal(league['打席']):
+        return '0', Decimal('0')
+    raw_wrc = raw_wraa + (
         Decimal(league['得点']) / Decimal(league['打席'])) * Decimal(hitter['打席'])
     wrc = digits_under_one(raw_wrc, 3)
-    return str(wrc)
+    return str(wrc), raw_wrc
+
+
+def _pf_wrc(hitter, pf_list, raw_wrc):
+    pf_wrc = Decimal('0')
+    for key, value in hitter.get('球場', {}).items():
+        pf = pick_dick(pf_list, '球場', key).get('得点PF', '1')
+        pf_wrc += raw_wrc * Decimal(value['試合']) / Decimal(hitter['試合']) / Decimal(pf)
+    return pf_wrc
+
+
+def wrc_plus(hitter, league, pf_list, raw_wrc):
+    """
+    wRC+＝（パークファクターを考慮して計算したwRC÷打席）÷（リーグ総得点÷リーグ総打席）
+    """
+    if not Decimal(hitter['打席']) * Decimal(league['打席']):
+        return '0'
+    pf_wrc = _pf_wrc(hitter, league, raw_wrc)
+    numerator = pf_wrc / Decimal(hitter['打席'])
+    denominator = Decimal(league['得点']) / Decimal(league['打席']) * Decimal('100')
+
+    raw_wrc_plus = numerator / denominator
+    wrc_plus = digits_under_one(raw_wrc_plus, 0)
+    return str(wrc_plus)
