@@ -1,15 +1,17 @@
 import json
 from decimal import Decimal
-from .common import (digits_under_one, single, ZERO_VALUE, IGNORE_VALUE)
+from .common import (digits_under_one, single)
 
 
 def bb_per_k(hitter):
+    bb = Decimal(hitter['四球'])
     k = Decimal(hitter['三振'])
-    if not k:
-        bb_per_k = IGNORE_VALUE
-    else:
-        raw_bb_per_k = Decimal(hitter['四球']) / k
-        bb_per_k = digits_under_one(raw_bb_per_k, 2)
+    if not bb:
+        return '0'
+    elif not k:
+        return '99.99'
+    raw_bb_per_k = bb / k
+    bb_per_k = digits_under_one(raw_bb_per_k, 2)
     return str(bb_per_k)
 
 
@@ -20,12 +22,11 @@ def iso_p(hitter):
     """
     atbat = Decimal(hitter['打数'])
     if not atbat:
-        iso_p = ZERO_VALUE
-    else:
-        numerator = Decimal(hitter['二塁打']) + 2 * Decimal(
-            hitter['三塁打']) + 3 * Decimal(hitter['本塁打'])
-        raw_iso_p = numerator / atbat
-        iso_p = digits_under_one(raw_iso_p, 3)
+        return '0'
+    numerator = Decimal(hitter['二塁打']) + 2 * Decimal(
+        hitter['三塁打']) + 3 * Decimal(hitter['本塁打'])
+    raw_iso_p = numerator / atbat
+    iso_p = digits_under_one(raw_iso_p, 3)
     return str(iso_p)
 
 
@@ -38,18 +39,29 @@ def iso_d(hitter):
     return str(iso_d)
 
 
-def bb_percent(hitter):
+def bb_percent_h(hitter):
     """
     選球眼指標
     BB% = 四球 / 打席
     """
     apperance = Decimal(hitter['打席'])
     if not apperance:
-        bb_percent = ZERO_VALUE
-    else:
-        raw_bb_percent = Decimal(hitter['四球']) / apperance
-        bb_percent = digits_under_one(raw_bb_percent, 3)
+        return '0'
+    raw_bb_percent = Decimal(hitter['四球']) / apperance
+    bb_percent = digits_under_one(raw_bb_percent, 3)
     return str(bb_percent)
+
+
+def k_percent_h(hitter):
+    """
+    K% = 三振 / 打席
+    """
+    apperance = Decimal(hitter['打席'])
+    if not apperance:
+        return '0'
+    raw_k_percent = Decimal(hitter['三振']) / apperance
+    k_percent = digits_under_one(raw_k_percent, 3)
+    return str(k_percent)
 
 
 def babip_h(hitter):
@@ -60,11 +72,10 @@ def babip_h(hitter):
     denominator = Decimal(hitter['打数']) - Decimal(hitter['三振']) - Decimal(
         hitter['本塁打']) + Decimal(hitter['犠飛'])
     if not denominator:
-        babip = IGNORE_VALUE
-    else:
-        numerator = Decimal(hitter['安打']) - Decimal(hitter['本塁打'])
-        raw_babip = numerator / denominator
-        babip = digits_under_one(raw_babip, 3)
+        return '0'
+    numerator = Decimal(hitter['安打']) - Decimal(hitter['本塁打'])
+    raw_babip = numerator / denominator
+    babip = digits_under_one(raw_babip, 3)
     return str(babip)
 
 
@@ -87,8 +98,7 @@ def wsb(hitter, league):
     steal_score, steal_chance = _wsb_part(hitter)
     league_steal_score, league_steal_chance = _wsb_part(league)
     if not league_steal_chance:
-        wsb = IGNORE_VALUE
-    else:
-        raw_wsb = steal_score - league_steal_score * steal_chance / league_steal_chance
-        wsb = digits_under_one(raw_wsb, 2)
+        return '0'
+    raw_wsb = steal_score - league_steal_score * steal_chance / league_steal_chance
+    wsb = digits_under_one(raw_wsb, 2)
     return str(wsb)

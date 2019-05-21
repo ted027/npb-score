@@ -1,7 +1,9 @@
 import json
 from decimal import Decimal, ROUND_HALF_UP
-from sabr.pitch import (qs_rate, bb_per_nine, hr_per_nine, fip, babip_p)
-from sabr.hit import (babip_h, iso_d, iso_p, bb_percent, bb_per_k, wsb)
+from sabr.pitch import (qs_rate, bb_per_nine, hr_per_nine, bb_percent_p,
+                        k_percent_p, fip, babip_p)
+from sabr.hit import (babip_h, iso_d, iso_p, bb_percent_h, k_percent_h,
+                      bb_per_k, wsb)
 from sabr.hit_woba import (woba, woba_basic, woba_speed, wraa, wrc)
 from sabr.hit_rc import (rc_basic, xr_basic, rc_xr_27, rc_xr_plus, rc_xr_win)
 from sabr.common import RECORDS_DIRECTORY
@@ -13,6 +15,8 @@ def calc_sabr_pitcher(pitcher, league_pitcher_dic=None):
     pitcher['BABIP'] = babip_p(pitcher)
     pitcher['BB/9'] = bb_per_nine(pitcher)
     pitcher['HR/9'] = hr_per_nine(pitcher)
+    pitcher['K%'] = k_percent_p(pitcher)
+    pitcher['BB%'] = bb_percent_p(pitcher)
     if league_pitcher_dic:
         pitcher['FIP'] = fip(pitcher, league_pitcher_dic)
     return pitcher
@@ -32,7 +36,8 @@ def calc_sabr_hitter(hitter, league_dic=None, league_rc=None, league_xr=None):
     hitter['XR27'] = rc_xr_27(hitter, raw_xr)
     hitter['IsoP'] = iso_p(hitter)
     hitter['BB/K'] = bb_per_k(hitter)
-    hitter['BB%'] = bb_percent(hitter)
+    hitter['BB%'] = bb_percent_h(hitter)
+    hitter['K%'] = k_percent_h(hitter)
     hitter['IsoD'] = iso_d(hitter)
     hitter['BABIP'] = babip_h(hitter)
     if league_dic:
