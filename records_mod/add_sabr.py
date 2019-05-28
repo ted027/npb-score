@@ -24,8 +24,8 @@ def calc_sabr_pitcher(pitcher, league_pitcher_dic=None):
 
 def calc_sabr_hitter(hitter, league_dic=None, league_rc=None, league_xr=None, pf_list=None):
     """
-    第一引数がhitterならleague_dic, pf_list, league_rc, league_xrも同時に渡す
-    第一引数がleagueなら第二〜第四引数は指定しない
+    第一引数がhitterならleague_dic, league_rc, league_xr, pf_listも同時に渡す
+    第一引数がleagueなら第二〜第五引数は指定しない
     """
     hitter['wOBA'] = woba(hitter)
     hitter['wOBA(Basic)'] = woba_basic(hitter)

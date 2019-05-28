@@ -8,7 +8,10 @@ IGNORE_VALUE = Decimal('-1')
 
 
 def digits_under_one(value, digits):
-    base = 10**(-1 * digits)
+    if not digits:
+        base = 0
+    else:
+        base = 10**(-1 * digits)
     return value.quantize(Decimal(str(base)), rounding=ROUND_HALF_UP)
 
 
@@ -88,7 +91,8 @@ def fix_rate_records(dic):
             fix_value = fix_rate_common(dic, numerator, denominator)
             dic[key] = str(digits_under_one(fix_value, 2))
         elif key == '勝率':
-            denominator = Decimal(dic['勝利']) + Decimal(dic['敗戦'])
+            lose = dic.get('敗戦', 0) or dic.get('敗北')
+            denominator = Decimal(dic['勝利']) + Decimal(lose)
             fix_value = fix_rate_common(dic, Decimal(dic['勝利']), denominator)
             dic[key] = str(digits_under_one(fix_value, 3))
         elif key == '被打率':
