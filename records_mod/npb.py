@@ -9,7 +9,7 @@ from datastore_postgre import read_records, write_records
 
 YEAR = 2019
 TEAM_NUM = 6
-LEAG_INITIAL_LIST = ['p', 'c']
+LEAG_INITIAL_DICT = {'p': 'Pacific', 'c': 'Central'}
 TEAM_INITIAL_LIST = [
     'l', 'h', 'f', 'b', 'm', 'e', 'c', 's', 'g', 'db', 'd', 't'
 ]
@@ -20,7 +20,7 @@ IBB_COLUMN_DICT = {'p': 18, 'b': 17}
 
 def create_team_list():
     team_list = []
-    for leag_initial in LEAG_INITIAL_LIST:
+    for leag_initial in LEAG_INITIAL_DICT.keys():
         url = f'http://npb.jp/bis/{str(YEAR)}/stats/std_{leag_initial}.html'
         soup = request_soup(url)
         table = soup.find('table')
@@ -39,7 +39,9 @@ def create_team_list():
             ]
             # unify team notation
             body[0] = unify_teams(body[0])
-            team_list.append(dict(zip(header, body)))
+            team_dic = dict(zip(header, body))
+            team_dic["League"] = LEAG_INITIAL_DICT[leag_initial]
+            team_list.append(team_dic)
     return team_list
 
 
