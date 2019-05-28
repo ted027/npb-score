@@ -8,7 +8,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
-import { hrows, prows, crecordData, cprecordData, precordData, pprecordData, defaultAscListH, defaultAscListP } from "./Records";
+import { teams_header, teams_body, parks_header, parks_body } from "./Records";
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -135,58 +135,21 @@ class EnhancedTableHead extends React.Component {
       <TableHead>
         <TableRow>
           {rows.map(row => {
-            if (row.id === "team") {
-              return (
-                <CustomTableCellShort
-                  key={row.id}
-                  numeric={row.numeric}
-                  padding={row.disablePadding ? "checkbox" : "none"}
+            return (
+              <CustomTableCell
+                key={row.id}
+                numeric={row.numeric}
+                padding={row.disablePadding ? "checkbox" : "none"}
+                sortDirection={orderBy === row.id ? order : false}
+              >
+                <CustomTableSortLabel
+                  onClick={this.createSortHandler(row.id)}
                 >
                   {row.label}
-                </CustomTableCellShort>
-              );
-            } else if (row.id === "order") {
-              return (
-                <CustomTableCellOrder
-                  key={row.id}
-                  numeric={row.numeric}
-                  padding={row.disablePadding ? "checkbox" : "none"}
-                >
-                  {row.label}
-                </CustomTableCellOrder>
-              );
-            } else if (row.id === "name") {
-              return (
-                <CustomTableCellName
-                  key={row.id}
-                  numeric={row.numeric}
-                  padding={row.disablePadding ? "checkbox" : "none"}
-                >
-                  {row.label}
-                </CustomTableCellName>
-              );
-            } else {
-              return (
-                <CustomTableCell
-                  key={row.id}
-                  numeric={row.numeric}
-                  padding={row.disablePadding ? "checkbox" : "none"}
-                  sortDirection={orderBy === row.id ? order : false}
-                >
-                  <CustomTableSortLabel
-                    onClick={this.createSortHandler(row.id)}
-                  >
-                    {row.label}
-                  </CustomTableSortLabel>
-                </CustomTableCell>
-              );
-            }
+                </CustomTableSortLabel>
+              </CustomTableCell>
+            );
           }, this)}
-          <CustomTableCellShort
-            component="th"
-            scope="row"
-            padding="checkbox"
-          />
         </TableRow>
       </TableHead>
     );
