@@ -27,8 +27,8 @@ jobs:
           command: |
             cp -rf records_mod/records webui/src
             cd webui
-            npm install
-            npm run build
+            sudo npm install
+            sudo npm run build
       - persist_to_workspace:
           root: webui
           paths:
