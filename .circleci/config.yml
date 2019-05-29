@@ -23,7 +23,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: records_mod
+          at: .
       - run:
           command: |
             cp -rf records_mod/records webui/src
@@ -40,7 +40,7 @@ jobs:
     working_directory: ~/work
     steps:
       - attach_workspace:
-          at: build
+          at: .
       - add_ssh_keys:
           fingerprints:
             - "e5:f7:07:ca:a4:5c:76:22:db:ba:db:23:1c:ae:b8:95"
@@ -50,6 +50,7 @@ jobs:
             ls -al
             cd build
             ls -al
+            cd -
             echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
             git clone git@github.com:ted027/ted027.github.io public
             rm -rf public/records/* public/static/* public/manifest.json
