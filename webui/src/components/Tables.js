@@ -113,7 +113,7 @@ function getSorting(order, orderBy) {
     : (a, b) => b[orderBy] - a[orderBy];
 }
 
-class EnhancedTableHead extends React.Component {
+class TeamTableHead extends React.Component {
   render() {
     const { head } = this.props;
 
@@ -138,7 +138,62 @@ class EnhancedTableHead extends React.Component {
   }
 }
 
-EnhancedTableHead.propTypes = {
+TeamTableHead.propTypes = {
+  rowCount: PropTypes.number.isRequired,
+  head: PropTypes.array.isRequired
+};
+
+class ParkTableHead extends React.Component {
+
+  createSortHandler = property => event => {
+    this.props.onRequestSort(event, property);
+  };
+  
+  render() {
+    const { order, orderBy, head } = this.props;
+
+    return (
+      <TableHead>
+        <TableRow>
+          <CustomTableCellOrder />
+          {head.map(cell => {
+            if (cell.numeric) {
+              return (
+                <CustomTableCell
+                  key={cell.id}
+                  numeric={cell.numeric}
+                  padding={cell.disablePadding ? "checkbox" : "none"}
+                  sortDirection={orderBy === cell.id ? order : false}
+                >
+                  <CustomTableSortLabel
+                      onClick={this.createSortHandler(cell.id)}
+                    >
+                    {cell.label}
+                    </CustomTableSortLabel>
+                </CustomTableCell>
+              );
+            } else {
+              return (
+                <CustomTableCell
+                  key={cell.id}
+                  numeric={cell.numeric}
+                  padding={cell.disablePadding ? "checkbox" : "none"}
+                >
+                  {cell.label}
+                </CustomTableCell>
+              );
+            }
+          }, this)}
+        </TableRow>
+      </TableHead>
+    );
+  }
+}
+
+ParkTableHead.propTypes = {
+  onRequestSort: PropTypes.func.isRequired,
+  order: PropTypes.string.isRequired,
+  orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
   head: PropTypes.array.isRequired
 };
@@ -170,7 +225,7 @@ class TeamTable extends React.Component {
       <Paper className={classes.root}>
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
-            <EnhancedTableHead rowCount={data.length} head={head} />
+            <TeamTableHead rowCount={data.length} head={head} />
             <TableBody>
               {stableSort(data, getSorting(order, orderBy)).map(n => {
                 if (n.League == league) {
@@ -229,6 +284,9 @@ class DefaultTable extends React.Component {
         <p>
           <TeamTable classes="styles" league="Pacific" />
         </p>
+        {/* <p>
+          <ParkTable classes="styles" />
+        </p> */}
       </div>
     );
   }

@@ -10,7 +10,7 @@ const teams_numeric = [false, true, true, true, true, true, false];
 export const teams_header = [];
 for (var i = 0; i < 7; i++) {
   teams_header.push({
-    id: "id" + i,
+    id: theader[i],
     numeric: teams_numeric[i],
     disablePadding: true,
     label: theader[i]
