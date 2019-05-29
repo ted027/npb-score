@@ -9,9 +9,6 @@ import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import { teams_header, teams_body, parks_header, parks_body } from "./Records";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
 import yellow from "@material-ui/core/colors/yellow";
 
 const styles = theme => ({
@@ -48,12 +45,12 @@ const CustomTableCellName = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
-    minWidth: 90,
+    maxWidth: 90,
     zindex: 3
   },
   body: {
     fontSize: 14,
-    minWidth: 90,
+    maxWidth: 90,
     zindex: 1
   }
 }))(TableCell);
@@ -75,12 +72,12 @@ const CustomTableCell = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
-    minWidth: 90,
+    maxWidth: 90,
     zindex: 2
   },
   body: {
     fontSize: 14,
-    minWidth: 90,
+    maxWidth: 90,
     zindex: 0
   }
 }))(TableCell);
@@ -113,7 +110,7 @@ function getSorting(order, orderBy) {
     : (a, b) => b[orderBy] - a[orderBy];
 }
 
-class EnhancedTableHead extends React.Component {
+class TeamTableHead extends React.Component {
   render() {
     const { head } = this.props;
 
@@ -138,7 +135,61 @@ class EnhancedTableHead extends React.Component {
   }
 }
 
-EnhancedTableHead.propTypes = {
+TeamTableHead.propTypes = {
+  rowCount: PropTypes.number.isRequired,
+  head: PropTypes.array.isRequired
+};
+
+class CommonTableHead extends React.Component {
+  createSortHandler = property => event => {
+    this.props.onRequestSort(event, property);
+  };
+
+  render() {
+    const { order, orderBy, onRequestSort, rowCount, head } = this.props;
+
+    return (
+      <TableHead>
+        <TableRow>
+          <CustomTableCellOrder />
+          {head.map(cell => {
+            if (cell.numeric) {
+              return (
+                <CustomTableCell
+                  key={cell.id}
+                  numeric={cell.numeric}
+                  padding={cell.disablePadding ? "checkbox" : "none"}
+                  sortDirection={orderBy === cell.id ? order : false}
+                >
+                  <CustomTableSortLabel
+                    onClick={this.createSortHandler(cell.id)}
+                  >
+                    {cell.label}
+                  </CustomTableSortLabel>
+                </CustomTableCell>
+              );
+            } else {
+              return (
+                <CustomTableCell
+                  key={cell.id}
+                  numeric={cell.numeric}
+                  padding={cell.disablePadding ? "checkbox" : "none"}
+                >
+                  {cell.label}
+                </CustomTableCell>
+              );
+            }
+          }, this)}
+        </TableRow>
+      </TableHead>
+    );
+  }
+}
+
+CommonTableHead.propTypes = {
+  onRequestSort: PropTypes.func.isRequired,
+  order: PropTypes.string.isRequired,
+  orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
   head: PropTypes.array.isRequired
 };
@@ -170,7 +221,7 @@ class TeamTable extends React.Component {
       <Paper className={classes.root}>
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
-            <EnhancedTableHead rowCount={data.length} head={head} />
+            <TeamTableHead rowCount={data.length} head={head} />
             <TableBody>
               {stableSort(data, getSorting(order, orderBy)).map(n => {
                 if (n.League == league) {
@@ -219,6 +270,88 @@ TeamTable.propTypes = {
   league: PropTypes.string.isRequired
 };
 
+class CommonTable extends React.Component {
+  state = {
+    order: "desc",
+    orderBy: "得点PF",
+    orderMean: "good"
+  };
+
+  handleRequestSort = (event, property) => {
+    const orderBy = property;
+    var firstOrder;
+    var reverseOrder;
+
+    firstOrder = "desc";
+    reverseOrder = "asc";
+
+    let order = firstOrder;
+    let orderMean = "good";
+
+    if (this.state.orderBy === property && this.state.order === firstOrder) {
+      order = reverseOrder;
+      orderMean = "bad";
+    }
+
+    this.setState({ order, orderBy, orderMean });
+  };
+
+  render() {
+    const { classes, data, head, default_order, default_orderBy } = this.props;
+    const { order, orderBy, orderMean } = this.state;
+    var jun;
+    var add;
+    if (orderMean === "bad") {
+      jun = data.length + 1;
+      add = -1;
+    } else {
+      jun = 0;
+      add = 1;
+    }
+    return (
+      <Paper className={classes.root}>
+        <div className={classes.tableWrapper}>
+          <Table className={classes.table} aria-labelledby="tableTitle">
+            <CommonTableHead
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={this.handleRequestSort}
+              rowCount={data.length}
+              head={head}
+            />
+            <TableBody>
+              {stableSort(data, getSorting(order, orderBy)).map(n => {
+                return (
+                  <TableRow hover tabIndex={-1} key={n.id}>
+                    <CustomTableCellOrder numeric padding="checkbox">
+                      {(jun = jun + add)}
+                    </CustomTableCellOrder>
+                    {Object.keys(n).map(value => {
+                      return(
+                      <CustomTableCell numeric padding="none">
+                        {n[value]}
+                      </CustomTableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </div>
+      </Paper>
+    );
+  }
+}
+
+CommonTable.propTypes = {
+  classes: PropTypes.object.isRequired,
+  default_order: PropTypes.string.isRequired,
+  default_orderBy: PropTypes.string.isRequired,
+  head: PropTypes.array.isRequired,
+  data: PropTypes.array.isRequired
+};
+
 class DefaultTable extends React.Component {
   render() {
     return (
@@ -228,6 +361,15 @@ class DefaultTable extends React.Component {
         </p>
         <p>
           <TeamTable classes="styles" league="Pacific" />
+        </p>
+        <p>
+          <CommonTable
+            classes="styles"
+            default_order="desc"
+            default_orderBy="得点PF"
+            head={parks_header}
+            data={parks_body}
+          />
         </p>
       </div>
     );

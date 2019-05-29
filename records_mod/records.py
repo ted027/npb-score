@@ -1,5 +1,6 @@
 import requests
 import json
+import time
 from decimal import Decimal
 from bs4 import BeautifulSoup
 from sabr.common import RECORDS_DIRECTORY, unify_teams
@@ -29,8 +30,12 @@ BASEURL = 'https://baseball.yahoo.co.jp'
 
 
 def request_soup(url):
-    res = requests.get(url)
-    res.raise_for_status()
+    while True:
+        res = requests.get(url)
+        if res.status_code < 400:
+            break
+        else:
+            time.sleep(0.5)
     return BeautifulSoup(res.content, 'html.parser')
 
 
