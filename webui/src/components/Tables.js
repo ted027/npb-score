@@ -45,12 +45,12 @@ const CustomTableCellName = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
-    minWidth: 90,
+    maxWidth: 90,
     zindex: 3
   },
   body: {
     fontSize: 14,
-    minWidth: 90,
+    maxWidth: 90,
     zindex: 1
   }
 }))(TableCell);
@@ -72,12 +72,12 @@ const CustomTableCell = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
-    minWidth: 90,
+    maxWidth: 90,
     zindex: 2
   },
   body: {
     fontSize: 14,
-    minWidth: 90,
+    maxWidth: 90,
     zindex: 0
   }
 }))(TableCell);

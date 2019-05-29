@@ -6,10 +6,10 @@ jobs:
     working_directory: ~/work
     steps:
       - checkout
-      - run:
-          command: |
-            cd records_mod
-            python main.py
+      # - run:
+      #     command: |
+      #       cd records_mod
+      #       python main.py
       - persist_to_workspace:
           root: records_mod
           paths:
@@ -27,5 +27,37 @@ jobs:
             rsync -r records_mod/records webui/src
             cd webui
             npm build
+      - persist_to_workspace:
+          root: webui
+          paths:
+            - build
   deploy:
+    docker:
+      - image: circleci/node:8.10
+    working_directory: ~/work
+    steps:
+      - attach_workspace:
+          at: build
+      - add_ssh_keys:
+          fingerprints:
+            - "d8:5b:56:36:7a:f6:6a:0a:fd:6e:7c:21:aa:7e:2b:31"
+      - run:
+          name: deploy
+          command: |
+            git clone git@github.com:ted027/ted027.github.io public
+            rm -rf public/records public/static public/manifest.json
+            rsync build/* public/records
+            mv public/records/manifest.json public
+            mv public/records/static public/static
+      - run:
+          mame: push
+          command: |
+            cd public
+            git config --global user.name "CircleCI"
+            git config --global user.email "circleci@example.com"
+            git add --all
+            msg="update records `date`"
+            git commit -m "$msg"
+            git push origin master
+
     
