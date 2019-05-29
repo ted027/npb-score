@@ -47,7 +47,7 @@ jobs:
       - run:
           name: deploy
           command: |
-            mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+            echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
             git clone git@github.com:ted027/ted027.github.io public
             rm -rf public/records public/static public/manifest.json
             cp build/* public/records
