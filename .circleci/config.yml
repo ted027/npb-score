@@ -24,7 +24,7 @@ jobs:
           at: records_mod
       - run:
           command: |
-            cp records_mod/records/*.json webui/src
+            rsync -r records_mod/records webui/src
             cd webui
             npm build
   deploy:
