@@ -9,9 +9,6 @@ import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import { teams_header, teams_body, parks_header, parks_body } from "./Records";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
 import yellow from "@material-ui/core/colors/yellow";
 
 const styles = theme => ({
@@ -143,14 +140,13 @@ TeamTableHead.propTypes = {
   head: PropTypes.array.isRequired
 };
 
-class ParkTableHead extends React.Component {
-
+class CommonTableHead extends React.Component {
   createSortHandler = property => event => {
     this.props.onRequestSort(event, property);
   };
-  
+
   render() {
-    const { order, orderBy, head } = this.props;
+    const { order, orderBy, onRequestSort, rowCount, head } = this.props;
 
     return (
       <TableHead>
@@ -166,10 +162,10 @@ class ParkTableHead extends React.Component {
                   sortDirection={orderBy === cell.id ? order : false}
                 >
                   <CustomTableSortLabel
-                      onClick={this.createSortHandler(cell.id)}
-                    >
+                    onClick={this.createSortHandler(cell.id)}
+                  >
                     {cell.label}
-                    </CustomTableSortLabel>
+                  </CustomTableSortLabel>
                 </CustomTableCell>
               );
             } else {
@@ -190,7 +186,7 @@ class ParkTableHead extends React.Component {
   }
 }
 
-ParkTableHead.propTypes = {
+CommonTableHead.propTypes = {
   onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.string.isRequired,
   orderBy: PropTypes.string.isRequired,
@@ -274,6 +270,88 @@ TeamTable.propTypes = {
   league: PropTypes.string.isRequired
 };
 
+class CommonTable extends React.Component {
+  state = {
+    order: "desc",
+    orderBy: "得点PF",
+    orderMean: "good"
+  };
+
+  handleRequestSort = (event, property) => {
+    const orderBy = property;
+    var firstOrder;
+    var reverseOrder;
+
+    firstOrder = "desc";
+    reverseOrder = "asc";
+
+    let order = firstOrder;
+    let orderMean = "good";
+
+    if (this.state.orderBy === property && this.state.order === firstOrder) {
+      order = reverseOrder;
+      orderMean = "bad";
+    }
+
+    this.setState({ order, orderBy, orderMean });
+  };
+
+  render() {
+    const { classes, data, head, default_order, default_orderBy } = this.props;
+    const { order, orderBy, orderMean } = this.state;
+    var jun;
+    var add;
+    if (orderMean === "bad") {
+      jun = data.length + 1;
+      add = -1;
+    } else {
+      jun = 0;
+      add = 1;
+    }
+    return (
+      <Paper className={classes.root}>
+        <div className={classes.tableWrapper}>
+          <Table className={classes.table} aria-labelledby="tableTitle">
+            <CommonTableHead
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={this.handleRequestSort}
+              rowCount={data.length}
+              head={head}
+            />
+            <TableBody>
+              {stableSort(data, getSorting(order, orderBy)).map(n => {
+                return (
+                  <TableRow hover tabIndex={-1} key={n.id}>
+                    <CustomTableCellOrder numeric padding="checkbox">
+                      {(jun = jun + add)}
+                    </CustomTableCellOrder>
+                    {Object.keys(n).map(value => {
+                      return(
+                      <CustomTableCell numeric padding="none">
+                        {n[value]}
+                      </CustomTableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </div>
+      </Paper>
+    );
+  }
+}
+
+CommonTable.propTypes = {
+  classes: PropTypes.object.isRequired,
+  default_order: PropTypes.string.isRequired,
+  default_orderBy: PropTypes.string.isRequired,
+  head: PropTypes.array.isRequired,
+  data: PropTypes.array.isRequired
+};
+
 class DefaultTable extends React.Component {
   render() {
     return (
@@ -284,9 +362,15 @@ class DefaultTable extends React.Component {
         <p>
           <TeamTable classes="styles" league="Pacific" />
         </p>
-        {/* <p>
-          <ParkTable classes="styles" />
-        </p> */}
+        <p>
+          <CommonTable
+            classes="styles"
+            default_order="desc"
+            default_orderBy="得点PF"
+            head={parks_header}
+            data={parks_body}
+          />
+        </p>
       </div>
     );
   }

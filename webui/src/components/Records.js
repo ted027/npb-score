@@ -1,5 +1,5 @@
-import teams from "../../../records_mod/records/teams.json";
-import parks from "../../../records_mod/records/parks.json";
+import teamsj from "../records/teams.json";
+import parksj from "../records/parks.json";
 
 const teams = teamsj.Team;
 const parks = parksj.Park;
@@ -30,26 +30,24 @@ const prheader = Object.keys(parks[0]);
 const parks_numeric = [false, true, true];
 
 export const parks_header = [];
-for (var i = 0; i < parks[0].length; i++) {
+for (var l = 0; l < Object.keys(parks[0]).length; l++) {
   parks_header.push({
-    id: "id" + i,
-    numeric: parks_numeric[i],
+    id: prheader[l],
+    numeric: parks_numeric[l],
     disablePadding: true,
-    label: prheader[i]
+    label: prheader[l]
   });
 }
 
 export const parks_body = [];
-for (var j = 0; j < parks.length; j++) {
-  parks_body.push(createData(parks[j]));
+for (var m = 0; m < parks.length; m++) {
+  parks_body.push(createData(parks[m]));
 }
 
-let counter = 0;
 function createData(json) {
-  counter += 1;
   var keys = Object.keys(json);
   var values = Object.values(json);
-  var row = { id: counter };
+  var row = {};
   for (var k = 0; k < keys.length; k++) {
     row[keys[k]] = values[k];
   }
