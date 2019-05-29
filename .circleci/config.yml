@@ -24,7 +24,7 @@ jobs:
           at: records_mod
       - run:
           command: |
-            rsync -r records_mod/records webui/src
+            cp -rf records_mod/records webui/src
             cd webui
             npm build
       - persist_to_workspace:
@@ -46,7 +46,7 @@ jobs:
           command: |
             git clone git@github.com:ted027/ted027.github.io public
             rm -rf public/records public/static public/manifest.json
-            rsync build/* public/records
+            cp build/* public/records
             mv public/records/manifest.json public
             mv public/records/static public/static
       - run:
@@ -65,5 +65,9 @@ workflows:
   normal_build:
     jobs:
       - records_build
-      - webui_build
-      - deploy
+      - webui_build:
+          requires:
+            - records_build
+      - deploy:
+          requires:
+            - webui_build
