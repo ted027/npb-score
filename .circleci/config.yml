@@ -6,12 +6,12 @@ jobs:
     working_directory: ~/work
     steps:
       - checkout
-      # - run:
-      #     command: |
-      #       pip install -r requirements.txt
-      #       cd records_mod
-      #       python main.py
-      #
+      - run:
+          command: |
+            pip install -r requirements.txt
+            cd records_mod
+            python main.py
+            cd -
       - persist_to_workspace:
           root: records_mod
           paths:
