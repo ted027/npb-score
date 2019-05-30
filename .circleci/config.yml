@@ -12,7 +12,7 @@ jobs:
             cd records_mod
             python main.py
             cd -
-          no_output_timout: 15m
+          no_output_timeout: 15m
       - persist_to_workspace:
           root: records_mod
           paths:
