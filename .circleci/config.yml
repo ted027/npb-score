@@ -47,16 +47,15 @@ jobs:
       - run:
           name: deploy
           command: |
-            ls -al
-            cd build
-            ls -al
-            cd -
             echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
             git clone git@github.com:ted027/ted027.github.io public
             rm -rf public/records/* public/static/* public/manifest.json
-            cp build/* public/records/
+            cp -rp build/* public/records
             mv public/records/manifest.json public
             mv public/records/static public/static
+            cd public && ls -al
+            cd records && ls -al
+            cd ../../
       - run:
           mame: push
           command: |
