@@ -12,6 +12,7 @@ import { teams_header, teams_body, parks_header, parks_body } from "./Records";
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import Link from '@material-ui/core/Link';
 import yellow from "@material-ui/core/colors/yellow";
 
 const styles = theme => ({
@@ -380,7 +381,7 @@ class DefaultPage extends React.Component {
               onChange={this.handleTabChange}
             >
               <Tab label="順位表/PF" />
-              <Tab label="BLOG"><a href="/"></a></Tab>
+              <Tab label="BLOG"><Link href="/" /></Tab>
             </Tabs>
           </AppBar>
         </div>
