@@ -17,7 +17,7 @@ jobs:
           root: records_mod
           paths:
             - records
-  webui_build:
+  webui_build_from_ws:
     docker:
       - image: circleci/node:8.10
     working_directory: ~/work
@@ -25,6 +25,22 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run:
+          command: |
+            cp -rf records_mod/records webui/src
+            cd webui
+            sudo npm install
+            sudo npm run build
+      - persist_to_workspace:
+          root: webui
+          paths:
+            - build
+  webui_build:
+    docker:
+      - image: circleci/node:8.10
+    working_directory: ~/work
+    steps:
+      - checkout
       - run:
           command: |
             cp -rf records_mod/records webui/src
@@ -70,6 +86,12 @@ jobs:
 
 workflows:
   version: 2
+  normal_build:
+    jobs:
+      - webui_build
+      - deploy:
+          requires:
+            - webui_build
   nightly_build:
     triggers:
       - schedule:
@@ -80,9 +102,9 @@ workflows:
                 - master
     jobs:
       - records_build
-      - webui_build:
+      - webui_build_from_ws:
           requires:
             - records_build
       - deploy:
           requires:
-            - webui_build
+            - webui_build_from_ws

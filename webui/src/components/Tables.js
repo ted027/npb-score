@@ -9,6 +9,9 @@ import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import { teams_header, teams_body, parks_header, parks_body } from "./Records";
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import yellow from "@material-ui/core/colors/yellow";
 
 const styles = theme => ({
@@ -352,10 +355,36 @@ CommonTable.propTypes = {
   data: PropTypes.array.isRequired
 };
 
-class DefaultTable extends React.Component {
+class DefaultPage extends React.Component {
+
+  state = {
+    selected: 0,
+  }
+
+  handleTabChange = (selected) => {
+    this.setState({ selected });
+  };
+
   render() {
+    const { classes } = this.props;
+    const { selected } = this.state;
     return (
       <div>
+        <p>
+        <div className={classes.tab}>
+          <AppBar position="static">
+            <Tabs
+              selected={selected}
+              scrollable
+              scrollButtons="auto"
+              onChange={this.handleTabChange}
+            >
+              <Tab label="順位表/PF" />
+              <Tab label="BLOG"><a href="/"></a></Tab>
+            </Tabs>
+          </AppBar>
+        </div>
+        </p>
         <p>
           <TeamTable classes="styles" league="Central" />
         </p>
@@ -376,4 +405,8 @@ class DefaultTable extends React.Component {
   }
 }
 
-export default DefaultTable;
+DefaultPage.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(DefaultPage);
