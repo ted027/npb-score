@@ -12,7 +12,7 @@ jobs:
             cd records_mod
             python main.py
             cd -
-          no_output_timeout: 15m
+          no_output_timeout: 20m
       - persist_to_workspace:
           root: records_mod
           paths:
@@ -70,7 +70,14 @@ jobs:
 
 workflows:
   version: 2
-  normal_build:
+  nightly_build:
+    triggers:
+      - schedule:
+          cron: "20 15 * * *"
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - records_build
       - webui_build:
