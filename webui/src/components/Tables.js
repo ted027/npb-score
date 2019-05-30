@@ -381,7 +381,7 @@ class DefaultPage extends React.Component {
               onChange={this.handleTabChange}
             >
               <Tab label="順位表/PF" />
-              <Tab label="BLOG"><Link href="/" /></Tab>
+              <Link href="/"><Tab label="BLOG"></Tab></Link>
             </Tabs>
           </AppBar>
         </div>
