@@ -1,8 +1,43 @@
 import teamsj from "../records/teams.json";
 import parksj from "../records/parks.json";
+import hittersj from "../records/hitters.json";
+import pitchersj from "../records/pitchers.json";
 
 const teams = teamsj.Team;
 const parks = parksj.Park;
+const hitters = hittersj.Hitter;
+const pitchers = pitchersj.Pitcher;
+
+function createHeader(array) {
+  const header = [
+    { id: "名前", numeric: false, disablePadding: true, label: "" }
+  ];
+  for (var i = 0; i < array.length; i++) {
+    header.push({
+      id: array[i],
+      numeric: true,
+      disablePadding: true,
+      label: array[i]
+    });
+  }
+  return header;
+}
+
+function createBody(array, head) {
+  const body = [];
+  for (var j = 0; j < array.length; j++) {
+    const body_player = { 名前: array[j]["Name"] };
+    for (var k = 0; k < head.length; k++) {
+      body_player[head[k]] = array[j][head[k]];
+    }
+    body.push(createData(body_player));
+  }
+  console.log(body);
+}
+
+const hheader_award = ["安打", "打率", "本塁打", "打点", "盗塁", "規定"];
+export const hitters_header_award = createHeader(hheader_award);
+export const hitters_body_award = createBody(hitters, hheader_award);
 
 const theader = Object.keys(teams[0]);
 const teams_numeric = [false, true, true, true, true, true, false];

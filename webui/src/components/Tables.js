@@ -3,116 +3,26 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import { teams_header, teams_body, parks_header, parks_body } from "./Records";
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Link from '@material-ui/core/Link';
-import yellow from "@material-ui/core/colors/yellow";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import {
+  styles,
+  LinkTab,
+  CustomTableCellOrder,
+  CustomTableCellShort,
+  CustomTableCellName,
+  CustomTableCell,
+  CustomTableSortLabel,
+  stableSort,
+  getSorting
+} from "./Common";
 
-const styles = theme => ({
-  root: {
-    width: "100%",
-    marginTop: theme.spacing.unit * 3
-  },
-  table: {
-    maxWidth: 320
-  },
-  tableWrapper: {
-    overflowX: "auto"
-  },
-  tab: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper
-  }
-});
-
-const CustomTableCellOrder = withStyles(theme => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-    maxWidth: 10,
-    zindex: 3
-  },
-  body: {
-    fontSize: 14,
-    zindex: 1
-  }
-}))(TableCell);
-
-const CustomTableCellName = withStyles(theme => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-    maxWidth: 90,
-    zindex: 3
-  },
-  body: {
-    fontSize: 14,
-    maxWidth: 90,
-    zindex: 1
-  }
-}))(TableCell);
-
-const CustomTableCellShort = withStyles(theme => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-    minWidth: 24,
-    zindex: 2
-  },
-  body: {
-    fontSize: 14,
-    zindex: 0
-  }
-}))(TableCell);
-
-const CustomTableCell = withStyles(theme => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-    maxWidth: 90,
-    zindex: 2
-  },
-  body: {
-    fontSize: 14,
-    maxWidth: 90,
-    zindex: 0
-  }
-}))(TableCell);
-
-const CustomTableSortLabel = withStyles({
-  root: {
-    "&:hover": {
-      color: yellow[600]
-    },
-    "&:focus": {
-      color: yellow[600]
-    },
-    zindex: 2
-  }
-})(TableSortLabel);
-
-function stableSort(array, cmp) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = cmp(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map(el => el[0]);
-}
-
-function getSorting(order, orderBy) {
-  return order === "asc"
-    ? (a, b) => a[orderBy] - b[orderBy]
-    : (a, b) => b[orderBy] - a[orderBy];
-}
+const ORDER_VALUE = 0;
 
 class TeamTableHead extends React.Component {
   render() {
@@ -155,7 +65,7 @@ class CommonTableHead extends React.Component {
     return (
       <TableHead>
         <TableRow>
-          <CustomTableCellOrder />
+          <CustomTableCellOrder numeric="false" />
           {head.map(cell => {
             if (cell.numeric) {
               return (
@@ -231,7 +141,7 @@ class TeamTable extends React.Component {
                 if (n.League == league) {
                   return (
                     <TableRow hover tabIndex={-1} key={n.id}>
-                      <CustomTableCellOrder numeric padding="checkbox">
+                      <CustomTableCellOrder numeric="true" padding="checkbox">
                         {(jun = jun + add)}
                       </CustomTableCellOrder>
                       <CustomTableCellName
@@ -241,19 +151,19 @@ class TeamTable extends React.Component {
                       >
                         {n.チーム}
                       </CustomTableCellName>
-                      <CustomTableCell numeric padding="none">
+                      <CustomTableCell numeric="true" padding="none">
                         {n.試合}
                       </CustomTableCell>
-                      <CustomTableCell numeric padding="none">
+                      <CustomTableCell numeric="true" padding="none">
                         {n.勝利}
                       </CustomTableCell>
-                      <CustomTableCell numeric padding="none">
+                      <CustomTableCell numeric="true" padding="none">
                         {n.敗北}
                       </CustomTableCell>
-                      <CustomTableCell numeric padding="none">
+                      <CustomTableCell numeric="true" padding="none">
                         {n.引分}
                       </CustomTableCell>
-                      <CustomTableCell numeric padding="none">
+                      <CustomTableCell numeric="true" padding="none">
                         {n.勝率}
                       </CustomTableCell>
                       <CustomTableCell padding="none">{n.差}</CustomTableCell>
@@ -276,8 +186,8 @@ TeamTable.propTypes = {
 
 class CommonTable extends React.Component {
   state = {
-    order: "desc",
-    orderBy: "得点PF",
+    order: this.props.default_order,
+    orderBy: this.props.default_orderBy,
     orderMean: "good"
   };
 
@@ -301,7 +211,7 @@ class CommonTable extends React.Component {
   };
 
   render() {
-    const { classes, data, head, default_order, default_orderBy } = this.props;
+    const { classes, data, head, row_length } = this.props;
     const { order, orderBy, orderMean } = this.state;
     var jun;
     var add;
@@ -324,17 +234,20 @@ class CommonTable extends React.Component {
               head={head}
             />
             <TableBody>
-              {stableSort(data, getSorting(order, orderBy)).map(n => {
+              {stableSort(
+                data,
+                getSorting(order, orderBy)
+              ).slice(0, this.props.row_length).map(n => {
                 return (
                   <TableRow hover tabIndex={-1} key={n.id}>
-                    <CustomTableCellOrder numeric padding="checkbox">
+                    <CustomTableCellOrder numeric="false" padding="checkbox">
                       {(jun = jun + add)}
                     </CustomTableCellOrder>
                     {Object.keys(n).map(value => {
-                      return(
-                      <CustomTableCell numeric padding="none">
-                        {n[value]}
-                      </CustomTableCell>
+                      return (
+                        <CustomTableCell numeric="true" padding="none">
+                          {n[value]}
+                        </CustomTableCell>
                       );
                     })}
                   </TableRow>
@@ -353,16 +266,16 @@ CommonTable.propTypes = {
   default_order: PropTypes.string.isRequired,
   default_orderBy: PropTypes.string.isRequired,
   head: PropTypes.array.isRequired,
-  data: PropTypes.array.isRequired
+  data: PropTypes.array.isRequired,
+  row_length: PropTypes.string.isRequired
 };
 
 class DefaultPage extends React.Component {
-
   state = {
-    selected: 0,
-  }
+    selected: ORDER_VALUE
+  };
 
-  handleTabChange = (selected) => {
+  handleTabChange = (event, selected) => {
     this.setState({ selected });
   };
 
@@ -370,37 +283,41 @@ class DefaultPage extends React.Component {
     const { classes } = this.props;
     const { selected } = this.state;
     return (
-      <div>
-        <p>
+      <div className={classes.root}>
         <div className={classes.tab}>
           <AppBar position="static">
             <Tabs
+              variant="fullWidth"
               selected={selected}
               scrollable
               scrollButtons="auto"
               onChange={this.handleTabChange}
             >
               <Tab label="順位表/PF" />
-              <Link href="/">BLOG</Link>
+              <LinkTab label="BLOG" href="/" />
             </Tabs>
           </AppBar>
         </div>
-        </p>
-        <p>
-          <TeamTable classes="styles" league="Central" />
-        </p>
-        <p>
-          <TeamTable classes="styles" league="Pacific" />
-        </p>
-        <p>
-          <CommonTable
-            classes="styles"
-            default_order="desc"
-            default_orderBy="得点PF"
-            head={parks_header}
-            data={parks_body}
-          />
-        </p>
+        {selected === ORDER_VALUE && (
+          <div className={classes.root}>
+            <p>
+              <TeamTable classes="styles" league="Central" />
+            </p>
+            <p>
+              <TeamTable classes="styles" league="Pacific" />
+            </p>
+            <p>
+              <CommonTable
+                classes="styles"
+                default_order="desc"
+                default_orderBy="得点PF"
+                head={parks_header}
+                data={parks_body}
+                row_length={parks_body.length}
+              />
+            </p>
+          </div>
+        )}
       </div>
     );
   }
