@@ -19,6 +19,11 @@ export const styles = theme => ({
   tab: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper
+  },
+  subtab: {
+    flexGrow: 1,
+    backgroundColor: "#DCDCDC",
+    color: "black"
   }
 });
 

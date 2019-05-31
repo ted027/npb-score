@@ -29,6 +29,8 @@ const HITTER_VALUE = 1;
 const CENTRAL = 0;
 const PACIFIC = 1;
 
+const IGNORE_ELEMENTS = ["規定", "League"];
+
 class TeamTableHead extends React.Component {
   render() {
     const { head } = this.props;
@@ -72,31 +74,33 @@ class CommonTableHead extends React.Component {
         <TableRow>
           <CustomTableCellOrder numeric="false" />
           {head.map(cell => {
-            if (cell.numeric) {
-              return (
-                <CustomTableCell
-                  key={cell.id}
-                  numeric={cell.numeric}
-                  padding={cell.disablePadding ? "checkbox" : "none"}
-                  sortDirection={orderBy === cell.id ? order : false}
-                >
-                  <CustomTableSortLabel
-                    onClick={this.createSortHandler(cell.id)}
+            if (IGNORE_ELEMENTS.indexOf(cell.id) < 0) {
+              if (cell.numeric) {
+                return (
+                  <CustomTableCell
+                    key={cell.id}
+                    numeric={cell.numeric}
+                    padding={cell.disablePadding ? "checkbox" : "none"}
+                    sortDirection={orderBy === cell.id ? order : false}
+                  >
+                    <CustomTableSortLabel
+                      onClick={this.createSortHandler(cell.id)}
+                    >
+                      {cell.label}
+                    </CustomTableSortLabel>
+                  </CustomTableCell>
+                );
+              } else {
+                return (
+                  <CustomTableCell
+                    key={cell.id}
+                    numeric={cell.numeric}
+                    padding={cell.disablePadding ? "checkbox" : "none"}
                   >
                     {cell.label}
-                  </CustomTableSortLabel>
-                </CustomTableCell>
-              );
-            } else {
-              return (
-                <CustomTableCell
-                  key={cell.id}
-                  numeric={cell.numeric}
-                  padding={cell.disablePadding ? "checkbox" : "none"}
-                >
-                  {cell.label}
-                </CustomTableCell>
-              );
+                  </CustomTableCell>
+                );
+              }
             }
           }, this)}
         </TableRow>
@@ -143,7 +147,7 @@ class TeamTable extends React.Component {
             <TeamTableHead rowCount={data.length} head={head} />
             <TableBody>
               {stableSort(data, getSorting(order, orderBy)).map(n => {
-                if (n.League == league) {
+                if (n.League === league) {
                   return (
                     <TableRow hover tabIndex={-1} key={n.id}>
                       <CustomTableCellOrder numeric="true" padding="checkbox">
@@ -189,6 +193,15 @@ TeamTable.propTypes = {
   league: PropTypes.string.isRequired
 };
 
+function getRegulated(head, orderBy) {
+  for (const item of head) {
+    if (item.id === orderBy) {
+      return item.regulated;
+    }
+  }
+  return false;
+}
+
 class CommonTable extends React.Component {
   state = {
     order: this.props.default_order,
@@ -218,9 +231,9 @@ class CommonTable extends React.Component {
   render() {
     const { classes, data, head, row_length, league } = this.props;
     const { order, orderBy, orderMean } = this.state;
-    var ignore_elements = ["規定", "League"];
     var jun;
     var add;
+    var row_count = 0;
     if (orderMean === "bad") {
       jun = data.length + 1;
       add = -1;
@@ -240,27 +253,32 @@ class CommonTable extends React.Component {
               head={head}
             />
             <TableBody>
-              {stableSort(
-                data,
-                getSorting(order, orderBy)
-              ).slice(0, this.props.row_length).map(n => {
-                if (n.League === league) {
-                  return (
-                    <TableRow hover tabIndex={-1} key={n.id}>
-                      <CustomTableCellOrder numeric="false" padding="checkbox">
-                        {(jun = jun + add)}
-                      </CustomTableCellOrder>
-                      {Object.keys(n).map(value => {
-                        if (!(value in ignore_elements)) {
-                          return (
-                            <CustomTableCell numeric="true" padding="none">
-                              {n[value]}
-                            </CustomTableCell>
-                          );
-                        }
-                      })}
-                    </TableRow>
-                  );
+              {stableSort(data, getSorting(order, orderBy)).map(n => {
+                if (n.League === league && row_count < row_length) {
+                  if (!getRegulated(head, orderBy) || n.規定) {
+                    {
+                      row_count++;
+                    }
+                    return (
+                      <TableRow hover tabIndex={-1} key={n.id}>
+                        <CustomTableCellOrder
+                          numeric="false"
+                          padding="checkbox"
+                        >
+                          {(jun = jun + add)}
+                        </CustomTableCellOrder>
+                        {Object.keys(n).map(value => {
+                          if (IGNORE_ELEMENTS.indexOf(value) < 0) {
+                            return (
+                              <CustomTableCell numeric="true" padding="none">
+                                {n[value]}
+                              </CustomTableCell>
+                            );
+                          }
+                        })}
+                      </TableRow>
+                    );
+                  }
                 }
               })}
             </TableBody>
@@ -295,9 +313,9 @@ class DefaultPage extends React.Component {
   handleLeagueChange = (event, league_selected) => {
     var league;
     if (league_selected === CENTRAL) {
-      league = "Central"
+      league = "Central";
     } else if (league_selected === PACIFIC) {
-      league = "Pacific"
+      league = "Pacific";
     }
 
     this.setState({ league_selected, league });
@@ -339,27 +357,25 @@ class DefaultPage extends React.Component {
                 head={parks_header}
                 data={parks_body}
                 row_length={parks_body.length}
-                league="True"
+                // league="True"
               />
             </p>
           </div>
         )}
         {selected === HITTER_VALUE && (
-          <div className={classes.root}>
-            <div className={classes.tab}>
-              <AppBar position="static">
-                <Tabs
-                  variant="fullWidth"
-                  selected={league_selected}
-                  scrollable
-                  scrollButtons="auto"
-                  onChange={this.handleLeagueChange}
-                >
-                  <Tab label="CENTRAL" />
-                  <Tab label="PACIFIC" />
-                </Tabs>
-              </AppBar>
-            </div>
+          <div>
+            <AppBar position="static" className={classes.subtab}>
+              <Tabs
+                variant="fullWidth"
+                selected={league_selected}
+                scrollable
+                scrollButtons="auto"
+                onChange={this.handleLeagueChange}
+              >
+                <Tab label="CENTRAL" />
+                <Tab label="PACIFIC" />
+              </Tabs>
+            </AppBar>
             <p>
               <CommonTable
                 classes={styles}

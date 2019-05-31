@@ -8,14 +8,21 @@ const parks = parksj.Park;
 const hitters = hittersj.Hitter;
 const pitchers = pitchersj.Pitcher;
 
-function createHeader(array) {
+function createHeader(array, regulated) {
   const header = [
-    { id: "名前", numeric: false, disablePadding: true, label: "" }
+    {
+      id: "名前",
+      numeric: false,
+      regulated: false,
+      disablePadding: true,
+      label: ""
+    }
   ];
   for (var i = 0; i < array.length; i++) {
     header.push({
       id: array[i],
       numeric: true,
+      regulated: regulated[i],
       disablePadding: true,
       label: array[i]
     });
@@ -26,19 +33,44 @@ function createHeader(array) {
 function createBody(array, head) {
   const body = [];
   for (var j = 0; j < array.length; j++) {
-    var name = array[j]["Name"].split("　") + "(" + array[j]["Team"].slice(0, 1) + ")";
+    var name =
+      array[j]["Name"].split(" ")[0] +
+      " (" +
+      array[j]["Team"].slice(0, 1) +
+      ")";
     const body_player = { 名前: name };
     for (var k = 0; k < head.length; k++) {
       body_player[head[k]] = array[j][head[k]];
     }
     body.push(createData(body_player));
   }
-  console.log(body);
+  return body;
 }
 
-const hheader_award = ["安打", "打率", "本塁打", "打点", "盗塁", "規定", "League"];
-export const hitters_header_award = createHeader(hheader_award);
+const hheader_award = [
+  "打率",
+  "安打",
+  "本塁打",
+  "打点",
+  "盗塁",
+  "規定",
+  "League"
+];
+const hheader_award_regulated = [
+  true,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false
+];
+export const hitters_header_award = createHeader(
+  hheader_award,
+  hheader_award_regulated
+);
 export const hitters_body_award = createBody(hitters, hheader_award);
+console.log(hitters_body_award);
 
 const theader = Object.keys(teams[0]);
 const teams_numeric = [false, true, true, true, true, true, false];
@@ -48,6 +80,7 @@ for (var i = 0; i < 7; i++) {
   teams_header.push({
     id: theader[i],
     numeric: teams_numeric[i],
+    regulated: false,
     disablePadding: true,
     label: theader[i]
   });
