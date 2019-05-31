@@ -305,7 +305,7 @@ class DefaultPage extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { selected } = this.state;
+    const { selected, league_selected, league } = this.state;
     return (
       <div className={classes.root}>
         <div className={classes.tab}>
@@ -368,7 +368,7 @@ class DefaultPage extends React.Component {
                 head={hitters_header_award}
                 data={hitters_body_award}
                 row_length="10"
-                league={this.state.league}
+                league={league}
               />
             </p>
           </div>
