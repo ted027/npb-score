@@ -7,6 +7,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { teams_header, teams_body, parks_header, parks_body } from "./Records";
+import { hitters_header_award, hitters_body_award } from "./Records";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -23,6 +24,10 @@ import {
 } from "./Common";
 
 const ORDER_VALUE = 0;
+const HITTER_VALUE = 1;
+
+const CENTRAL = 0;
+const PACIFIC = 1;
 
 class TeamTableHead extends React.Component {
   render() {
@@ -211,8 +216,9 @@ class CommonTable extends React.Component {
   };
 
   render() {
-    const { classes, data, head, row_length } = this.props;
+    const { classes, data, head, row_length, league } = this.props;
     const { order, orderBy, orderMean } = this.state;
+    var ignore_elements = ["規定", "League"];
     var jun;
     var add;
     if (orderMean === "bad") {
@@ -238,20 +244,24 @@ class CommonTable extends React.Component {
                 data,
                 getSorting(order, orderBy)
               ).slice(0, this.props.row_length).map(n => {
-                return (
-                  <TableRow hover tabIndex={-1} key={n.id}>
-                    <CustomTableCellOrder numeric="false" padding="checkbox">
-                      {(jun = jun + add)}
-                    </CustomTableCellOrder>
-                    {Object.keys(n).map(value => {
-                      return (
-                        <CustomTableCell numeric="true" padding="none">
-                          {n[value]}
-                        </CustomTableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
+                if (n.League === league) {
+                  return (
+                    <TableRow hover tabIndex={-1} key={n.id}>
+                      <CustomTableCellOrder numeric="false" padding="checkbox">
+                        {(jun = jun + add)}
+                      </CustomTableCellOrder>
+                      {Object.keys(n).map(value => {
+                        if (!(value in ignore_elements)) {
+                          return (
+                            <CustomTableCell numeric="true" padding="none">
+                              {n[value]}
+                            </CustomTableCell>
+                          );
+                        }
+                      })}
+                    </TableRow>
+                  );
+                }
               })}
             </TableBody>
           </Table>
@@ -267,16 +277,30 @@ CommonTable.propTypes = {
   default_orderBy: PropTypes.string.isRequired,
   head: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,
-  row_length: PropTypes.string.isRequired
+  row_length: PropTypes.string.isRequired,
+  league: PropTypes.string.isRequired
 };
 
 class DefaultPage extends React.Component {
   state = {
-    selected: ORDER_VALUE
+    selected: ORDER_VALUE,
+    league_selected: CENTRAL,
+    league: "Central"
   };
 
   handleTabChange = (event, selected) => {
     this.setState({ selected });
+  };
+
+  handleLeagueChange = (event, league_selected) => {
+    var league;
+    if (league_selected === CENTRAL) {
+      league = "Central"
+    } else if (league_selected === PACIFIC) {
+      league = "Pacific"
+    }
+
+    this.setState({ league_selected, league });
   };
 
   render() {
@@ -294,6 +318,7 @@ class DefaultPage extends React.Component {
               onChange={this.handleTabChange}
             >
               <Tab label="順位表/PF" />
+              <Tab label="野手成績" />
               <LinkTab label="BLOG" href="/" />
             </Tabs>
           </AppBar>
@@ -308,12 +333,42 @@ class DefaultPage extends React.Component {
             </p>
             <p>
               <CommonTable
-                classes="styles"
+                classes={styles}
                 default_order="desc"
                 default_orderBy="得点PF"
                 head={parks_header}
                 data={parks_body}
                 row_length={parks_body.length}
+                league="True"
+              />
+            </p>
+          </div>
+        )}
+        {selected === HITTER_VALUE && (
+          <div className={classes.root}>
+            <div className={classes.tab}>
+              <AppBar position="static">
+                <Tabs
+                  variant="fullWidth"
+                  selected={league_selected}
+                  scrollable
+                  scrollButtons="auto"
+                  onChange={this.handleLeagueChange}
+                >
+                  <Tab label="CENTRAL" />
+                  <Tab label="PACIFIC" />
+                </Tabs>
+              </AppBar>
+            </div>
+            <p>
+              <CommonTable
+                classes={styles}
+                default_order="desc"
+                default_orderBy="打率"
+                head={hitters_header_award}
+                data={hitters_body_award}
+                row_length="10"
+                league={this.state.league}
               />
             </p>
           </div>

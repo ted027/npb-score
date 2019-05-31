@@ -26,7 +26,8 @@ function createHeader(array) {
 function createBody(array, head) {
   const body = [];
   for (var j = 0; j < array.length; j++) {
-    const body_player = { 名前: array[j]["Name"] };
+    var name = array[j]["Name"].split("　") + "(" + array[j]["Team"].slice(0, 1) + ")";
+    const body_player = { 名前: name };
     for (var k = 0; k < head.length; k++) {
       body_player[head[k]] = array[j][head[k]];
     }
@@ -35,7 +36,7 @@ function createBody(array, head) {
   console.log(body);
 }
 
-const hheader_award = ["安打", "打率", "本塁打", "打点", "盗塁", "規定"];
+const hheader_award = ["安打", "打率", "本塁打", "打点", "盗塁", "規定", "League"];
 export const hitters_header_award = createHeader(hheader_award);
 export const hitters_body_award = createBody(hitters, hheader_award);
 
