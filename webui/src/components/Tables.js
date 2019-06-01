@@ -342,7 +342,7 @@ class DefaultPage extends React.Component {
               scrollButtons="auto"
               onChange={this.handleTabChange}
             >
-              <Tab label="順位表/PF" />
+              <Tab label="順位表" />
               <Tab label="野手成績" />
               <Tab label="投手成績" />
               <LinkTab label="BLOG" href="/" />
