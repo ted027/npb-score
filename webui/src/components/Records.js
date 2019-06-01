@@ -1,9 +1,126 @@
 import teamsj from "../records/teams.json";
 import parksj from "../records/parks.json";
+import hittersj from "../records/hitters.json";
+import pitchersj from "../records/pitchers.json";
 
 const teams = teamsj.Team;
 const parks = parksj.Park;
+const hitters = hittersj.Hitter;
+const pitchers = pitchersj.Pitcher;
 
+function createHeader(array, regulated, order) {
+  const header = [
+    {
+      id: "名前",
+      numeric: false,
+      regulated: false,
+      disablePadding: true,
+      label: ""
+    }
+  ];
+  for (var i = 0; i < array.length; i++) {
+    header.push({
+      id: array[i],
+      numeric: true,
+      defaultOrder: order[i],
+      regulated: regulated[i],
+      disablePadding: true,
+      label: array[i]
+    });
+  }
+  return header;
+}
+
+function createBody(array, head) {
+  const body = [];
+  for (var j = 0; j < array.length; j++) {
+    var name =
+      array[j]["Name"].split(" ")[0] +
+      " (" +
+      array[j]["Team"].slice(0, 1) +
+      ")";
+    const body_player = { 名前: name };
+    for (var k = 0; k < head.length; k++) {
+      body_player[head[k]] = array[j][head[k]];
+    }
+    body.push(createData(body_player));
+  }
+  return body;
+}
+
+// Hitters
+const hheader_award = [
+  "打率",
+  "安打",
+  "本塁打",
+  "打点",
+  "盗塁",
+  "規定",
+  "League"
+];
+const hheader_award_regulated = [
+  true,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false
+];
+const hheader_award_order = new Array(hheader_award.length).fill('desc');
+export const hitters_header_award = createHeader(
+  hheader_award,
+  hheader_award_regulated,
+  hheader_award_order
+);
+export const hitters_body_award = createBody(hitters, hheader_award);
+
+// Pitcher
+//
+//
+const pheader_award = [
+  "防御率",
+  "勝利",
+  "敗戦",
+  "勝率",
+  "奪三振",
+  "HP",
+  "セーブ",
+  "規定",
+  "League"
+];
+const pheader_award_regulated = [
+  true,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false
+];
+const pheader_award_order = [
+  "asc",
+  "desc",
+  "desc",
+  "desc",
+  "desc",
+  "desc",
+  "desc",
+  "desc",
+  "desc",
+];
+export const pitchers_header_award = createHeader(
+  pheader_award,
+  pheader_award_regulated,
+  pheader_award_order
+);
+export const pitchers_body_award = createBody(pitchers, pheader_award);
+
+// Teams
+//
+//
 const theader = Object.keys(teams[0]);
 const teams_numeric = [false, true, true, true, true, true, false];
 
@@ -12,6 +129,7 @@ for (var i = 0; i < 7; i++) {
   teams_header.push({
     id: theader[i],
     numeric: teams_numeric[i],
+    regulated: false,
     disablePadding: true,
     label: theader[i]
   });
@@ -26,6 +144,9 @@ for (var j = 0; j < teams.length; j++) {
   teams_body.push(createData(teams[j]));
 }
 
+// parks
+//
+//
 const prheader = Object.keys(parks[0]);
 const parks_numeric = [false, true, true];
 
