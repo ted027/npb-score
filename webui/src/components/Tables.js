@@ -8,6 +8,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { teams_header, teams_body, parks_header, parks_body } from "./Records";
 import { hitters_header_award, hitters_body_award } from "./Records";
+import { pitchers_header_award, pitchers_body_award } from "./Records";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -25,6 +26,7 @@ import {
 
 const ORDER_VALUE = 0;
 const HITTER_VALUE = 1;
+const PITCHER_VALUE = 2;
 
 const CENTRAL = 0;
 const PACIFIC = 1;
@@ -72,7 +74,7 @@ class CommonTableHead extends React.Component {
     return (
       <TableHead>
         <TableRow>
-          <CustomTableCellOrder numeric="false" />
+          <CustomTableCellOrder />
           {head.map(cell => {
             if (IGNORE_ELEMENTS.indexOf(cell.id) < 0) {
               if (cell.numeric) {
@@ -194,9 +196,18 @@ TeamTable.propTypes = {
 };
 
 function getRegulated(head, orderBy) {
-  for (const item of head) {
+  for (var item of head) {
     if (item.id === orderBy) {
       return item.regulated;
+    }
+  }
+  return false;
+}
+
+function getProperty(head, id, property) {
+  for (var item of head) {
+    if (item.id === id) {
+      return item[property];
     }
   }
   return false;
@@ -211,11 +222,14 @@ class CommonTable extends React.Component {
 
   handleRequestSort = (event, property) => {
     const orderBy = property;
-    var firstOrder;
+    var firstOrder = getProperty(this.props.head, property, "defaultOrder");
     var reverseOrder;
 
-    firstOrder = "desc";
-    reverseOrder = "asc";
+    if (firstOrder === "desc") {
+      reverseOrder = "asc";
+    } else if (firstOrder === "asc") {
+      reverseOrder = "desc";
+    }
 
     let order = firstOrder;
     let orderMean = "good";
@@ -231,16 +245,9 @@ class CommonTable extends React.Component {
   render() {
     const { classes, data, head, row_length, league } = this.props;
     const { order, orderBy, orderMean } = this.state;
-    var jun;
-    var add;
+    var jun = 0;
+    var add = 1;
     var row_count = 0;
-    if (orderMean === "bad") {
-      jun = data.length + 1;
-      add = -1;
-    } else {
-      jun = 0;
-      add = 1;
-    }
     return (
       <Paper className={classes.root}>
         <div className={classes.tableWrapper}>
@@ -255,7 +262,7 @@ class CommonTable extends React.Component {
             <TableBody>
               {stableSort(data, getSorting(order, orderBy)).map(n => {
                 if (n.League === league && row_count < row_length) {
-                  if (!getRegulated(head, orderBy) || n.規定) {
+                  if (!getProperty(head, orderBy, "regulated") || n.規定) {
                     {
                       row_count++;
                     }
@@ -337,6 +344,7 @@ class DefaultPage extends React.Component {
             >
               <Tab label="順位表/PF" />
               <Tab label="野手成績" />
+              <Tab label="投手成績" />
               <LinkTab label="BLOG" href="/" />
             </Tabs>
           </AppBar>
@@ -383,6 +391,33 @@ class DefaultPage extends React.Component {
                 default_orderBy="打率"
                 head={hitters_header_award}
                 data={hitters_body_award}
+                row_length="10"
+                league={league}
+              />
+            </p>
+          </div>
+        )}
+        {selected === PITCHER_VALUE && (
+          <div>
+            <AppBar position="static" className={classes.subtab}>
+              <Tabs
+                variant="fullWidth"
+                selected={league_selected}
+                scrollable
+                scrollButtons="auto"
+                onChange={this.handleLeagueChange}
+              >
+                <Tab label="CENTRAL" />
+                <Tab label="PACIFIC" />
+              </Tabs>
+            </AppBar>
+            <p>
+              <CommonTable
+                classes={styles}
+                default_order="asc"
+                default_orderBy="防御率"
+                head={pitchers_header_award}
+                data={pitchers_body_award}
                 row_length="10"
                 league={league}
               />

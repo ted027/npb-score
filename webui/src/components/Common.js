@@ -32,7 +32,6 @@ export function LinkTab(props) {
     <Tab
       component="a"
       onClick={event => {
-        event.preventDefault();
       }}
       {...props}
     />
