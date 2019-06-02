@@ -8,7 +8,13 @@ import yellow from "@material-ui/core/colors/yellow";
 export const styles = theme => ({
   root: {
     width: "100%",
-    marginTop: theme.spacing.unit * 3
+    marginTop: theme.spacing.unit * 8,
+    fontSize: "80%"
+  },
+  individualRoot: {
+    width: "100%",
+    marginTop: theme.spacing.unit * 14,
+    fontSize: "80%"
   },
   table: {
     maxWidth: 320
@@ -20,22 +26,29 @@ export const styles = theme => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper
   },
+  des: {
+    height: 35,
+    fontSize: "110%"
+  },
   subtab: {
     flexGrow: 1,
     backgroundColor: "#DCDCDC",
-    color: "black"
+    color: "black",
+    marginTop: 48
   }
 });
 
 export function LinkTab(props) {
-  return (
-    <Tab
-      component="a"
-      onClick={event => {
-      }}
-      {...props}
-    />
-  );
+  return <Tab component="a" onClick={event => {}} {...props} />;
+}
+
+export function getProperty(head, id, property) {
+  for (var item of head) {
+    if (item.id === id) {
+      return item[property];
+    }
+  }
+  return false;
 }
 
 export const CustomTableCellOrder = withStyles(theme => ({

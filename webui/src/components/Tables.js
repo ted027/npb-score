@@ -1,35 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { teams_header, teams_body, parks_header, parks_body } from "./Records";
-import { hitters_header_award, hitters_body_award } from "./Records";
-import { pitchers_header_award, pitchers_body_award } from "./Records";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+import { teams_header, teams_body } from "./datastore/Teams";
 import {
-  styles,
-  LinkTab,
   CustomTableCellOrder,
   CustomTableCellShort,
   CustomTableCellName,
   CustomTableCell,
   CustomTableSortLabel,
   stableSort,
-  getSorting
+  getSorting,
+  getProperty
 } from "./Common";
-
-const ORDER_VALUE = 0;
-const HITTER_VALUE = 1;
-const PITCHER_VALUE = 2;
-
-const CENTRAL = 0;
-const PACIFIC = 1;
 
 const IGNORE_ELEMENTS = ["規定", "League"];
 
@@ -40,7 +26,7 @@ class TeamTableHead extends React.Component {
     return (
       <TableHead>
         <TableRow>
-          <CustomTableCellOrder />
+          <CustomTableCellOrder padding="checkbox"/>
           {head.map(cell => {
             return (
               <CustomTableCell
@@ -63,6 +49,82 @@ TeamTableHead.propTypes = {
   head: PropTypes.array.isRequired
 };
 
+export class TeamTable extends React.Component {
+  state = {
+    order: "desc",
+    orderBy: "勝率",
+    head: teams_header,
+    data: teams_body
+  };
+
+  handleRequestSort = (event, property) => {
+    const orderBy = property;
+    var firstOrder = "desc";
+
+    let order = firstOrder;
+    let orderMean = "good";
+
+    this.setState({ order, orderBy, orderMean });
+  };
+
+  render() {
+    const { classes, league } = this.props;
+    const { data, order, orderBy, head } = this.state;
+    var jun = 0;
+    var add = 1;
+    return (
+      <Paper className={classes.root}>
+        <div className={classes.tableWrapper}>
+          <Table className={classes.table} aria-labelledby="tableTitle">
+            <TeamTableHead rowCount={data.length} head={head} />
+            <TableBody>
+              {stableSort(data, getSorting(order, orderBy)).map(n => {
+                if (n.League === league) {
+                  return (
+                    <TableRow hover tabIndex={-1} key={n.id}>
+                      <CustomTableCellOrder numeric="false" padding="checkbox">
+                        {(jun = jun + add)}
+                      </CustomTableCellOrder>
+                      <CustomTableCell
+                        component="th"
+                        scope="head"
+                        padding="none"
+                      >
+                        {n.チーム}
+                      </CustomTableCell>
+                      <CustomTableCell numeric="true" padding="none">
+                        {n.試合}
+                      </CustomTableCell>
+                      <CustomTableCell numeric="true" padding="none">
+                        {n.勝利}
+                      </CustomTableCell>
+                      <CustomTableCell numeric="true" padding="none">
+                        {n.敗北}
+                      </CustomTableCell>
+                      <CustomTableCell numeric="true" padding="none">
+                        {n.引分}
+                      </CustomTableCell>
+                      <CustomTableCell numeric="true" padding="none">
+                        {n.勝率}
+                      </CustomTableCell>
+                      <CustomTableCell padding="none">{n.差}</CustomTableCell>
+                    </TableRow>
+                  );
+                }
+              })}
+            </TableBody>
+          </Table>
+        </div>
+      </Paper>
+    );
+  }
+}
+
+TeamTable.propTypes = {
+  classes: PropTypes.object.isRequired,
+  league: PropTypes.string.isRequired
+};
+
 class CommonTableHead extends React.Component {
   createSortHandler = property => event => {
     this.props.onRequestSort(event, property);
@@ -74,7 +136,7 @@ class CommonTableHead extends React.Component {
     return (
       <TableHead>
         <TableRow>
-          <CustomTableCellOrder />
+          <CustomTableCellOrder padding="checkbox" />
           {head.map(cell => {
             if (IGNORE_ELEMENTS.indexOf(cell.id) < 0) {
               if (cell.numeric) {
@@ -119,101 +181,7 @@ CommonTableHead.propTypes = {
   head: PropTypes.array.isRequired
 };
 
-class TeamTable extends React.Component {
-  state = {
-    order: "desc",
-    orderBy: "勝率",
-    head: teams_header,
-    data: teams_body
-  };
-
-  handleRequestSort = (event, property) => {
-    const orderBy = property;
-    var firstOrder = "desc";
-
-    let order = firstOrder;
-    let orderMean = "good";
-
-    this.setState({ order, orderBy, orderMean });
-  };
-
-  render() {
-    const { classes, league } = this.props;
-    const { data, order, orderBy, head } = this.state;
-    var jun = 0;
-    var add = 1;
-    return (
-      <Paper className={classes.root}>
-        <div className={classes.tableWrapper}>
-          <Table className={classes.table} aria-labelledby="tableTitle">
-            <TeamTableHead rowCount={data.length} head={head} />
-            <TableBody>
-              {stableSort(data, getSorting(order, orderBy)).map(n => {
-                if (n.League === league) {
-                  return (
-                    <TableRow hover tabIndex={-1} key={n.id}>
-                      <CustomTableCellOrder numeric="true" padding="checkbox">
-                        {(jun = jun + add)}
-                      </CustomTableCellOrder>
-                      <CustomTableCellName
-                        component="th"
-                        scope="head"
-                        padding="none"
-                      >
-                        {n.チーム}
-                      </CustomTableCellName>
-                      <CustomTableCell numeric="true" padding="none">
-                        {n.試合}
-                      </CustomTableCell>
-                      <CustomTableCell numeric="true" padding="none">
-                        {n.勝利}
-                      </CustomTableCell>
-                      <CustomTableCell numeric="true" padding="none">
-                        {n.敗北}
-                      </CustomTableCell>
-                      <CustomTableCell numeric="true" padding="none">
-                        {n.引分}
-                      </CustomTableCell>
-                      <CustomTableCell numeric="true" padding="none">
-                        {n.勝率}
-                      </CustomTableCell>
-                      <CustomTableCell padding="none">{n.差}</CustomTableCell>
-                    </TableRow>
-                  );
-                }
-              })}
-            </TableBody>
-          </Table>
-        </div>
-      </Paper>
-    );
-  }
-}
-
-TeamTable.propTypes = {
-  classes: PropTypes.object.isRequired,
-  league: PropTypes.string.isRequired
-};
-
-function getRegulated(head, orderBy) {
-  for (var item of head) {
-    if (item.id === orderBy) {
-      return item.regulated;
-    }
-  }
-  return false;
-}
-
-function getProperty(head, id, property) {
-  for (var item of head) {
-    if (item.id === id) {
-      return item[property];
-    }
-  }
-  return false;
-}
-
-class CommonTable extends React.Component {
+export class CommonTable extends React.Component {
   state = {
     order: this.props.default_order,
     orderBy: this.props.default_orderBy,
@@ -305,132 +273,3 @@ CommonTable.propTypes = {
   row_length: PropTypes.string.isRequired,
   league: PropTypes.string.isRequired
 };
-
-class DefaultPage extends React.Component {
-  state = {
-    selected: ORDER_VALUE,
-    league_selected: CENTRAL,
-    league: "Central"
-  };
-
-  handleTabChange = (event, selected) => {
-    this.setState({ selected });
-  };
-
-  handleLeagueChange = (event, league_selected) => {
-    var league;
-    if (league_selected === CENTRAL) {
-      league = "Central";
-    } else if (league_selected === PACIFIC) {
-      league = "Pacific";
-    }
-
-    this.setState({ league_selected, league });
-  };
-
-  render() {
-    const { classes } = this.props;
-    const { selected, league_selected, league } = this.state;
-    return (
-      <div className={classes.root}>
-        <div className={classes.tab}>
-          <AppBar position="static">
-            <Tabs
-              variant="fullWidth"
-              selected={selected}
-              scrollable
-              scrollButtons="auto"
-              onChange={this.handleTabChange}
-            >
-              <Tab label="順位表/PF" />
-              <Tab label="野手成績" />
-              <Tab label="投手成績" />
-              <LinkTab label="BLOG" href="/" />
-            </Tabs>
-          </AppBar>
-        </div>
-        {selected === ORDER_VALUE && (
-          <div className={classes.root}>
-            <p>
-              <TeamTable classes="styles" league="Central" />
-            </p>
-            <p>
-              <TeamTable classes="styles" league="Pacific" />
-            </p>
-            <p>
-              <CommonTable
-                classes={styles}
-                default_order="desc"
-                default_orderBy="得点PF"
-                head={parks_header}
-                data={parks_body}
-                row_length={parks_body.length}
-                // league="True"
-              />
-            </p>
-          </div>
-        )}
-        {selected === HITTER_VALUE && (
-          <div>
-            <AppBar position="static" className={classes.subtab}>
-              <Tabs
-                variant="fullWidth"
-                selected={league_selected}
-                scrollable
-                scrollButtons="auto"
-                onChange={this.handleLeagueChange}
-              >
-                <Tab label="CENTRAL" />
-                <Tab label="PACIFIC" />
-              </Tabs>
-            </AppBar>
-            <p>
-              <CommonTable
-                classes={styles}
-                default_order="desc"
-                default_orderBy="打率"
-                head={hitters_header_award}
-                data={hitters_body_award}
-                row_length="10"
-                league={league}
-              />
-            </p>
-          </div>
-        )}
-        {selected === PITCHER_VALUE && (
-          <div>
-            <AppBar position="static" className={classes.subtab}>
-              <Tabs
-                variant="fullWidth"
-                selected={league_selected}
-                scrollable
-                scrollButtons="auto"
-                onChange={this.handleLeagueChange}
-              >
-                <Tab label="CENTRAL" />
-                <Tab label="PACIFIC" />
-              </Tabs>
-            </AppBar>
-            <p>
-              <CommonTable
-                classes={styles}
-                default_order="asc"
-                default_orderBy="防御率"
-                head={pitchers_header_award}
-                data={pitchers_body_award}
-                row_length="10"
-                league={league}
-              />
-            </p>
-          </div>
-        )}
-      </div>
-    );
-  }
-}
-
-DefaultPage.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(DefaultPage);
