@@ -80,8 +80,15 @@ export const hitters_body_contact = createBody(hitters, hheader_contact);
 
 // power
 
-const hheader_power = ["IsoP", "長打率", "二塁打", "本塁打", "規定", "League"];
-const hheader_power_regulated = [true, true, false, false, false, false];
+const hheader_power = [
+  "IsoP",
+  "長打率",
+  "本塁打",
+  "本塁打率",
+  "規定",
+  "League"
+];
+const hheader_power_regulated = [true, true, false, true, false, false];
 const hheader_power_order = new Array(hheader_power.length).fill("desc");
 export const hitters_header_power = createHeader(
   hheader_power,
@@ -104,8 +111,8 @@ export const hitters_body_eye = createBody(hitters, hheader_eye);
 
 // steal
 
-const hheader_steal = ["wSB", "盗塁", "盗塁死", "三塁打", "規定", "League"];
-const hheader_steal_regulated = [false, false, false, false, false, false];
+const hheader_steal = ["wSB", "盗塁", "盗塁成功率", "三塁打", "規定", "League"];
+const hheader_steal_regulated = [false, false, true, false, false, false];
 const hheader_steal_order = new Array(hheader_steal.length).fill("desc");
 export const hitters_header_steal = createHeader(
   hheader_steal,

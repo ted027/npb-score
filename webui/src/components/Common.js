@@ -28,7 +28,7 @@ export const styles = theme => ({
   },
   des: {
     height: 35,
-    fontSize: "110%"
+    fontSize: "115%"
   },
   subtab: {
     flexGrow: 1,
