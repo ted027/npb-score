@@ -3,6 +3,14 @@ from decimal import Decimal
 from .common import (digits_under_one, single)
 
 
+def hr_percent(hitter):
+    atbat = Decimal(hitter['打数'])
+    if not atbat:
+        return '0'
+    raw_hr_percent = Decimal(hitter['本塁打']) / atbat
+    hr_percent = digits_under_one(raw_hr_percent, 3)
+    return str(hr_percent)[1:]
+
 def bb_per_k(hitter):
     bb = Decimal(hitter['四球'])
     k = Decimal(hitter['三振'])
@@ -27,7 +35,7 @@ def iso_p(hitter):
         hitter['三塁打']) + 3 * Decimal(hitter['本塁打'])
     raw_iso_p = numerator / atbat
     iso_p = digits_under_one(raw_iso_p, 3)
-    return str(iso_p)
+    return str(iso_p)[1:]
 
 
 def iso_d(hitter):
@@ -36,7 +44,7 @@ def iso_d(hitter):
     IsoD＝ 出塁率 - 打率
     """
     iso_d = Decimal(hitter['出塁率']) - Decimal(hitter['打率'])
-    return str(iso_d)
+    return str(iso_d)[1:]
 
 
 def bb_percent_h(hitter):
@@ -49,7 +57,7 @@ def bb_percent_h(hitter):
         return '0'
     raw_bb_percent = Decimal(hitter['四球']) / apperance
     bb_percent = digits_under_one(raw_bb_percent, 3)
-    return str(bb_percent)
+    return str(bb_percent)[1:]
 
 
 def k_percent_h(hitter):
@@ -61,7 +69,7 @@ def k_percent_h(hitter):
         return '0'
     raw_k_percent = Decimal(hitter['三振']) / apperance
     k_percent = digits_under_one(raw_k_percent, 3)
-    return str(k_percent)
+    return str(k_percent)[1:]
 
 
 def babip_h(hitter):
@@ -76,7 +84,17 @@ def babip_h(hitter):
     numerator = Decimal(hitter['安打']) - Decimal(hitter['本塁打'])
     raw_babip = numerator / denominator
     babip = digits_under_one(raw_babip, 3)
-    return str(babip)
+    return str(babip)[1:]
+
+
+def steal_percent(hitter):
+    steal = Decimal(hitter['盗塁'])
+    challenge = steal + Decimal(hitter['盗塁死'])
+    if not challenge:
+        return '0'
+    raw_steal_percent = steal / challenge * Decimal('100')
+    steal_percent = digits_under_one(raw_steal_percent, 1)
+    return str(steal_percent)
 
 
 STEAL_SCORE = Decimal('0.18')

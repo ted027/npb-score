@@ -8,7 +8,7 @@ def qs_rate(pitcher):
     if not start:
         return '0'
     raw_qsrate = Decimal(pitcher['QS']) * 100 / start
-    qsrate = digits_under_one(raw_qsrate, 2)
+    qsrate = digits_under_one(raw_qsrate, 1)
     return str(qsrate)
 
 
@@ -68,7 +68,7 @@ def bb_percent_p(pitcher):
         return '0'
     raw_bb_percent = Decimal(pitcher['与四球']) / apperance
     bb_percent = digits_under_one(raw_bb_percent, 3)
-    return str(bb_percent)
+    return str(bb_percent)[1:]
 
 
 def k_percent_p(pitcher):
@@ -80,7 +80,7 @@ def k_percent_p(pitcher):
         return '0'
     raw_k_percent = Decimal(pitcher['奪三振']) / apperance
     k_percent = digits_under_one(raw_k_percent, 3)
-    return str(k_percent)
+    return str(k_percent)[1:]
 
 
 # def whip(pitcher):
@@ -126,4 +126,4 @@ def babip_p(pitcher):
     numerator = Decimal(pitcher['被安打']) - Decimal(pitcher['被本塁打'])
     raw_babip = numerator / denominator
     babip = digits_under_one(raw_babip, 3)
-    return str(babip)
+    return str(babip)[1:]
