@@ -8,11 +8,13 @@ import yellow from "@material-ui/core/colors/yellow";
 export const styles = theme => ({
   root: {
     width: "100%",
-    marginTop: theme.spacing.unit * 8
+    marginTop: theme.spacing.unit * 8,
+    fontSize: "80%"
   },
   individualRoot: {
     width: "100%",
-    marginTop: theme.spacing.unit * 14
+    marginTop: theme.spacing.unit * 14,
+    fontSize: "80%"
   },
   table: {
     maxWidth: 320
@@ -26,7 +28,7 @@ export const styles = theme => ({
   },
   des: {
     height: 35,
-    fontSize: "85%"
+    fontSize: "110%"
   },
   subtab: {
     flexGrow: 1,

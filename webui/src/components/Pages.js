@@ -43,6 +43,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import { styles, LinkTab } from "./Common";
 import { TeamTable, CommonTable } from "./Tables";
+import { top_ad, bottom_ad } from "./Ad";
 
 const ORDER_VALUE = 0;
 const HITTER_VALUE = 1;
@@ -83,6 +84,7 @@ class DefaultPage extends React.Component {
             <Tabs
               variant="fullWidth"
               selected={selected}
+              value={selected}
               scrollable
               scrollButtons="auto"
               onChange={this.handleTabChange}
@@ -96,6 +98,7 @@ class DefaultPage extends React.Component {
         </div>
         {selected === ORDER_VALUE && (
           <div className={classes.root}>
+            {top_ad()}
             <p>
               <AppBar position="static" color="default" className={classes.des}>
                 <Toolbar variant="dense">
@@ -146,6 +149,7 @@ class DefaultPage extends React.Component {
                 // league="True"
               />
             </p>
+            {bottom_ad()}
           </div>
         )}
         {selected === HITTER_VALUE && (
@@ -154,6 +158,9 @@ class DefaultPage extends React.Component {
               <Tabs
                 variant="fullWidth"
                 selected={league_selected}
+                value={league_selected}
+                indicatorColor="primary"
+                textColor="primary"
                 scrollable
                 scrollButtons="auto"
                 onChange={this.handleLeagueChange}
@@ -162,6 +169,7 @@ class DefaultPage extends React.Component {
                 <Tab label="PACIFIC" />
               </Tabs>
             </AppBar>
+            {top_ad()}
             <p>
               <AppBar position="static" color="default" className={classes.des}>
                 <Toolbar variant="dense">
@@ -360,6 +368,7 @@ class DefaultPage extends React.Component {
                 league={league}
               />
             </p>
+            {bottom_ad()}
           </div>
         )}
         {selected === PITCHER_VALUE && (
@@ -368,6 +377,9 @@ class DefaultPage extends React.Component {
               <Tabs
                 variant="fullWidth"
                 selected={league_selected}
+                value={league_selected}
+                indicatorColor="primary"
+                textColor="primary"
                 scrollable
                 scrollButtons="auto"
                 onChange={this.handleLeagueChange}
@@ -376,6 +388,7 @@ class DefaultPage extends React.Component {
                 <Tab label="PACIFIC" />
               </Tabs>
             </AppBar>
+            {top_ad()}
             <p>
               <AppBar position="static" color="default" className={classes.des}>
                 <Toolbar variant="dense">
@@ -472,7 +485,7 @@ class DefaultPage extends React.Component {
                     color="inherit"
                     className={classes.des}
                   >
-                    リリーフ投手１
+                    リリーフ投手込み１
                   </Typography>
                 </Toolbar>
               </AppBar>
@@ -494,7 +507,7 @@ class DefaultPage extends React.Component {
                     color="inherit"
                     className={classes.des}
                   >
-                    リリーフ投手２（三振・四球）
+                    リリーフ投手込み２（三振・四球）
                   </Typography>
                 </Toolbar>
               </AppBar>
@@ -508,6 +521,7 @@ class DefaultPage extends React.Component {
                 league={league}
               />
             </p>
+            {bottom_ad()}
           </div>
         )}
       </div>

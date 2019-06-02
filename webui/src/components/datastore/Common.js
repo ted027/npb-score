@@ -5,7 +5,7 @@ export function createHeader(array, regulated, order) {
         numeric: false,
         regulated: false,
         disablePadding: true,
-        label: ""
+        label: "選手"
       }
     ];
     for (var i = 0; i < array.length; i++) {
