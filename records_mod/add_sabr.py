@@ -28,8 +28,8 @@ def calc_sabr_hitter(hitter, league_dic=None, league_rc=None, league_xr=None, pf
     第一引数がleagueなら第二〜第五引数は指定しない
     """
     hitter['wOBA'] = woba(hitter)
-    hitter['wOBA(Basic)'] = woba_basic(hitter)
-    hitter['wOBA(Speed)'] = woba_speed(hitter)
+    # hitter['wOBA(Basic)'] = woba_basic(hitter)
+    # hitter['wOBA(Speed)'] = woba_speed(hitter)
     hitter['RC'], raw_rc = rc_basic(hitter)
     hitter['RC27'] = rc_xr_27(hitter, raw_rc)
     hitter['XR'], raw_xr = xr_basic(hitter)

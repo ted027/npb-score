@@ -202,13 +202,13 @@ def append_team_pitcher_array(link_tail_list):
             records_rl = records_by_rl(rl_table, PITCHER_DUMP_VAL)
             records.update(records_rl)
 
-        if park_table:
-            records_by_park = records_by_count_runner_park(park_table)
-            records.update({'球場': records_by_park})
-
         records['被打数'] = str(
             Decimal(records.get('対右', {}).get('被打数', '0')) +
             Decimal(records.get('対左', {}).get('被打数', '0')))
+
+        if park_table:
+            records_by_park = records_by_count_runner_park(park_table)
+            records.update({'球場': records_by_park})
 
         personal_dict.update(records)
 
