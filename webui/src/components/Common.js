@@ -1,20 +1,23 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import TableCell from "@material-ui/core/TableCell";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Tab from "@material-ui/core/Tab";
 import yellow from "@material-ui/core/colors/yellow";
+import useScrollTrigger from "@material-ui/core/useScrollTrigger";
+import Slide from "@material-ui/core/Slide";
 
 export const styles = theme => ({
   root: {
     width: "100%",
     marginTop: theme.spacing.unit * 8,
-    fontSize: "80%"
+    fontSize: "55%"
   },
   individualRoot: {
     width: "100%",
     marginTop: theme.spacing.unit * 14,
-    fontSize: "80%"
+    fontSize: "55%"
   },
   table: {
     maxWidth: 320
@@ -28,13 +31,13 @@ export const styles = theme => ({
   },
   subtab: {
     flexGrow: 1,
-    backgroundColor: "#DCDCDC",
+    backgroundColor: theme.palette.background.paper,
     color: "black",
     marginTop: 48
   },
   des: {
-    height: 35,
-    fontSize: "115%"
+    height: 32,
+    fontSize: "160%"
   },
   adTypo: {
     display: "flex",
@@ -147,3 +150,21 @@ export function getSorting(order, orderBy) {
     ? (a, b) => a[orderBy] - b[orderBy]
     : (a, b) => b[orderBy] - a[orderBy];
 }
+
+export function HideOnScroll(props) {
+  const { children, window } = props;
+  const trigger = useScrollTrigger({ target: window ? window() : undefined });
+
+  return (
+    <Slide appear={false} direction="down" in={!trigger}>
+      {children}
+    </Slide>
+  );
+}
+
+HideOnScroll.propTypes = {
+  children: PropTypes.node.isRequired,
+  // Injected by the documentation to work in an iframe.
+  // You won't need it on your project.
+  window: PropTypes.func
+};
