@@ -43,7 +43,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import { styles, LinkTab } from "./Common";
 import { TeamTable, CommonTable } from "./Tables";
-import { top_ad, bottom_ad, middle_ad1, middle_ad2 } from "./Ad";
+import { top_ad, bottom_ad, middle_ad1, middle_ad2, middle_ad3 } from "./Ad";
 
 const ORDER_VALUE = 0;
 const HITTER_VALUE = 1;
@@ -150,7 +150,6 @@ class DefaultPage extends React.Component {
                 // league="True"
               />
             </p>
-            {bottom_ad(classes)}
           </div>
         )}
         {selected === HITTER_VALUE && (
@@ -371,7 +370,6 @@ class DefaultPage extends React.Component {
                 league={league}
               />
             </p>
-            {bottom_ad(classes)}
           </div>
         )}
         {selected === PITCHER_VALUE && (
@@ -481,7 +479,7 @@ class DefaultPage extends React.Component {
                 league={league}
               />
             </p>
-            {middle_ad1(classes)}
+            {middle_ad3(classes)}
             <p>
               <AppBar position="static" color="default" className={classes.des}>
                 <Toolbar variant="dense">
@@ -526,9 +524,9 @@ class DefaultPage extends React.Component {
                 league={league}
               />
             </p>
-            {bottom_ad(classes)}
           </div>
         )}
+      {bottom_ad(classes)}
       </div>
     );
   }
