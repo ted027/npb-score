@@ -98,7 +98,7 @@ class DefaultPage extends React.Component {
         </div>
         {selected === ORDER_VALUE && (
           <div className={classes.root}>
-            {top_ad()}
+            {top_ad(classes)}
             <p>
               <AppBar position="static" color="default" className={classes.des}>
                 <Toolbar variant="dense">
@@ -111,7 +111,7 @@ class DefaultPage extends React.Component {
                   </Typography>
                 </Toolbar>
               </AppBar>
-              <TeamTable classes="styles" league="Central" />
+              <TeamTable classes={styles} league="Central" />
             </p>
             <p>
               <AppBar position="static" color="default" className={classes.des}>
@@ -125,9 +125,9 @@ class DefaultPage extends React.Component {
                   </Typography>
                 </Toolbar>
               </AppBar>
-              <TeamTable classes="styles" league="Pacific" />
+              <TeamTable classes={styles} league="Pacific" />
             </p>
-            {middle_ad2()}
+            {middle_ad2(classes)}
             <p>
               <AppBar position="static" color="default" className={classes.des}>
                 <Toolbar variant="dense">
@@ -150,7 +150,7 @@ class DefaultPage extends React.Component {
                 // league="True"
               />
             </p>
-            {bottom_ad()}
+            {bottom_ad(classes)}
           </div>
         )}
         {selected === HITTER_VALUE && (
@@ -170,7 +170,7 @@ class DefaultPage extends React.Component {
                 <Tab label="PACIFIC" />
               </Tabs>
             </AppBar>
-            {top_ad()}
+            {top_ad(classes)}
             <p>
               <AppBar position="static" color="default" className={classes.des}>
                 <Toolbar variant="dense">
@@ -259,7 +259,7 @@ class DefaultPage extends React.Component {
                 league={league}
               />
             </p>
-            {middle_ad1()}
+            {middle_ad1(classes)}
             <p>
               <AppBar position="static" color="default" className={classes.des}>
                 <Toolbar variant="dense">
@@ -304,7 +304,7 @@ class DefaultPage extends React.Component {
                 league={league}
               />
             </p>
-            {middle_ad2()}
+            {middle_ad2(classes)}
             <p>
               <AppBar position="static" color="default" className={classes.des}>
                 <Toolbar variant="dense">
@@ -371,7 +371,7 @@ class DefaultPage extends React.Component {
                 league={league}
               />
             </p>
-            {bottom_ad()}
+            {bottom_ad(classes)}
           </div>
         )}
         {selected === PITCHER_VALUE && (
@@ -391,7 +391,7 @@ class DefaultPage extends React.Component {
                 <Tab label="PACIFIC" />
               </Tabs>
             </AppBar>
-            {top_ad()}
+            {top_ad(classes)}
             <p>
               <AppBar position="static" color="default" className={classes.des}>
                 <Toolbar variant="dense">
@@ -436,7 +436,7 @@ class DefaultPage extends React.Component {
                 league={league}
               />
             </p>
-            {middle_ad2()}
+            {middle_ad2(classes)}
             <p>
               <AppBar position="static" color="default" className={classes.des}>
                 <Toolbar variant="dense">
@@ -481,7 +481,7 @@ class DefaultPage extends React.Component {
                 league={league}
               />
             </p>
-            {middle_ad1()}
+            {middle_ad1(classes)}
             <p>
               <AppBar position="static" color="default" className={classes.des}>
                 <Toolbar variant="dense">
@@ -526,7 +526,7 @@ class DefaultPage extends React.Component {
                 league={league}
               />
             </p>
-            {bottom_ad()}
+            {bottom_ad(classes)}
           </div>
         )}
       </div>

@@ -26,7 +26,7 @@ class TeamTableHead extends React.Component {
     return (
       <TableHead>
         <TableRow>
-          <CustomTableCellOrder padding="checkbox"/>
+          <CustomTableCellOrder padding="checkbox" />
           {head.map(cell => {
             return (
               <CustomTableCell

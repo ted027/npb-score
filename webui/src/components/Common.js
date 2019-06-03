@@ -35,6 +35,17 @@ export const styles = theme => ({
     backgroundColor: "#DCDCDC",
     color: "black",
     marginTop: 48
+  },
+  adTypo: {
+    display: "flex",
+    margin: "auto",
+    maxWidth: "100%"
+  },
+  adImg: {
+    margin: "auto",
+    width: "100%",
+    maxWidth: "720px",
+    height: "width"
   }
 });
 
