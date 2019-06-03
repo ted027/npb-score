@@ -26,20 +26,23 @@ export const styles = theme => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper
   },
-  des: {
-    height: 35,
-    fontSize: "115%"
-  },
   subtab: {
     flexGrow: 1,
     backgroundColor: "#DCDCDC",
     color: "black",
     marginTop: 48
   },
+  des: {
+    height: 35,
+    fontSize: "115%"
+  },
   adTypo: {
     display: "flex",
     margin: "auto",
     maxWidth: "100%"
+  },
+  adA: {
+    fontSize: "80%"
   },
   adImg: {
     margin: "auto",

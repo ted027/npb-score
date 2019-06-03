@@ -66,6 +66,7 @@ export function middle_ad2(classes) {
             target="_blank"
             href="//af.moshimo.com/af/c/click?a_id=1414800&amp;p_id=170&amp;pc_id=185&amp;pl_id=4062&amp;url=https%3A%2F%2Fwww.amazon.co.jp%2F%25E3%2582%25B3%25E3%2583%258A%25E3%2583%259F%25E3%2583%2587%25E3%2582%25B8%25E3%2582%25BF%25E3%2583%25AB%25E3%2582%25A8%25E3%2583%25B3%25E3%2582%25BF%25E3%2583%2586%25E3%2582%25A4%25E3%2583%25B3%25E3%2583%25A1%25E3%2583%25B3%25E3%2583%2588-SG_B078LHP564_US-%25E5%25AE%259F%25E6%25B3%2581%25E3%2583%2591%25E3%2583%25AF%25E3%2583%2595%25E3%2583%25AB%25E3%2583%2597%25E3%2583%25AD%25E9%2587%258E%25E7%2590%25832018-PS4%2Fdp%2FB078LHP564"
             rel="nofollow"
+            className={classes.adA}
           >
             <img
               src="https://images-fe.ssl-images-amazon.com/images/I/61scQJvMQhL._SL160_.jpg"
@@ -88,6 +89,7 @@ export function middle_ad2(classes) {
             target="_blank"
             href="//af.moshimo.com/af/c/click?a_id=1414800&amp;p_id=170&amp;pc_id=185&amp;pl_id=4062&amp;url=https%3A%2F%2Fwww.amazon.co.jp%2FMLB-Show-19-%25E8%25BC%25B8%25E5%2585%25A5%25E7%2589%2588-PS4%2Fdp%2FB07NWWTRZB"
             rel="nofollow"
+            className={classes.adA}
           >
             <img
               src="https://images-fe.ssl-images-amazon.com/images/I/516lcsxQbCL._SL160_.jpg"
@@ -110,11 +112,11 @@ export function middle_ad2(classes) {
             target="_blank"
             href="//af.moshimo.com/af/c/click?a_id=1414800&amp;p_id=170&amp;pc_id=185&amp;pl_id=4062&amp;url=https%3A%2F%2Fwww.amazon.co.jp%2F%25E3%2582%25B3%25E3%2583%258A%25E3%2583%259F%25E3%2583%2587%25E3%2582%25B8%25E3%2582%25BF%25E3%2583%25AB%25E3%2582%25A8%25E3%2583%25B3%25E3%2582%25BF%25E3%2583%2586%25E3%2582%25A4%25E3%2583%25B3%25E3%2583%25A1%25E3%2583%25B3%25E3%2583%2588-PS4-%25E3%2583%2597%25E3%2583%25AD%25E9%2587%258E%25E7%2590%2583%25E3%2582%25B9%25E3%2583%2594%25E3%2583%25AA%25E3%2583%2583%25E3%2583%25842019-%25E3%2580%2590%25E5%25BA%2597%25E8%2588%2597%25E9%2599%2590%25E5%25AE%259A%25E6%2597%25A9%25E6%259C%259F%25E8%25B3%25BC%25E5%2585%25A5%25E7%2589%25B9%25E5%2585%25B8%25E3%2580%2591%25E6%25B5%25B7%25E5%25A4%2596%25E7%25A7%25BB%25E7%25B1%258D%25E9%2581%25B8%25E6%2589%258B%25E5%2585%2588%25E8%25A1%258C%25E5%2585%25A5%25E6%2589%258BDLC-%25E9%2585%258D%25E4%25BF%25A1%2Fdp%2FB07MVD4FXS"
             rel="nofollow"
+            className={classes.adA}
           >
             <img
               src="https://images-fe.ssl-images-amazon.com/images/I/51Nufh5pvYL._SL160_.jpg"
               alt=""
-              height="160x"
               style={{ border: "none" }}
             />
             <br />
