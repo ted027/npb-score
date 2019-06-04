@@ -18,6 +18,7 @@ const CustomTableCellOrder = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
+    fontSize: 11,
     maxWidth: 7,
     zindex: 3
   },
@@ -59,12 +60,13 @@ const CustomTableCell = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
-    maxWidth: 90,
+    fontSize: 11,
+    minWidth: 40,
     zindex: 2
   },
   body: {
-    fontSize: 14,
-    maxWidth: 90,
+    fontSize: 12,
+    minWidth: 40,
     zindex: 0
   }
 }))(TableCell);
