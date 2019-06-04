@@ -1,23 +1,85 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
+import yellow from "@material-ui/core/colors/yellow";
 import { teams_header, teams_body } from "./datastore/Teams";
-import {
-  CustomTableCellOrder,
-  CustomTableCellShort,
-  CustomTableCellName,
-  CustomTableCell,
-  CustomTableSortLabel,
-  stableSort,
-  getSorting,
-  getProperty
-} from "./Common";
+import { stableSort, getSorting, getProperty } from "./Common";
 
 const IGNORE_ELEMENTS = ["規定", "League"];
+
+const CustomTableCellOrder = withStyles(theme => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+    maxWidth: 7,
+    zindex: 3
+  },
+  body: {
+    fontSize: 10,
+    maxWidth: 7,
+    zindex: 1
+  }
+}))(TableCell);
+
+// const CustomTableCellName = withStyles(theme => ({
+//   head: {
+//     backgroundColor: theme.palette.common.black,
+//     color: theme.palette.common.white,
+//     maxWidth: 90,
+//     zindex: 3
+//   },
+//   body: {
+//     fontSize: 14,
+//     maxWidth: 90,
+//     zindex: 1
+//   }
+// }))(TableCell);
+
+// const CustomTableCellShort = withStyles(theme => ({
+//   head: {
+//     backgroundColor: theme.palette.common.black,
+//     color: theme.palette.common.white,
+//     minWidth: 24,
+//     zindex: 2
+//   },
+//   body: {
+//     fontSize: 14,
+//     zindex: 0
+//   }
+// }))(TableCell);
+
+const CustomTableCell = withStyles(theme => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+    maxWidth: 90,
+    zindex: 2
+  },
+  body: {
+    fontSize: 14,
+    maxWidth: 90,
+    zindex: 0
+  }
+}))(TableCell);
+
+const CustomTableSortLabel = withStyles({
+  root: {
+    "&:hover": {
+      color: yellow[600]
+    },
+    "&:focus": {
+      color: yellow[600]
+    },
+    zindex: 2
+  }
+})(TableSortLabel);
 
 class TeamTableHead extends React.Component {
   render() {
