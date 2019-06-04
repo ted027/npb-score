@@ -21,7 +21,7 @@ const CustomTableCellOrder = withStyles(theme => ({
     width: 15
   },
   body: {
-    fontSize: 10,
+    fontSize: 11,
     width: 15
   }
 }))(TableCell);
@@ -53,11 +53,11 @@ const CustomTableCellTeam = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
-    fontSize: 10,
+    fontSize: 12,
     minWidth: 40
   },
   body: {
-    fontSize: 10,
+    fontSize: 12,
     minWidth: 40
   }
 }))(TableCell);
@@ -66,11 +66,11 @@ const CustomTableCell = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
-    fontSize: 10,
+    fontSize: 12,
     minWidth: 45
   },
   body: {
-    fontSize: 10,
+    fontSize: 12,
     minWidth: 45
   }
 }))(TableCell);
