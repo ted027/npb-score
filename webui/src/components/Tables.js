@@ -18,14 +18,11 @@ const CustomTableCellOrder = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
-    fontSize: 11,
-    maxWidth: 7,
-    zindex: 3
+    width: 15
   },
   body: {
     fontSize: 10,
-    maxWidth: 7,
-    zindex: 1
+    width: 15
   }
 }))(TableCell);
 
@@ -34,12 +31,10 @@ const CustomTableCellOrder = withStyles(theme => ({
 //     backgroundColor: theme.palette.common.black,
 //     color: theme.palette.common.white,
 //     maxWidth: 90,
-//     zindex: 3
 //   },
 //   body: {
 //     fontSize: 14,
 //     maxWidth: 90,
-//     zindex: 1
 //   }
 // }))(TableCell);
 
@@ -48,26 +43,35 @@ const CustomTableCellOrder = withStyles(theme => ({
 //     backgroundColor: theme.palette.common.black,
 //     color: theme.palette.common.white,
 //     minWidth: 24,
-//     zindex: 2
 //   },
 //   body: {
 //     fontSize: 14,
-//     zindex: 0
 //   }
 // }))(TableCell);
+
+const CustomTableCellTeam = withStyles(theme => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+    fontSize: 10,
+    minWidth: 40
+  },
+  body: {
+    fontSize: 10,
+    minWidth: 40
+  }
+}))(TableCell);
 
 const CustomTableCell = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
-    fontSize: 11,
-    minWidth: 40,
-    zindex: 2
+    fontSize: 10,
+    minWidth: 45
   },
   body: {
-    fontSize: 12,
-    minWidth: 40,
-    zindex: 0
+    fontSize: 10,
+    minWidth: 45
   }
 }))(TableCell);
 
@@ -78,8 +82,7 @@ const CustomTableSortLabel = withStyles({
     },
     "&:focus": {
       color: yellow[600]
-    },
-    zindex: 2
+    }
   }
 })(TableSortLabel);
 
@@ -93,13 +96,13 @@ class TeamTableHead extends React.Component {
           <CustomTableCellOrder padding="checkbox" />
           {head.map(cell => {
             return (
-              <CustomTableCell
+              <CustomTableCellTeam
                 key={cell.id}
                 numeric={cell.numeric}
                 padding={cell.disablePadding ? "checkbox" : "none"}
               >
                 {cell.label}
-              </CustomTableCell>
+              </CustomTableCellTeam>
             );
           }, this)}
         </TableRow>
@@ -149,29 +152,27 @@ export class TeamTable extends React.Component {
                       <CustomTableCellOrder numeric="false" padding="checkbox">
                         {(jun = jun + add)}
                       </CustomTableCellOrder>
-                      <CustomTableCell
-                        component="th"
-                        scope="head"
-                        padding="none"
-                      >
+                      <CustomTableCellTeam scope="head" padding="none">
                         {n.チーム}
-                      </CustomTableCell>
-                      <CustomTableCell numeric="true" padding="none">
+                      </CustomTableCellTeam>
+                      <CustomTableCellTeam numeric="true" padding="none">
                         {n.試合}
-                      </CustomTableCell>
-                      <CustomTableCell numeric="true" padding="none">
+                      </CustomTableCellTeam>
+                      <CustomTableCellTeam numeric="true" padding="none">
                         {n.勝利}
-                      </CustomTableCell>
-                      <CustomTableCell numeric="true" padding="none">
+                      </CustomTableCellTeam>
+                      <CustomTableCellTeam numeric="true" padding="none">
                         {n.敗北}
-                      </CustomTableCell>
-                      <CustomTableCell numeric="true" padding="none">
+                      </CustomTableCellTeam>
+                      <CustomTableCellTeam numeric="true" padding="none">
                         {n.引分}
-                      </CustomTableCell>
-                      <CustomTableCell numeric="true" padding="none">
+                      </CustomTableCellTeam>
+                      <CustomTableCellTeam numeric="true" padding="none">
                         {n.勝率}
-                      </CustomTableCell>
-                      <CustomTableCell padding="none">{n.差}</CustomTableCell>
+                      </CustomTableCellTeam>
+                      <CustomTableCellTeam padding="none">
+                        {n.差}
+                      </CustomTableCellTeam>
                     </TableRow>
                   );
                 }

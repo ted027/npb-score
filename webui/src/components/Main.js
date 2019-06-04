@@ -38,8 +38,8 @@ import {
   pitchers_body_kbb,
   pitchers_header_relief,
   pitchers_body_relief,
-  pitchers_header_relief_kbb,
-  pitchers_body_relief_kbb
+  pitchers_header_closer,
+  pitchers_body_closer
 } from "./datastore/Pitchers";
 import { styles } from "./Common";
 import { TeamTable, CommonTable } from "./Tables";
@@ -462,14 +462,14 @@ class DefaultPage extends React.Component {
                 >
                   <Toolbar variant="dense">
                     <Typography color="inherit" className={classes.des}>
-                      リリーフ投手込み１
+                      抑え投手
                     </Typography>
                   </Toolbar>
                 </AppBar>
                 <CommonTable
                   classes={styles}
                   default_order="desc"
-                  default_orderBy="登板"
+                  default_orderBy="セーブ"
                   head={pitchers_header_relief}
                   data={pitchers_body_relief}
                   row_length="10"
@@ -484,16 +484,16 @@ class DefaultPage extends React.Component {
                 >
                   <Toolbar variant="dense">
                     <Typography variant="h6" className={classes.des}>
-                      リリーフ投手込み２（三振・四球）
+                      中継ぎ投手
                     </Typography>
                   </Toolbar>
                 </AppBar>
                 <CommonTable
                   classes={styles}
                   default_order="desc"
-                  default_orderBy="K/BB"
-                  head={pitchers_header_relief_kbb}
-                  data={pitchers_body_relief_kbb}
+                  default_orderBy="HP"
+                  head={pitchers_header_relief}
+                  data={pitchers_body_relief}
                   row_length="10"
                   league={league}
                 />

@@ -8,31 +8,12 @@ const pheader = [
   "投球回",
   "勝利",
   "敗戦",
-  "勝率",
   "奪三振",
   "規定",
   "League"
 ];
-const pheader_regulated = [
-  true,
-  false,
-  false,
-  false,
-  false,
-  false,
-  false,
-  false
-];
-const pheader_order = [
-  "asc",
-  "desc",
-  "desc",
-  "desc",
-  "desc",
-  "desc",
-  "desc",
-  "desc"
-];
+const pheader_regulated = [true, false, false, false, false, false, false];
+const pheader_order = ["asc", "desc", "desc", "desc", "desc", "desc", "desc"];
 export const pitchers_header = createHeader(
   pheader,
   pheader_regulated,
@@ -41,17 +22,9 @@ export const pitchers_header = createHeader(
 export const pitchers_body = createBody(pitchers, pheader);
 
 // whip
-const pheader_whip = [
-  "WHIP",
-  "被打率",
-  "FIP",
-  "BABIP",
-  "HR/9",
-  "規定",
-  "League"
-];
-const pheader_regulated_whip = [true, true, true, true, true, false, false];
-const pheader_order_whip = ["asc", "asc", "asc", "asc", "asc", "desc", "desc"];
+const pheader_whip = ["WHIP", "被打率", "FIP", "BABIP", "規定", "League"];
+const pheader_regulated_whip = [true, true, true, true, false, false];
+const pheader_order_whip = ["asc", "asc", "asc", "asc", "desc", "desc"];
 export const pitchers_header_whip = createHeader(
   pheader_whip,
   pheader_regulated_whip,
@@ -79,17 +52,9 @@ export const pitchers_header_qs = createHeader(
 export const pitchers_body_qs = createBody(pitchers, pheader_qs);
 
 // kbb
-const pheader_kbb = ["K/BB", "K%", "奪三振率", "BB%", "BB/9", "規定", "League"];
-const pheader_regulated_kbb = [true, true, true, true, true, false, false];
-const pheader_order_kbb = [
-  "desc",
-  "desc",
-  "desc",
-  "asc",
-  "asc",
-  "desc",
-  "desc"
-];
+const pheader_kbb = ["K/BB", "K%", "BB%", "HR/9", "規定", "League"];
+const pheader_regulated_kbb = [true, true, true, true, false, false];
+const pheader_order_kbb = ["desc", "desc", "asc", "asc", "desc", "desc"];
 export const pitchers_header_kbb = createHeader(
   pheader_kbb,
   pheader_regulated_kbb,
@@ -97,13 +62,48 @@ export const pitchers_header_kbb = createHeader(
 );
 export const pitchers_body_kbb = createBody(pitchers, pheader_kbb);
 
+// closer
+const pheader_closer = [
+  "登板",
+  "セーブ",
+  "防御率",
+  "WHIP",
+  "K/BB",
+  "規定",
+  "League"
+];
+const pheader_regulated_closer = [
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  false
+];
+const pheader_order_closer = [
+  "desc",
+  "desc",
+  "asc",
+  "asc",
+  "desc",
+  "desc",
+  "desc"
+];
+export const pitchers_header_closer = createHeader(
+  pheader_closer,
+  pheader_regulated_closer,
+  pheader_order_closer
+);
+export const pitchers_body_closer = createBody(pitchers, pheader_closer);
+
 // relief
 const pheader_relief = [
   "登板",
   "HP",
-  "セーブ",
+  "防御率",
   "WHIP",
-  "被打率",
+  "K/BB",
   "規定",
   "League"
 ];
@@ -119,9 +119,9 @@ const pheader_regulated_relief = [
 const pheader_order_relief = [
   "desc",
   "desc",
+  "asc",
+  "asc",
   "desc",
-  "asc",
-  "asc",
   "desc",
   "desc"
 ];
@@ -131,24 +131,3 @@ export const pitchers_header_relief = createHeader(
   pheader_order_relief
 );
 export const pitchers_body_relief = createBody(pitchers, pheader_relief);
-
-// relief_kbb
-const pheader_relief_kbb = ["K/BB", "K%", "奪三振率", "BB%", "規定", "League"];
-const pheader_regulated_relief_kbb = [false, false, false, false, false, false];
-const pheader_order_relief_kbb = [
-  "desc",
-  "desc",
-  "desc",
-  "asc",
-  "desc",
-  "desc"
-];
-export const pitchers_header_relief_kbb = createHeader(
-  pheader_relief_kbb,
-  pheader_regulated_relief_kbb,
-  pheader_order_relief_kbb
-);
-export const pitchers_body_relief_kbb = createBody(
-  pitchers,
-  pheader_relief_kbb
-);

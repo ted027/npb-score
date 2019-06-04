@@ -1,5 +1,3 @@
-import { zenkakuToHankaku } from "../Common";
-
 export function createHeader(array, regulated, order) {
   const header = [
     {
@@ -24,7 +22,7 @@ export function createHeader(array, regulated, order) {
 }
 
 function createNameContent(name, team) {
-  return zenkakuToHankaku(name).split(" ")[0] + "(" + team.slice(0, 1) + ")";
+  return name.split(" ")[0] + "(" + team.slice(0, 1) + ")";
 }
 
 export function createBody(array, head) {
