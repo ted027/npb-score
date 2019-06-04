@@ -1,3 +1,5 @@
+import { zenkakuToHankaku } from "../Common";
+
 export function createHeader(array, regulated, order) {
   const header = [
     {
@@ -21,14 +23,14 @@ export function createHeader(array, regulated, order) {
   return header;
 }
 
+function createNameContent(name, team) {
+  return zenkakuToHankaku(name).split(" ")[0] + "(" + team.slice(0, 1) + ")";
+}
+
 export function createBody(array, head) {
   const body = [];
   for (var j = 0; j < array.length; j++) {
-    var name =
-      array[j]["Name"].split(" ")[0] +
-      " (" +
-      array[j]["Team"].slice(0, 1) +
-      ")";
+    var name = createNameContent(array[j]["Name"], array[j]["Team"]);
     const body_player = { 名前: name };
     for (var k = 0; k < head.length; k++) {
       body_player[head[k]] = array[j][head[k]];

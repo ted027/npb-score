@@ -1,5 +1,5 @@
 import pitchersj from "../../records/pitchers.json";
-import { createHeader, createBody, createData } from "./Common";
+import { createHeader, createBody } from "./DataCommon";
 
 const pitchers = pitchersj.Pitcher;
 

@@ -1,5 +1,5 @@
 import hittersj from "../../records/hitters.json";
-import { createHeader, createBody, createData } from "./Common";
+import { createHeader, createBody } from "./DataCommon";
 
 const hitters = hittersj.Hitter;
 
