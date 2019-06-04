@@ -193,7 +193,7 @@ class CommonTableHead extends React.Component {
   };
 
   render() {
-    const { order, orderBy, onRequestSort, rowCount, head } = this.props;
+    const { order, orderBy, head } = this.props;
 
     return (
       <TableHead>
@@ -274,7 +274,7 @@ export class CommonTable extends React.Component {
 
   render() {
     const { classes, data, head, row_length, league } = this.props;
-    const { order, orderBy, orderMean } = this.state;
+    const { order, orderBy } = this.state;
     var jun = 0;
     var add = 1;
     var row_count = 0;
