@@ -330,7 +330,7 @@ class DefaultPage extends React.Component {
                   league={league}
                 />
               </p>
-              <p>
+              {/* <p>
                 <AppBar
                   position="static"
                   color="default"
@@ -351,7 +351,7 @@ class DefaultPage extends React.Component {
                   row_length="10"
                   league={league}
                 />
-              </p>
+              </p> */}
             </div>
           )}
           {selected === PITCHER_VALUE && (
@@ -470,8 +470,8 @@ class DefaultPage extends React.Component {
                   classes={styles}
                   default_order="desc"
                   default_orderBy="セーブ"
-                  head={pitchers_header_relief}
-                  data={pitchers_body_relief}
+                  head={pitchers_header_closer}
+                  data={pitchers_body_closer}
                   row_length="10"
                   league={league}
                 />
