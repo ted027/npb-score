@@ -45,6 +45,12 @@ export const styles = theme => ({
     width: "100%",
     maxWidth: "720px",
     height: "width"
+  },
+  adImg2: {
+    margin: "auto",
+    width: "100%",
+    maxWidth: "300px",
+    height: "width"
   }
 });
 
