@@ -34,13 +34,13 @@ def pick_dick(list_of_dict, str_key, str_value):
 
 
 TEAM_LIST = [
-    '西武', 'ソフトバンク', '日本ハム', 'オリックス', 'ロッテ', '楽天', '広島', '読売', 'ヤクルト', 'ＤｅＮＡ',
+    '西武', 'ソフトバンク', '日本ハム', 'オリックス', 'ロッテ', '楽天', '広島', 'ヤクルト', '巨人', 'DeNA',
     '中日', '阪神'
 ]
 
 
 def unify_teams(team_str):
-    team_str = team_str.replace('DeNA', 'ＤｅＮＡ').replace('巨人', '読売')
+    team_str = team_str.replace('ＤｅＮＡ', 'DeNA').replace('読売', '巨人')
     for team in TEAM_LIST:
         if team in team_str:
             return team

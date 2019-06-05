@@ -6,7 +6,7 @@ from .common import (digits_under_one, return_outcounts, FULL_OUTCOUNTS)
 def qs_rate(pitcher):
     start = Decimal(pitcher['先発'])
     if not start:
-        return '0'
+        return '0.0'
     raw_qsrate = Decimal(pitcher['QS']) * 100 / start
     qsrate = digits_under_one(raw_qsrate, 1)
     return str(qsrate)
@@ -38,7 +38,7 @@ def bb_per_nine(pitcher):
     innings = Decimal(pitcher['投球回'])
     outcounts = return_outcounts(innings)
     if not bb:
-        return '0'
+        return '0.00'
     elif not outcounts:
         return '99.99'
     raw_bb_per_n = bb * FULL_OUTCOUNTS / outcounts
@@ -51,7 +51,7 @@ def hr_per_nine(pitcher):
     innings = Decimal(pitcher['投球回'])
     outcounts = return_outcounts(innings)
     if not hr:
-        return '0'
+        return '0.00'
     elif not outcounts:
         return '99.99'
     raw_hr_per_n = hr * FULL_OUTCOUNTS / outcounts
@@ -65,7 +65,7 @@ def bb_percent_p(pitcher):
     """
     apperance = Decimal(pitcher['打者'])
     if not apperance:
-        return '0'
+        return '.000'
     raw_bb_percent = Decimal(pitcher['与四球']) / apperance
     bb_percent = digits_under_one(raw_bb_percent, 3)
     return str(bb_percent)[1:]
@@ -77,7 +77,7 @@ def k_percent_p(pitcher):
     """
     apperance = Decimal(pitcher['打者'])
     if not apperance:
-        return '0'
+        return '.000'
     raw_k_percent = Decimal(pitcher['奪三振']) / apperance
     k_percent = digits_under_one(raw_k_percent, 3)
     return str(k_percent)[1:]
@@ -122,7 +122,7 @@ def babip_p(pitcher):
     denominator = Decimal(pitcher['被打数']) - Decimal(pitcher['奪三振']) - Decimal(
         pitcher['被本塁打'])
     if not denominator:
-        return '0'
+        return '.000'
     numerator = Decimal(pitcher['被安打']) - Decimal(pitcher['被本塁打'])
     raw_babip = numerator / denominator
     babip = digits_under_one(raw_babip, 3)

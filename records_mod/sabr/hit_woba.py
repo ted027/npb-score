@@ -14,7 +14,7 @@ def woba(hitter):
     denominator = Decimal(hitter['打数']) + Decimal(hitter['四球']) - Decimal(
         hitter['故意四球']) + Decimal(hitter['死球']) + Decimal(hitter['犠飛'])
     if not denominator:
-        return '0'
+        return '.000'
     numerator = WOBA_BB * (
         Decimal(hitter['四球']) - Decimal(hitter['故意四球'])
     ) + WOBA_HBP * Decimal(hitter['死球']) + WOBA_SINGLE * single(
@@ -40,7 +40,7 @@ def woba_basic(hitter):
     denominator = Decimal(hitter['打席']) - Decimal(hitter['故意四球']) - Decimal(
         hitter['犠打'])
     if not denominator:
-        return '0'
+        return '.000'
     numerator = SWOBA_BB * (Decimal(hitter['四球']) + Decimal(
         hitter['死球']) - Decimal(hitter['故意四球'])) + SWOBA_SINGLE * single(
             hitter) + SWOBA_DOUBLE_TIPLE * (Decimal(hitter['二塁打']) + Decimal(
@@ -54,7 +54,7 @@ def woba_speed(hitter):
     denominator = Decimal(hitter['打席']) - Decimal(hitter['故意四球']) - Decimal(
         hitter['犠打'])
     if not denominator:
-        return '0'
+        return '.000'
     numerator = SWOBA_BB * (
         Decimal(hitter['四球']) + Decimal(hitter['死球']) - Decimal(hitter['故意四球'])
     ) + SWOBA_SINGLE * single(hitter) + SWOBA_S_DOUBLE * Decimal(hitter[
@@ -84,7 +84,7 @@ def wrc(hitter, league, raw_wraa):
     wRC = wRAA + (リーグ総得点数 / リーグ総打席数) × 打席数
     """
     if not Decimal(league['打席']):
-        return '0', Decimal('0')
+        return '0.000', Decimal('0')
     raw_wrc = raw_wraa + (
         Decimal(league['得点']) / Decimal(league['打席'])) * Decimal(hitter['打席'])
     wrc = digits_under_one(raw_wrc, 3)
@@ -95,7 +95,8 @@ def _pf_wrc(hitter, pf_list, raw_wrc):
     pf_wrc = Decimal('0')
     for key, value in hitter.get('球場', {}).items():
         pf = pick_dick(pf_list, '球場', key).get('得点PF', '1')
-        pf_wrc += raw_wrc * Decimal(value['試合']) / Decimal(hitter['試合']) / Decimal(pf)
+        pf_wrc += raw_wrc * Decimal(value['試合']) / Decimal(
+            hitter['試合']) / Decimal(pf)
     return pf_wrc
 
 

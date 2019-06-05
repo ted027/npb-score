@@ -92,19 +92,19 @@ workflows:
       - deploy:
           requires:
             - webui_build
-  # nightly_build:
-  #   triggers:
-  #     - schedule:
-  #         cron: "20 15 * * *"
-  #         filters:
-  #           branches:
-  #             only:
-  #               - master
-  #   jobs:
-  #     - records_build
-  #     - webui_build_from_record:
-  #         requires:
-  #           - records_build
-  #     - deploy:
-  #         requires:
-  #           - webui_build_from_record
+  nightly_build:
+    triggers:
+      - schedule:
+          cron: "10 15 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - records_build
+      - webui_build_from_record:
+          requires:
+            - records_build
+      - deploy:
+          requires:
+            - webui_build_from_record

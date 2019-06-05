@@ -6,7 +6,14 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import { theme } from "../theme/theme";
-import { parks_header, parks_body } from "./datastore/Teams";
+import {
+  parks_header,
+  parks_body,
+  teams_header,
+  teams_body,
+  teams_rec_header,
+  teams_rec_body
+} from "./datastore/Teams";
 import {
   hitters_header,
   hitters_body,
@@ -42,7 +49,7 @@ import {
   pitchers_body_closer
 } from "./datastore/Pitchers";
 import { styles } from "./Common";
-import { TeamTable, CommonTable } from "./Tables";
+import { CommonTable } from "./Tables";
 import { HideOnScroll, MainAppBar, LeagueAppBar } from "./Pages";
 import { top_ad, bottom_ad, middle_ad1, middle_ad2, middle_ad3 } from "./Ad";
 
@@ -101,7 +108,15 @@ class DefaultPage extends React.Component {
                     </Typography>
                   </Toolbar>
                 </AppBar>
-                <TeamTable classes={styles} league="Central" />
+                <CommonTable
+                  classes={styles}
+                  default_order="desc"
+                  default_orderBy="勝率"
+                  head={teams_header}
+                  data={teams_body}
+                  row_length={teams_body.length}
+                  league="Central"
+                />
               </p>
               <p>
                 <AppBar
@@ -115,9 +130,62 @@ class DefaultPage extends React.Component {
                     </Typography>
                   </Toolbar>
                 </AppBar>
-                <TeamTable classes={styles} league="Pacific" />
+                <CommonTable
+                  classes={styles}
+                  default_order="desc"
+                  default_orderBy="勝率"
+                  head={teams_header}
+                  data={teams_body}
+                  row_length={teams_body.length}
+                  league="Pacific"
+                />
               </p>
               {middle_ad2(classes)}
+              <p>
+                <AppBar
+                  position="static"
+                  color="default"
+                  className={classes.des}
+                >
+                  <Toolbar variant="dense">
+                    <Typography variant="h6" className={classes.des}>
+                      セリーグ投打成績
+                    </Typography>
+                  </Toolbar>
+                </AppBar>
+                <CommonTable
+                  classes={styles}
+                  default_order="desc"
+                  default_orderBy="得点"
+                  head={teams_rec_header}
+                  data={teams_rec_body}
+                  row_length={teams_body.length}
+                  league="Central"
+                />
+              </p>
+              <p>
+                <AppBar
+                  position="static"
+                  color="default"
+                  className={classes.des}
+                >
+                  <Toolbar variant="dense">
+                    <Typography variant="h6" className={classes.des}>
+                      パリーグ投打成績
+                    </Typography>
+                  </Toolbar>
+                </AppBar>
+                <CommonTable
+                  classes={styles}
+                  default_order="desc"
+                  default_orderBy="得点"
+                  head={teams_rec_header}
+                  data={teams_rec_body}
+                  row_length={teams_body.length}
+                  league="Pacific"
+                />
+              </p>
+              {middle_ad1(classes)}
               <p>
                 <AppBar
                   position="static"
