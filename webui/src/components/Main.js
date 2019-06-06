@@ -205,6 +205,7 @@ class DefaultPage extends React.Component {
                   head={parks_header}
                   data={parks_body}
                   row_length={parks_body.length}
+                  league=""
                 />
               </p>
             </div>

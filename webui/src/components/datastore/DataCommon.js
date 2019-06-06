@@ -1,7 +1,7 @@
 export function createHeader(array, regulated, order) {
   const header = [
     {
-      id: "名前",
+      id: "選手",
       numeric: false,
       regulated: false,
       disablePadding: true,
@@ -22,14 +22,14 @@ export function createHeader(array, regulated, order) {
 }
 
 function createNameContent(name, team) {
-  return name.split(" ")[0] + "(" + team.slice(0, 1) + ")";
+  return name + "（" + team + "）";
 }
 
 export function createBody(array, head) {
   const body = [];
   for (var j = 0; j < array.length; j++) {
     var name = createNameContent(array[j]["Name"], array[j]["Team"]);
-    const body_player = { 名前: name };
+    const body_player = { 選手: name };
     for (var k = 0; k < head.length; k++) {
       body_player[head[k]] = array[j][head[k]];
     }
@@ -46,3 +46,18 @@ export function createData(json) {
   }
   return row;
 }
+
+export const teamConverter = {
+  西武: "埼玉西武ライオンズ",
+  ソフトバンク: "福岡ソフトバンクホークス",
+  日本ハム: "北海道日本ハムファイターズ",
+  オリックス: "オリックスバファローズ",
+  ロッテ: "千葉ロッテマリーンズ",
+  楽天: "東北楽天ゴールデンイーグルス",
+  広島: "広島東洋カープ",
+  ヤクルト: "東京ヤクルトスワローズ",
+  巨人: "読売ジャイアンツ",
+  DeNA: "横浜ＤｅＮＡベイスターズ",
+  中日: "中日ドラゴンズ",
+  阪神: "阪神タイガース"
+};

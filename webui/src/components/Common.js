@@ -4,13 +4,11 @@ import Tab from "@material-ui/core/Tab";
 export const styles = theme => ({
   root: {
     width: "100%",
-    marginTop: theme.spacing.unit * 8,
-    fontSize: "55%"
+    marginTop: theme.spacing.unit * 8
   },
   individualRoot: {
     width: "100%",
-    marginTop: theme.spacing.unit * 14,
-    fontSize: "55%"
+    marginTop: theme.spacing.unit * 14
   },
   table: {
     maxWidth: 320
@@ -29,8 +27,8 @@ export const styles = theme => ({
     marginTop: 48
   },
   des: {
-    height: 32,
-    fontSize: "160%"
+    height: 35,
+    fontSize: "92%"
   },
   adTypo: {
     display: "flex",
@@ -38,7 +36,7 @@ export const styles = theme => ({
     maxWidth: "100%"
   },
   adA: {
-    fontSize: "80%"
+    fontSize: "70%"
   },
   adImg: {
     margin: "auto",
@@ -56,6 +54,15 @@ export const styles = theme => ({
 
 export function LinkTab(props) {
   return <Tab component="a" onClick={event => {}} {...props} />;
+}
+
+export function existProperty(head, property) {
+  for (var item of head) {
+    if (item[property]) {
+      return true;
+    }
+  }
+  return false;
 }
 
 export function getProperty(head, id, property) {
