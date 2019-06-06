@@ -56,15 +56,6 @@ export function LinkTab(props) {
   return <Tab component="a" onClick={event => {}} {...props} />;
 }
 
-export function existProperty(head, property) {
-  for (var item of head) {
-    if (item[property]) {
-      return true;
-    }
-  }
-  return false;
-}
-
 export function getProperty(head, id, property) {
   for (var item of head) {
     if (item.id === id) {

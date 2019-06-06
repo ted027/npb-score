@@ -20,12 +20,12 @@ const CustomTableCellOrder = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
-    maxWidth: 25
+    width: 10
   },
   body: {
     fontSize: 14,
     textAlign: "center",
-    maxWidth: 25
+    width: 10
   }
 }))(TableCell);
 
@@ -63,12 +63,12 @@ const CustomTableCell = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
-    fontSize: 12,
-    textAlign: "right"
+    fontSize: 13,
+    textAlign: "center"
   },
   body: {
-    fontSize: 14,
-    textAlign: "right"
+    fontSize: 15,
+    textAlign: "center"
   }
 }))(TableCell);
 
@@ -77,11 +77,11 @@ const CustomTableCellWide = withStyles(theme => ({
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
     fontSize: 15,
-    textAlign: "right"
+    textAlign: "center"
   },
   body: {
     fontSize: 16,
-    textAlign: "right"
+    textAlign: "center"
   }
 }))(TableCell);
 
@@ -225,8 +225,6 @@ export class CommonTable extends React.Component {
     const { order, orderBy } = this.state;
     var jun = 0;
     var jun2 = 0;
-    var row_count = 0;
-    var row_count2 = 0;
     return (
       <Paper className={classes.root}>
         <div className={classes.tableWrapper}>
@@ -240,11 +238,8 @@ export class CommonTable extends React.Component {
             />
             <MediaQuery query="(max-width: 767px)">
               {stableSort(data, getSorting(order, orderBy)).map(n => {
-                if (n.League === league && row_count < row_length) {
+                if (n.League === league && jun < row_length) {
                   if (!getProperty(head, orderBy, "regulated") || n.規定) {
-                    {
-                      row_count++;
-                    }
                     return (
                       <TableBody>
                         {Object.keys(n).map(value => {
@@ -298,11 +293,8 @@ export class CommonTable extends React.Component {
             <MediaQuery query="(min-width: 767px)">
               <TableBody>
                 {stableSort(data, getSorting(order, orderBy)).map(n => {
-                  if (n.League === league && row_count2 < row_length) {
+                  if (n.League === league && jun2 < row_length) {
                     if (!getProperty(head, orderBy, "regulated") || n.規定) {
-                      {
-                        row_count2++;
-                      }
                       return (
                         <TableRow hover tabIndex={-1} key={n.id}>
                           <CustomTableCellOrderWide
