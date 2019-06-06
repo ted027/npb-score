@@ -50,12 +50,15 @@ import {
 } from "./datastore/Pitchers";
 import { styles } from "./Common";
 import { CommonTable } from "./Tables";
-import { HideOnScroll, MainAppBar, LeagueAppBar } from "./Pages";
+import { HideOnScroll, MainAppBar, LeagueAppBar, OrderAppBar } from "./Pages";
 import { top_ad, bottom_ad, middle_ad1, middle_ad2, middle_ad3 } from "./Ad";
 
 const ORDER_VALUE = 0;
 const HITTER_VALUE = 1;
 const PITCHER_VALUE = 2;
+
+const ORDER = 0;
+const PARKFACTOR = 1;
 
 const CENTRAL = 0;
 const PACIFIC = 1;
@@ -63,12 +66,17 @@ const PACIFIC = 1;
 class DefaultPage extends React.Component {
   state = {
     selected: ORDER_VALUE,
+    order_selected: ORDER,
     league_selected: CENTRAL,
     league: "Central"
   };
 
   handleTabChange = (event, selected) => {
     this.setState({ selected });
+  };
+
+  handleTeamOrderChange = (event, order_selected) => {
+    this.setState({ order_selected });
   };
 
   handleLeagueChange = (event, league_selected) => {
@@ -84,7 +92,7 @@ class DefaultPage extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { selected, league_selected, league } = this.state;
+    const { selected, league_selected, league, order_selected } = this.state;
     return (
       <MuiThemeProvider theme={theme}>
         <div className={classes.root}>
@@ -94,120 +102,133 @@ class DefaultPage extends React.Component {
             </HideOnScroll>
           </div>
           {selected === ORDER_VALUE && (
-            <div className={classes.root}>
+            <div className={classes.individualRoot}>
+              <HideOnScroll {...this.props}>
+                {OrderAppBar(
+                  classes.subtab,
+                  order_selected,
+                  this.handleTeamOrderChange
+                )}
+              </HideOnScroll>
               {top_ad(classes)}
-              <p>
-                <AppBar
-                  position="static"
-                  color="default"
-                  className={classes.des}
-                >
-                  <Toolbar variant="dense">
-                    <Typography variant="h6" className={classes.des}>
-                      セリーグ順位表
-                    </Typography>
-                  </Toolbar>
-                </AppBar>
-                <CommonTable
-                  classes={styles}
-                  default_order="desc"
-                  default_orderBy="勝率"
-                  head={teams_header}
-                  data={teams_body}
-                  row_length={teams_body.length}
-                  league="Central"
-                />
-              </p>
-              <p>
-                <AppBar
-                  position="static"
-                  color="default"
-                  className={classes.des}
-                >
-                  <Toolbar variant="dense">
-                    <Typography variant="h6" className={classes.des}>
-                      パリーグ順位表
-                    </Typography>
-                  </Toolbar>
-                </AppBar>
-                <CommonTable
-                  classes={styles}
-                  default_order="desc"
-                  default_orderBy="勝率"
-                  head={teams_header}
-                  data={teams_body}
-                  row_length={teams_body.length}
-                  league="Pacific"
-                />
-              </p>
-              {middle_ad2(classes)}
-              <p>
-                <AppBar
-                  position="static"
-                  color="default"
-                  className={classes.des}
-                >
-                  <Toolbar variant="dense">
-                    <Typography variant="h6" className={classes.des}>
-                      セリーグ投打成績
-                    </Typography>
-                  </Toolbar>
-                </AppBar>
-                <CommonTable
-                  classes={styles}
-                  default_order="desc"
-                  default_orderBy="得点"
-                  head={teams_rec_header}
-                  data={teams_rec_body}
-                  row_length={teams_body.length}
-                  league="Central"
-                />
-              </p>
-              <p>
-                <AppBar
-                  position="static"
-                  color="default"
-                  className={classes.des}
-                >
-                  <Toolbar variant="dense">
-                    <Typography variant="h6" className={classes.des}>
-                      パリーグ投打成績
-                    </Typography>
-                  </Toolbar>
-                </AppBar>
-                <CommonTable
-                  classes={styles}
-                  default_order="desc"
-                  default_orderBy="得点"
-                  head={teams_rec_header}
-                  data={teams_rec_body}
-                  row_length={teams_body.length}
-                  league="Pacific"
-                />
-              </p>
-              {middle_ad1(classes)}
-              <p>
-                <AppBar
-                  position="static"
-                  color="default"
-                  className={classes.des}
-                >
-                  <Toolbar variant="dense">
-                    <Typography variant="h6" className={classes.des}>
-                      パークファクター　※参考値
-                    </Typography>
-                  </Toolbar>
-                </AppBar>
-                <CommonTable
-                  classes={styles}
-                  default_order="desc"
-                  default_orderBy="得点PF"
-                  head={parks_header}
-                  data={parks_body}
-                  row_length={parks_body.length}
-                  league=""
-                />
-              </p>
+              {order_selected === ORDER && (
+                <p>
+                  <p>
+                    <AppBar
+                      position="static"
+                      color="default"
+                      className={classes.des}
+                    >
+                      <Toolbar variant="dense">
+                        <Typography variant="h6" className={classes.des}>
+                          セリーグ順位表
+                        </Typography>
+                      </Toolbar>
+                    </AppBar>
+                    <CommonTable
+                      classes={styles}
+                      default_order="desc"
+                      default_orderBy="勝率"
+                      head={teams_header}
+                      data={teams_body}
+                      row_length={teams_body.length}
+                      league="Central"
+                    />
+                  </p>
+                  <p>
+                    <AppBar
+                      position="static"
+                      color="default"
+                      className={classes.des}
+                    >
+                      <Toolbar variant="dense">
+                        <Typography variant="h6" className={classes.des}>
+                          パリーグ順位表
+                        </Typography>
+                      </Toolbar>
+                    </AppBar>
+                    <CommonTable
+                      classes={styles}
+                      default_order="desc"
+                      default_orderBy="勝率"
+                      head={teams_header}
+                      data={teams_body}
+                      row_length={teams_body.length}
+                      league="Pacific"
+                    />
+                  </p>
+                  {middle_ad2(classes)}
+                  <p>
+                    <AppBar
+                      position="static"
+                      color="default"
+                      className={classes.des}
+                    >
+                      <Toolbar variant="dense">
+                        <Typography variant="h6" className={classes.des}>
+                          セリーグ投打成績
+                        </Typography>
+                      </Toolbar>
+                    </AppBar>
+                    <CommonTable
+                      classes={styles}
+                      default_order="desc"
+                      default_orderBy="得点"
+                      head={teams_rec_header}
+                      data={teams_rec_body}
+                      row_length={teams_body.length}
+                      league="Central"
+                    />
+                  </p>
+                  <p>
+                    <AppBar
+                      position="static"
+                      color="default"
+                      className={classes.des}
+                    >
+                      <Toolbar variant="dense">
+                        <Typography variant="h6" className={classes.des}>
+                          パリーグ投打成績
+                        </Typography>
+                      </Toolbar>
+                    </AppBar>
+                    <CommonTable
+                      classes={styles}
+                      default_order="desc"
+                      default_orderBy="得点"
+                      head={teams_rec_header}
+                      data={teams_rec_body}
+                      row_length={teams_body.length}
+                      league="Pacific"
+                    />
+                  </p>
+                  {middle_ad1(classes)}
+                </p>
+              )}
+              {order_selected === PARKFACTOR && (
+                <p>
+                  <AppBar
+                    position="static"
+                    color="default"
+                    className={classes.des}
+                  >
+                    <Toolbar variant="dense">
+                      <Typography variant="h6" className={classes.des}>
+                        パークファクター　※参考値
+                      </Typography>
+                    </Toolbar>
+                  </AppBar>
+                  <CommonTable
+                    classes={styles}
+                    default_order="desc"
+                    default_orderBy="得点PF"
+                    head={parks_header}
+                    data={parks_body}
+                    row_length={parks_body.length}
+                    league=""
+                  />
+                </p>
+              )}
             </div>
           )}
           {selected === HITTER_VALUE && (

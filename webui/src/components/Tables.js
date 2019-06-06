@@ -25,7 +25,8 @@ const CustomTableCellOrder = withStyles(theme => ({
   body: {
     fontSize: 14,
     textAlign: "center",
-    width: 20
+    width: 20,
+    borderRight: "1px solid lightgrey"
   }
 }))(TableCell);
 
@@ -33,19 +34,22 @@ const CustomTableCellOrderWide = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
-    maxWidth: 25
+    maxWidth: 20,
+    padding: 5
   },
   body: {
     fontSize: 14,
-    maxWidth: 25,
-    textAlign: "center"
+    maxWidth: 20,
+    textAlign: "center",
+    padding: 5
   }
 }))(TableCell);
 
 const CustomTableCellName = withStyles(theme => ({
   body: {
     fontSize: 15,
-    marginLeft: theme.spacing.unit * 2
+    padding: 2,
+    paddingLeft: "5%"
   }
 }))(TableCell);
 
@@ -64,12 +68,14 @@ const CustomTableCell = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
-    fontSize: 13,
-    textAlign: "center"
+    fontSize: 14,
+    textAlign: "center",
+    padding: 3
   },
   body: {
     fontSize: 15,
-    textAlign: "center"
+    textAlign: "center",
+    padding: 2,
   }
 }))(TableCell);
 
@@ -78,11 +84,13 @@ const CustomTableCellWide = withStyles(theme => ({
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
     fontSize: 15,
-    textAlign: "center"
+    textAlign: "center",
+    padding: 2
   },
   body: {
     fontSize: 16,
-    textAlign: "center"
+    textAlign: "center",
+    padding: 2
   }
 }))(TableCell);
 
@@ -124,6 +132,7 @@ class CommonTableHead extends React.Component {
                     >
                       <CustomTableSortLabel
                         onClick={this.createSortHandler(cell.id)}
+                        hideSortIcon
                       >
                         {cell.label}
                       </CustomTableSortLabel>
@@ -259,7 +268,6 @@ export class CommonTable extends React.Component {
                                     Object.keys(n).length - IGNORE_ELEM_NUM
                                   }
                                   numeric="false"
-                                  padding="checkbox"
                                 >
                                   {n[value]}
                                 </CustomTableCellName>

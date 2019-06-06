@@ -1,5 +1,6 @@
 import React from "react";
 import Tab from "@material-ui/core/Tab";
+import blue from "@material-ui/core/colors/blue";
 
 export const styles = theme => ({
   root: {

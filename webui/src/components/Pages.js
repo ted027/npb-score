@@ -56,8 +56,28 @@ export function LeagueAppBar(className, selected, onChange) {
         scrollButtons="auto"
         onChange={onChange}
       >
-        <Tab label="CENTRAL" />
-        <Tab label="PACIFIC" />
+        <Tab label="セリーグ" />
+        <Tab label="パリーグ" />
+      </Tabs>
+    </AppBar>
+  );
+}
+
+export function OrderAppBar(className, selected, onChange) {
+  return (
+    <AppBar className={className}>
+      <Tabs
+        variant="fullWidth"
+        selected={selected}
+        value={selected}
+        indicatorColor="primary"
+        textColor="primary"
+        scrollable
+        scrollButtons="auto"
+        onChange={onChange}
+      >
+        <Tab label="順位表" />
+        <Tab label="パークファクター" />
       </Tabs>
     </AppBar>
   );
