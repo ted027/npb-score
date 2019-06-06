@@ -1,129 +1,109 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import MediaQuery from "react-responsive";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
-import { teams_header, teams_body } from "./datastore/Teams";
-import {
-  CustomTableCellOrder,
-  CustomTableCellShort,
-  CustomTableCellName,
-  CustomTableCell,
-  CustomTableSortLabel,
-  stableSort,
-  getSorting,
-  getProperty
-} from "./Common";
+import yellow from "@material-ui/core/colors/yellow";
+import { stableSort, getSorting, getProperty } from "./Common";
 
 const IGNORE_ELEMENTS = ["規定", "League"];
+const NARROW_BR_ELEMENTS = ["チーム", "選手", "球場"];
+const IGNORE_ELEM_NUM = 2;
 
-class TeamTableHead extends React.Component {
-  render() {
-    const { head } = this.props;
-
-    return (
-      <TableHead>
-        <TableRow>
-          <CustomTableCellOrder padding="checkbox"/>
-          {head.map(cell => {
-            return (
-              <CustomTableCell
-                key={cell.id}
-                numeric={cell.numeric}
-                padding={cell.disablePadding ? "checkbox" : "none"}
-              >
-                {cell.label}
-              </CustomTableCell>
-            );
-          }, this)}
-        </TableRow>
-      </TableHead>
-    );
+const CustomTableCellOrder = withStyles(theme => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+    width: 20
+  },
+  body: {
+    fontSize: 14,
+    textAlign: "center",
+    width: 20,
+    borderRight: "1px solid lightgrey"
   }
-}
+}))(TableCell);
 
-TeamTableHead.propTypes = {
-  rowCount: PropTypes.number.isRequired,
-  head: PropTypes.array.isRequired
-};
-
-export class TeamTable extends React.Component {
-  state = {
-    order: "desc",
-    orderBy: "勝率",
-    head: teams_header,
-    data: teams_body
-  };
-
-  handleRequestSort = (event, property) => {
-    const orderBy = property;
-    var firstOrder = "desc";
-
-    let order = firstOrder;
-    let orderMean = "good";
-
-    this.setState({ order, orderBy, orderMean });
-  };
-
-  render() {
-    const { classes, league } = this.props;
-    const { data, order, orderBy, head } = this.state;
-    var jun = 0;
-    var add = 1;
-    return (
-      <Paper className={classes.root}>
-        <div className={classes.tableWrapper}>
-          <Table className={classes.table} aria-labelledby="tableTitle">
-            <TeamTableHead rowCount={data.length} head={head} />
-            <TableBody>
-              {stableSort(data, getSorting(order, orderBy)).map(n => {
-                if (n.League === league) {
-                  return (
-                    <TableRow hover tabIndex={-1} key={n.id}>
-                      <CustomTableCellOrder numeric="false" padding="checkbox">
-                        {(jun = jun + add)}
-                      </CustomTableCellOrder>
-                      <CustomTableCell
-                        component="th"
-                        scope="head"
-                        padding="none"
-                      >
-                        {n.チーム}
-                      </CustomTableCell>
-                      <CustomTableCell numeric="true" padding="none">
-                        {n.試合}
-                      </CustomTableCell>
-                      <CustomTableCell numeric="true" padding="none">
-                        {n.勝利}
-                      </CustomTableCell>
-                      <CustomTableCell numeric="true" padding="none">
-                        {n.敗北}
-                      </CustomTableCell>
-                      <CustomTableCell numeric="true" padding="none">
-                        {n.引分}
-                      </CustomTableCell>
-                      <CustomTableCell numeric="true" padding="none">
-                        {n.勝率}
-                      </CustomTableCell>
-                      <CustomTableCell padding="none">{n.差}</CustomTableCell>
-                    </TableRow>
-                  );
-                }
-              })}
-            </TableBody>
-          </Table>
-        </div>
-      </Paper>
-    );
+const CustomTableCellOrderWide = withStyles(theme => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+    maxWidth: 20,
+    padding: 5
+  },
+  body: {
+    fontSize: 14,
+    maxWidth: 20,
+    textAlign: "center",
+    padding: 5
   }
-}
+}))(TableCell);
 
-TeamTable.propTypes = {
-  classes: PropTypes.object.isRequired,
-  league: PropTypes.string.isRequired
-};
+const CustomTableCellName = withStyles(theme => ({
+  body: {
+    fontSize: 15,
+    padding: 1,
+    paddingLeft: "5%"
+  }
+}))(TableCell);
+
+// const CustomTableCellShort = withStyles(theme => ({
+//   head: {
+//     backgroundColor: theme.palette.common.black,
+//     color: theme.palette.common.white,
+//     minWidth: 24,
+//   },
+//   body: {
+//     fontSize: 14,
+//   }
+// }))(TableCell);
+
+const CustomTableCell = withStyles(theme => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+    fontSize: 14,
+    textAlign: "center",
+    padding: 3
+  },
+  body: {
+    fontSize: 15,
+    textAlign: "center",
+    padding: 1
+  }
+}))(TableCell);
+
+const CustomTableCellWide = withStyles(theme => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+    fontSize: 15,
+    textAlign: "center",
+    padding: 2
+  },
+  body: {
+    fontSize: 16,
+    textAlign: "center",
+    padding: 2
+  }
+}))(TableCell);
+
+const CustomTableSortLabel = withStyles({
+  root: {
+    "&:hover": {
+      color: yellow[600]
+    },
+    "&:focus": {
+      color: yellow[600]
+    }
+  }
+})(TableSortLabel);
 
 class CommonTableHead extends React.Component {
   createSortHandler = property => event => {
@@ -131,43 +111,83 @@ class CommonTableHead extends React.Component {
   };
 
   render() {
-    const { order, orderBy, onRequestSort, rowCount, head } = this.props;
-
+    const { order, orderBy, head } = this.props;
     return (
       <TableHead>
-        <TableRow>
-          <CustomTableCellOrder padding="checkbox" />
-          {head.map(cell => {
-            if (IGNORE_ELEMENTS.indexOf(cell.id) < 0) {
-              if (cell.numeric) {
-                return (
-                  <CustomTableCell
-                    key={cell.id}
-                    numeric={cell.numeric}
-                    padding={cell.disablePadding ? "checkbox" : "none"}
-                    sortDirection={orderBy === cell.id ? order : false}
-                  >
-                    <CustomTableSortLabel
-                      onClick={this.createSortHandler(cell.id)}
+        <MediaQuery query="(max-width: 767px)">
+          <TableRow>
+            <CustomTableCellOrder padding="checkbox" />
+            {head.map(cell => {
+              if (
+                IGNORE_ELEMENTS.indexOf(cell.id) < 0 &&
+                NARROW_BR_ELEMENTS.indexOf(cell.id) < 0
+              ) {
+                if (cell.numeric) {
+                  return (
+                    <CustomTableCell
+                      key={cell.id}
+                      numeric={cell.numeric}
+                      padding="checkbox"
+                      sortDirection={orderBy === cell.id ? order : false}
+                    >
+                      <CustomTableSortLabel
+                        onClick={this.createSortHandler(cell.id)}
+                        hideSortIcon
+                      >
+                        {cell.label}
+                      </CustomTableSortLabel>
+                    </CustomTableCell>
+                  );
+                } else {
+                  return (
+                    <CustomTableCell
+                      key={cell.id}
+                      numeric={cell.numeric}
+                      padding="checkbox"
                     >
                       {cell.label}
-                    </CustomTableSortLabel>
-                  </CustomTableCell>
-                );
-              } else {
-                return (
-                  <CustomTableCell
-                    key={cell.id}
-                    numeric={cell.numeric}
-                    padding={cell.disablePadding ? "checkbox" : "none"}
-                  >
-                    {cell.label}
-                  </CustomTableCell>
-                );
+                    </CustomTableCell>
+                  );
+                }
               }
-            }
-          }, this)}
-        </TableRow>
+            }, this)}
+          </TableRow>
+        </MediaQuery>
+        <MediaQuery query="(min-width: 767px)">
+          <TableRow>
+            <CustomTableCellOrderWide padding="checkbox" />
+            {head.map(cell => {
+              if (IGNORE_ELEMENTS.indexOf(cell.id) < 0) {
+                if (cell.numeric) {
+                  return (
+                    <CustomTableCellWide
+                      key={cell.id}
+                      numeric={cell.numeric}
+                      padding="checkbox"
+                      sortDirection={orderBy === cell.id ? order : false}
+                    >
+                      <CustomTableSortLabel
+                        onClick={this.createSortHandler(cell.id)}
+                      >
+                        {cell.label}
+                      </CustomTableSortLabel>
+                    </CustomTableCellWide>
+                  );
+                } else {
+                  return (
+                    <CustomTableCellWide
+                      key={cell.id}
+                      numeric={cell.numeric}
+                      padding="checkbox"
+                    >
+                      {cell.label}
+                    </CustomTableCellWide>
+                  );
+                }
+              }
+            }, this)}
+          </TableRow>
+        </MediaQuery>
       </TableHead>
     );
   }
@@ -212,10 +232,9 @@ export class CommonTable extends React.Component {
 
   render() {
     const { classes, data, head, row_length, league } = this.props;
-    const { order, orderBy, orderMean } = this.state;
+    const { order, orderBy } = this.state;
     var jun = 0;
-    var add = 1;
-    var row_count = 0;
+    var jun2 = 0;
     return (
       <Paper className={classes.root}>
         <div className={classes.tableWrapper}>
@@ -227,43 +246,96 @@ export class CommonTable extends React.Component {
               rowCount={data.length}
               head={head}
             />
-            <TableBody>
+            <MediaQuery query="(max-width: 767px)">
               {stableSort(data, getSorting(order, orderBy)).map(n => {
-                if (n.League === league && row_count < row_length) {
+                if (n.League === league && jun < row_length) {
                   if (!getProperty(head, orderBy, "regulated") || n.規定) {
-                    {
-                      row_count++;
-                    }
                     return (
-                      <TableRow hover tabIndex={-1} key={n.id}>
-                        <CustomTableCellOrder
-                          numeric="false"
-                          padding="checkbox"
-                        >
-                          {(jun = jun + add)}
-                        </CustomTableCellOrder>
+                      <TableBody>
                         {Object.keys(n).map(value => {
-                          if (IGNORE_ELEMENTS.indexOf(value) < 0) {
+                          if (NARROW_BR_ELEMENTS.indexOf(value) >= 0) {
                             return (
-                              <CustomTableCell numeric="true" padding="none">
-                                {n[value]}
-                              </CustomTableCell>
+                              <TableRow hover tabIndex={-1} key={n.id}>
+                                <CustomTableCellOrder
+                                  rowSpan="2"
+                                  numeric="false"
+                                  padding="checkbox"
+                                >
+                                  {(jun = jun + 1)}
+                                </CustomTableCellOrder>
+                                <CustomTableCellName
+                                  colSpan={
+                                    Object.keys(n).length - IGNORE_ELEM_NUM
+                                  }
+                                  numeric="false"
+                                >
+                                  {n[value]}
+                                </CustomTableCellName>
+                              </TableRow>
                             );
                           }
                         })}
-                      </TableRow>
+                        <TableRow hover tabIndex={-1} key={n.id}>
+                          {Object.keys(n).map(value2 => {
+                            if (
+                              IGNORE_ELEMENTS.indexOf(value2) < 0 &&
+                              NARROW_BR_ELEMENTS.indexOf(value2) < 0
+                            ) {
+                              return (
+                                <CustomTableCell
+                                  numeric={value2.numeric}
+                                  padding="checkbox"
+                                >
+                                  {n[value2]}
+                                </CustomTableCell>
+                              );
+                            }
+                          })}
+                        </TableRow>
+                      </TableBody>
                     );
                   }
                 }
               })}
-            </TableBody>
+            </MediaQuery>
+            <MediaQuery query="(min-width: 767px)">
+              <TableBody>
+                {stableSort(data, getSorting(order, orderBy)).map(n => {
+                  if (n.League === league && jun2 < row_length) {
+                    if (!getProperty(head, orderBy, "regulated") || n.規定) {
+                      return (
+                        <TableRow hover tabIndex={-1} key={n.id}>
+                          <CustomTableCellOrderWide
+                            numeric="false"
+                            padding="checkbox"
+                          >
+                            {(jun2 = jun2 + 1)}
+                          </CustomTableCellOrderWide>
+                          {Object.keys(n).map(value => {
+                            if (IGNORE_ELEMENTS.indexOf(value) < 0) {
+                              return (
+                                <CustomTableCellWide
+                                  numeric={value.numeric}
+                                  padding="checkbox"
+                                >
+                                  {n[value]}
+                                </CustomTableCellWide>
+                              );
+                            }
+                          })}
+                        </TableRow>
+                      );
+                    }
+                  }
+                })}
+              </TableBody>
+            </MediaQuery>
           </Table>
         </div>
       </Paper>
     );
   }
 }
-
 CommonTable.propTypes = {
   classes: PropTypes.object.isRequired,
   default_order: PropTypes.string.isRequired,

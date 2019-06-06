@@ -2,8 +2,8 @@ import json
 from decimal import Decimal, ROUND_HALF_UP
 from sabr.pitch import (qs_rate, bb_per_nine, hr_per_nine, bb_percent_p,
                         k_percent_p, fip, babip_p)
-from sabr.hit import (babip_h, iso_d, iso_p, bb_percent_h, k_percent_h,
-                      bb_per_k, wsb)
+from sabr.hit import (hr_percent, babip_h, iso_d, iso_p, bb_percent_h, k_percent_h,
+                      bb_per_k, steal_percent, wsb)
 from sabr.hit_woba import (woba, woba_basic, woba_speed, wraa, wrc, wrc_plus)
 from sabr.hit_rc import (rc_basic, xr_basic, rc_xr_27, rc_xr_plus, rc_xr_win)
 from sabr.common import RECORDS_DIRECTORY
@@ -27,9 +27,11 @@ def calc_sabr_hitter(hitter, league_dic=None, league_rc=None, league_xr=None, pf
     第一引数がhitterならleague_dic, league_rc, league_xr, pf_listも同時に渡す
     第一引数がleagueなら第二〜第五引数は指定しない
     """
+    hitter['本塁打率'] = hr_percent(hitter)
+    hitter['盗塁成功率'] = steal_percent(hitter)
     hitter['wOBA'] = woba(hitter)
-    hitter['wOBA(Basic)'] = woba_basic(hitter)
-    hitter['wOBA(Speed)'] = woba_speed(hitter)
+    # hitter['wOBA(Basic)'] = woba_basic(hitter)
+    # hitter['wOBA(Speed)'] = woba_speed(hitter)
     hitter['RC'], raw_rc = rc_basic(hitter)
     hitter['RC27'] = rc_xr_27(hitter, raw_rc)
     hitter['XR'], raw_xr = xr_basic(hitter)

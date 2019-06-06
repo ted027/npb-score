@@ -23,7 +23,7 @@ HITTER_DUMP_VAL = 2
 
 TEAM_NUM_LIST = [376 if i == 10 else i for i in list(range(1, 13))]
 
-CENTRAL_LIST = ['広島', '読売', 'ヤクルト', 'ＤｅＮＡ', '中日', '阪神']
+CENTRAL_LIST = ['広島', '巨人', 'ヤクルト', 'DeNA', '中日', '阪神']
 PACIFIC_LIST = ['西武', 'ソフトバンク', '日本ハム', 'オリックス', 'ロッテ', '楽天']
 
 BASEURL = 'https://baseball.yahoo.co.jp'
@@ -98,10 +98,10 @@ def confirm_hitter_tables(tables):
             chance_table = table
         elif table_type == '左右投手別成績':
             rl_table = table
-        elif table_type == 'カウント別成績':
-            count_table = table
-        elif table_type == '塁状況別成績':
-            runner_table = table
+        # elif table_type == 'カウント別成績':
+        #     count_table = table
+        # elif table_type == '塁状況別成績':
+        #     runner_table = table
         elif table_type == '球場別成績':
             park_table = table
     return records_table, chance_table, rl_table, count_table, runner_table, park_table
@@ -170,14 +170,13 @@ def append_team_pitcher_array(link_tail_list):
     for ptail in link_tail_list:
         # personal id
         # [-1] is null
-        personal_id = ptail.split('/')[-2]
-        personal_dict = {'id': personal_id}
+        # personal_id = ptail.split('/')[-2]
+        # personal_dict = {'id': personal_id}
 
         personal_link = BASEURL + ptail
         personal_soup = request_soup(personal_link)
 
-        basic_info_dict = basic_information(personal_soup)
-        personal_dict.update(basic_info_dict)
+        personal_dict = basic_information(personal_soup)
 
         tables = personal_soup.find_all('table')
         records_table, rl_table, park_table = confirm_pitcher_tables(tables)
@@ -202,13 +201,13 @@ def append_team_pitcher_array(link_tail_list):
             records_rl = records_by_rl(rl_table, PITCHER_DUMP_VAL)
             records.update(records_rl)
 
-        if park_table:
-            records_by_park = records_by_count_runner_park(park_table)
-            records.update({'球場': records_by_park})
-
         records['被打数'] = str(
             Decimal(records.get('対右', {}).get('被打数', '0')) +
             Decimal(records.get('対左', {}).get('被打数', '0')))
+
+        if park_table:
+            records_by_park = records_by_count_runner_park(park_table)
+            records.update({'球場': records_by_park})
 
         personal_dict.update(records)
 
@@ -222,14 +221,13 @@ def append_team_hitter_array(link_tail_list):
     for htail in link_tail_list:
         # personal id
         # [-1] is null
-        personal_id = htail.split('/')[-2]
-        personal_dict = {'id': personal_id}
+        # personal_id = htail.split('/')[-2]
+        # personal_dict = {'id': personal_id}
 
         personal_link = BASEURL + htail
         personal_soup = request_soup(personal_link)
 
-        basic_info_dict = basic_information(personal_soup)
-        personal_dict.update(basic_info_dict)
+        personal_dict = basic_information(personal_soup)
 
         tables = personal_soup.find_all('table')
         records_table, chance_table, rl_table, count_table, runner_table, park_table = confirm_hitter_tables(

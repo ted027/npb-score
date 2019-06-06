@@ -1,5 +1,5 @@
 import hittersj from "../../records/hitters.json";
-import { createHeader, createBody, createData } from "./Common";
+import { createHeader, createBody } from "./DataCommon";
 
 const hitters = hittersj.Hitter;
 
@@ -52,25 +52,9 @@ export const hitters_body_xr = createBody(hitters, hheader_xr);
 
 // contact
 
-const hheader_contact = [
-  "K%",
-  "三振",
-  "打率",
-  "安打",
-  "BB/K",
-  "規定",
-  "League"
-];
-const hheader_contact_regulated = [true, true, true, false, true, false, false];
-const hheader_contact_order = [
-  "asc",
-  "asc",
-  "desc",
-  "desc",
-  "desc",
-  "desc",
-  "desc"
-];
+const hheader_contact = ["K%", "三振", "打率", "安打", "規定", "League"];
+const hheader_contact_regulated = [true, true, true, false, false, false];
+const hheader_contact_order = ["asc", "asc", "desc", "desc", "desc", "desc"];
 export const hitters_header_contact = createHeader(
   hheader_contact,
   hheader_contact_regulated,
@@ -80,8 +64,15 @@ export const hitters_body_contact = createBody(hitters, hheader_contact);
 
 // power
 
-const hheader_power = ["IsoP", "長打率", "二塁打", "本塁打", "規定", "League"];
-const hheader_power_regulated = [true, true, false, false, false, false];
+const hheader_power = [
+  "IsoP",
+  "長打率",
+  "本塁打率",
+  "本塁打",
+  "規定",
+  "League"
+];
+const hheader_power_regulated = [true, true, true, false, false, false];
 const hheader_power_order = new Array(hheader_power.length).fill("desc");
 export const hitters_header_power = createHeader(
   hheader_power,
@@ -92,7 +83,7 @@ export const hitters_body_power = createBody(hitters, hheader_power);
 
 // eye
 
-const hheader_eye = ["BB%", "四球", "BB/K", "IsoD", "規定", "League"];
+const hheader_eye = ["BB%", "四球", "IsoD", "BB/K", "規定", "League"];
 const hheader_eye_regulated = [true, false, true, true, false, false];
 const hheader_eye_order = new Array(hheader_eye.length).fill("desc");
 export const hitters_header_eye = createHeader(
@@ -104,8 +95,8 @@ export const hitters_body_eye = createBody(hitters, hheader_eye);
 
 // steal
 
-const hheader_steal = ["wSB", "盗塁", "盗塁死", "三塁打", "規定", "League"];
-const hheader_steal_regulated = [false, false, false, false, false, false];
+const hheader_steal = ["wSB", "盗塁", "盗塁成功率", "三塁打", "規定", "League"];
+const hheader_steal_regulated = [false, false, true, false, false, false];
 const hheader_steal_order = new Array(hheader_steal.length).fill("desc");
 export const hitters_header_steal = createHeader(
   hheader_steal,

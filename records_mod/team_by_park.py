@@ -105,7 +105,8 @@ def update_team_park_records():
         sum_visitor_park_dick(sum_visitor_dic, park_dic[team], team)
         team_dic['非本拠地'] = sum_visitor_dic
 
-        fix_rate_records(team_dic)
+        fix_rate_records(team_dic['本拠地'])
+        fix_rate_records(team_dic['非本拠地'])
 
         pf_list.append({
             '球場': HOME_DIC[team],

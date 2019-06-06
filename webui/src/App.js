@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Pages from './components/Pages';
+import Main from './components/Main';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
@@ -9,7 +9,7 @@ function App() {
   return (
     <MuiThemeProvider>
     <div className="App">
-        <Pages />
+        <Main />
     </div>
     </MuiThemeProvider>
   );

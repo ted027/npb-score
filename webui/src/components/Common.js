@@ -1,20 +1,15 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
-import TableCell from "@material-ui/core/TableCell";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Tab from "@material-ui/core/Tab";
-import yellow from "@material-ui/core/colors/yellow";
+import blue from "@material-ui/core/colors/blue";
 
 export const styles = theme => ({
   root: {
     width: "100%",
-    marginTop: theme.spacing.unit * 8,
-    fontSize: "80%"
+    marginTop: theme.spacing.unit * 8
   },
   individualRoot: {
     width: "100%",
-    marginTop: theme.spacing.unit * 14,
-    fontSize: "80%"
+    marginTop: theme.spacing.unit * 14
   },
   table: {
     maxWidth: 320
@@ -26,15 +21,35 @@ export const styles = theme => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper
   },
-  des: {
-    height: 35,
-    fontSize: "110%"
-  },
   subtab: {
     flexGrow: 1,
-    backgroundColor: "#DCDCDC",
+    backgroundColor: theme.palette.background.paper,
     color: "black",
     marginTop: 48
+  },
+  des: {
+    height: 35,
+    fontSize: "92%"
+  },
+  adTypo: {
+    display: "flex",
+    margin: "auto",
+    maxWidth: "100%"
+  },
+  adA: {
+    fontSize: "70%"
+  },
+  adImg: {
+    margin: "auto",
+    width: "100%",
+    maxWidth: "720px",
+    height: "width"
+  },
+  adImg2: {
+    margin: "auto",
+    width: "100%",
+    maxWidth: "300px",
+    height: "width"
   }
 });
 
@@ -50,73 +65,6 @@ export function getProperty(head, id, property) {
   }
   return false;
 }
-
-export const CustomTableCellOrder = withStyles(theme => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-    maxWidth: 7,
-    zindex: 3
-  },
-  body: {
-    fontSize: 14,
-    maxWidth: 7,
-    zindex: 1
-  }
-}))(TableCell);
-
-export const CustomTableCellName = withStyles(theme => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-    maxWidth: 90,
-    zindex: 3
-  },
-  body: {
-    fontSize: 14,
-    maxWidth: 90,
-    zindex: 1
-  }
-}))(TableCell);
-
-export const CustomTableCellShort = withStyles(theme => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-    minWidth: 24,
-    zindex: 2
-  },
-  body: {
-    fontSize: 14,
-    zindex: 0
-  }
-}))(TableCell);
-
-export const CustomTableCell = withStyles(theme => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-    maxWidth: 90,
-    zindex: 2
-  },
-  body: {
-    fontSize: 14,
-    maxWidth: 90,
-    zindex: 0
-  }
-}))(TableCell);
-
-export const CustomTableSortLabel = withStyles({
-  root: {
-    "&:hover": {
-      color: yellow[600]
-    },
-    "&:focus": {
-      color: yellow[600]
-    },
-    zindex: 2
-  }
-})(TableSortLabel);
 
 export function stableSort(array, cmp) {
   const stabilizedThis = array.map((el, index) => [el, index]);
