@@ -20,12 +20,12 @@ const CustomTableCellOrder = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
-    width: 10
+    width: 20
   },
   body: {
     fontSize: 14,
     textAlign: "center",
-    width: 10
+    width: 20
   }
 }))(TableCell);
 
@@ -44,7 +44,8 @@ const CustomTableCellOrderWide = withStyles(theme => ({
 
 const CustomTableCellName = withStyles(theme => ({
   body: {
-    fontSize: 14
+    fontSize: 15,
+    marginLeft: theme.spacing.unit * 2
   }
 }))(TableCell);
 
@@ -118,7 +119,7 @@ class CommonTableHead extends React.Component {
                     <CustomTableCell
                       key={cell.id}
                       numeric={cell.numeric}
-                      padding={cell.disablePadding ? "checkbox" : "none"}
+                      padding="checkbox"
                       sortDirection={orderBy === cell.id ? order : false}
                     >
                       <CustomTableSortLabel
@@ -133,7 +134,7 @@ class CommonTableHead extends React.Component {
                     <CustomTableCell
                       key={cell.id}
                       numeric={cell.numeric}
-                      padding={cell.disablePadding ? "checkbox" : "none"}
+                      padding="checkbox"
                     >
                       {cell.label}
                     </CustomTableCell>
@@ -153,7 +154,7 @@ class CommonTableHead extends React.Component {
                     <CustomTableCellWide
                       key={cell.id}
                       numeric={cell.numeric}
-                      padding={cell.disablePadding ? "checkbox" : "none"}
+                      padding="checkbox"
                       sortDirection={orderBy === cell.id ? order : false}
                     >
                       <CustomTableSortLabel
@@ -168,7 +169,7 @@ class CommonTableHead extends React.Component {
                     <CustomTableCellWide
                       key={cell.id}
                       numeric={cell.numeric}
-                      padding={cell.disablePadding ? "checkbox" : "none"}
+                      padding="checkbox"
                     >
                       {cell.label}
                     </CustomTableCellWide>
@@ -258,6 +259,7 @@ export class CommonTable extends React.Component {
                                     Object.keys(n).length - IGNORE_ELEM_NUM
                                   }
                                   numeric="false"
+                                  padding="checkbox"
                                 >
                                   {n[value]}
                                 </CustomTableCellName>
@@ -266,19 +268,17 @@ export class CommonTable extends React.Component {
                           }
                         })}
                         <TableRow hover tabIndex={-1} key={n.id}>
-                          {Object.keys(n).map(value => {
+                          {Object.keys(n).map(value2 => {
                             if (
-                              IGNORE_ELEMENTS.indexOf(value) < 0 &&
-                              NARROW_BR_ELEMENTS.indexOf(value) < 0
+                              IGNORE_ELEMENTS.indexOf(value2) < 0 &&
+                              NARROW_BR_ELEMENTS.indexOf(value2) < 0
                             ) {
                               return (
                                 <CustomTableCell
-                                  numeric={value.numeric}
-                                  padding={
-                                    value.disablePadding ? "checkbox" : "none"
-                                  }
+                                  numeric={value2.numeric}
+                                  padding="checkbox"
                                 >
-                                  {n[value]}
+                                  {n[value2]}
                                 </CustomTableCell>
                               );
                             }
@@ -308,9 +308,7 @@ export class CommonTable extends React.Component {
                               return (
                                 <CustomTableCellWide
                                   numeric={value.numeric}
-                                  padding={
-                                    value.disablePadding ? "checkbox" : "none"
-                                  }
+                                  padding="checkbox"
                                 >
                                   {n[value]}
                                 </CustomTableCellWide>

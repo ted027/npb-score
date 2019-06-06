@@ -42,7 +42,6 @@ for (var i = 0; i < theader.length; i++) {
   teams_header.push({
     id: theader[i],
     numeric: teams_numeric[i],
-    disablePadding: true,
     label: theader[i]
   });
 }
@@ -79,7 +78,6 @@ for (var i = 0; i < trecheader.length; i++) {
     id: trecheader[i],
     numeric: teams_rec_numeric[i],
     defaultOrder: teams_rec_order[i],
-    disablePadding: true,
     label: trecheader[i]
   });
 }
@@ -98,7 +96,6 @@ for (var l = 0; l < prheader.length; l++) {
   parks_header.push({
     id: prheader[l],
     numeric: parks_numeric[l],
-    disablePadding: true,
     label: prheader[l]
   });
 }

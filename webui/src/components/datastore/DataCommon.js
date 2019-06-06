@@ -4,7 +4,6 @@ export function createHeader(array, regulated, order) {
       id: "選手",
       numeric: false,
       regulated: false,
-      disablePadding: true,
       label: "選手"
     }
   ];
@@ -14,7 +13,6 @@ export function createHeader(array, regulated, order) {
       numeric: true,
       defaultOrder: order[i],
       regulated: regulated[i],
-      disablePadding: true,
       label: array[i]
     });
   }
