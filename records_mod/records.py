@@ -32,9 +32,10 @@ BASEURL = 'https://baseball.yahoo.co.jp'
 def request_soup(url):
     while True:
         res = requests.get(url)
-        if res.status_code < 400:
+        if 200 <= res.status_code < 300:
             break
         else:
+            print(f'{res.status_code}: {res.url}')
             time.sleep(0.5)
     return BeautifulSoup(res.content, 'html.parser')
 
