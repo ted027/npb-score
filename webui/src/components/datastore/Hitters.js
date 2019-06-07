@@ -41,7 +41,7 @@ export const hitters_body_woba = createBody(hitters, hheader_woba);
 // xr
 
 const hheader_xr = ["XR", "XR27", "XR+", "XRWIN", "規定", "League"];
-const hheader_xr_regulated = [false, false, false, false, false, false];
+const hheader_xr_regulated = [false, true, false, false, false, false];
 const hheader_xr_order = new Array(hheader_xr.length).fill("desc");
 export const hitters_header_xr = createHeader(
   hheader_xr,
