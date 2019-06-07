@@ -20,7 +20,7 @@ export function createHeader(array, regulated, order) {
 }
 
 function createNameContent(name, team) {
-  return name + "（" + team + "）";
+  return name + " (" + team + ")";
 }
 
 export function createBody(array, head) {
@@ -55,7 +55,7 @@ export const teamConverter = {
   広島: "広島東洋カープ",
   ヤクルト: "東京ヤクルトスワローズ",
   巨人: "読売ジャイアンツ",
-  DeNA: "横浜ＤｅＮＡベイスターズ",
+  ＤｅＮＡ: "横浜ＤｅＮＡベイスターズ",
   中日: "中日ドラゴンズ",
   阪神: "阪神タイガース"
 };

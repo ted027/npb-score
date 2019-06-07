@@ -23,7 +23,7 @@ HITTER_DUMP_VAL = 2
 
 TEAM_NUM_LIST = [376 if i == 10 else i for i in list(range(1, 13))]
 
-CENTRAL_LIST = ['広島', '巨人', 'ヤクルト', 'DeNA', '中日', '阪神']
+CENTRAL_LIST = ['広島', '巨人', 'ヤクルト', 'ＤｅＮＡ', '中日', '阪神']
 PACIFIC_LIST = ['西武', 'ソフトバンク', '日本ハム', 'オリックス', 'ロッテ', '楽天']
 
 BASEURL = 'https://baseball.yahoo.co.jp'
