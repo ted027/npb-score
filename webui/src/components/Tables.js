@@ -49,7 +49,7 @@ const CustomTableCellName = withStyles(theme => ({
   body: {
     fontSize: 15,
     padding: 1,
-    paddingLeft: "5%"
+    paddingLeft: "7%"
   }
 }))(TableCell);
 
