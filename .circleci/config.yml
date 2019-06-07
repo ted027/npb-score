@@ -70,9 +70,6 @@ jobs:
             cp -rp build/* public/records
             mv public/records/manifest.json public
             mv public/records/static/* public/static
-            cd public && ls -al
-            cd records && ls -al
-            cd ../../
       - run:
           mame: push
           command: |
@@ -95,7 +92,7 @@ workflows:
   nightly_build:
     triggers:
       - schedule:
-          cron: "10 17 * * *"
+          cron: "10 15 * * *"
           filters:
             branches:
               only:
