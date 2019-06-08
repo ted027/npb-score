@@ -9,11 +9,10 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
-import yellow from "@material-ui/core/colors/yellow";
-import { stableSort, getSorting, getProperty } from "./Common";
 import Button from "@material-ui/core/Button";
-import NavigationIcon from "@material-ui/icons/Navigation";
+import yellow from "@material-ui/core/colors/yellow";
 import grey from "@material-ui/core/colors/grey";
+import { stableSort, getSorting, getProperty } from "./Common";
 
 const IGNORE_ELEMENTS = ["規定", "League"];
 const NARROW_BR_ELEMENTS = ["チーム", "選手", "球場"];
@@ -68,6 +67,7 @@ const CustomTableCell = withStyles(theme => ({
   head: {
     backgroundColor: grey[100],
     fontSize: 15,
+    padding: 1,
     textAlign: "center"
   },
   body: {
@@ -81,25 +81,15 @@ const CustomTableCellWide = withStyles(theme => ({
   head: {
     backgroundColor: grey[100],
     fontSize: 15,
+    padding: 1,
     textAlign: "center"
   },
   body: {
     fontSize: 16,
     textAlign: "center",
-    padding: 2
+    padding: 3
   }
 }))(TableCell);
-
-const CustomTableSortLabel = withStyles({
-  root: {
-    "&:hover": {
-      color: yellow[600]
-    },
-    "&:focus": {
-      color: yellow[600]
-    }
-  }
-})(TableSortLabel);
 
 class CommonTableHead extends React.Component {
   createSortHandler = property => event => {
@@ -127,7 +117,7 @@ class CommonTableHead extends React.Component {
                       sortDirection={orderBy === cell.id ? order : false}
                     >
                       <Button
-                        variant="outlined"
+                        variant="contained"
                         size="small"
                         onClick={this.createSortHandler(cell.id)}
                         className={classes.tableButton}
@@ -164,11 +154,14 @@ class CommonTableHead extends React.Component {
                       padding="checkbox"
                       sortDirection={orderBy === cell.id ? order : false}
                     >
-                      <CustomTableSortLabel
+                      <Button
+                        variant="contained"
+                        size="small"
                         onClick={this.createSortHandler(cell.id)}
+                        className={classes.tableButton}
                       >
                         {cell.label}
-                      </CustomTableSortLabel>
+                      </Button>
                     </CustomTableCellWide>
                   );
                 } else {
