@@ -11,6 +11,9 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import yellow from "@material-ui/core/colors/yellow";
 import { stableSort, getSorting, getProperty } from "./Common";
+import Button from "@material-ui/core/Button";
+import NavigationIcon from "@material-ui/icons/Navigation";
+import grey from "@material-ui/core/colors/grey";
 
 const IGNORE_ELEMENTS = ["規定", "League"];
 const NARROW_BR_ELEMENTS = ["チーム", "選手", "球場"];
@@ -18,8 +21,7 @@ const IGNORE_ELEM_NUM = 2;
 
 const CustomTableCellOrder = withStyles(theme => ({
   head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    backgroundColor: grey[100],
     width: 20
   },
   body: {
@@ -32,10 +34,8 @@ const CustomTableCellOrder = withStyles(theme => ({
 
 const CustomTableCellOrderWide = withStyles(theme => ({
   head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-    maxWidth: 20,
-    padding: 5
+    backgroundColor: grey[100],
+    maxWidth: 20
   },
   body: {
     fontSize: 14,
@@ -49,7 +49,7 @@ const CustomTableCellName = withStyles(theme => ({
   body: {
     fontSize: 15,
     padding: 1,
-    paddingLeft: "6%"
+    paddingLeft: "7%"
   }
 }))(TableCell);
 
@@ -66,11 +66,9 @@ const CustomTableCellName = withStyles(theme => ({
 
 const CustomTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-    fontSize: 14,
-    textAlign: "center",
-    padding: 3
+    backgroundColor: grey[100],
+    fontSize: 15,
+    textAlign: "center"
   },
   body: {
     fontSize: 15,
@@ -81,11 +79,9 @@ const CustomTableCell = withStyles(theme => ({
 
 const CustomTableCellWide = withStyles(theme => ({
   head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    backgroundColor: grey[100],
     fontSize: 15,
-    textAlign: "center",
-    padding: 2
+    textAlign: "center"
   },
   body: {
     fontSize: 16,
@@ -111,7 +107,7 @@ class CommonTableHead extends React.Component {
   };
 
   render() {
-    const { order, orderBy, head } = this.props;
+    const { classes, order, orderBy, head } = this.props;
     return (
       <TableHead>
         <MediaQuery query="(max-width: 767px)">
@@ -130,12 +126,14 @@ class CommonTableHead extends React.Component {
                       padding="checkbox"
                       sortDirection={orderBy === cell.id ? order : false}
                     >
-                      <CustomTableSortLabel
+                      <Button
+                        variant="outlined"
+                        size="small"
                         onClick={this.createSortHandler(cell.id)}
-                        hideSortIcon
+                        className={classes.tableButton}
                       >
                         {cell.label}
-                      </CustomTableSortLabel>
+                      </Button>
                     </CustomTableCell>
                   );
                 } else {
@@ -194,6 +192,7 @@ class CommonTableHead extends React.Component {
 }
 
 CommonTableHead.propTypes = {
+  classes: PropTypes.object.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.string.isRequired,
   orderBy: PropTypes.string.isRequired,
@@ -240,6 +239,7 @@ export class CommonTable extends React.Component {
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
             <CommonTableHead
+              classes={classes}
               order={order}
               orderBy={orderBy}
               onRequestSort={this.handleRequestSort}

@@ -28,8 +28,19 @@ export const styles = theme => ({
     marginTop: 48
   },
   des: {
+    backgroundColor: blue[700],
+    color: theme.palette.common.white,
     height: 35,
-    fontSize: "92%"
+  },
+  des2: {
+    backgroundColor: "rgba(0,0,0,0)",
+    color: theme.palette.common.white,
+    fontSize: "100%",
+    height: 36,
+  },
+  tableButton: {
+    width: "100%",
+    minWidth: "100%"
   },
   adTypo: {
     display: "flex",

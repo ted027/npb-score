@@ -31,8 +31,8 @@ import {
   hitters_body_eye,
   hitters_header_steal,
   hitters_body_steal,
-  hitters_header_clutch,
-  hitters_body_clutch
+  // hitters_header_clutch,
+  // hitters_body_clutch
 } from "./datastore/Hitters";
 import {
   pitchers_header,
@@ -120,7 +120,7 @@ class DefaultPage extends React.Component {
                       className={classes.des}
                     >
                       <Toolbar variant="dense">
-                        <Typography variant="h6" className={classes.des}>
+                        <Typography variant="h6" className={classes.des2}>
                           セリーグ順位表
                         </Typography>
                       </Toolbar>
@@ -142,7 +142,7 @@ class DefaultPage extends React.Component {
                       className={classes.des}
                     >
                       <Toolbar variant="dense">
-                        <Typography variant="h6" className={classes.des}>
+                        <Typography variant="h6" className={classes.des2}>
                           パリーグ順位表
                         </Typography>
                       </Toolbar>
@@ -165,7 +165,7 @@ class DefaultPage extends React.Component {
                       className={classes.des}
                     >
                       <Toolbar variant="dense">
-                        <Typography variant="h6" className={classes.des}>
+                        <Typography variant="h6" className={classes.des2}>
                           セリーグ投打成績
                         </Typography>
                       </Toolbar>
@@ -187,7 +187,7 @@ class DefaultPage extends React.Component {
                       className={classes.des}
                     >
                       <Toolbar variant="dense">
-                        <Typography variant="h6" className={classes.des}>
+                        <Typography variant="h6" className={classes.des2}>
                           パリーグ投打成績
                         </Typography>
                       </Toolbar>
@@ -213,7 +213,7 @@ class DefaultPage extends React.Component {
                     className={classes.des}
                   >
                     <Toolbar variant="dense">
-                      <Typography variant="h6" className={classes.des}>
+                      <Typography variant="h6" className={classes.des2}>
                         パークファクター　※参考値
                       </Typography>
                     </Toolbar>
@@ -248,7 +248,7 @@ class DefaultPage extends React.Component {
                   className={classes.des}
                 >
                   <Toolbar variant="dense">
-                    <Typography variant="h6" className={classes.des}>
+                    <Typography variant="h6" className={classes.des2}>
                       野手タイトル
                     </Typography>
                   </Toolbar>
@@ -270,7 +270,7 @@ class DefaultPage extends React.Component {
                   className={classes.des}
                 >
                   <Toolbar variant="dense">
-                    <Typography variant="h6" className={classes.des}>
+                    <Typography variant="h6" className={classes.des2}>
                       打撃力総合１
                     </Typography>
                   </Toolbar>
@@ -293,7 +293,7 @@ class DefaultPage extends React.Component {
                   className={classes.des}
                 >
                   <Toolbar variant="dense">
-                    <Typography variant="h6" className={classes.des}>
+                    <Typography variant="h6" className={classes.des2}>
                       打撃力総合２
                     </Typography>
                   </Toolbar>
@@ -315,7 +315,7 @@ class DefaultPage extends React.Component {
                   className={classes.des}
                 >
                   <Toolbar variant="dense">
-                    <Typography variant="h6" className={classes.des}>
+                    <Typography variant="h6" className={classes.des2}>
                       攻撃力総合
                     </Typography>
                   </Toolbar>
@@ -338,7 +338,7 @@ class DefaultPage extends React.Component {
                   className={classes.des}
                 >
                   <Toolbar variant="dense">
-                    <Typography variant="h6" className={classes.des}>
+                    <Typography variant="h6" className={classes.des2}>
                       ミート
                     </Typography>
                   </Toolbar>
@@ -360,7 +360,7 @@ class DefaultPage extends React.Component {
                   className={classes.des}
                 >
                   <Toolbar variant="dense">
-                    <Typography variant="h6" className={classes.des}>
+                    <Typography variant="h6" className={classes.des2}>
                       パワー
                     </Typography>
                   </Toolbar>
@@ -383,7 +383,7 @@ class DefaultPage extends React.Component {
                   className={classes.des}
                 >
                   <Toolbar variant="dense">
-                    <Typography variant="h6" className={classes.des}>
+                    <Typography variant="h6" className={classes.des2}>
                       選球眼
                     </Typography>
                   </Toolbar>
@@ -405,7 +405,7 @@ class DefaultPage extends React.Component {
                   className={classes.des}
                 >
                   <Toolbar variant="dense">
-                    <Typography variant="h6" className={classes.des}>
+                    <Typography variant="h6" className={classes.des2}>
                       走力
                     </Typography>
                   </Toolbar>
@@ -427,7 +427,7 @@ class DefaultPage extends React.Component {
                   className={classes.des}
                 >
                   <Toolbar variant="dense">
-                    <Typography variant="h6" className={classes.des}>
+                    <Typography variant="h6" className={classes.des2}>
                       チャンス
                     </Typography>
                   </Toolbar>
@@ -461,7 +461,7 @@ class DefaultPage extends React.Component {
                   className={classes.des}
                 >
                   <Toolbar variant="dense">
-                    <Typography variant="h6" className={classes.des}>
+                    <Typography variant="h6" className={classes.des2}>
                       先発投手１
                     </Typography>
                   </Toolbar>
@@ -483,7 +483,7 @@ class DefaultPage extends React.Component {
                   className={classes.des}
                 >
                   <Toolbar variant="dense">
-                    <Typography variant="h6" className={classes.des}>
+                    <Typography variant="h6" className={classes.des2}>
                       先発投手２
                     </Typography>
                   </Toolbar>
@@ -506,7 +506,7 @@ class DefaultPage extends React.Component {
                   className={classes.des}
                 >
                   <Toolbar variant="dense">
-                    <Typography variant="h6" className={classes.des}>
+                    <Typography variant="h6" className={classes.des2}>
                       先発投手３（三振・四球）
                     </Typography>
                   </Toolbar>
@@ -528,7 +528,7 @@ class DefaultPage extends React.Component {
                   className={classes.des}
                 >
                   <Toolbar variant="dense">
-                    <Typography variant="h6" className={classes.des}>
+                    <Typography variant="h6" className={classes.des2}>
                       先発投手４（ＱＳ・完投）
                     </Typography>
                   </Toolbar>
@@ -551,7 +551,7 @@ class DefaultPage extends React.Component {
                   className={classes.des}
                 >
                   <Toolbar variant="dense">
-                    <Typography color="inherit" className={classes.des}>
+                    <Typography color="inherit" className={classes.des2}>
                       抑え投手
                     </Typography>
                   </Toolbar>
@@ -573,7 +573,7 @@ class DefaultPage extends React.Component {
                   className={classes.des}
                 >
                   <Toolbar variant="dense">
-                    <Typography variant="h6" className={classes.des}>
+                    <Typography variant="h6" className={classes.des2}>
                       中継ぎ投手
                     </Typography>
                   </Toolbar>
