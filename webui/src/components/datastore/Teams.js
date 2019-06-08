@@ -53,24 +53,15 @@ const trecheader = [
   "得点",
   "打率",
   "本塁打",
-  "盗塁",
+  // "盗塁",
   "失点",
   "防御率",
   "League"
 ];
 
-const teams_rec_numeric = [false, true, true, true, true, true, true, false];
+const teams_rec_numeric = [false, true, true, true, true, true, false];
 
-const teams_rec_order = [
-  "desc",
-  "desc",
-  "desc",
-  "desc",
-  "desc",
-  "asc",
-  "asc",
-  "desc"
-];
+const teams_rec_order = ["desc", "desc", "desc", "desc", "asc", "asc", "desc"];
 
 export const teams_rec_header = [];
 for (var i = 0; i < trecheader.length; i++) {
