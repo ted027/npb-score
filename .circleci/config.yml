@@ -77,7 +77,7 @@ jobs:
             git config --global user.name "CircleCI"
             git config --global user.email "circleci@example.com"
             git add --all
-            msg="update records `date`"
+            msg="update records webui `date`"
             git commit -m "$msg"
             git push origin master
 
