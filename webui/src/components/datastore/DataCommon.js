@@ -19,6 +19,27 @@ export function createHeader(array, regulated, order) {
   return header;
 }
 
+export function createHeaderRelief(array, regulated, order, numeric) {
+  const header = [
+    {
+      id: "選手",
+      numeric: false,
+      regulated: false,
+      label: "選手"
+    }
+  ];
+  for (var i = 0; i < array.length; i++) {
+    header.push({
+      id: array[i],
+      numeric: numeric[i],
+      defaultOrder: order[i],
+      regulated: regulated[i],
+      label: array[i]
+    });
+  }
+  return header;
+}
+
 function createNameContent(name, team) {
   return name + " (" + team + ")";
 }

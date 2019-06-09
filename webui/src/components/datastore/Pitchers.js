@@ -1,5 +1,5 @@
 import pitchersj from "../../records/pitchers.json";
-import { createHeader, createBody } from "./DataCommon";
+import { createHeader, createBody, createHeaderRelief } from "./DataCommon";
 
 const pitchers = pitchersj.Pitcher;
 
@@ -81,6 +81,7 @@ const pheader_regulated_closer = [
   false,
   false
 ];
+const pheader_rnumeric_closer = [true, true, false, false, false, false, false];
 const pheader_order_closer = [
   "desc",
   "desc",
@@ -90,10 +91,11 @@ const pheader_order_closer = [
   "desc",
   "desc"
 ];
-export const pitchers_header_closer = createHeader(
+export const pitchers_header_closer = createHeaderRelief(
   pheader_closer,
   pheader_regulated_closer,
-  pheader_order_closer
+  pheader_order_closer,
+  pheader_rnumeric_closer
 );
 export const pitchers_body_closer = createBody(pitchers, pheader_closer);
 
@@ -116,6 +118,7 @@ const pheader_regulated_relief = [
   false,
   false
 ];
+const pheader_rnumeric_relief = [true, true, false, false, false, false, false];
 const pheader_order_relief = [
   "desc",
   "desc",
@@ -125,9 +128,10 @@ const pheader_order_relief = [
   "desc",
   "desc"
 ];
-export const pitchers_header_relief = createHeader(
+export const pitchers_header_relief = createHeaderRelief(
   pheader_relief,
   pheader_regulated_relief,
-  pheader_order_relief
+  pheader_order_relief,
+  pheader_rnumeric_relief
 );
 export const pitchers_body_relief = createBody(pitchers, pheader_relief);

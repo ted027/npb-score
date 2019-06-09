@@ -160,8 +160,15 @@ class CommonTableHead extends React.Component {
                       sortDirection={orderBy === cell.id ? order : false}
                     >
                       <Button
-                        variant="contained"
+                        variant={orderBy === cell.id ? "contained" : "outlined"}
                         size="small"
+                        color={
+                          orderBy === cell.id && orderMean === "good"
+                            ? "secondary"
+                            : orderBy === cell.id
+                            ? "default"
+                            : "inherit"
+                        }
                         onClick={this.createSortHandler(cell.id)}
                         className={classes.tableButton}
                       >
