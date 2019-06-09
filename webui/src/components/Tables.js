@@ -314,7 +314,7 @@ export class CommonTable extends React.Component {
             <MediaQuery query="(min-width: 767px)">
               <TableBody>
                 {stableSort(data, getSorting(order, orderBy)).map(n => {
-                  if (n.League === league && jun2 < row_length) {
+                  if (league.indexOf(n.League) >= 0 && jun2 < row_length) {
                     if (!getProperty(head, orderBy, "regulated") || n.規定) {
                       return (
                         <TableRow hover tabIndex={-1} key={n.id}>
