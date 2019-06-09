@@ -7,10 +7,8 @@ import TableBody from "@material-ui/core/TableBody";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-import yellow from "@material-ui/core/colors/yellow";
 import grey from "@material-ui/core/colors/grey";
 import { stableSort, getSorting, getProperty } from "./Common";
 
@@ -97,7 +95,7 @@ class CommonTableHead extends React.Component {
   };
 
   render() {
-    const { classes, order, orderBy, head } = this.props;
+    const { classes, order, orderBy, orderMean, head } = this.props;
     return (
       <TableHead>
         <MediaQuery query="(max-width: 767px)">
@@ -117,8 +115,15 @@ class CommonTableHead extends React.Component {
                       sortDirection={orderBy === cell.id ? order : false}
                     >
                       <Button
-                        variant="contained"
+                        variant={orderBy === cell.id ? "contained" : "outlined"}
                         size="small"
+                        color={
+                          orderBy === cell.id && orderMean === "good"
+                            ? "secondary"
+                            : orderBy === cell.id
+                            ? "default"
+                            : "inherit"
+                        }
                         onClick={this.createSortHandler(cell.id)}
                         className={classes.tableButton}
                       >
@@ -189,6 +194,7 @@ CommonTableHead.propTypes = {
   onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.string.isRequired,
   orderBy: PropTypes.string.isRequired,
+  orderMean: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
   head: PropTypes.array.isRequired
 };
@@ -224,7 +230,7 @@ export class CommonTable extends React.Component {
 
   render() {
     const { classes, data, head, row_length, league } = this.props;
-    const { order, orderBy } = this.state;
+    const { order, orderBy, orderMean } = this.state;
     var jun = 0;
     var jun2 = 0;
     return (
@@ -235,6 +241,7 @@ export class CommonTable extends React.Component {
               classes={classes}
               order={order}
               orderBy={orderBy}
+              orderMean={orderMean}
               onRequestSort={this.handleRequestSort}
               rowCount={data.length}
               head={head}

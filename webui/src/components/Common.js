@@ -28,7 +28,7 @@ export const styles = theme => ({
     marginTop: 48
   },
   des: {
-    backgroundColor: blue[700],
+    backgroundColor: blue[600],
     color: theme.palette.common.white,
     height: 35,
   },
