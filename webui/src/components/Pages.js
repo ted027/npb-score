@@ -56,6 +56,7 @@ export function LeagueAppBar(className, selected, onChange) {
         scrollButtons="auto"
         onChange={onChange}
       >
+        <Tab label="ALL" />
         <Tab label="セリーグ" />
         <Tab label="パリーグ" />
       </Tabs>

@@ -22,7 +22,7 @@ export const pitchers_header = createHeader(
 export const pitchers_body = createBody(pitchers, pheader);
 
 // whip
-const pheader_whip = ["WHIP", "被打率", "FIP", "BABIP", "規定", "League"];
+const pheader_whip = ["WHIP", "FIP", "被打率", "BABIP", "規定", "League"];
 const pheader_regulated_whip = [true, true, true, true, false, false];
 const pheader_order_whip = ["asc", "asc", "asc", "asc", "desc", "desc"];
 export const pitchers_header_whip = createHeader(

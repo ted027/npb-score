@@ -30,13 +30,13 @@ export const styles = theme => ({
   des: {
     backgroundColor: blue[600],
     color: theme.palette.common.white,
-    height: 35,
+    height: 35
   },
   des2: {
     backgroundColor: "rgba(0,0,0,0)",
     color: theme.palette.common.white,
     fontSize: "100%",
-    height: 36,
+    height: 36
   },
   tableButton: {
     width: "100%",

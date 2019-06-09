@@ -11,8 +11,10 @@ import {
   parks_body,
   teams_header,
   teams_body,
-  teams_rec_header,
-  teams_rec_body
+  teams_atk_header,
+  teams_atk_body,
+  teams_def_header,
+  teams_def_body
 } from "./datastore/Teams";
 import {
   hitters_header,
@@ -30,7 +32,7 @@ import {
   hitters_header_eye,
   hitters_body_eye,
   hitters_header_steal,
-  hitters_body_steal,
+  hitters_body_steal
   // hitters_header_clutch,
   // hitters_body_clutch
 } from "./datastore/Hitters";
@@ -60,15 +62,16 @@ const PITCHER_VALUE = 2;
 const ORDER = 0;
 const PARKFACTOR = 1;
 
-const CENTRAL = 0;
-const PACIFIC = 1;
+const ALL = 0;
+const CENTRAL = 1;
+const PACIFIC = 2;
 
 class DefaultPage extends React.Component {
   state = {
     selected: ORDER_VALUE,
     order_selected: ORDER,
-    league_selected: CENTRAL,
-    league: "Central"
+    league_selected: ALL,
+    league: "CentralPacific"
   };
 
   handleTabChange = (event, selected) => {
@@ -81,7 +84,9 @@ class DefaultPage extends React.Component {
 
   handleLeagueChange = (event, league_selected) => {
     var league;
-    if (league_selected === CENTRAL) {
+    if (league_selected === ALL) {
+      league = "CentralPacific";
+    } else if (league_selected === CENTRAL) {
       league = "Central";
     } else if (league_selected === PACIFIC) {
       league = "Pacific";
@@ -166,7 +171,7 @@ class DefaultPage extends React.Component {
                     >
                       <Toolbar variant="dense">
                         <Typography variant="h6" className={classes.des2}>
-                          セリーグ投打成績
+                          セリーグ野手成績
                         </Typography>
                       </Toolbar>
                     </AppBar>
@@ -174,8 +179,8 @@ class DefaultPage extends React.Component {
                       classes={styles}
                       default_order="desc"
                       default_orderBy="得点"
-                      head={teams_rec_header}
-                      data={teams_rec_body}
+                      head={teams_atk_header}
+                      data={teams_atk_body}
                       row_length={teams_body.length}
                       league="Central"
                     />
@@ -188,7 +193,7 @@ class DefaultPage extends React.Component {
                     >
                       <Toolbar variant="dense">
                         <Typography variant="h6" className={classes.des2}>
-                          パリーグ投打成績
+                          パリーグ野手成績
                         </Typography>
                       </Toolbar>
                     </AppBar>
@@ -196,13 +201,57 @@ class DefaultPage extends React.Component {
                       classes={styles}
                       default_order="desc"
                       default_orderBy="得点"
-                      head={teams_rec_header}
-                      data={teams_rec_body}
+                      head={teams_atk_header}
+                      data={teams_atk_body}
                       row_length={teams_body.length}
                       league="Pacific"
                     />
                   </p>
                   {middle_ad1(classes)}
+                  <p>
+                    <AppBar
+                      position="static"
+                      color="default"
+                      className={classes.des}
+                    >
+                      <Toolbar variant="dense">
+                        <Typography variant="h6" className={classes.des2}>
+                          セリーグ投手成績
+                        </Typography>
+                      </Toolbar>
+                    </AppBar>
+                    <CommonTable
+                      classes={styles}
+                      default_order="asc"
+                      default_orderBy="失点"
+                      head={teams_def_header}
+                      data={teams_def_body}
+                      row_length={teams_body.length}
+                      league="Central"
+                    />
+                  </p>
+                  <p>
+                    <AppBar
+                      position="static"
+                      color="default"
+                      className={classes.des}
+                    >
+                      <Toolbar variant="dense">
+                        <Typography variant="h6" className={classes.des2}>
+                          パリーグ投手成績
+                        </Typography>
+                      </Toolbar>
+                    </AppBar>
+                    <CommonTable
+                      classes={styles}
+                      default_order="asc"
+                      default_orderBy="失点"
+                      head={teams_def_header}
+                      data={teams_def_body}
+                      row_length={teams_body.length}
+                      league="Pacific"
+                    />
+                  </p>
                 </p>
               )}
               {order_selected === PARKFACTOR && (
@@ -507,7 +556,7 @@ class DefaultPage extends React.Component {
                 >
                   <Toolbar variant="dense">
                     <Typography variant="h6" className={classes.des2}>
-                      先発投手３（三振・四球）
+                      先発投手３（三振・四球・本塁打）
                     </Typography>
                   </Toolbar>
                 </AppBar>

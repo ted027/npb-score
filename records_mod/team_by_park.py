@@ -99,7 +99,6 @@ def update_team_park_records():
     pf_list = []
     for team_dic in team_list:
         team = team_dic['チーム']
-        # team_dic['球場'] = park_dic[team]
         team_dic['本拠地'] = park_dic[team][HOME_DIC[team]]
         sum_visitor_dic = {}
         sum_visitor_park_dick(sum_visitor_dic, park_dic[team], team)
@@ -107,6 +106,11 @@ def update_team_park_records():
 
         fix_rate_records(team_dic['本拠地'])
         fix_rate_records(team_dic['非本拠地'])
+
+        team_dic['四球'] = str(Decimal(team_dic['本拠地']['四球']) + Decimal(team_dic['非本拠地']['四球']))
+        team_dic['奪三振'] = str(Decimal(team_dic['本拠地']['奪三振']) + Decimal(team_dic['非本拠地']['奪三振']))
+        team_dic['与四球'] = str(Decimal(team_dic['本拠地']['与四球']) + Decimal(team_dic['非本拠地']['与四球']))
+        team_dic['被本塁打'] = str(Decimal(team_dic['本拠地']['被本塁打']) + Decimal(team_dic['非本拠地']['被本塁打']))
 
         pf_list.append({
             '球場': HOME_DIC[team],

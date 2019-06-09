@@ -115,6 +115,9 @@ class CommonTableHead extends React.Component {
                       sortDirection={orderBy === cell.id ? order : false}
                     >
                       <Button
+                        style={{
+                          "text-transform": "none"
+                        }}
                         variant={orderBy === cell.id ? "contained" : "outlined"}
                         size="small"
                         color={
@@ -160,6 +163,9 @@ class CommonTableHead extends React.Component {
                       sortDirection={orderBy === cell.id ? order : false}
                     >
                       <Button
+                        style={{
+                          "text-transform": "none"
+                        }}
                         variant={orderBy === cell.id ? "contained" : "outlined"}
                         size="small"
                         color={
@@ -255,7 +261,7 @@ export class CommonTable extends React.Component {
             />
             <MediaQuery query="(max-width: 767px)">
               {stableSort(data, getSorting(order, orderBy)).map(n => {
-                if (n.League === league && jun < row_length) {
+                if (league.indexOf(n.League) >= 0 && jun < row_length) {
                   if (!getProperty(head, orderBy, "regulated") || n.規定) {
                     return (
                       <TableBody>

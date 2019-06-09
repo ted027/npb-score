@@ -48,32 +48,65 @@ for (var i = 0; i < theader.length; i++) {
 
 export const teams_body = createTeamBody(teams, theader);
 
-const trecheader = [
+const t_atk_header = [
   "チーム",
   "得点",
   "打率",
   "本塁打",
-  // "盗塁",
-  "失点",
-  "防御率",
+  "四球",
+  "盗塁",
   "League"
 ];
 
-const teams_rec_numeric = [false, true, true, true, true, true, false];
+const teams_atk_numeric = [false, true, true, true, true, true, false];
 
-const teams_rec_order = ["desc", "desc", "desc", "desc", "asc", "asc", "desc"];
+const teams_atk_order = [
+  "desc",
+  "desc",
+  "desc",
+  "desc",
+  "desc",
+  "desc",
+  "desc"
+];
 
-export const teams_rec_header = [];
-for (var i = 0; i < trecheader.length; i++) {
-  teams_rec_header.push({
-    id: trecheader[i],
-    numeric: teams_rec_numeric[i],
-    defaultOrder: teams_rec_order[i],
-    label: trecheader[i]
+export const teams_atk_header = [];
+for (var i = 0; i < t_atk_header.length; i++) {
+  teams_atk_header.push({
+    id: t_atk_header[i],
+    numeric: teams_atk_numeric[i],
+    defaultOrder: teams_atk_order[i],
+    label: t_atk_header[i]
   });
 }
 
-export const teams_rec_body = createTeamBody(teams, trecheader);
+export const teams_atk_body = createTeamBody(teams, t_atk_header);
+
+const t_def_header = [
+  "チーム",
+  "失点",
+  "防御率",
+  "奪三振",
+  "与四球",
+  "被本塁打",
+  "League"
+];
+
+const teams_def_numeric = [false, true, true, true, true, true, false];
+
+const teams_def_order = ["desc", "asc", "asc", "desc", "asc", "asc", "desc"];
+
+export const teams_def_header = [];
+for (var i = 0; i < t_def_header.length; i++) {
+  teams_def_header.push({
+    id: t_def_header[i],
+    numeric: teams_def_numeric[i],
+    defaultOrder: teams_def_order[i],
+    label: t_def_header[i]
+  });
+}
+
+export const teams_def_body = createTeamBody(teams, t_def_header);
 
 // parks
 //
