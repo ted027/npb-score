@@ -87,6 +87,7 @@ for (var l = 0; l < prheader.length; l++) {
   parks_header.push({
     id: prheader[l],
     numeric: parks_numeric[l],
+    defaultOrder: "desc",
     label: prheader[l]
   });
 }
@@ -97,4 +98,3 @@ for (var m = 0; m < parks.length; m++) {
   pk["League"] = "";
   parks_body.push(createData(pk));
 }
-console.log(parks_body);
