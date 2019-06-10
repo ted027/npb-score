@@ -46,6 +46,15 @@ def unify_teams(team_str):
             return team
 
 
+def correct_pf(hitter, pf_list):
+    correct_pf = Decimal('0')
+    for key, value in hitter.get('球場', {}).items():
+        pf = pick_dick(pf_list, '球場', key).get('得点PF', '1')
+        correct_pf += Decimal(pf) * Decimal(value['試合']) / Decimal(
+            hitter['試合'])
+    return correct_pf
+
+
 def fix_rate_records_obp(dic):
     denominator = (Decimal(dic['打数']) + Decimal(dic['四球']) + Decimal(dic['死球'])
                    + Decimal(dic['犠飛']))

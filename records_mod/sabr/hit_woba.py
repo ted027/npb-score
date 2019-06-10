@@ -1,6 +1,6 @@
 import json
 from decimal import Decimal
-from .common import (digits_under_one, single, pick_dick)
+from .common import (digits_under_one, single, correct_pf)
 
 WOBA_BB = Decimal('0.692')
 WOBA_HBP = Decimal('0.73')
@@ -91,23 +91,15 @@ def wrc(hitter, league, raw_wraa):
     return str(wrc), raw_wrc
 
 
-def _pf_wrc(hitter, pf_list, raw_wrc):
-    pf_wrc = Decimal('0')
-    for key, value in hitter.get('球場', {}).items():
-        pf = pick_dick(pf_list, '球場', key).get('得点PF', '1')
-        pf_wrc += raw_wrc * Decimal(value['試合']) / Decimal(
-            hitter['試合']) / Decimal(pf)
-    return pf_wrc
-
-
 def wrc_plus(hitter, league, pf_list, raw_wrc):
     """
     wRC+＝（パークファクターを考慮して計算したwRC÷打席）÷（リーグ総得点÷リーグ総打席）
     """
     if not Decimal(hitter['打席']) * Decimal(league['打席']):
         return '0'
-    pf_wrc = _pf_wrc(hitter, pf_list, raw_wrc)
-    numerator = pf_wrc / Decimal(hitter['打席'])
+    cor_pf = correct_pf(hitter, pf_list)
+    correct_wrc = raw_wrc / cor_pf
+    numerator = correct_wrc / Decimal(hitter['打席'])
     denominator = Decimal(league['得点']) / Decimal(league['打席'])
 
     raw_wrc_plus = numerator / denominator * Decimal('100')

@@ -89,6 +89,10 @@ def babip_h(hitter):
     return str(babip)[1:]
 
 
+def true_average(hitter):
+    pass
+
+
 def steal_percent(hitter):
     steal = Decimal(hitter['盗塁'])
     challenge = steal + Decimal(hitter['盗塁死'])
