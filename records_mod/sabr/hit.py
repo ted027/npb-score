@@ -90,7 +90,18 @@ def babip_h(hitter):
 
 
 def true_average(hitter):
-    pass
+    denominator = Decimal(hitter['打数']) + Decimal(hitter['四球']) + Decimal(
+        hitter['死球']) + Decimal(hitter['犠打']) + Decimal(
+            hitter['犠飛']) + Decimal(
+                hitter['盗塁死']) + (Decimal(hitter['盗塁']) / Decimal('3'))
+    if not denominator:
+        return '.000'
+    numerator = Decimal(hitter['安打']) + Decimal(hitter['塁打']) + Decimal(
+        '1.5') * (Decimal(hitter['四球']) + Decimal(hitter['死球'])) + Decimal(
+            hitter['犠打']) + Decimal(hitter['犠飛']) + Decimal(hitter['盗塁'])
+    raw_ta = numerator / denominator
+    true_average = digits_under_one(raw_ta, 3)
+    return str(true_average)
 
 
 def steal_percent(hitter):
