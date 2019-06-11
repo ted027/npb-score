@@ -1,7 +1,7 @@
 import json
 from decimal import Decimal, ROUND_HALF_UP
 from sabr.pitch import (qs_rate, bb_per_nine, hr_per_nine, bb_percent_p,
-                        k_percent_p, fip, babip_p)
+                        k_percent_p, fip, fip_ra, fip_pf, babip_p)
 from sabr.hit import (hr_percent, babip_h, iso_d, iso_p, bb_percent_h,
                       k_percent_h, bb_per_k, steal_percent, wsb, true_average)
 from sabr.hit_woba import (woba, woba_basic, woba_speed, wraa, wrc, wrc_plus)
@@ -10,7 +10,7 @@ from sabr.common import RECORDS_DIRECTORY
 from datastore_json import read_json, write_json
 
 
-def calc_sabr_pitcher(pitcher, league_pitcher_dic=None):
+def calc_sabr_pitcher(pitcher, league_pitcher_dic=None, pf_list=None):
     pitcher['QS率'] = qs_rate(pitcher)
     pitcher['BABIP'] = babip_p(pitcher)
     pitcher['BB/9'] = bb_per_nine(pitcher)
@@ -18,7 +18,11 @@ def calc_sabr_pitcher(pitcher, league_pitcher_dic=None):
     pitcher['K%'] = k_percent_p(pitcher)
     pitcher['BB%'] = bb_percent_p(pitcher)
     if league_pitcher_dic:
-        pitcher['FIP'] = fip(pitcher, league_pitcher_dic)
+        pitcher['FIP'], raw_fip = fip(pitcher, league_pitcher_dic)
+        pitcher['FIP(RA)'], raw_fip_ra = fip_ra(pitcher, league_pitcher_dic,
+                                                raw_fip)
+        pitcher['FIP_pf'] = fip_pf(pitcher, league_pitcher_dic, pf_list,
+                                   raw_fip_ra)
     return pitcher
 
 
@@ -70,12 +74,15 @@ def add_sabr_pitcher():
 
     league_pitcher_dic = league_dic['Pitcher']
 
+    pf_list = read_json('parks.json')['Park']
+
     for league in league_pitcher_dic.values():
         league = calc_sabr_pitcher(league)
 
     for pitcher in pitcher_list:
         pitcher = calc_sabr_pitcher(pitcher,
-                                    league_pitcher_dic[pitcher['League']])
+                                    league_pitcher_dic[pitcher['League']],
+                                    pf_list)
 
     write_json('league.json', league_dic)
 

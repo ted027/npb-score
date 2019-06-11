@@ -1,6 +1,6 @@
 import json
 from decimal import Decimal
-from .common import (digits_under_one, return_outcounts, FULL_OUTCOUNTS)
+from .common import (digits_under_one, return_outcounts, FULL_OUTCOUNTS, correct_pf)
 
 
 def qs_rate(pitcher):
@@ -113,7 +113,26 @@ def fip(pitcher, league):
     lg_fip = _fip_efira(league)
     raw_fip = pit_fip + Decimal(league['防御率']) - lg_fip
     fip = digits_under_one(raw_fip, 2)
-    return str(fip)
+    return str(fip), raw_fip
+
+
+def fip_ra(pitcher, league, raw_fip):
+    if not Decimal(league['自責点']):
+        return Decimal('0.00')
+    lg_rar = Decimal(league['防御率']) / Decimal(league['自責点']) * Decimal(league['失点'])
+    raw_fip_ra = raw_fip + lg_rar - Decimal(league['防御率'])
+    fip_ra = digits_under_one(raw_fip_ra, 2)
+    return str(fip_ra), raw_fip_ra
+
+
+def fip_pf(pitcher, league, pf_list, raw_fip_ra):
+    if not Decimal(league['アウト']):
+        return Decimal('0.00')
+    cor_pf = correct_pf(pitcher, pf_list)
+    raw_fip_pf = raw_fip_ra + (Decimal('1') - cor_pf) * Decimal(
+        league['失点']) / Decimal(league['アウト']) * Decimal(pitcher['アウト']) / cor_pf
+    fip_pf = digits_under_one(raw_fip_pf, 2)
+    return str(fip_pf)
 
 
 def babip_p(pitcher):

@@ -3,7 +3,7 @@ import json
 import time
 from decimal import Decimal
 from bs4 import BeautifulSoup
-from sabr.common import RECORDS_DIRECTORY, unify_teams
+from sabr.common import RECORDS_DIRECTORY, unify_teams, return_outcounts
 from datastore_json import read_json, write_json
 
 NAME_HI = -1
@@ -196,6 +196,8 @@ def append_team_pitcher_array(link_tail_list):
 
         if not Decimal(records['登板']):
             continue
+        
+        records['アウト'] = str(return_outcounts(Decimal(records['投球回'])))
 
         if rl_table:
             # 1: dump '○打'
