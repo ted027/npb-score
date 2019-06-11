@@ -119,8 +119,8 @@ def fip(pitcher, league):
 def fip_ra(pitcher, league, raw_fip):
     if not Decimal(league['自責点']):
         return Decimal('0.00')
-    lg_rar = Decimal(league['防御率']) / Decimal(league['自責点']) * Decimal(league['失点'])
-    raw_fip_ra = raw_fip + lg_rar - Decimal(league['防御率'])
+    lg_rar_minus_era = (Decimal(league['失点']) - Decimal(league['自責点'])) / Decimal(league['アウト']) * FULL_OUTCOUNTS
+    raw_fip_ra = raw_fip + lg_rar_minus_era
     fip_ra = digits_under_one(raw_fip_ra, 2)
     return str(fip_ra), raw_fip_ra
 
