@@ -97,7 +97,7 @@ def wrc_plus(hitter, league, pf_list, raw_wrc):
     """
     if not Decimal(hitter['打席']) * Decimal(league['打席']):
         return '0'
-    cor_pf = correct_pf(hitter, pf_list)
+    cor_pf = correct_pf(hitter, pf_list, '試合')
     correct_wrc = raw_wrc + (Decimal('1') - cor_pf) * Decimal(
         league['得点']) / Decimal(league['打席']) * Decimal(hitter['打席']) / cor_pf
     numerator = correct_wrc / Decimal(hitter['打席'])

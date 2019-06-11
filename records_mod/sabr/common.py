@@ -46,12 +46,12 @@ def unify_teams(team_str):
             return team
 
 
-def correct_pf(hitter, pf_list):
+def correct_pf(hitter, pf_list, game_str):
     correct_pf = Decimal('0')
     for key, value in hitter.get('球場', {}).items():
         pf = pick_dick(pf_list, '球場', key).get('得点PF', '1')
-        correct_pf += Decimal(pf) * Decimal(value['試合']) / Decimal(
-            hitter['試合'])
+        correct_pf += Decimal(pf) * Decimal(value[game_str]) / Decimal(
+            hitter[game_str])
     return correct_pf
 
 
