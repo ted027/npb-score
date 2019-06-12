@@ -111,8 +111,10 @@ export const teams_def_body = createTeamBody(teams, t_def_header);
 // parks
 //
 //
-var prheader = Object.keys(parks[0]);
-prheader.pop()
+var raw_prheader = Object.keys(parks[0]);
+var prheader = raw_prheader.filter(function(raw_prh) {
+  return raw_prh !== "2019";
+});
 prheader.push("League");
 const parks_numeric = [false, true, true, false];
 
@@ -128,7 +130,7 @@ for (var l = 0; l < prheader.length; l++) {
 
 export const parks_body = [];
 for (var m = 0; m < parks.length; m++) {
-  var pk = {};
+  var pk = { 球場: parks[m]["球場"] };
   pk["得点PF"] = parks[m]["2019"]["得点PF"];
   pk["HRPF"] = parks[m]["2019"]["HRPF"];
   pk["League"] = "";
@@ -136,10 +138,10 @@ for (var m = 0; m < parks.length; m++) {
 }
 
 export const parks_total_body = [];
-for (var m = 0; m < parks.length; m++) {
-  var pk = {};
-  pk["得点PF"] = parks[m]["得点PF"];
-  pk["HRPF"] = parks[m]["HRPF"];
-  pk["League"] = "";
-  parks_body.push(createData(pk));
+for (var n = 0; n < parks.length; n++) {
+  var tpk = { 球場: parks[n]["球場"] };
+  tpk["得点PF"] = parks[n]["得点PF"];
+  tpk["HRPF"] = parks[n]["HRPF"];
+  tpk["League"] = "";
+  parks_total_body.push(createData(tpk));
 }
