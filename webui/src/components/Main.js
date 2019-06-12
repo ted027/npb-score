@@ -541,7 +541,7 @@ class DefaultPage extends React.Component {
                 <CommonTable
                   classes={styles}
                   default_order="desc"
-                  default_orderBy="得点圏打率"
+                  default_orderBy="圏打率"
                   head={hitters_header_clutch}
                   data={hitters_body_clutch}
                   row_length="10"
@@ -754,7 +754,7 @@ class DefaultPage extends React.Component {
                 <CommonTable
                   classes={styles}
                   default_order="desc"
-                  default_orderBy="小松式D"
+                  default_orderBy="小松式ドネーション"
                   head={pitchers_header_oth}
                   data={pitchers_body_oth}
                   row_length="10"

@@ -119,10 +119,10 @@ def dict_records(records_table):
 
 def chance_records(chance_table):
     chheader_raw = [th.text for th in chance_table.find_all('th')]
-    # [0][:3]'得点圏' + header値
+    # [0][2:3]'圏' + header値
     # [1:] remove table title
     chheader = [
-        chheader_raw[0][:CHANCE_STR_DIVIDER] + h
+        chheader_raw[0][(CHANCE_STR_DIVIDER - 1):CHANCE_STR_DIVIDER] + h
         for h in chheader_raw[EXCEPT_HEAD_CONTENT:]
     ]
 

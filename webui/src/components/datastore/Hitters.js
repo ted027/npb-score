@@ -118,14 +118,7 @@ export const hitters_body_steal = createBody(hitters, hheader_steal);
 
 // clutch
 
-const hheader_clutch = [
-  "得点圏打率",
-  "得点圏打数",
-  "得点圏安打",
-  "打点",
-  "規定",
-  "League"
-];
+const hheader_clutch = ["圏打率", "圏打数", "圏安打", "打点", "規定", "League"];
 const hheader_clutch_regulated = [true, false, false, false, false, false];
 const hheader_clutch_order = new Array(hheader_clutch.length).fill("desc");
 export const hitters_header_clutch = createHeader(
@@ -137,13 +130,7 @@ export const hitters_body_clutch = createBodyClutch(hitters, hheader_clutch);
 
 // oth
 
-const hheader_oth = [
-  "BABIP",
-  "アダムダン率",
-  "ONE OUTS(万)",
-  "規定",
-  "League"
-];
+const hheader_oth = ["BABIP", "アダムダン率", "ONE OUTS(万)", "規定", "League"];
 const hheader_oth_regulated = [true, true, false, false, false];
 const hheader_oth_order = new Array(hheader_oth.length).fill("desc");
 export const hitters_header_oth = createHeader(
