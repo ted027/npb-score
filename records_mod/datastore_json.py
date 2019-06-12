@@ -1,5 +1,5 @@
 import json
-from sabr.common import RECORDS_DIRECTORY
+from common import RECORDS_DIRECTORY
 
 
 def read_json(file_name):

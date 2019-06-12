@@ -104,6 +104,17 @@ def true_average(hitter):
     return str(true_average)
 
 
+def ops_plus(hitter, league, cor_pf):
+    lg_obp = Decimal(league['出塁率'])
+    lg_slg = Decimal(league['長打率'])
+    if not lg_obp * lg_slg * cor_pf:
+        return '0'
+    raw_ops_plus = Decimal('100') * (Decimal(hitter['出塁率']) / lg_obp + Decimal(
+        hitter['長打率']) / lg_slg - Decimal('1')) / cor_pf
+    ops_plus = digits_under_one(raw_ops_plus, 0)
+    return str(ops_plus)
+
+
 def steal_percent(hitter):
     steal = Decimal(hitter['盗塁'])
     challenge = steal + Decimal(hitter['盗塁死'])

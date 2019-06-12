@@ -1,16 +1,16 @@
 import json
 from decimal import Decimal, ROUND_HALF_UP
+from common import RECORDS_DIRECTORY, correct_pf
 from sabr.pitch import (qs_rate, bb_per_nine, hr_per_nine, bb_percent_p,
                         k_percent_p, fip, fip_ra, fip_pf, babip_p)
 from sabr.hit import (hr_percent, babip_h, iso_d, iso_p, bb_percent_h,
-                      k_percent_h, bb_per_k, steal_percent, wsb, true_average)
+                      k_percent_h, bb_per_k, steal_percent, wsb, ops_plus)
 from sabr.hit_woba import (woba, woba_basic, woba_speed, wraa, wrc, wrc_plus)
 from sabr.hit_rc import (rc_basic, xr_basic, rc_xr_27, rc_xr_plus, rc_xr_win)
-from sabr.common import RECORDS_DIRECTORY
 from datastore_json import read_json, write_json
 
 
-def calc_sabr_pitcher(pitcher, league_pitcher_dic=None, pf_list=None):
+def calc_sabr_pitcher(pitcher, league_pitcher_dic=None, cor_pf=None):
     pitcher['QS率'] = qs_rate(pitcher)
     pitcher['BABIP'] = babip_p(pitcher)
     pitcher['BB/9'] = bb_per_nine(pitcher)
@@ -21,7 +21,7 @@ def calc_sabr_pitcher(pitcher, league_pitcher_dic=None, pf_list=None):
         pitcher['FIP'], raw_fip = fip(pitcher, league_pitcher_dic)
         pitcher['FIP(RA)'], raw_fip_ra = fip_ra(pitcher, league_pitcher_dic,
                                                 raw_fip)
-        pitcher['FIP_pf'] = fip_pf(pitcher, league_pitcher_dic, pf_list,
+        pitcher['FIP_pf'] = fip_pf(pitcher, league_pitcher_dic, cor_pf,
                                    raw_fip_ra)
     return pitcher
 
@@ -30,9 +30,9 @@ def calc_sabr_hitter(hitter,
                      league_dic=None,
                      league_rc=None,
                      league_xr=None,
-                     pf_list=None):
+                     cor_pf=None):
     """
-    第一引数がhitterならleague_dic, league_rc, league_xr, pf_listも同時に渡す
+    第一引数がhitterならleague_dic, league_rc, league_xr, cor_pfも同時に渡す
     第一引数がleagueなら第二〜第五引数は指定しない
     """
     hitter['本塁打率'] = hr_percent(hitter)
@@ -51,11 +51,12 @@ def calc_sabr_hitter(hitter,
     hitter['K%'] = k_percent_h(hitter)
     hitter['IsoD'] = iso_d(hitter)
     hitter['BABIP'] = babip_h(hitter)
-    if league_dic and pf_list:
+    if league_dic and cor_pf:
         league_hitter_dic = league_dic['Hitter'][hitter['League']]
         hitter['wRAA'], raw_wraa = wraa(hitter, league_hitter_dic)
         hitter['wRC'], raw_wrc = wrc(hitter, league_hitter_dic, raw_wraa)
-        hitter['wRC+'] = wrc_plus(hitter, league_hitter_dic, pf_list, raw_wrc)
+        hitter['wRC+'] = wrc_plus(hitter, league_hitter_dic, cor_pf, raw_wrc)
+        hitter['OPS+'] = ops_plus(hitter, league_hitter_dic, cor_pf)
         hitter['RCAA'], raw_rcaa = rc_xr_plus(hitter, league_hitter_dic,
                                               raw_rc, league_rc)
         hitter['RCWIN'] = rc_xr_win(hitter, league_dic, raw_rcaa)
@@ -80,9 +81,9 @@ def add_sabr_pitcher():
         league = calc_sabr_pitcher(league)
 
     for pitcher in pitcher_list:
-        pitcher = calc_sabr_pitcher(pitcher,
-                                    league_pitcher_dic[pitcher['League']],
-                                    pf_list)
+        cor_pf = correct_pf(pitcher, pf_list, '登板')
+        pitcher = calc_sabr_pitcher(
+            pitcher, league_pitcher_dic[pitcher['League']], cor_pf)
 
     write_json('league.json', league_dic)
 
@@ -102,8 +103,9 @@ def add_sabr_hitter():
         league, league_rc, league_xr = calc_sabr_hitter(league)
 
     for hitter in hitter_list:
+        cor_pf = correct_pf(hitter, pf_list, '試合')
         hitter = calc_sabr_hitter(hitter, league_dic, league_rc, league_xr,
-                                  pf_list)
+                                  cor_pf)
 
     write_json('league.json', league_dic)
 

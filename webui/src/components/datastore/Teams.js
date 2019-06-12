@@ -128,6 +128,7 @@ for (var l = 0; l < prheader.length; l++) {
 export const parks_body = [];
 for (var m = 0; m < parks.length; m++) {
   var pk = parks[m];
+  delete pk["2019"];
   pk["League"] = "";
   parks_body.push(createData(pk));
 }

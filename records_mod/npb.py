@@ -2,13 +2,11 @@ import requests
 import json
 from bs4 import BeautifulSoup
 from decimal import Decimal
+from common import YEAR, TEAM_NUM, RECORDS_DIRECTORY, pick_dick, unify_teams
 from records import request_soup
-from sabr.common import RECORDS_DIRECTORY, pick_dick, unify_teams
 from datastore_json import read_json, write_json
 # from datastore_postgre import read_records, write_records
 
-YEAR = 2019
-TEAM_NUM = 6
 LEAG_INITIAL_DICT = {'p': 'Pacific', 'c': 'Central'}
 TEAM_INITIAL_LIST = [
     'l', 'h', 'f', 'b', 'm', 'e', 'c', 's', 'g', 'db', 'd', 't'

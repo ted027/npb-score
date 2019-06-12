@@ -2,15 +2,9 @@ import requests
 import json
 import copy
 from decimal import Decimal
-from sabr.common import pick_dick, fix_rate_records, TEAM_LIST, digits_under_one
+from common import YEAR, TEAM_LIST, HOME_DIC, pick_dick
+from sabr.common import fix_rate_records, digits_under_one
 from datastore_json import read_json, write_json
-
-PARK_LIST = [
-    "メットライフ", "ヤフオクドーム", "札幌ドーム", "京セラＤ大阪", "ＺＯＺＯマリン", "楽天生命パーク", "マツダスタジアム",
-    "神宮", "東京ドーム", "横浜", "ナゴヤドーム", "甲子園"
-]
-
-HOME_DIC = dict(zip(TEAM_LIST, PARK_LIST))
 
 
 def park_factor(team_dic, hit_str, pit_str):
@@ -57,12 +51,37 @@ def sum_visitor_park_dick(sum_visitor_dic, team_parks_dic, team):
             sum_visitor_dic[key] = str(decimal_visitor_value)
 
 
+def additional_team_records(team_dic):
+    team_dic['四球'] = str(
+        Decimal(team_dic['本拠地']['四球']) + Decimal(team_dic['非本拠地']['四球']))
+    team_dic['奪三振'] = str(
+        Decimal(team_dic['本拠地']['奪三振']) + Decimal(team_dic['非本拠地']['奪三振']))
+    team_dic['与四球'] = str(
+        Decimal(team_dic['本拠地']['与四球']) + Decimal(team_dic['非本拠地']['与四球']))
+    team_dic['被本塁打'] = str(
+        Decimal(team_dic['本拠地']['被本塁打']) + Decimal(team_dic['非本拠地']['被本塁打']))
+
+
+def average_pf(live_pf, live_game_num, past_pf_dic, pf_str):
+    total_pf_num = Decimal(live_pf) * Decimal(live_game_num) + Decimal(
+        past_pf_dic[str(YEAR - 1)][pf_str]) * Decimal('143') + Decimal(
+            past_pf_dic[str(YEAR - 2)][pf_str]) * Decimal('143') + Decimal(
+                past_pf_dic[str(YEAR - 3)][pf_str]) * Decimal('143')
+    total_pf_den = Decimal(live_game_num) + Decimal('143') * 3
+    raw_total_pf = total_pf_num / total_pf_den
+    total_pf = digits_under_one(raw_total_pf, 2)
+    return str(total_pf)
+
+
 def update_team_park_records():
     pitcher_list = read_json('pitchers.json')['Pitcher']
 
     hitter_list = read_json('hitters.json')['Hitter']
 
     team_list = read_json('teams.json')['Team']
+
+    with open('datasource/past_parks.json', 'r') as f:
+        past_pf_dic = json.load(f)
 
     park_dic = {}
     for pitcher in pitcher_list:
@@ -107,20 +126,24 @@ def update_team_park_records():
         fix_rate_records(team_dic['本拠地'])
         fix_rate_records(team_dic['非本拠地'])
 
-        team_dic['四球'] = str(
-            Decimal(team_dic['本拠地']['四球']) + Decimal(team_dic['非本拠地']['四球']))
-        team_dic['奪三振'] = str(
-            Decimal(team_dic['本拠地']['奪三振']) + Decimal(team_dic['非本拠地']['奪三振']))
-        team_dic['与四球'] = str(
-            Decimal(team_dic['本拠地']['与四球']) + Decimal(team_dic['非本拠地']['与四球']))
-        team_dic['被本塁打'] = str(
-            Decimal(team_dic['本拠地']['被本塁打']) +
-            Decimal(team_dic['非本拠地']['被本塁打']))
+        additional_team_records(team_dic)
+
+        live_score_pf = park_factor(team_dic, '打点', '失点')
+        live_hr_pf = park_factor(team_dic, '本塁打', '被本塁打')
+
+        total_score_pf = average_pf(live_score_pf, team_dic['試合'],
+                                    past_pf_dic[HOME_DIC[team]], '得点PF')
+        total_hr_pf = average_pf(live_hr_pf, team_dic['試合'],
+                                 past_pf_dic[HOME_DIC[team]], 'HRPF')
 
         pf_list.append({
             '球場': HOME_DIC[team],
-            '得点PF': park_factor(team_dic, '打点', '失点'),
-            'HRPF': park_factor(team_dic, '本塁打', '被本塁打')
+            '得点PF': total_score_pf,
+            'HRPF': total_hr_pf,
+            str(YEAR): {
+                '得点PF': live_score_pf,
+                'HRPF': live_hr_pf
+            }
         })
 
     write_json('teams.json', {'Team': team_list})

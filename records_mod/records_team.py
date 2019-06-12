@@ -1,9 +1,9 @@
 import requests
 import json
 from bs4 import BeautifulSoup
+from common import unify_teams
 from records import request_soup, full_val, CENTRAL_LIST
 from datastore_json import read_json, write_json
-from sabr.common import unify_teams
 
 EXCEPT_HEAD_CONTENT = 1
 
