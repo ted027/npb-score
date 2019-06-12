@@ -58,7 +58,8 @@ def additional_team_records(team_dic):
         Decimal(team_dic['本拠地']['奪三振']) + Decimal(team_dic['非本拠地']['奪三振']))
     team_dic['与四球'] = str(
         Decimal(team_dic['本拠地']['与四球']) + Decimal(team_dic['非本拠地']['与四球']))
-    team_dic['被本塁打'] = str(
+    # UI表示の改行防止のため
+    team_dic['被HR'] = str(
         Decimal(team_dic['本拠地']['被本塁打']) + Decimal(team_dic['非本拠地']['被本塁打']))
 
 

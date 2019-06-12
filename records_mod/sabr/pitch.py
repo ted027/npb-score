@@ -7,7 +7,7 @@ def qs_rate(pitcher):
     start = Decimal(pitcher['先発'])
     if not start:
         return '0.0'
-    raw_qsrate = Decimal(pitcher['QS']) * 100 / start
+    raw_qsrate = Decimal(pitcher['QS']) * Decimal('100') / start
     qsrate = digits_under_one(raw_qsrate, 1)
     return str(qsrate)
 
@@ -61,26 +61,66 @@ def hr_per_nine(pitcher):
 
 def bb_percent_p(pitcher):
     """
-    BB% = 与四球 / 打者
+    BB% = 与四球 / 打者 * 100
     """
     apperance = Decimal(pitcher['打者'])
     if not apperance:
-        return '.000'
-    raw_bb_percent = Decimal(pitcher['与四球']) / apperance
-    bb_percent = digits_under_one(raw_bb_percent, 3)
-    return str(bb_percent)[1:]
+        return '0.0'
+    raw_bb_percent = Decimal(pitcher['与四球']) / apperance * Decimal('100')
+    bb_percent = digits_under_one(raw_bb_percent, 1)
+    return str(bb_percent)
 
 
 def k_percent_p(pitcher):
     """
-    K% = 奪三振 / 打者
+    K% = 奪三振 / 打者 * 100
     """
     apperance = Decimal(pitcher['打者'])
     if not apperance:
-        return '.000'
-    raw_k_percent = Decimal(pitcher['奪三振']) / apperance
-    k_percent = digits_under_one(raw_k_percent, 3)
-    return str(k_percent)[1:]
+        return '0.0'
+    raw_k_percent = Decimal(pitcher['奪三振']) / apperance * Decimal('100')
+    k_percent = digits_under_one(raw_k_percent, 1)
+    return str(k_percent)
+
+
+def hr_percent_p(pitcher):
+    """
+    HR% = 被本塁打 / 打者 * 100
+    """
+    apperance = Decimal(pitcher['打者'])
+    if not apperance:
+        return '0.0'
+    raw_k_percent = Decimal(pitcher['被本塁打']) / apperance * Decimal('100')
+    k_percent = digits_under_one(raw_k_percent, 2)
+    return str(k_percent)
+
+
+def k_bb_percent_p(pitcher):
+    """
+    K-BB% = K% - BB%
+    """
+    apperance = Decimal(pitcher['打者'])
+    if not apperance:
+        return '0.0'
+    raw_k_bb_percent = (Decimal(pitcher['奪三振']) -
+                        Decimal(pitcher['与四球'])) / apperance * Decimal('100')
+    k_bb_percent = digits_under_one(raw_k_bb_percent, 1)
+    return str(k_bb_percent)
+
+
+def lob_percent(pitcher):
+    """
+    LOB% = (安打 + 与四死球 - 失点) / (安打 + 与四死球 - 1.4 × 本塁打)
+    """
+    denominator = Decimal(pitcher['被安打']) + Decimal(pitcher['与四球']) + Decimal(
+        pitcher['与死球']) - Decimal('1.4') * Decimal(pitcher['被本塁打'])
+    if not denominator:
+        return '0.0'
+    numerator = Decimal(pitcher['被安打']) + Decimal(pitcher['与四球']) + Decimal(
+        pitcher['与死球']) - Decimal(pitcher['失点'])
+    raw_lob_percent = numerator / denominator * Decimal('100')
+    lob_percent = digits_under_one(raw_lob_percent, 1)
+    return str(lob_percent)
 
 
 # def whip(pitcher):
@@ -102,8 +142,8 @@ def _fip_efira(pitcher):
     if not outcounts:
         return Decimal('0')
     fip_efira = (Decimal('13') * Decimal(pitcher['被本塁打']) + Decimal('3') *
-                 (Decimal(pitcher['与四球']) + Decimal(pitcher['与死球']) - Decimal(
-                     pitcher['故意四球'])) -
+                 (Decimal(pitcher['与四球']) + Decimal(pitcher['与死球']) -
+                  Decimal(pitcher['故意四球'])) -
                  Decimal('2') * Decimal(pitcher['奪三振'])) * 3 / outcounts
     return fip_efira
 

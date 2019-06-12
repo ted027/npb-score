@@ -8,7 +8,7 @@ def hr_percent(hitter):
     if not atbat:
         return '.000'
     raw_hr_percent = Decimal(hitter['本塁打']) / atbat
-    hr_percent = digits_under_one(raw_hr_percent, 3)
+    hr_percent = digits_under_one(raw_hr_percent, 4)
     return str(hr_percent)[1:]
 
 
@@ -52,26 +52,26 @@ def iso_d(hitter):
 def bb_percent_h(hitter):
     """
     選球眼指標
-    BB% = 四球 / 打席
+    BB% = 四球 / 打席 * 100
     """
     apperance = Decimal(hitter['打席'])
     if not apperance:
         return '.000'
-    raw_bb_percent = Decimal(hitter['四球']) / apperance
-    bb_percent = digits_under_one(raw_bb_percent, 3)
-    return str(bb_percent)[1:]
+    raw_bb_percent = Decimal(hitter['四球']) / apperance * Decimal('100')
+    bb_percent = digits_under_one(raw_bb_percent, 1)
+    return str(bb_percent)
 
 
 def k_percent_h(hitter):
     """
-    K% = 三振 / 打席
+    K% = 三振 / 打席 * 100
     """
     apperance = Decimal(hitter['打席'])
     if not apperance:
         return '.000'
-    raw_k_percent = Decimal(hitter['三振']) / apperance
-    k_percent = digits_under_one(raw_k_percent, 3)
-    return str(k_percent)[1:]
+    raw_k_percent = Decimal(hitter['三振']) / apperance * Decimal('100')
+    k_percent = digits_under_one(raw_k_percent, 1)
+    return str(k_percent)
 
 
 def babip_h(hitter):

@@ -18,6 +18,8 @@ import {
   teams_def_body
 } from "./datastore/Teams";
 import {
+  hitters_sabr_header,
+  hitters_sabr_body,
   hitters_header,
   hitters_body,
   hitters_header_ops,
@@ -38,6 +40,8 @@ import {
   // hitters_body_clutch
 } from "./datastore/Hitters";
 import {
+  pitchers_sabr_header,
+  pitchers_sabr_body,
   pitchers_header,
   pitchers_body,
   pitchers_header_whip,
@@ -257,52 +261,52 @@ class DefaultPage extends React.Component {
               )}
               {order_selected === PARKFACTOR && (
                 <p>
-                <p>
-                  <AppBar
-                    position="static"
-                    color="default"
-                    className={classes.des}
-                  >
-                    <Toolbar variant="dense">
-                      <Typography variant="h6" className={classes.des2}>
-                        パークファクター(2019)　※参考値
-                      </Typography>
-                    </Toolbar>
-                  </AppBar>
-                  <CommonTable
-                    classes={styles}
-                    default_order="desc"
-                    default_orderBy="得点PF"
-                    head={parks_header}
-                    data={parks_body}
-                    row_length={parks_body.length}
-                    league=""
-                  />
+                  <p>
+                    <AppBar
+                      position="static"
+                      color="default"
+                      className={classes.des}
+                    >
+                      <Toolbar variant="dense">
+                        <Typography variant="h6" className={classes.des2}>
+                          パークファクター(2019)　※参考値
+                        </Typography>
+                      </Toolbar>
+                    </AppBar>
+                    <CommonTable
+                      classes={styles}
+                      default_order="desc"
+                      default_orderBy="得点PF"
+                      head={parks_header}
+                      data={parks_body}
+                      row_length={parks_body.length}
+                      league=""
+                    />
+                  </p>
+                  {middle_ad1(classes)}
+                  <p>
+                    <AppBar
+                      position="static"
+                      color="default"
+                      className={classes.des}
+                    >
+                      <Toolbar variant="dense">
+                        <Typography variant="h6" className={classes.des2}>
+                          パークファクター(2016以降)　※参考値
+                        </Typography>
+                      </Toolbar>
+                    </AppBar>
+                    <CommonTable
+                      classes={styles}
+                      default_order="desc"
+                      default_orderBy="得点PF"
+                      head={parks_header}
+                      data={parks_total_body}
+                      row_length={parks_body.length}
+                      league=""
+                    />
+                  </p>
                 </p>
-                {middle_ad1(classes)}
-                <p>
-                <AppBar
-                  position="static"
-                  color="default"
-                  className={classes.des}
-                >
-                  <Toolbar variant="dense">
-                    <Typography variant="h6" className={classes.des2}>
-                      パークファクター(2016以降)　※参考値
-                    </Typography>
-                  </Toolbar>
-                </AppBar>
-                <CommonTable
-                  classes={styles}
-                  default_order="desc"
-                  default_orderBy="得点PF"
-                  head={parks_header}
-                  data={parks_total_body}
-                  row_length={parks_body.length}
-                  league=""
-                />
-              </p>
-              </p>
               )}
             </div>
           )}
@@ -316,6 +320,28 @@ class DefaultPage extends React.Component {
                 )}
               </HideOnScroll>
               {top_ad(classes)}
+              <p>
+                <AppBar
+                  position="static"
+                  color="default"
+                  className={classes.des}
+                >
+                  <Toolbar variant="dense">
+                    <Typography variant="h6" className={classes.des2}>
+                      野手総合指標
+                    </Typography>
+                  </Toolbar>
+                </AppBar>
+                <CommonTable
+                  classes={styles}
+                  default_order="desc"
+                  default_orderBy="wRC+"
+                  head={hitters_sabr_header}
+                  data={hitters_sabr_body}
+                  row_length="10"
+                  league={league}
+                />
+              </p>
               <p>
                 <AppBar
                   position="static"
@@ -537,7 +563,7 @@ class DefaultPage extends React.Component {
                 >
                   <Toolbar variant="dense">
                     <Typography variant="h6" className={classes.des2}>
-                      先発投手１
+                      先発投手総合指標
                     </Typography>
                   </Toolbar>
                 </AppBar>
@@ -545,6 +571,28 @@ class DefaultPage extends React.Component {
                   classes={styles}
                   default_order="asc"
                   default_orderBy="防御率"
+                  head={pitchers_sabr_header}
+                  data={pitchers_sabr_body}
+                  row_length="10"
+                  league={league}
+                />
+              </p>
+              <p>
+                <AppBar
+                  position="static"
+                  color="default"
+                  className={classes.des}
+                >
+                  <Toolbar variant="dense">
+                    <Typography variant="h6" className={classes.des2}>
+                      先発投手（投手タイトル関連）
+                    </Typography>
+                  </Toolbar>
+                </AppBar>
+                <CommonTable
+                  classes={styles}
+                  default_order="desc"
+                  default_orderBy="投球回"
                   head={pitchers_header}
                   data={pitchers_body}
                   row_length="10"
@@ -559,16 +607,16 @@ class DefaultPage extends React.Component {
                 >
                   <Toolbar variant="dense">
                     <Typography variant="h6" className={classes.des2}>
-                      先発投手２
+                      先発投手（三振・四球・本塁打）
                     </Typography>
                   </Toolbar>
                 </AppBar>
                 <CommonTable
                   classes={styles}
-                  default_order="asc"
-                  default_orderBy="WHIP"
-                  head={pitchers_header_whip}
-                  data={pitchers_body_whip}
+                  default_order="desc"
+                  default_orderBy="K-BB%"
+                  head={pitchers_header_kbb}
+                  data={pitchers_body_kbb}
                   row_length="10"
                   league={league}
                 />
@@ -582,16 +630,16 @@ class DefaultPage extends React.Component {
                 >
                   <Toolbar variant="dense">
                     <Typography variant="h6" className={classes.des2}>
-                      先発投手３（三振・四球・本塁打）
+                      先発投手（被出塁）
                     </Typography>
                   </Toolbar>
                 </AppBar>
                 <CommonTable
                   classes={styles}
-                  default_order="desc"
-                  default_orderBy="K/BB"
-                  head={pitchers_header_kbb}
-                  data={pitchers_body_kbb}
+                  default_order="asc"
+                  default_orderBy="WHIP"
+                  head={pitchers_header_whip}
+                  data={pitchers_body_whip}
                   row_length="10"
                   league={league}
                 />
@@ -604,7 +652,7 @@ class DefaultPage extends React.Component {
                 >
                   <Toolbar variant="dense">
                     <Typography variant="h6" className={classes.des2}>
-                      先発投手４（ＱＳ・完投）
+                      先発投手（ＱＳ・完投）
                     </Typography>
                   </Toolbar>
                 </AppBar>

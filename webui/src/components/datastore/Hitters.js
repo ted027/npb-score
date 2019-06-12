@@ -3,6 +3,17 @@ import { createHeader, createBody } from "./DataCommon";
 
 const hitters = hittersj.Hitter;
 
+//sabr
+const hheader_sabr = ["wRC+", "OPS+", "XRWIN", "規定", "League"];
+const hheader_sabr_regulated = [true, true, true, false, false];
+const hheader_sabr_order = new Array(hheader_sabr.length).fill("desc");
+export const hitters_sabr_header = createHeader(
+  hheader_sabr,
+  hheader_sabr_regulated,
+  hheader_sabr_order
+);
+export const hitters_sabr_body = createBody(hitters, hheader_sabr);
+
 // award
 const hheader = ["打率", "安打", "本塁打", "打点", "盗塁", "規定", "League"];
 const hheader_regulated = [true, false, false, false, false, false, false];
@@ -16,7 +27,7 @@ export const hitters_body = createBody(hitters, hheader);
 
 // ops
 
-const hheader_ops = ["出塁率", "長打率", "OPS", "BABIP", "規定", "League"];
+const hheader_ops = ["出塁率", "長打率", "OPS", "OPS+", "規定", "League"];
 const hheader_ops_regulated = [true, true, true, true, false, false];
 const hheader_ops_order = new Array(hheader_ops.length).fill("desc");
 export const hitters_header_ops = createHeader(
@@ -95,7 +106,7 @@ export const hitters_body_eye = createBody(hitters, hheader_eye);
 
 // steal
 
-const hheader_steal = ["wSB", "盗塁", "盗塁成功率", "三塁打", "規定", "League"];
+const hheader_steal = ["wSB", "盗塁", "盗成功率", "三塁打", "規定", "League"];
 const hheader_steal_regulated = [false, false, true, false, false, false];
 const hheader_steal_order = new Array(hheader_steal.length).fill("desc");
 export const hitters_header_steal = createHeader(
@@ -123,3 +134,15 @@ export const hitters_header_clutch = createHeader(
   hheader_clutch_order
 );
 export const hitters_body_clutch = createBody(hitters, hheader_clutch);
+
+// oth
+
+const hheader_oth = ["BABIP", "規定", "League"];
+const hheader_oth_regulated = [true, false, false];
+const hheader_oth_order = new Array(hheader_oth.length).fill("desc");
+export const hitters_header_oth = createHeader(
+  hheader_oth,
+  hheader_oth_regulated,
+  hheader_oth_order
+);
+export const hitters_body_oth = createBody(hitters, hheader_oth);

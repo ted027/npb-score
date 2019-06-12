@@ -2,7 +2,8 @@ import json
 from decimal import Decimal, ROUND_HALF_UP
 from common import RECORDS_DIRECTORY, correct_pf
 from sabr.pitch import (qs_rate, bb_per_nine, hr_per_nine, bb_percent_p,
-                        k_percent_p, fip, fip_ra, fip_pf, babip_p)
+                        k_percent_p, hr_percent_p, k_bb_percent_p, lob_percent,
+                        fip, fip_ra, fip_pf, babip_p)
 from sabr.hit import (hr_percent, babip_h, iso_d, iso_p, bb_percent_h,
                       k_percent_h, bb_per_k, steal_percent, wsb, ops_plus)
 from sabr.hit_woba import (woba, woba_basic, woba_speed, wraa, wrc, wrc_plus)
@@ -17,6 +18,9 @@ def calc_sabr_pitcher(pitcher, league_pitcher_dic=None, cor_pf=None):
     pitcher['HR/9'] = hr_per_nine(pitcher)
     pitcher['K%'] = k_percent_p(pitcher)
     pitcher['BB%'] = bb_percent_p(pitcher)
+    pitcher['HR%'] = hr_percent_p(pitcher)
+    pitcher['K-BB%'] = k_bb_percent_p(pitcher)
+    pitcher['LOB%'] = lob_percent(pitcher)
     if league_pitcher_dic:
         pitcher['FIP'], raw_fip = fip(pitcher, league_pitcher_dic)
         pitcher['FIP(RA)'], raw_fip_ra = fip_ra(pitcher, league_pitcher_dic,
@@ -36,7 +40,8 @@ def calc_sabr_hitter(hitter,
     第一引数がleagueなら第二〜第五引数は指定しない
     """
     hitter['本塁打率'] = hr_percent(hitter)
-    hitter['盗塁成功率'] = steal_percent(hitter)
+    # UI表示の改行防止のため
+    hitter['盗成功率'] = steal_percent(hitter)
     hitter['wOBA'] = woba(hitter)
     # hitter['wOBA(Basic)'] = woba_basic(hitter)
     # hitter['wOBA(Speed)'] = woba_speed(hitter)
@@ -82,8 +87,9 @@ def add_sabr_pitcher():
 
     for pitcher in pitcher_list:
         cor_pf = correct_pf(pitcher, pf_list, '登板')
-        pitcher = calc_sabr_pitcher(
-            pitcher, league_pitcher_dic[pitcher['League']], cor_pf)
+        pitcher = calc_sabr_pitcher(pitcher,
+                                    league_pitcher_dic[pitcher['League']],
+                                    cor_pf)
 
     write_json('league.json', league_dic)
 

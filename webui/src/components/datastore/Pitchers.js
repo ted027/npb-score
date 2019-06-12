@@ -3,17 +3,21 @@ import { createHeader, createBody, createHeaderRelief } from "./DataCommon";
 
 const pitchers = pitchersj.Pitcher;
 
-const pheader = [
-  "防御率",
-  "投球回",
-  "勝利",
-  "敗戦",
-  "奪三振",
-  "規定",
-  "League"
-];
-const pheader_regulated = [true, false, false, false, false, false, false];
-const pheader_order = ["asc", "desc", "desc", "desc", "desc", "desc", "desc"];
+// sabr
+const pheader_sabr = ["防御率", "FIP", "FIP_pf", "K/BB", "規定", "League"];
+const pheader_sabr_regulated = [true, true, true, true, false, false];
+const pheader_sabr_order = ["asc", "asc", "asc", "desc", "desc", "desc"];
+export const pitchers_sabr_header = createHeader(
+  pheader_sabr,
+  pheader_sabr_regulated,
+  pheader_sabr_order
+);
+export const pitchers_sabr_body = createBody(pitchers, pheader_sabr);
+
+// main records
+const pheader = ["投球回", "勝利", "敗戦", "勝率", "奪三振", "規定", "League"];
+const pheader_regulated = [false, false, false, true, false, false, false];
+const pheader_order = ["desc", "desc", "desc", "desc", "desc", "desc", "desc"];
 export const pitchers_header = createHeader(
   pheader,
   pheader_regulated,
@@ -22,9 +26,9 @@ export const pitchers_header = createHeader(
 export const pitchers_body = createBody(pitchers, pheader);
 
 // whip
-const pheader_whip = ["WHIP", "FIP", "被打率", "BABIP", "規定", "League"];
+const pheader_whip = ["WHIP", "被打率", "LOB%", "BABIP", "規定", "League"];
 const pheader_regulated_whip = [true, true, true, true, false, false];
-const pheader_order_whip = ["asc", "asc", "asc", "asc", "desc", "desc"];
+const pheader_order_whip = ["asc", "asc", "desc", "asc", "desc", "desc"];
 export const pitchers_header_whip = createHeader(
   pheader_whip,
   pheader_regulated_whip,
@@ -52,9 +56,9 @@ export const pitchers_header_qs = createHeader(
 export const pitchers_body_qs = createBody(pitchers, pheader_qs);
 
 // kbb
-const pheader_kbb = ["K/BB", "K%", "BB%", "HR/9", "規定", "League"];
+const pheader_kbb = ["K-BB%", "K%", "BB%", "HR%", "規定", "League"];
 const pheader_regulated_kbb = [true, true, true, true, false, false];
-const pheader_order_kbb = ["desc", "desc", "asc", "asc", "desc", "desc"];
+const pheader_order_kbb = ["desc", "desc","asc", "asc", "desc", "desc"];
 export const pitchers_header_kbb = createHeader(
   pheader_kbb,
   pheader_regulated_kbb,
