@@ -35,9 +35,11 @@ import {
   hitters_header_eye,
   hitters_body_eye,
   hitters_header_steal,
-  hitters_body_steal
-  // hitters_header_clutch,
-  // hitters_body_clutch
+  hitters_body_steal,
+  hitters_header_clutch,
+  hitters_body_clutch,
+  hitters_header_oth,
+  hitters_body_oth
 } from "./datastore/Hitters";
 import {
   pitchers_sabr_header,
@@ -53,7 +55,9 @@ import {
   pitchers_header_relief,
   pitchers_body_relief,
   pitchers_header_closer,
-  pitchers_body_closer
+  pitchers_body_closer,
+  pitchers_header_oth,
+  pitchers_body_oth
 } from "./datastore/Pitchers";
 import { styles } from "./Common";
 import { CommonTable } from "./Tables";
@@ -521,7 +525,8 @@ class DefaultPage extends React.Component {
                   league={league}
                 />
               </p>
-              {/* <p>
+              {middle_ad2(classes)}
+              <p>
                 <AppBar
                   position="static"
                   color="default"
@@ -542,7 +547,29 @@ class DefaultPage extends React.Component {
                   row_length="10"
                   league={league}
                 />
-              </p> */}
+              </p>
+              <p>
+                <AppBar
+                  position="static"
+                  color="default"
+                  className={classes.des}
+                >
+                  <Toolbar variant="dense">
+                    <Typography variant="h6" className={classes.des2}>
+                      その他
+                    </Typography>
+                  </Toolbar>
+                </AppBar>
+                <CommonTable
+                  classes={styles}
+                  default_order="desc"
+                  default_orderBy="BABIP"
+                  head={hitters_header_oth}
+                  data={hitters_body_oth}
+                  row_length="10"
+                  league={league}
+                />
+              </p>
             </div>
           )}
           {selected === PITCHER_VALUE && (
@@ -707,6 +734,29 @@ class DefaultPage extends React.Component {
                   default_orderBy="HP"
                   head={pitchers_header_relief}
                   data={pitchers_body_relief}
+                  row_length="10"
+                  league={league}
+                />
+              </p>
+              {middle_ad1(classes)}
+              <p>
+                <AppBar
+                  position="static"
+                  color="default"
+                  className={classes.des}
+                >
+                  <Toolbar variant="dense">
+                    <Typography variant="h6" className={classes.des2}>
+                      その他
+                    </Typography>
+                  </Toolbar>
+                </AppBar>
+                <CommonTable
+                  classes={styles}
+                  default_order="desc"
+                  default_orderBy="小松式D"
+                  head={pitchers_header_oth}
+                  data={pitchers_body_oth}
                   row_length="10"
                   league={league}
                 />

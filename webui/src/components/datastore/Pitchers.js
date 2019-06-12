@@ -58,7 +58,7 @@ export const pitchers_body_qs = createBody(pitchers, pheader_qs);
 // kbb
 const pheader_kbb = ["K-BB%", "K%", "BB%", "HR%", "規定", "League"];
 const pheader_regulated_kbb = [true, true, true, true, false, false];
-const pheader_order_kbb = ["desc", "desc","asc", "asc", "desc", "desc"];
+const pheader_order_kbb = ["desc", "desc", "asc", "asc", "desc", "desc"];
 export const pitchers_header_kbb = createHeader(
   pheader_kbb,
   pheader_regulated_kbb,
@@ -139,3 +139,14 @@ export const pitchers_header_relief = createHeaderRelief(
   pheader_rnumeric_relief
 );
 export const pitchers_body_relief = createBody(pitchers, pheader_relief);
+
+// oth
+const pheader_oth = ["小松式D", "ONE OUTS年俸(万)", "規定", "League"];
+const pheader_regulated_oth = [false, false, false, false];
+const pheader_order_oth = ["desc", "desc", "desc", "desc"];
+export const pitchers_header_oth = createHeader(
+  pheader_oth,
+  pheader_regulated_oth,
+  pheader_order_oth
+);
+export const pitchers_body_oth = createBody(pitchers, pheader_oth);

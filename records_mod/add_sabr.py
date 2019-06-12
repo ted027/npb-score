@@ -3,9 +3,10 @@ from decimal import Decimal, ROUND_HALF_UP
 from common import RECORDS_DIRECTORY, correct_pf
 from sabr.pitch import (qs_rate, bb_per_nine, hr_per_nine, bb_percent_p,
                         k_percent_p, hr_percent_p, k_bb_percent_p, lob_percent,
-                        fip, fip_ra, fip_pf, babip_p)
+                        fip, fip_ra, fip_pf, babip_p, komatsu, one_outs_p)
 from sabr.hit import (hr_percent, babip_h, iso_d, iso_p, bb_percent_h,
-                      k_percent_h, bb_per_k, steal_percent, wsb, ops_plus)
+                      k_percent_h, bb_per_k, steal_percent, wsb, ops_plus,
+                      dan_percent, one_outs_h)
 from sabr.hit_woba import (woba, woba_basic, woba_speed, wraa, wrc, wrc_plus)
 from sabr.hit_rc import (rc_basic, xr_basic, rc_xr_27, rc_xr_plus, rc_xr_win)
 from datastore_json import read_json, write_json
@@ -21,6 +22,8 @@ def calc_sabr_pitcher(pitcher, league_pitcher_dic=None, cor_pf=None):
     pitcher['HR%'] = hr_percent_p(pitcher)
     pitcher['K-BB%'] = k_bb_percent_p(pitcher)
     pitcher['LOB%'] = lob_percent(pitcher)
+    pitcher['小松式D'] = komatsu(pitcher)
+    pitcher['ONE OUTS年俸(万)'] = one_outs_p(pitcher)
     if league_pitcher_dic:
         pitcher['FIP'], raw_fip = fip(pitcher, league_pitcher_dic)
         pitcher['FIP(RA)'], raw_fip_ra = fip_ra(pitcher, league_pitcher_dic,
@@ -56,6 +59,8 @@ def calc_sabr_hitter(hitter,
     hitter['K%'] = k_percent_h(hitter)
     hitter['IsoD'] = iso_d(hitter)
     hitter['BABIP'] = babip_h(hitter)
+    hitter['アダム・ダン率'] = dan_percent(hitter)
+    hitter['ONE OUTS年俸(万)'] = one_outs_h(hitter)
     if league_dic and cor_pf:
         league_hitter_dic = league_dic['Hitter'][hitter['League']]
         hitter['wRAA'], raw_wraa = wraa(hitter, league_hitter_dic)

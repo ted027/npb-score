@@ -57,6 +57,21 @@ export function createBody(array, head) {
   return body;
 }
 
+export function createBodyClutch(array, head) {
+  const body = [];
+  for (var j = 0; j < array.length; j++) {
+    if (array[j][head[0]]) {
+      var name = createNameContent(array[j]["Name"], array[j]["Team"]);
+      const body_player = { 選手: name };
+      for (var k = 0; k < head.length; k++) {
+        body_player[head[k]] = array[j][head[k]];
+      }
+      body.push(createData(body_player));
+    }
+  }
+  return body;
+}
+
 export function createData(json) {
   var keys = Object.keys(json);
   var row = {};

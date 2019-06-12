@@ -109,8 +109,9 @@ def ops_plus(hitter, league, cor_pf):
     lg_slg = Decimal(league['長打率'])
     if not lg_obp * lg_slg * cor_pf:
         return '0'
-    raw_ops_plus = Decimal('100') * (Decimal(hitter['出塁率']) / lg_obp + Decimal(
-        hitter['長打率']) / lg_slg - Decimal('1')) / cor_pf
+    raw_ops_plus = Decimal('100') * (Decimal(hitter['出塁率']) / lg_obp +
+                                     Decimal(hitter['長打率']) / lg_slg -
+                                     Decimal('1')) / cor_pf
     ops_plus = digits_under_one(raw_ops_plus, 0)
     return str(ops_plus)
 
@@ -148,3 +149,26 @@ def wsb(hitter, league):
     raw_wsb = steal_score - league_steal_score * steal_chance / league_steal_chance
     wsb = digits_under_one(raw_wsb, 2)
     return str(wsb)
+
+
+def dan_percent(hitter):
+    """
+    TTO% = アダム・ダン率
+    (本塁打 + 三振 + 四球) / 打席 * 100
+    """
+    if not Decimal(hitter['打席']):
+        return '0.0'
+    raw_dan_percent = (Decimal(hitter['本塁打']) + Decimal(hitter['三振']) +
+                       Decimal(hitter['四球'])) / Decimal(hitter['打席']) * Decimal('100')
+    dan_percent = digits_under_one(raw_dan_percent, 1)
+    return str(dan_percent)
+
+
+def one_outs_h(hitter):
+    outs = Decimal(hitter['打数']) - Decimal(hitter['安打']) + Decimal(
+        hitter['盗塁死']) + Decimal(hitter['併殺打'])
+    outs_per_3 = int(outs / 3)
+    raw_oo = Decimal(
+        hitter['打点']) * Decimal('5000') - Decimal(outs_per_3) * Decimal('5000')
+    oo = digits_under_one(raw_oo, 0)
+    return str(oo)

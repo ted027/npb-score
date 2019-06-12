@@ -1,5 +1,5 @@
 import hittersj from "../../records/hitters.json";
-import { createHeader, createBody } from "./DataCommon";
+import { createHeader, createBody, createBodyClutch } from "./DataCommon";
 
 const hitters = hittersj.Hitter;
 
@@ -133,12 +133,18 @@ export const hitters_header_clutch = createHeader(
   hheader_clutch_regulated,
   hheader_clutch_order
 );
-export const hitters_body_clutch = createBody(hitters, hheader_clutch);
+export const hitters_body_clutch = createBodyClutch(hitters, hheader_clutch);
 
 // oth
 
-const hheader_oth = ["BABIP", "規定", "League"];
-const hheader_oth_regulated = [true, false, false];
+const hheader_oth = [
+  "BABIP",
+  "アダム・ダン率",
+  "ONE OUTS年俸(万)",
+  "規定",
+  "League"
+];
+const hheader_oth_regulated = [true, true, false, false, false];
 const hheader_oth_order = new Array(hheader_oth.length).fill("desc");
 export const hitters_header_oth = createHeader(
   hheader_oth,

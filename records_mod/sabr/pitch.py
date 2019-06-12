@@ -186,3 +186,17 @@ def babip_p(pitcher):
     raw_babip = numerator / denominator
     babip = digits_under_one(raw_babip, 3)
     return str(babip)[1:]
+
+
+def komatsu(pitcher):
+    kd_point = Decimal(pitcher['アウト']) * Decimal('3') + (Decimal(pitcher['勝利']) + Decimal(
+        pitcher['ホールド']) + Decimal(pitcher['セーブ'])) * Decimal('10')
+    raw_kd = kd_point * Decimal('1000')
+    kd = digits_under_one(raw_kd, 0)
+    return str(kd)
+
+
+def one_outs_p(pitcher):
+    raw_oo = Decimal(pitcher['アウト']) * Decimal('500') - Decimal(pitcher['失点']) * Decimal('5000')
+    oo = digits_under_one(raw_oo, 0)
+    return str(oo)
