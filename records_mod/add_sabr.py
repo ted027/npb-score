@@ -22,7 +22,7 @@ def calc_sabr_pitcher(pitcher, league_pitcher_dic=None, cor_pf=None):
     pitcher['HR%'] = hr_percent_p(pitcher)
     pitcher['K-BB%'] = k_bb_percent_p(pitcher)
     pitcher['LOB%'] = lob_percent(pitcher)
-    pitcher['小松式D'] = komatsu(pitcher)
+    pitcher['小松式ドネーション'] = komatsu(pitcher)
     pitcher['ONE OUTS年俸(万)'] = one_outs_p(pitcher)
     if league_pitcher_dic:
         pitcher['FIP'], raw_fip = fip(pitcher, league_pitcher_dic)
@@ -59,8 +59,8 @@ def calc_sabr_hitter(hitter,
     hitter['K%'] = k_percent_h(hitter)
     hitter['IsoD'] = iso_d(hitter)
     hitter['BABIP'] = babip_h(hitter)
-    hitter['アダム・ダン率'] = dan_percent(hitter)
-    hitter['ONE OUTS年俸(万)'] = one_outs_h(hitter)
+    hitter['アダムダン率'] = dan_percent(hitter)
+    hitter['ONE OUTS(万)'] = one_outs_h(hitter)
     if league_dic and cor_pf:
         league_hitter_dic = league_dic['Hitter'][hitter['League']]
         hitter['wRAA'], raw_wraa = wraa(hitter, league_hitter_dic)

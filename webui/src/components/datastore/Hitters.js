@@ -139,8 +139,8 @@ export const hitters_body_clutch = createBodyClutch(hitters, hheader_clutch);
 
 const hheader_oth = [
   "BABIP",
-  "アダム・ダン率",
-  "ONE OUTS年俸(万)",
+  "アダムダン率",
+  "ONE OUTS(万)",
   "規定",
   "League"
 ];
