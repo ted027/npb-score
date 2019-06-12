@@ -9,6 +9,7 @@ import { theme } from "../theme/theme";
 import {
   parks_header,
   parks_body,
+  parks_total_body,
   teams_header,
   teams_body,
   teams_atk_header,
@@ -256,6 +257,7 @@ class DefaultPage extends React.Component {
               )}
               {order_selected === PARKFACTOR && (
                 <p>
+                <p>
                   <AppBar
                     position="static"
                     color="default"
@@ -263,7 +265,7 @@ class DefaultPage extends React.Component {
                   >
                     <Toolbar variant="dense">
                       <Typography variant="h6" className={classes.des2}>
-                        パークファクター　※参考値
+                        パークファクター(2019)　※参考値
                       </Typography>
                     </Toolbar>
                   </AppBar>
@@ -277,6 +279,30 @@ class DefaultPage extends React.Component {
                     league=""
                   />
                 </p>
+                {middle_ad1(classes)}
+                <p>
+                <AppBar
+                  position="static"
+                  color="default"
+                  className={classes.des}
+                >
+                  <Toolbar variant="dense">
+                    <Typography variant="h6" className={classes.des2}>
+                      パークファクター(2016以降)　※参考値
+                    </Typography>
+                  </Toolbar>
+                </AppBar>
+                <CommonTable
+                  classes={styles}
+                  default_order="desc"
+                  default_orderBy="得点PF"
+                  head={parks_header}
+                  data={parks_total_body}
+                  row_length={parks_body.length}
+                  league=""
+                />
+              </p>
+              </p>
               )}
             </div>
           )}

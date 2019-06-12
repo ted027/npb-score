@@ -112,6 +112,7 @@ export const teams_def_body = createTeamBody(teams, t_def_header);
 //
 //
 var prheader = Object.keys(parks[0]);
+prheader.pop()
 prheader.push("League");
 const parks_numeric = [false, true, true, false];
 
@@ -127,8 +128,18 @@ for (var l = 0; l < prheader.length; l++) {
 
 export const parks_body = [];
 for (var m = 0; m < parks.length; m++) {
-  var pk = parks[m];
-  delete pk["2019"];
+  var pk = {};
+  pk["得点PF"] = parks[m]["2019"]["得点PF"];
+  pk["HRPF"] = parks[m]["2019"]["HRPF"];
+  pk["League"] = "";
+  parks_body.push(createData(pk));
+}
+
+export const parks_total_body = [];
+for (var m = 0; m < parks.length; m++) {
+  var pk = {};
+  pk["得点PF"] = parks[m]["得点PF"];
+  pk["HRPF"] = parks[m]["HRPF"];
   pk["League"] = "";
   parks_body.push(createData(pk));
 }
