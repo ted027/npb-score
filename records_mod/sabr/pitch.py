@@ -102,8 +102,8 @@ def k_bb_percent_p(pitcher):
     apperance = Decimal(pitcher['打者'])
     if not apperance:
         return '0.0'
-    raw_k_bb_percent = (Decimal(pitcher['奪三振']) -
-                        Decimal(pitcher['与四球'])) / apperance * Decimal('100')
+    raw_k_bb_percent = (Decimal(pitcher['奪三振']) - Decimal(
+        pitcher['与四球'])) / apperance * Decimal('100')
     k_bb_percent = digits_under_one(raw_k_bb_percent, 1)
     return str(k_bb_percent)
 
@@ -142,8 +142,8 @@ def _fip_efira(pitcher):
     if not outcounts:
         return Decimal('0')
     fip_efira = (Decimal('13') * Decimal(pitcher['被本塁打']) + Decimal('3') *
-                 (Decimal(pitcher['与四球']) + Decimal(pitcher['与死球']) -
-                  Decimal(pitcher['故意四球'])) -
+                 (Decimal(pitcher['与四球']) + Decimal(pitcher['与死球']) - Decimal(
+                     pitcher['故意四球'])) -
                  Decimal('2') * Decimal(pitcher['奪三振'])) * 3 / outcounts
     return fip_efira
 
@@ -189,7 +189,7 @@ def babip_p(pitcher):
 
 
 def komatsu(pitcher):
-    kd_point = Decimal(pitcher['アウト']) * Decimal('3') + (Decimal(pitcher['勝利']) + Decimal(
+    kd_point = Decimal(pitcher['アウト']) + (Decimal(pitcher['勝利']) + Decimal(
         pitcher['ホールド']) + Decimal(pitcher['セーブ'])) * Decimal('10')
     raw_kd = kd_point * Decimal('1000')
     kd = digits_under_one(raw_kd, 0)
@@ -197,6 +197,7 @@ def komatsu(pitcher):
 
 
 def one_outs_p(pitcher):
-    raw_oo = Decimal(pitcher['アウト']) * Decimal('500') - Decimal(pitcher['失点']) * Decimal('5000')
+    raw_oo = Decimal(pitcher['アウト']) * Decimal('500') - Decimal(
+        pitcher['失点']) * Decimal('5000')
     oo = digits_under_one(raw_oo, 0)
     return str(oo)
