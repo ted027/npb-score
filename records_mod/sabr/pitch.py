@@ -169,8 +169,13 @@ def fip_ra(pitcher, league, raw_fip):
 def fip_pf(pitcher, league, cor_pf, raw_fip_ra):
     if not Decimal(league['アウト']):
         return Decimal('0.00')
-    raw_fip_pf = raw_fip_ra + (Decimal('1') - cor_pf) * Decimal(
-        league['失点']) / Decimal(league['アウト']) * FULL_OUTCOUNTS / cor_pf
+    try:
+        raw_fip_pf = raw_fip_ra + (Decimal('1') - cor_pf) * Decimal(
+            league['失点']) / Decimal(league['アウト']) * FULL_OUTCOUNTS / cor_pf
+    except:
+        print(pitcher['Name'])
+        print(league['アウト'])
+        print(cor_pf)
     fip_pf = digits_under_one(raw_fip_pf, 2)
     return str(fip_pf)
 
