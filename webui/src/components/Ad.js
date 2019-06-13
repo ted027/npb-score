@@ -152,6 +152,31 @@ function middle_ad_game_wide(classes) {
           <img
             src="//i.moshimo.com/af/i/impression?a_id=1414800&amp;p_id=170&amp;pc_id=185&amp;pl_id=4062"
             alt=""
+            width="15"
+            height="1"
+            style={{ border: "0px" }}
+          />
+        </div>
+      </p>
+      <p>
+        <div>
+          <a
+            target="_blank"
+            href="//af.moshimo.com/af/c/click?a_id=1414800&amp;p_id=170&amp;pc_id=185&amp;pl_id=4062&amp;url=https%3A%2F%2Fwww.amazon.co.jp%2F%25E5%25AE%259F%25E6%25B3%2581%25E3%2583%2591%25E3%2583%25AF%25E3%2583%2595%25E3%2583%25AB%25E3%2583%2597%25E3%2583%25AD%25E9%2587%258E%25E7%2590%2583%25E3%2580%2590%25E5%2588%259D%25E5%259B%259E%25E9%2599%2590%25E5%25AE%259A%25E7%2589%25B9%25E5%2585%25B8%25E3%2580%2591%25E9%2599%2590%25E5%25AE%259Aamiibo%25E3%2582%25AB%25E3%2583%25BC%25E3%2583%2589-%25E3%2583%2591%25E3%2583%25AF%25E3%2583%2597%25E3%2583%25AD%25E3%2581%258F%25E3%2582%2593-%25E5%2590%258C%25E6%25A2%25B1%25E3%2580%2590Amazon-co-jp%25E9%2599%2590%25E5%25AE%259A%25E3%2580%2591%25E5%25BA%2597%25E8%2588%2597%25E9%2599%2590%25E5%25AE%259A%25E6%2597%25A9%25E6%259C%259F%25E8%25B3%25BC%25E5%2585%25A5%25E7%2589%25B9%25E5%2585%25B8amiibo%25E3%2582%25AB%25E3%2583%25BC%25E3%2583%2589-%25E6%2597%25A9%25E5%25B7%259D%25E3%2581%2582%25E3%2581%258A%25E3%2581%2584-Switch%2Fdp%2FB07Q1971YR"
+            rel="nofollow"
+            className={classes.adA}
+          >
+            <img
+              src="https://images-fe.ssl-images-amazon.com/images/I/51-pnsyHxpL._SL160_.jpg"
+              alt=""
+              style={{ border: "none" }}
+            />
+            <br />
+            実況パワフルプロ野球 - Switch
+          </a>
+          <img
+            src="//i.moshimo.com/af/i/impression?a_id=1414800&amp;p_id=170&amp;pc_id=185&amp;pl_id=4062"
+            alt=""
             width="1"
             height="1"
             style={{ border: "0px" }}
