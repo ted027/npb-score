@@ -7,6 +7,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
+import TablePagination from "@material-ui/core/TablePagination";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import grey from "@material-ui/core/colors/grey";
@@ -216,7 +217,8 @@ export class CommonTable extends React.Component {
   state = {
     order: this.props.default_order,
     orderBy: this.props.default_orderBy,
-    orderMean: "good"
+    orderMean: "good",
+    page: 0
   };
 
   handleRequestSort = (event, property) => {
@@ -241,11 +243,17 @@ export class CommonTable extends React.Component {
     this.setState({ order, orderBy, orderMean });
   };
 
+  handleChangePage = (event, newPage) => {
+    let page = newPage;
+    this.setState({ page });
+  };
+
   render() {
     const { classes, data, head, row_length, league } = this.props;
-    const { order, orderBy, orderMean } = this.state;
+    const { order, orderBy, orderMean, page } = this.state;
     var jun = 0;
     var jun2 = 0;
+    console.log(row_length);
     return (
       <Paper className={classes.root}>
         <div className={classes.tableWrapper}>
@@ -261,52 +269,55 @@ export class CommonTable extends React.Component {
             />
             <MediaQuery query="(max-width: 767px)">
               {stableSort(data, getSorting(order, orderBy)).map(n => {
-                if (league.indexOf(n.League) >= 0 && jun < row_length) {
+                if (league.indexOf(n.League) >= 0) {
                   if (!getProperty(head, orderBy, "regulated") || n.規定) {
-                    return (
-                      <TableBody>
-                        {Object.keys(n).map(value => {
-                          if (NARROW_BR_ELEMENTS.indexOf(value) >= 0) {
-                            return (
-                              <TableRow hover tabIndex={-1} key={n.id}>
-                                <CustomTableCellOrder
-                                  rowSpan="2"
-                                  numeric="false"
-                                  padding="checkbox"
-                                >
-                                  {(jun = jun + 1)}
-                                </CustomTableCellOrder>
-                                <CustomTableCellName
-                                  colSpan={
-                                    Object.keys(n).length - IGNORE_ELEM_NUM
-                                  }
-                                  numeric="false"
-                                >
-                                  {n[value]}
-                                </CustomTableCellName>
-                              </TableRow>
-                            );
-                          }
-                        })}
-                        <TableRow hover tabIndex={-1} key={n.id}>
-                          {Object.keys(n).map(value2 => {
-                            if (
-                              IGNORE_ELEMENTS.indexOf(value2) < 0 &&
-                              NARROW_BR_ELEMENTS.indexOf(value2) < 0
-                            ) {
+                    jun++;
+                    if (page * 10 < jun && jun <= page * 10 + 10) {
+                      return (
+                        <TableBody>
+                          {Object.keys(n).map(value => {
+                            if (NARROW_BR_ELEMENTS.indexOf(value) >= 0) {
                               return (
-                                <CustomTableCell
-                                  numeric={value2.numeric}
-                                  padding="checkbox"
-                                >
-                                  {n[value2]}
-                                </CustomTableCell>
+                                <TableRow hover tabIndex={-1} key={n.id}>
+                                  <CustomTableCellOrder
+                                    rowSpan="2"
+                                    numeric="false"
+                                    padding="checkbox"
+                                  >
+                                    {jun}
+                                  </CustomTableCellOrder>
+                                  <CustomTableCellName
+                                    colSpan={
+                                      Object.keys(n).length - IGNORE_ELEM_NUM
+                                    }
+                                    numeric="false"
+                                  >
+                                    {n[value]}
+                                  </CustomTableCellName>
+                                </TableRow>
                               );
                             }
                           })}
-                        </TableRow>
-                      </TableBody>
-                    );
+                          <TableRow hover tabIndex={-1} key={n.id}>
+                            {Object.keys(n).map(value2 => {
+                              if (
+                                IGNORE_ELEMENTS.indexOf(value2) < 0 &&
+                                NARROW_BR_ELEMENTS.indexOf(value2) < 0
+                              ) {
+                                return (
+                                  <CustomTableCell
+                                    numeric={value2.numeric}
+                                    padding="checkbox"
+                                  >
+                                    {n[value2]}
+                                  </CustomTableCell>
+                                );
+                              }
+                            })}
+                          </TableRow>
+                        </TableBody>
+                      );
+                    }
                   }
                 }
               })}
@@ -314,7 +325,7 @@ export class CommonTable extends React.Component {
             <MediaQuery query="(min-width: 767px)">
               <TableBody>
                 {stableSort(data, getSorting(order, orderBy)).map(n => {
-                  if (league.indexOf(n.League) >= 0 && jun2 < row_length) {
+                  if (league.indexOf(n.League) >= 0) {
                     if (!getProperty(head, orderBy, "regulated") || n.規定) {
                       return (
                         <TableRow hover tabIndex={-1} key={n.id}>
@@ -345,6 +356,26 @@ export class CommonTable extends React.Component {
             </MediaQuery>
           </Table>
         </div>
+        {[data].map(n => {
+          if (!row_length) {
+            return (
+              <TablePagination
+                component="div"
+                count={jun}
+                rowsPerPage="10"
+                rowsPerPageOptions={[]}
+                page={page}
+                backIconButtonProps={{
+                  "aria-label": "Previous Page"
+                }}
+                nextIconButtonProps={{
+                  "aria-label": "Next Page"
+                }}
+                onChangePage={this.handleChangePage}
+              />
+            );
+          }
+        })}
       </Paper>
     );
   }
@@ -355,6 +386,6 @@ CommonTable.propTypes = {
   default_orderBy: PropTypes.string.isRequired,
   head: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,
-  row_length: PropTypes.string.isRequired,
+  row_length: PropTypes.string,
   league: PropTypes.string.isRequired
 };

@@ -342,7 +342,6 @@ class DefaultPage extends React.Component {
                   default_orderBy="wRC+"
                   head={hitters_sabr_header}
                   data={hitters_sabr_body}
-                  row_length="10"
                   league={league}
                 />
               </p>
@@ -364,7 +363,6 @@ class DefaultPage extends React.Component {
                   default_orderBy="打率"
                   head={hitters_header}
                   data={hitters_body}
-                  row_length="10"
                   league={league}
                 />
               </p>
@@ -386,7 +384,6 @@ class DefaultPage extends React.Component {
                   default_orderBy="出塁率"
                   head={hitters_header_ops}
                   data={hitters_body_ops}
-                  row_length="10"
                   league={league}
                 />
               </p>
@@ -409,7 +406,6 @@ class DefaultPage extends React.Component {
                   default_orderBy="wOBA"
                   head={hitters_header_woba}
                   data={hitters_body_woba}
-                  row_length="10"
                   league={league}
                 />
               </p>
@@ -431,7 +427,6 @@ class DefaultPage extends React.Component {
                   default_orderBy="XR"
                   head={hitters_header_xr}
                   data={hitters_body_xr}
-                  row_length="10"
                   league={league}
                 />
               </p>
@@ -454,7 +449,6 @@ class DefaultPage extends React.Component {
                   default_orderBy="K%"
                   head={hitters_header_contact}
                   data={hitters_body_contact}
-                  row_length="10"
                   league={league}
                 />
               </p>
@@ -476,7 +470,6 @@ class DefaultPage extends React.Component {
                   default_orderBy="IsoP"
                   head={hitters_header_power}
                   data={hitters_body_power}
-                  row_length="10"
                   league={league}
                 />
               </p>
@@ -499,7 +492,6 @@ class DefaultPage extends React.Component {
                   default_orderBy="BB%"
                   head={hitters_header_eye}
                   data={hitters_body_eye}
-                  row_length="10"
                   league={league}
                 />
               </p>
@@ -521,7 +513,6 @@ class DefaultPage extends React.Component {
                   default_orderBy="wSB"
                   head={hitters_header_steal}
                   data={hitters_body_steal}
-                  row_length="10"
                   league={league}
                 />
               </p>
@@ -544,7 +535,6 @@ class DefaultPage extends React.Component {
                   default_orderBy="圏打率"
                   head={hitters_header_clutch}
                   data={hitters_body_clutch}
-                  row_length="10"
                   league={league}
                 />
               </p>
@@ -566,7 +556,6 @@ class DefaultPage extends React.Component {
                   default_orderBy="BABIP"
                   head={hitters_header_oth}
                   data={hitters_body_oth}
-                  row_length="10"
                   league={league}
                 />
               </p>
@@ -600,7 +589,6 @@ class DefaultPage extends React.Component {
                   default_orderBy="防御率"
                   head={pitchers_sabr_header}
                   data={pitchers_sabr_body}
-                  row_length="10"
                   league={league}
                 />
               </p>
@@ -622,7 +610,6 @@ class DefaultPage extends React.Component {
                   default_orderBy="投球回"
                   head={pitchers_header}
                   data={pitchers_body}
-                  row_length="10"
                   league={league}
                 />
               </p>
@@ -644,7 +631,6 @@ class DefaultPage extends React.Component {
                   default_orderBy="K-BB%"
                   head={pitchers_header_kbb}
                   data={pitchers_body_kbb}
-                  row_length="10"
                   league={league}
                 />
               </p>
@@ -667,7 +653,6 @@ class DefaultPage extends React.Component {
                   default_orderBy="WHIP"
                   head={pitchers_header_whip}
                   data={pitchers_body_whip}
-                  row_length="10"
                   league={league}
                 />
               </p>
@@ -689,7 +674,6 @@ class DefaultPage extends React.Component {
                   default_orderBy="QS率"
                   head={pitchers_header_qs}
                   data={pitchers_body_qs}
-                  row_length="10"
                   league={league}
                 />
               </p>
@@ -712,7 +696,6 @@ class DefaultPage extends React.Component {
                   default_orderBy="セーブ"
                   head={pitchers_header_closer}
                   data={pitchers_body_closer}
-                  row_length="10"
                   league={league}
                 />
               </p>
@@ -734,7 +717,6 @@ class DefaultPage extends React.Component {
                   default_orderBy="HP"
                   head={pitchers_header_relief}
                   data={pitchers_body_relief}
-                  row_length="10"
                   league={league}
                 />
               </p>
@@ -757,7 +739,6 @@ class DefaultPage extends React.Component {
                   default_orderBy="小松式ドネーション"
                   head={pitchers_header_oth}
                   data={pitchers_body_oth}
-                  row_length="10"
                   league={league}
                 />
               </p>
