@@ -17,6 +17,8 @@ const IGNORE_ELEMENTS = ["規定", "League"];
 const NARROW_BR_ELEMENTS = ["チーム", "選手", "球場"];
 const IGNORE_ELEM_NUM = 2;
 
+const ROWS_PER_PAGE = 10;
+
 const CustomTableCellOrder = withStyles(theme => ({
   head: {
     backgroundColor: grey[100],
@@ -240,7 +242,9 @@ export class CommonTable extends React.Component {
       orderMean = "bad";
     }
 
-    this.setState({ order, orderBy, orderMean });
+    let page = 0;
+
+    this.setState({ order, orderBy, orderMean, page });
   };
 
   handleChangePage = (event, newPage) => {
@@ -253,7 +257,6 @@ export class CommonTable extends React.Component {
     const { order, orderBy, orderMean, page } = this.state;
     var jun = 0;
     var jun2 = 0;
-    console.log(row_length);
     return (
       <Paper className={classes.root}>
         <div className={classes.tableWrapper}>
@@ -272,7 +275,7 @@ export class CommonTable extends React.Component {
                 if (league.indexOf(n.League) >= 0) {
                   if (!getProperty(head, orderBy, "regulated") || n.規定) {
                     jun++;
-                    if (page * 10 < jun && jun <= page * 10 + 10) {
+                    if (page * ROWS_PER_PAGE < jun && jun <= (page + 1) * ROWS_PER_PAGE) {
                       return (
                         <TableBody>
                           {Object.keys(n).map(value => {
@@ -327,28 +330,31 @@ export class CommonTable extends React.Component {
                 {stableSort(data, getSorting(order, orderBy)).map(n => {
                   if (league.indexOf(n.League) >= 0) {
                     if (!getProperty(head, orderBy, "regulated") || n.規定) {
-                      return (
-                        <TableRow hover tabIndex={-1} key={n.id}>
-                          <CustomTableCellOrderWide
-                            numeric="false"
-                            padding="checkbox"
-                          >
-                            {(jun2 = jun2 + 1)}
-                          </CustomTableCellOrderWide>
-                          {Object.keys(n).map(value => {
-                            if (IGNORE_ELEMENTS.indexOf(value) < 0) {
-                              return (
-                                <CustomTableCellWide
-                                  numeric={value.numeric}
-                                  padding="checkbox"
-                                >
-                                  {n[value]}
-                                </CustomTableCellWide>
-                              );
-                            }
-                          })}
-                        </TableRow>
-                      );
+                      jun2++;
+                      if (page * ROWS_PER_PAGE < jun2 && jun2 <= (page + 1) * ROWS_PER_PAGE) {
+                        return (
+                          <TableRow hover tabIndex={-1} key={n.id}>
+                            <CustomTableCellOrderWide
+                              numeric="false"
+                              padding="checkbox"
+                            >
+                              {jun2}
+                            </CustomTableCellOrderWide>
+                            {Object.keys(n).map(value => {
+                              if (IGNORE_ELEMENTS.indexOf(value) < 0) {
+                                return (
+                                  <CustomTableCellWide
+                                    numeric={value.numeric}
+                                    padding="checkbox"
+                                  >
+                                    {n[value]}
+                                  </CustomTableCellWide>
+                                );
+                              }
+                            })}
+                          </TableRow>
+                        );
+                      }
                     }
                   }
                 })}
@@ -362,7 +368,7 @@ export class CommonTable extends React.Component {
               <TablePagination
                 component="div"
                 count={jun}
-                rowsPerPage="10"
+                rowsPerPage={ROWS_PER_PAGE}
                 rowsPerPageOptions={[]}
                 page={page}
                 backIconButtonProps={{
