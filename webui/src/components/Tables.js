@@ -275,7 +275,11 @@ export class CommonTable extends React.Component {
                 if (league.indexOf(n.League) >= 0) {
                   if (!getProperty(head, orderBy, "regulated") || n.規定) {
                     jun++;
-                    if (page * ROWS_PER_PAGE < jun && jun <= (page + 1) * ROWS_PER_PAGE) {
+                    if (
+                      row_length ||
+                      (page * ROWS_PER_PAGE < jun &&
+                        jun <= (page + 1) * ROWS_PER_PAGE)
+                    ) {
                       return (
                         <TableBody>
                           {Object.keys(n).map(value => {
@@ -331,7 +335,11 @@ export class CommonTable extends React.Component {
                   if (league.indexOf(n.League) >= 0) {
                     if (!getProperty(head, orderBy, "regulated") || n.規定) {
                       jun2++;
-                      if (page * ROWS_PER_PAGE < jun2 && jun2 <= (page + 1) * ROWS_PER_PAGE) {
+                      if (
+                        row_length ||
+                        (page * ROWS_PER_PAGE < jun2 &&
+                          jun2 <= (page + 1) * ROWS_PER_PAGE)
+                      ) {
                         return (
                           <TableRow hover tabIndex={-1} key={n.id}>
                             <CustomTableCellOrderWide
