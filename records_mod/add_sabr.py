@@ -92,7 +92,10 @@ def add_sabr_pitcher():
 
     for pitcher in pitcher_list:
         cor_pf = correct_pf(pitcher, pf_list, '登板')
-        if not cor_pf: print(pitcher['Name']); print(f'PF補正係数: {cor_pf}')
+        if not cor_pf:
+            print(pitcher['Name'])
+            print(f'PF補正係数: {cor_pf}')
+            cor_pf = Decimal('1')
         pitcher = calc_sabr_pitcher(pitcher,
                                     league_pitcher_dic[pitcher['League']],
                                     cor_pf)
@@ -116,7 +119,10 @@ def add_sabr_hitter():
 
     for hitter in hitter_list:
         cor_pf = correct_pf(hitter, pf_list, '試合')
-        if not cor_pf: print(hitter['Name']); print(f'PF補正係数: {cor_pf}')
+        if not cor_pf:
+            print(hitter['Name'])
+            print(f'PF補正係数: {cor_pf}')
+            cor_pf = Decimal('1')
         hitter = calc_sabr_hitter(hitter, league_dic, league_rc, league_xr,
                                   cor_pf)
 
