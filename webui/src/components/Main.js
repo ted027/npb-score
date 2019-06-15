@@ -62,7 +62,14 @@ import {
 import { styles } from "./Common";
 import { CommonTable } from "./Tables";
 import { HideOnScroll, MainAppBar, LeagueAppBar, OrderAppBar } from "./Pages";
-import { top_ad, bottom_ad, middle_ad1, middle_ad2, middle_ad3 } from "./Ad";
+import {
+  top_ad,
+  bottom_ad,
+  middle_ad1,
+  middle_ad2,
+  middle_ad3,
+  middle_ad4
+} from "./Ad";
 
 const ORDER_VALUE = 0;
 const HITTER_VALUE = 1;
@@ -171,7 +178,7 @@ class DefaultPage extends React.Component {
                       league="Pacific"
                     />
                   </p>
-                  {middle_ad2(classes)}
+                  {middle_ad1(classes)}
                   <p>
                     <AppBar
                       position="static"
@@ -216,7 +223,7 @@ class DefaultPage extends React.Component {
                       league="Pacific"
                     />
                   </p>
-                  {middle_ad1(classes)}
+                  {middle_ad4(classes)}
                   <p>
                     <AppBar
                       position="static"
@@ -366,6 +373,7 @@ class DefaultPage extends React.Component {
                   league={league}
                 />
               </p>
+              {middle_ad2(classes)}
               <p>
                 <AppBar
                   position="static"
@@ -387,7 +395,6 @@ class DefaultPage extends React.Component {
                   league={league}
                 />
               </p>
-              {middle_ad2(classes)}
               <p>
                 <AppBar
                   position="static"
@@ -409,6 +416,7 @@ class DefaultPage extends React.Component {
                   league={league}
                 />
               </p>
+              {middle_ad1(classes)}
               <p>
                 <AppBar
                   position="static"
@@ -430,7 +438,6 @@ class DefaultPage extends React.Component {
                   league={league}
                 />
               </p>
-              {middle_ad1(classes)}
               <p>
                 <AppBar
                   position="static"
@@ -452,6 +459,7 @@ class DefaultPage extends React.Component {
                   league={league}
                 />
               </p>
+              {middle_ad4(classes)}
               <p>
                 <AppBar
                   position="static"
@@ -473,7 +481,6 @@ class DefaultPage extends React.Component {
                   league={league}
                 />
               </p>
-              {middle_ad3(classes)}
               <p>
                 <AppBar
                   position="static"
@@ -495,6 +502,7 @@ class DefaultPage extends React.Component {
                   league={league}
                 />
               </p>
+              {middle_ad2(classes)}
               <p>
                 <AppBar
                   position="static"
@@ -516,7 +524,6 @@ class DefaultPage extends React.Component {
                   league={league}
                 />
               </p>
-              {middle_ad2(classes)}
               <p>
                 <AppBar
                   position="static"
@@ -538,6 +545,7 @@ class DefaultPage extends React.Component {
                   league={league}
                 />
               </p>
+              {middle_ad3(classes)}
               <p>
                 <AppBar
                   position="static"
@@ -613,6 +621,7 @@ class DefaultPage extends React.Component {
                   league={league}
                 />
               </p>
+              {middle_ad1(classes)}
               <p>
                 <AppBar
                   position="static"
@@ -634,7 +643,6 @@ class DefaultPage extends React.Component {
                   league={league}
                 />
               </p>
-              {middle_ad2(classes)}
               <p>
                 <AppBar
                   position="static"
@@ -656,6 +664,7 @@ class DefaultPage extends React.Component {
                   league={league}
                 />
               </p>
+              {middle_ad2(classes)}
               <p>
                 <AppBar
                   position="static"
@@ -677,7 +686,7 @@ class DefaultPage extends React.Component {
                   league={league}
                 />
               </p>
-              {middle_ad3(classes)}
+              {middle_ad4(classes)}
               <p>
                 <AppBar
                   position="static"
@@ -720,7 +729,7 @@ class DefaultPage extends React.Component {
                   league={league}
                 />
               </p>
-              {middle_ad1(classes)}
+              {middle_ad3(classes)}
               <p>
                 <AppBar
                   position="static"
@@ -744,6 +753,7 @@ class DefaultPage extends React.Component {
               </p>
             </div>
           )}
+          {middle_ad2(classes)}
           {bottom_ad(classes)}
         </div>
       </MuiThemeProvider>
