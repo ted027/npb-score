@@ -92,7 +92,7 @@ workflows:
   nightly_build:
     triggers:
       - schedule:
-          cron: "30 14 * * *"
+          cron: "40 9 * * *"
           filters:
             branches:
               only:
