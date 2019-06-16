@@ -6,7 +6,7 @@ from sabr.pitch import (qs_rate, bb_per_nine, hr_per_nine, bb_percent_p,
                         fip, fip_ra, fip_pf, babip_p, komatsu, one_outs_p)
 from sabr.hit import (hr_percent, babip_h, iso_d, iso_p, bb_percent_h,
                       k_percent_h, bb_per_k, steal_percent, wsb, ops_plus,
-                      dan_percent, one_outs_h)
+                      dan_percent, one_outs_h, true_average)
 from sabr.hit_woba import (woba, woba_basic, woba_speed, wraa, wrc, wrc_plus)
 from sabr.hit_rc import (rc_basic, xr_basic, rc_xr_27, rc_xr_plus, rc_xr_win)
 from datastore_json import read_json, write_json
@@ -53,7 +53,7 @@ def calc_sabr_hitter(hitter,
     hitter['XR'], raw_xr = xr_basic(hitter)
     hitter['XR27'] = rc_xr_27(hitter, raw_xr)
     hitter['IsoP'] = iso_p(hitter)
-    # hitter['TAv'] = true_average(hitter)
+    hitter['TAv'] = true_average(hitter)
     hitter['BB/K'] = bb_per_k(hitter)
     hitter['BB%'] = bb_percent_h(hitter)
     hitter['K%'] = k_percent_h(hitter)

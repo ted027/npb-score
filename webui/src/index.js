@@ -7,6 +7,9 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
+// disable the production enviroment analytics
+process.env.NODE_ENV === "development" && (window.gtagPageview = (path) => { /*console.log("pageview:", path);*/ });
+
 ReactDOM.render(
     // <Provider>
         <App />,

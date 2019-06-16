@@ -4,8 +4,8 @@ import { createHeader, createBody, createBodyClutch } from "./DataCommon";
 const hitters = hittersj.Hitter;
 
 //sabr
-const hheader_sabr = ["wRC+", "OPS+", "XRWIN", "規定", "League"];
-const hheader_sabr_regulated = [true, true, true, false, false];
+const hheader_sabr = ["wRC+", "OPS+", "TAv", "XRWIN", "規定", "League"];
+const hheader_sabr_regulated = [true, true, true, true, false, false];
 const hheader_sabr_order = new Array(hheader_sabr.length).fill("desc");
 export const hitters_sabr_header = createHeader(
   hheader_sabr,
