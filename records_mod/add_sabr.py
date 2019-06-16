@@ -53,7 +53,6 @@ def calc_sabr_hitter(hitter,
     hitter['XR'], raw_xr = xr_basic(hitter)
     hitter['XR27'] = rc_xr_27(hitter, raw_xr)
     hitter['IsoP'] = iso_p(hitter)
-    hitter['TAv'] = true_average(hitter)
     hitter['BB/K'] = bb_per_k(hitter)
     hitter['BB%'] = bb_percent_h(hitter)
     hitter['K%'] = k_percent_h(hitter)
@@ -67,6 +66,7 @@ def calc_sabr_hitter(hitter,
         hitter['wRC'], raw_wrc = wrc(hitter, league_hitter_dic, raw_wraa)
         hitter['wRC+'] = wrc_plus(hitter, league_hitter_dic, cor_pf, raw_wrc)
         hitter['OPS+'] = ops_plus(hitter, league_hitter_dic, cor_pf)
+        hitter['TAv'] = true_average(hitter)
         hitter['RCAA'], raw_rcaa = rc_xr_plus(hitter, league_hitter_dic,
                                               raw_rc, league_rc)
         hitter['RCWIN'] = rc_xr_win(hitter, league_dic, raw_rcaa)
