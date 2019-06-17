@@ -102,7 +102,8 @@ def true_average(hitter):
     # raw_ta = numerator / denominator
     if not Decimal(hitter['打席']):
         return '.000'
-    raw_ta = Decimal('0.26') + Decimal(hitter['wRAA']) / Decimal(hitter['打席']) * Decimal('0.9')
+    raw_ta = Decimal('0.26') + Decimal(hitter['wRAA']) / Decimal(
+        hitter['打席']) * Decimal('0.9')
     true_average = digits_under_one(raw_ta, 3)
     return str(true_average)[1:]
 
