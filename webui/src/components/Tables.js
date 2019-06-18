@@ -53,17 +53,6 @@ const CustomTableCellName = withStyles(theme => ({
   }
 }))(TableCell);
 
-// const CustomTableCellShort = withStyles(theme => ({
-//   head: {
-//     backgroundColor: theme.palette.common.black,
-//     color: theme.palette.common.white,
-//     minWidth: 24,
-//   },
-//   body: {
-//     fontSize: 14,
-//   }
-// }))(TableCell);
-
 const CustomTableCell = withStyles(theme => ({
   head: {
     backgroundColor: grey[100],
