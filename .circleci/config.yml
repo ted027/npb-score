@@ -10,11 +10,11 @@ jobs:
           command: |
             sudo pip install -r requirements.txt
             cd records_mod
-            python main.py
+            sudo python main.py
             cd -
           no_output_timeout: 20m
       - persist_to_workspace:
-          root: records_mod/records
+          root: records_mod
           paths:
             - records
   webui_build_from_record:
