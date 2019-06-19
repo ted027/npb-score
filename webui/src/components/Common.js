@@ -21,13 +21,15 @@ export const styles = theme => ({
   },
   tab: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
+    zindex: 1000
   },
   subtab: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     color: "black",
-    marginTop: 48
+    marginTop: 48,
+    zindex: 500
   },
   des: {
     backgroundColor: blue[600],
@@ -66,9 +68,9 @@ export const styles = theme => ({
   },
   fab: {
     position: "fixed",
-    right: theme.spacing(2),
-    bottom: theme.spacing(2),
-    zindex: 1000
+    right: theme.spacing(3),
+    bottom: theme.spacing(3),
+    zindex: 100
   },
   container: {
     display: "flex",

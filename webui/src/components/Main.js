@@ -347,10 +347,12 @@ class DefaultPage extends React.Component {
               </HideOnScroll>
               <div className={classes.fab}>
                 <HideOnScroll {...this.props}>
-                  <SearchContents
-                    classes={styles}
-                    search_func={this.handleSearch}
-                  />
+                  {
+                    <SearchContents
+                      classes={styles}
+                      search_func={this.handleSearch}
+                    />
+                  }
                 </HideOnScroll>
               </div>
               {top_ad(classes)}
@@ -614,20 +616,12 @@ class DefaultPage extends React.Component {
               </HideOnScroll>
               <div className={classes.fab}>
                 <HideOnScroll {...this.props}>
-                  <SearchContents
-                    classes={styles}
-                    search_func={this.handleSearch}
-                  />
-                </HideOnScroll>
-              </div>
-              <div className={classes.fab}>
-                <HideOnScroll {...this.props}>
-                  <SearchContents
-                    classes={styles}
-                    search_func={(team, name) => {
-                      this.handleSearch(team, name);
-                    }}
-                  />
+                  {
+                    <SearchContents
+                      classes={styles}
+                      search_func={this.handleSearch}
+                    />
+                  }
                 </HideOnScroll>
               </div>
               {top_ad(classes)}
