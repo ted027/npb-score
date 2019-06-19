@@ -11,13 +11,19 @@ import TablePagination from "@material-ui/core/TablePagination";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import grey from "@material-ui/core/colors/grey";
-import { stableSort, getSorting, getProperty } from "./Common";
+import {
+  ROWS_PER_PAGE,
+  stableSort,
+  getSorting,
+  getProperty,
+  judgePageReturn,
+  enableSearch,
+  judgeSearch
+} from "./Common";
 
 const IGNORE_ELEMENTS = ["規定", "League"];
 const NARROW_BR_ELEMENTS = ["チーム", "選手", "球場"];
 const IGNORE_ELEM_NUM = 2;
-
-const ROWS_PER_PAGE = 10;
 
 const CustomTableCellOrder = withStyles(theme => ({
   head: {
@@ -217,11 +223,7 @@ export class CommonTable extends React.Component {
     var firstOrder = getProperty(this.props.head, property, "defaultOrder");
     var reverseOrder;
 
-    if (firstOrder === "desc") {
-      reverseOrder = "asc";
-    } else if (firstOrder === "asc") {
-      reverseOrder = "desc";
-    }
+    firstOrder === "desc" ? (reverseOrder = "asc") : (reverseOrder = "desc");
 
     let order = firstOrder;
     let orderMean = "good";
@@ -236,13 +238,12 @@ export class CommonTable extends React.Component {
     this.setState({ order, orderBy, orderMean, page });
   };
 
-  handleChangePage = (event, newPage) => {
-    let page = newPage;
+  handleChangePage = (event, page) => {
     this.setState({ page });
   };
 
   render() {
-    const { classes, data, head, row_length, league } = this.props;
+    const { classes, data, head, row_length, league, main_state } = this.props;
     const { order, orderBy, orderMean, page } = this.state;
     var jun = 0;
     var jun2 = 0;
@@ -261,59 +262,58 @@ export class CommonTable extends React.Component {
             />
             <MediaQuery query="(max-width: 767px)">
               {stableSort(data, getSorting(order, orderBy)).map(n => {
-                if (league.indexOf(n.League) >= 0) {
-                  if (!getProperty(head, orderBy, "regulated") || n.規定) {
-                    jun++;
-                    if (
-                      row_length ||
-                      (page * ROWS_PER_PAGE < jun &&
-                        jun <= (page + 1) * ROWS_PER_PAGE)
-                    ) {
-                      return (
-                        <TableBody>
-                          {Object.keys(n).map(value => {
-                            if (NARROW_BR_ELEMENTS.indexOf(value) >= 0) {
+                if (
+                  judgeSearch(main_state, n.選手) ||
+                  (!enableSearch(main_state) &&
+                    league.indexOf(n.League) >= 0 &&
+                    (!getProperty(head, orderBy, "regulated") || n.規定))
+                ) {
+                  jun++;
+                  if (judgePageReturn(row_length, jun, page)) {
+                    return (
+                      <TableBody>
+                        {Object.keys(n).map(value => {
+                          if (NARROW_BR_ELEMENTS.indexOf(value) >= 0) {
+                            return (
+                              <TableRow hover tabIndex={-1} key={n.id}>
+                                <CustomTableCellOrder
+                                  rowSpan="2"
+                                  numeric="false"
+                                  padding="checkbox"
+                                >
+                                  {jun}
+                                </CustomTableCellOrder>
+                                <CustomTableCellName
+                                  colSpan={
+                                    Object.keys(n).length - IGNORE_ELEM_NUM
+                                  }
+                                  numeric="false"
+                                >
+                                  {n[value]}
+                                </CustomTableCellName>
+                              </TableRow>
+                            );
+                          }
+                        })}
+                        <TableRow hover tabIndex={-1} key={n.id}>
+                          {Object.keys(n).map(value2 => {
+                            if (
+                              IGNORE_ELEMENTS.indexOf(value2) < 0 &&
+                              NARROW_BR_ELEMENTS.indexOf(value2) < 0
+                            ) {
                               return (
-                                <TableRow hover tabIndex={-1} key={n.id}>
-                                  <CustomTableCellOrder
-                                    rowSpan="2"
-                                    numeric="false"
-                                    padding="checkbox"
-                                  >
-                                    {jun}
-                                  </CustomTableCellOrder>
-                                  <CustomTableCellName
-                                    colSpan={
-                                      Object.keys(n).length - IGNORE_ELEM_NUM
-                                    }
-                                    numeric="false"
-                                  >
-                                    {n[value]}
-                                  </CustomTableCellName>
-                                </TableRow>
+                                <CustomTableCell
+                                  numeric={value2.numeric}
+                                  padding="checkbox"
+                                >
+                                  {n[value2]}
+                                </CustomTableCell>
                               );
                             }
                           })}
-                          <TableRow hover tabIndex={-1} key={n.id}>
-                            {Object.keys(n).map(value2 => {
-                              if (
-                                IGNORE_ELEMENTS.indexOf(value2) < 0 &&
-                                NARROW_BR_ELEMENTS.indexOf(value2) < 0
-                              ) {
-                                return (
-                                  <CustomTableCell
-                                    numeric={value2.numeric}
-                                    padding="checkbox"
-                                  >
-                                    {n[value2]}
-                                  </CustomTableCell>
-                                );
-                              }
-                            })}
-                          </TableRow>
-                        </TableBody>
-                      );
-                    }
+                        </TableRow>
+                      </TableBody>
+                    );
                   }
                 }
               })}
@@ -321,37 +321,36 @@ export class CommonTable extends React.Component {
             <MediaQuery query="(min-width: 767px)">
               <TableBody>
                 {stableSort(data, getSorting(order, orderBy)).map(n => {
-                  if (league.indexOf(n.League) >= 0) {
-                    if (!getProperty(head, orderBy, "regulated") || n.規定) {
-                      jun2++;
-                      if (
-                        row_length ||
-                        (page * ROWS_PER_PAGE < jun2 &&
-                          jun2 <= (page + 1) * ROWS_PER_PAGE)
-                      ) {
-                        return (
-                          <TableRow hover tabIndex={-1} key={n.id}>
-                            <CustomTableCellOrderWide
-                              numeric="false"
-                              padding="checkbox"
-                            >
-                              {jun2}
-                            </CustomTableCellOrderWide>
-                            {Object.keys(n).map(value => {
-                              if (IGNORE_ELEMENTS.indexOf(value) < 0) {
-                                return (
-                                  <CustomTableCellWide
-                                    numeric={value.numeric}
-                                    padding="checkbox"
-                                  >
-                                    {n[value]}
-                                  </CustomTableCellWide>
-                                );
-                              }
-                            })}
-                          </TableRow>
-                        );
-                      }
+                  if (
+                    judgeSearch(main_state, n.選手) ||
+                    (!enableSearch(main_state) &&
+                      league.indexOf(n.League) >= 0 &&
+                      (!getProperty(head, orderBy, "regulated") || n.規定))
+                  ) {
+                    jun2++;
+                    if (judgePageReturn(row_length, jun2, page)) {
+                      return (
+                        <TableRow hover tabIndex={-1} key={n.id}>
+                          <CustomTableCellOrderWide
+                            numeric="false"
+                            padding="checkbox"
+                          >
+                            {jun2}
+                          </CustomTableCellOrderWide>
+                          {Object.keys(n).map(value => {
+                            if (IGNORE_ELEMENTS.indexOf(value) < 0) {
+                              return (
+                                <CustomTableCellWide
+                                  numeric={value.numeric}
+                                  padding="checkbox"
+                                >
+                                  {n[value]}
+                                </CustomTableCellWide>
+                              );
+                            }
+                          })}
+                        </TableRow>
+                      );
                     }
                   }
                 })}
@@ -390,5 +389,6 @@ CommonTable.propTypes = {
   head: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,
   row_length: PropTypes.string,
-  league: PropTypes.string.isRequired
+  league: PropTypes.string.isRequired,
+  main_state: PropTypes.object
 };

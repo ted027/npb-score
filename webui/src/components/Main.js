@@ -61,6 +61,7 @@ import {
 } from "./datastore/Pitchers";
 import { styles } from "./Common";
 import { CommonTable } from "./Tables";
+import { SearchContents } from "./Search";
 import { HideOnScroll, MainAppBar, LeagueAppBar, OrderAppBar } from "./Pages";
 import {
   top_ad,
@@ -87,7 +88,9 @@ class DefaultPage extends React.Component {
     selected: ORDER_VALUE,
     order_selected: ORDER,
     league_selected: ALL,
-    league: "CentralPacific"
+    league: "CentralPacific",
+    searchTeam: "",
+    searchName: ""
   };
 
   handleTabChange = (event, selected) => {
@@ -109,6 +112,18 @@ class DefaultPage extends React.Component {
     }
 
     this.setState({ league_selected, league });
+  };
+
+  handleSearch = (team, name) => {
+    let sTeam;
+    let sName;
+    if (team) {
+      sTeam = team;
+    }
+    if (name) {
+      sName = name;
+    }
+    this.setState({ searchTeam: sTeam, searchName: sName });
   };
 
   render() {
@@ -330,6 +345,14 @@ class DefaultPage extends React.Component {
                   this.handleLeagueChange
                 )}
               </HideOnScroll>
+              <div className={classes.fab}>
+                <HideOnScroll {...this.props}>
+                  <SearchContents
+                    classes={styles}
+                    search_func={this.handleSearch}
+                  />
+                </HideOnScroll>
+              </div>
               {top_ad(classes)}
               <p>
                 <AppBar
@@ -350,6 +373,7 @@ class DefaultPage extends React.Component {
                   head={hitters_sabr_header}
                   data={hitters_sabr_body}
                   league={league}
+                  main_state={this.state}
                 />
               </p>
               <p>
@@ -371,6 +395,7 @@ class DefaultPage extends React.Component {
                   head={hitters_header}
                   data={hitters_body}
                   league={league}
+                  main_state={this.state}
                 />
               </p>
               {middle_ad2(classes)}
@@ -393,6 +418,7 @@ class DefaultPage extends React.Component {
                   head={hitters_header_ops}
                   data={hitters_body_ops}
                   league={league}
+                  main_state={this.state}
                 />
               </p>
               <p>
@@ -414,6 +440,7 @@ class DefaultPage extends React.Component {
                   head={hitters_header_woba}
                   data={hitters_body_woba}
                   league={league}
+                  main_state={this.state}
                 />
               </p>
               {middle_ad1(classes)}
@@ -436,6 +463,7 @@ class DefaultPage extends React.Component {
                   head={hitters_header_xr}
                   data={hitters_body_xr}
                   league={league}
+                  main_state={this.state}
                 />
               </p>
               <p>
@@ -457,6 +485,7 @@ class DefaultPage extends React.Component {
                   head={hitters_header_contact}
                   data={hitters_body_contact}
                   league={league}
+                  main_state={this.state}
                 />
               </p>
               {middle_ad4(classes)}
@@ -479,6 +508,7 @@ class DefaultPage extends React.Component {
                   head={hitters_header_power}
                   data={hitters_body_power}
                   league={league}
+                  main_state={this.state}
                 />
               </p>
               <p>
@@ -500,6 +530,7 @@ class DefaultPage extends React.Component {
                   head={hitters_header_eye}
                   data={hitters_body_eye}
                   league={league}
+                  main_state={this.state}
                 />
               </p>
               {middle_ad2(classes)}
@@ -522,6 +553,7 @@ class DefaultPage extends React.Component {
                   head={hitters_header_steal}
                   data={hitters_body_steal}
                   league={league}
+                  main_state={this.state}
                 />
               </p>
               <p>
@@ -543,6 +575,7 @@ class DefaultPage extends React.Component {
                   head={hitters_header_clutch}
                   data={hitters_body_clutch}
                   league={league}
+                  main_state={this.state}
                 />
               </p>
               {middle_ad3(classes)}
@@ -565,6 +598,7 @@ class DefaultPage extends React.Component {
                   head={hitters_header_oth}
                   data={hitters_body_oth}
                   league={league}
+                  main_state={this.state}
                 />
               </p>
             </div>
@@ -578,6 +612,24 @@ class DefaultPage extends React.Component {
                   this.handleLeagueChange
                 )}
               </HideOnScroll>
+              <div className={classes.fab}>
+                <HideOnScroll {...this.props}>
+                  <SearchContents
+                    classes={styles}
+                    search_func={this.handleSearch}
+                  />
+                </HideOnScroll>
+              </div>
+              <div className={classes.fab}>
+                <HideOnScroll {...this.props}>
+                  <SearchContents
+                    classes={styles}
+                    search_func={(team, name) => {
+                      this.handleSearch(team, name);
+                    }}
+                  />
+                </HideOnScroll>
+              </div>
               {top_ad(classes)}
               <p>
                 <AppBar
@@ -598,6 +650,7 @@ class DefaultPage extends React.Component {
                   head={pitchers_sabr_header}
                   data={pitchers_sabr_body}
                   league={league}
+                  main_state={this.state}
                 />
               </p>
               <p>
@@ -619,6 +672,7 @@ class DefaultPage extends React.Component {
                   head={pitchers_header}
                   data={pitchers_body}
                   league={league}
+                  main_state={this.state}
                 />
               </p>
               {middle_ad1(classes)}
@@ -641,6 +695,7 @@ class DefaultPage extends React.Component {
                   head={pitchers_header_kbb}
                   data={pitchers_body_kbb}
                   league={league}
+                  main_state={this.state}
                 />
               </p>
               <p>
@@ -662,6 +717,7 @@ class DefaultPage extends React.Component {
                   head={pitchers_header_whip}
                   data={pitchers_body_whip}
                   league={league}
+                  main_state={this.state}
                 />
               </p>
               {middle_ad2(classes)}
@@ -684,6 +740,7 @@ class DefaultPage extends React.Component {
                   head={pitchers_header_qs}
                   data={pitchers_body_qs}
                   league={league}
+                  main_state={this.state}
                 />
               </p>
               {middle_ad4(classes)}
@@ -706,6 +763,7 @@ class DefaultPage extends React.Component {
                   head={pitchers_header_closer}
                   data={pitchers_body_closer}
                   league={league}
+                  main_state={this.state}
                 />
               </p>
               <p>
@@ -727,6 +785,7 @@ class DefaultPage extends React.Component {
                   head={pitchers_header_relief}
                   data={pitchers_body_relief}
                   league={league}
+                  main_state={this.state}
                 />
               </p>
               {middle_ad3(classes)}
@@ -749,6 +808,7 @@ class DefaultPage extends React.Component {
                   head={pitchers_header_oth}
                   data={pitchers_body_oth}
                   league={league}
+                  main_state={this.state}
                 />
               </p>
             </div>

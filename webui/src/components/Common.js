@@ -2,6 +2,8 @@ import React from "react";
 import Tab from "@material-ui/core/Tab";
 import blue from "@material-ui/core/colors/blue";
 
+export const ROWS_PER_PAGE = 10;
+
 export const styles = theme => ({
   root: {
     width: "100%",
@@ -61,6 +63,33 @@ export const styles = theme => ({
     width: "100%",
     maxWidth: "300px",
     height: "width"
+  },
+  fab: {
+    position: "fixed",
+    right: theme.spacing(2),
+    bottom: theme.spacing(2),
+    zindex: 1000
+  },
+  container: {
+    display: "flex",
+    flexWrap: "wrap"
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 150
+  },
+  searchButton: {
+    position: "fixed",
+    marginLeft: theme.spacing(1),
+    right: theme.spacing(1),
+    bottom: theme.spacing(1)
+  },
+  resetButton: {
+    position: "fixed",
+    marginRight: theme.spacing(1),
+    left: theme.spacing(1),
+    bottom: theme.spacing(1)
   }
 });
 
@@ -91,4 +120,55 @@ export function getSorting(order, orderBy) {
   return order === "asc"
     ? (a, b) => a[orderBy] - b[orderBy]
     : (a, b) => b[orderBy] - a[orderBy];
+}
+
+export function judgePageReturn(row_length, jun, page) {
+  if (row_length) {
+    return true;
+  }
+  if (page * ROWS_PER_PAGE < jun && jun <= (page + 1) * ROWS_PER_PAGE) {
+    return true;
+  }
+  return false;
+}
+
+export function judgeSearchStr(player, team, name) {
+  var playerForSearch = player
+    .replace(/\s+/g, "")
+    .replace(")", "")
+    .split("(");
+  var playerName = playerForSearch[0];
+  var playerTeam = playerForSearch[1];
+  if (team) {
+    if (playerTeam !== team) {
+      return false;
+    }
+  }
+  if (name) {
+    var nameForSearch = name.replace(/\s+/g, "");
+    if (playerName.indexOf(nameForSearch) < 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
+export function enableSearch(main_state) {
+  if (!main_state) {
+    return false;
+  }
+  if (!main_state.searchTeam && !main_state.searchName) {
+    return false;
+  }
+  return true;
+}
+
+export function judgeSearch(main_state, player) {
+  if (!enableSearch(main_state)) {
+    return false;
+  }
+  if (judgeSearchStr(player, main_state.searchTeam, main_state.searchName)) {
+    return true;
+  }
+  return false;
 }
