@@ -4,6 +4,7 @@ import Popper from "@material-ui/core/Popper";
 import Fade from "@material-ui/core/Fade";
 import Paper from "@material-ui/core/Paper";
 import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
 import Fab from "@material-ui/core/Fab";
 import SearchIcon from "@material-ui/icons/Search";
 import TextField from "@material-ui/core/TextField";
@@ -61,6 +62,7 @@ export class SearchContents extends React.Component {
           anchorEl={anchorEl}
           placement={placement}
           transition
+          style={{ zIndex: 20 }}
         >
           {({ TransitionProps }) => (
             <Fade {...TransitionProps} timeout={30}>
@@ -74,13 +76,9 @@ export class SearchContents extends React.Component {
                     className={classes.textField}
                     value={this.state.team}
                     onChange={this.handleDecideText("team")}
-                    SelectProps={{
-                      MenuProps: {
-                        native: true
-                      }
-                    }}
+                    variant="outlined"
+                    fullWidth="true"
                     margin="normal"
-                    variant="filled"
                   >
                     {Object.keys(teamConverter).map(shortTeam => (
                       <MenuItem key={shortTeam} value={shortTeam}>
@@ -89,23 +87,20 @@ export class SearchContents extends React.Component {
                     ))}
                   </TextField>
                 </form>
-                <form
-                  className={classes.container}
-                  noValidate
-                  autoComplete="off"
-                >
+                <form noValidate autoComplete="off">
                   <TextField
                     id="filled-name"
                     label="Name"
                     className={classes.textField}
                     value={this.state.name}
                     onChange={this.handleDecideText("name")}
+                    variant="outlined"
+                    fullWidth="true"
                     margin="normal"
-                    variant="filled"
                   />
                 </form>
-                <Toolbar>
-                  <Paper>
+                <Toolbar className={classes.popper}>
+                  <Typography>
                     <Button
                       variant="outlined"
                       color="secondary"
@@ -114,8 +109,8 @@ export class SearchContents extends React.Component {
                     >
                       Reset
                     </Button>
-                  </Paper>
-                  <Paper>
+                  </Typography>
+                  <Typography>
                     <Button
                       variant="outlined"
                       color="primary"
@@ -130,7 +125,7 @@ export class SearchContents extends React.Component {
                     >
                       Search
                     </Button>
-                  </Paper>
+                  </Typography>
                 </Toolbar>
               </Paper>
               {/* </ClickAwayListener> */}

@@ -21,15 +21,13 @@ export const styles = theme => ({
   },
   tab: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-    zindex: 1000
+    backgroundColor: theme.palette.background.paper
   },
   subtab: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     color: "black",
-    marginTop: 48,
-    zindex: 500
+    marginTop: 48
   },
   des: {
     backgroundColor: blue[600],
@@ -70,25 +68,27 @@ export const styles = theme => ({
     position: "fixed",
     right: theme.spacing(3),
     bottom: theme.spacing(3),
-    zindex: 100
+    zIndex: 10
   },
-  container: {
-    display: "flex",
-    flexWrap: "wrap"
+  popper: {
+    width: "100%",
+    backgroundColor: "red"
   },
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: 150
+    width: "100%"
   },
   searchButton: {
-    position: "fixed",
+    flexGrow: 1,
+    position: "absolute",
     marginLeft: theme.spacing(1),
     right: theme.spacing(1),
     bottom: theme.spacing(1)
   },
   resetButton: {
-    position: "fixed",
+    flexGrow: 1,
+    position: "absolute",
     marginRight: theme.spacing(1),
     left: theme.spacing(1),
     bottom: theme.spacing(1)
