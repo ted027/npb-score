@@ -8,11 +8,11 @@ import Slide from "@material-ui/core/Slide";
 import { LinkTab } from "./Common";
 
 export function HideOnScroll(props) {
-  const { children, window } = props;
+  const { children, window, direction } = props;
   const trigger = useScrollTrigger({ target: window ? window() : undefined });
 
   return (
-    <Slide appear={false} direction="down" in={!trigger}>
+    <Slide appear={false} direction={direction} in={!trigger}>
       {children}
     </Slide>
   );
@@ -20,7 +20,8 @@ export function HideOnScroll(props) {
 
 HideOnScroll.propTypes = {
   children: PropTypes.node.isRequired,
-  window: PropTypes.func
+  window: PropTypes.func,
+  direction: PropTypes.string.isRequired,
 };
 
 export function MainAppBar(selected, onChange) {

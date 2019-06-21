@@ -11,7 +11,7 @@ jobs:
           command: |
             sudo pip install -r requirements.txt
             cd records_mod
-            # rm -rf records/*
+            rm -rf records/*
             python main.py
             cd -            
           no_output_timeout: 20m
@@ -21,11 +21,10 @@ jobs:
       - run:
           name: push
           command: |
-            ls -al
             git config --global user.name "CircleCI"
             git config --global user.email "circleci@example.com"
             git add --all
-            msg="update records nightly `date`"
+            msg="nightly update records `date`"
             git commit -m "$msg"
             git push origin master
   webui_build:
@@ -78,18 +77,22 @@ workflows:
   version: 2
   normal_build:
     jobs:
-      - webui_build
+      - webui_build:
+          filters:
+              branches:
+                only: master
       - deploy:
+          filters:
+              branches:
+                only: master
           requires:
             - webui_build
   nightly_build:
     triggers:
       - schedule:
-          # cron: "45 14 * * *"
-          cron: "13 2 * * *"
+          cron: "40 14 * * *"
           filters:
             branches:
-              only:
-                - master
+              only: master
     jobs:
       - records_build

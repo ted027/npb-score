@@ -133,13 +133,13 @@ class DefaultPage extends React.Component {
       <MuiThemeProvider theme={theme}>
         <div className={classes.root}>
           <div className={classes.tab}>
-            <HideOnScroll {...this.props}>
+            <HideOnScroll {...this.props} direction="down">
               {MainAppBar(selected, this.handleTabChange)}
             </HideOnScroll>
           </div>
           {selected === ORDER_VALUE && (
             <div className={classes.individualRoot}>
-              <HideOnScroll {...this.props}>
+              <HideOnScroll {...this.props}  direction="down">
                 {OrderAppBar(
                   classes.subtab,
                   order_selected,
@@ -338,7 +338,7 @@ class DefaultPage extends React.Component {
           )}
           {selected === HITTER_VALUE && (
             <div className={classes.individualRoot}>
-              <HideOnScroll {...this.props}>
+              <HideOnScroll {...this.props}  direction="down">
                 {LeagueAppBar(
                   classes.subtab,
                   league_selected,
@@ -346,7 +346,7 @@ class DefaultPage extends React.Component {
                 )}
               </HideOnScroll>
               <div className={classes.fab}>
-                <HideOnScroll {...this.props}>
+                <HideOnScroll {...this.props}  direction="up">
                   {
                     <SearchContents
                       classes={styles}
@@ -607,7 +607,7 @@ class DefaultPage extends React.Component {
           )}
           {selected === PITCHER_VALUE && (
             <div className={classes.individualRoot}>
-              <HideOnScroll {...this.props}>
+              <HideOnScroll {...this.props}  direction="down">
                 {LeagueAppBar(
                   classes.subtab,
                   league_selected,
@@ -615,7 +615,7 @@ class DefaultPage extends React.Component {
                 )}
               </HideOnScroll>
               <div className={classes.fab}>
-                <HideOnScroll {...this.props}>
+                <HideOnScroll {...this.props}  direction="up">
                   {
                     <SearchContents
                       classes={styles}
