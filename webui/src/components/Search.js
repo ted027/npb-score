@@ -72,7 +72,7 @@ export class SearchContents extends React.Component {
                   <TextField
                     id="filled-select-team"
                     select
-                    label="Team"
+                    label="チーム"
                     className={classes.textField}
                     value={this.state.team}
                     onChange={this.handleDecideText("team")}
@@ -90,7 +90,7 @@ export class SearchContents extends React.Component {
                 <form noValidate autoComplete="off">
                   <TextField
                     id="filled-name"
-                    label="Name"
+                    label="選手名"
                     className={classes.textField}
                     value={this.state.name}
                     onChange={this.handleDecideText("name")}
@@ -99,18 +99,18 @@ export class SearchContents extends React.Component {
                     margin="normal"
                   />
                 </form>
-                <Toolbar className={classes.popper}>
-                  <Typography>
+                <Toolbar>
+                  <Toolbar className={classes.resetButton}>
                     <Button
                       variant="outlined"
                       color="secondary"
                       className={classes.resetButton}
                       onClick={this.handleReset}
                     >
-                      Reset
+                      リセット
                     </Button>
-                  </Typography>
-                  <Typography>
+                  </Toolbar>
+                  <Toolbar className={classes.searchButton}>
                     <Button
                       variant="outlined"
                       color="primary"
@@ -123,9 +123,9 @@ export class SearchContents extends React.Component {
                         this.state.name
                       )}
                     >
-                      Search
+                      検索
                     </Button>
-                  </Typography>
+                  </Toolbar>
                 </Toolbar>
               </Paper>
               {/* </ClickAwayListener> */}
