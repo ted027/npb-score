@@ -7,38 +7,27 @@ jobs:
     steps:
       - checkout
       - run:
+          name: build
           command: |
             sudo pip install -r requirements.txt
             cd records_mod
-            rm -rf records/*
+            # rm -rf records/*
             python main.py
-            cd -
+            cd -            
           no_output_timeout: 20m
-      - persist_to_workspace:
-          root: records_mod
-          paths:
-            - records
-  webui_build_from_record:
-    docker:
-      - image: circleci/node:8.10
-    working_directory: ~/work
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
+      - add_ssh_keys:
+          fingerprints:
+            - "e5:f7:07:ca:a4:5c:76:22:db:ba:db:23:1c:ae:b8:95"
       - run:
+          name: push
           command: |
             ls -al
-            rm -rf webui/src/records
-            cp -rf records webui/src
-            cd webui
-            ls -al
-            sudo npm install
-            sudo npm run build
-      - persist_to_workspace:
-          root: webui
-          paths:
-            - build
+            git config --global user.name "CircleCI"
+            git config --global user.email "circleci@example.com"
+            git add --all
+            msg="update records nightly `date`"
+            git commit -m "$msg"
+            git push origin master
   webui_build:
     docker:
       - image: circleci/node:8.10
@@ -96,16 +85,11 @@ workflows:
   nightly_build:
     triggers:
       - schedule:
-          cron: "45 14 * * *"
+          # cron: "45 14 * * *"
+          cron: "13 2 * * *"
           filters:
             branches:
               only:
                 - master
     jobs:
       - records_build
-      - webui_build_from_record:
-          requires:
-            - records_build
-      - deploy:
-          requires:
-            - webui_build_from_record
