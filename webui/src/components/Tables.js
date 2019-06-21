@@ -288,6 +288,11 @@ export class CommonTable extends React.Component {
                                     Object.keys(n).length - IGNORE_ELEM_NUM
                                   }
                                   numeric="false"
+                                  style={
+                                    n.規定 || n.チーム || n.球場
+                                      ? { color: "black" }
+                                      : { color: grey[500] }
+                                  }
                                 >
                                   {n[value]}
                                 </CustomTableCellName>
@@ -305,6 +310,11 @@ export class CommonTable extends React.Component {
                                 <CustomTableCell
                                   numeric={value2.numeric}
                                   padding="checkbox"
+                                  style={
+                                    n.規定 || n.チーム || n.球場
+                                      ? { color: "black" }
+                                      : { color: grey[500] }
+                                  }
                                 >
                                   {n[value2]}
                                 </CustomTableCell>
@@ -343,6 +353,11 @@ export class CommonTable extends React.Component {
                                 <CustomTableCellWide
                                   numeric={value.numeric}
                                   padding="checkbox"
+                                  style={
+                                    n.規定 || n.チーム || n.球場
+                                      ? { color: "black" }
+                                      : { color: grey[500] }
+                                  }
                                 >
                                   {n[value]}
                                 </CustomTableCellWide>
