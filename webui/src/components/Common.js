@@ -2,8 +2,6 @@ import React from "react";
 import Tab from "@material-ui/core/Tab";
 import blue from "@material-ui/core/colors/blue";
 
-export const ROWS_PER_PAGE = 10;
-
 export const styles = theme => ({
   root: {
     width: "100%",
@@ -110,11 +108,11 @@ export function getSorting(order, orderBy) {
     : (a, b) => b[orderBy] - a[orderBy];
 }
 
-export function judgePageReturn(row_length, jun, page) {
+export function judgePageReturn(row_length, jun, page, rowsPerPage) {
   if (row_length) {
     return true;
   }
-  if (page * ROWS_PER_PAGE < jun && jun <= (page + 1) * ROWS_PER_PAGE) {
+  if (page * rowsPerPage < jun && jun <= (page + 1) * rowsPerPage) {
     return true;
   }
   return false;

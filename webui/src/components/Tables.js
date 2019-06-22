@@ -215,7 +215,8 @@ export class CommonTable extends React.Component {
     order: this.props.default_order,
     orderBy: this.props.default_orderBy,
     orderMean: "good",
-    page: 0
+    page: 0,
+    rowsPerPage: 5
   };
 
   handleRequestSort = (event, property) => {
@@ -242,9 +243,13 @@ export class CommonTable extends React.Component {
     this.setState({ page });
   };
 
+  handleChangeRowsPerPage = (event, rowsPerPage) => {
+    this.setState({ rowsPerPage: rowsPerPage.key });
+  };
+
   render() {
     const { classes, data, head, row_length, league, main_state } = this.props;
-    const { order, orderBy, orderMean, page } = this.state;
+    const { order, orderBy, orderMean, page, rowsPerPage } = this.state;
     var jun = 0;
     var jun2 = 0;
     return (
@@ -269,7 +274,7 @@ export class CommonTable extends React.Component {
                     (!getProperty(head, orderBy, "regulated") || n.規定))
                 ) {
                   jun++;
-                  if (judgePageReturn(row_length, jun, page)) {
+                  if (judgePageReturn(row_length, jun, page, rowsPerPage)) {
                     return (
                       <TableBody>
                         {Object.keys(n).map(value => {
@@ -338,7 +343,7 @@ export class CommonTable extends React.Component {
                       (!getProperty(head, orderBy, "regulated") || n.規定))
                   ) {
                     jun2++;
-                    if (judgePageReturn(row_length, jun2, page)) {
+                    if (judgePageReturn(row_length, jun2, page, rowsPerPage)) {
                       return (
                         <TableRow hover tabIndex={-1} key={n.id}>
                           <CustomTableCellOrderWide
@@ -379,16 +384,18 @@ export class CommonTable extends React.Component {
               <TablePagination
                 component="div"
                 count={jun}
-                rowsPerPage={ROWS_PER_PAGE}
-                rowsPerPageOptions={[]}
+                rowsPerPage={rowsPerPage}
+                rowsPerPageOptions={[5, 10, 15]}
+                labelRowsPerPage="人数/ページ"
                 page={page}
                 backIconButtonProps={{
-                  "aria-label": "Previous Page"
+                  "aria-label": "前ページ"
                 }}
                 nextIconButtonProps={{
-                  "aria-label": "Next Page"
+                  "aria-label": "次ページ"
                 }}
                 onChangePage={this.handleChangePage}
+                onChangeRowsPerPage={this.handleChangeRowsPerPage}
               />
             );
           }
