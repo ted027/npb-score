@@ -2,7 +2,10 @@ import '@babel/polyfill';
 import "react-app-polyfill/ie9";
 import React from "react";
 import ReactDOM from "react-dom";
-// import { Provider } from "react-redux";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import MainPage from './reducers'
+
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
@@ -10,10 +13,12 @@ import * as serviceWorker from "./serviceWorker";
 // disable the production enviroment analytics
 process.env.NODE_ENV === "development" && (window.gtagPageview = (path) => { /*console.log("pageview:", path);*/ });
 
+let store = createStore(MainPage)
+
 ReactDOM.render(
-    // <Provider>
+    <Provider store={store}>
         <App />,
-    // </Provider>,
+    </Provider>,
     document.getElementById("root")
 );
 
