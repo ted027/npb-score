@@ -87,12 +87,12 @@ workflows:
                 only: master
           requires:
             - webui_build
-  nightly_build:
-    triggers:
-      - schedule:
-          cron: "40 14 * * *"
-          filters:
-            branches:
-              only: master
-    jobs:
-      - records_build
+  # nightly_build:
+  #   triggers:
+  #     - schedule:
+  #         cron: "40 14 * * *"
+  #         filters:
+  #           branches:
+  #             only: master
+  #   jobs:
+  #     - records_build
