@@ -61,9 +61,9 @@ import {
 } from "./datastore/Pitchers";
 import { styles } from "./Common";
 import { CommonTable } from "./Tables";
-import { SearchContents } from "./Search";
-import { HideOnScroll, MainAppBar, LeagueAppBar, OrderAppBar } from "./Pages";
+import { HideOnScroll } from "./Pages";
 import { VisibleMainAppBar, VisibleLeagueAppBar, VisibleOrderAppBar } from "../containers/changeTab";
+import { VisibleSearch } from "../containers/VisibleSearch";
 import {
   top_ad,
   bottom_ad,
@@ -80,19 +80,7 @@ const PITCHER_VALUE = 2;
 const ORDER = 0;
 const PARKFACTOR = 1;
 
-const ALL = 0;
-const CENTRAL = 1;
-const PACIFIC = 2;
-
 class MainPage extends React.Component {
-  state = {
-    selected: ORDER_VALUE,
-    order_selected: ORDER,
-    league_selected: ALL,
-    league: "CentralPacific",
-    searchTeam: "",
-    searchName: ""
-  };
 
   render() {
     const { classes, pageState } = this.props;
@@ -314,10 +302,7 @@ class MainPage extends React.Component {
               <div className={classes.fab}>
                 <HideOnScroll {...this.props}  direction="up">
                   {
-                    <SearchContents
-                      classes={styles}
-                      search_func={this.handleSearch}
-                    />
+                    <VisibleSearch />
                   }
                 </HideOnScroll>
               </div>
@@ -582,10 +567,7 @@ class MainPage extends React.Component {
               <div className={classes.fab}>
                 <HideOnScroll {...this.props}  direction="up">
                   {
-                    <SearchContents
-                      classes={styles}
-                      search_func={this.handleSearch}
-                    />
+                    <VisibleSearch />
                   }
                 </HideOnScroll>
               </div>

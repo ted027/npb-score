@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { SearchContents } from './components/Search';
+import Search from './components/Search';
 import { execSearch, resetSearch, handlePopper, decideTeamText, decideNameText } from '../actions';
 
 const mapStateToProps = (state) => {
@@ -8,22 +8,22 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        handleSearchExec: (team, name) => {
+        execSearch: (team, name) => {
             dispatch(execSearch(team, name))
         },
-        handleSearchReset: () => {
+        resetSearch: () => {
             dispatch(resetSearch())
         },
-        handleSearchPopper: (placement) => (event) => {
+        handlePopper: (placement) => (event) => {
             dispatch(handlePopper(placement))
         },
-        // handleClickAway: () => {
+        // clickAway: () => {
         //     dispatch(clickAway())
         // },
-        handleDecideTeamText: (event) => {
+        decideTeamText: (event) => {
             dispatch(decideTeamText())
         },
-        handleDecideNameText: (event) => {
+        decideNameText: (event) => {
             dispatch(decideNameText())
         },
     }
@@ -32,6 +32,6 @@ const mapDispatchToProps = (dispatch) => {
 const VisibleSearch = connect(
     mapStateToProps,
     mapDispatchToProps
-)(SearchContents)
+)(Search)
 
 export default VisibleSearch;

@@ -4,7 +4,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import MainPage from './reducers'
+import recordsApp from './reducers'
 
 import "./index.css";
 import App from "./App";
@@ -13,7 +13,25 @@ import * as serviceWorker from "./serviceWorker";
 // disable the production enviroment analytics
 process.env.NODE_ENV === "development" && (window.gtagPageview = (path) => { /*console.log("pageview:", path);*/ });
 
-let store = createStore(MainPage)
+const initialState = {
+    MainPage: {
+        selected: 0,
+        order_selected: 0,
+        league_selected: 0,
+        league: "CentralPacific",
+        searchTeam: "",
+        searchName: ""
+    },
+    Search: {
+        anchorEl: null,
+        open: false,
+        placement: null,
+        team: "",
+        name: ""
+    }
+  };
+
+let store = createStore(recordsApp, initialState)
 
 ReactDOM.render(
     <Provider store={store}>

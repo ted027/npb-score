@@ -13,47 +13,11 @@ import Button from "@material-ui/core/Button";
 // import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import { teamConverter } from "./datastore/DataCommon";
 
-export class SearchContents extends React.Component {
-  state = {
-    anchorEl: null,
-    open: false,
-    placement: null,
-    team: "",
-    name: ""
-  };
-
-  handleSearchPopper = placement => event => {
-    const { currentTarget } = event;
-    this.setState(state => ({
-      anchorEl: currentTarget,
-      open: state.placement !== placement || !state.open,
-      placement
-    }));
-  };
-
-  handleClickAway = () => {
-    this.setState({
-      open: false
-    });
-  };
-
-  handleDecideText = name => event => {
-    this.setState({ [name]: event.target.value });
-  };
-
-  handleSearchExec = (team, name) => event => {
-    this.setState({ open: false });
-    return this.props.search_func(team, name);
-  };
-
-  handleReset = event => {
-    this.setState({ open: false, team: "", name: "" });
-    return this.props.search_func("", "");
-  };
+class SearchContents extends React.Component {
 
   render() {
-    const { classes } = this.props;
-    const { anchorEl, open, placement } = this.state;
+    const { classes, searchState, execSearch, resetSearch, handlePopper, decideTeamText, decideNameText } = this.props;
+    const { anchorEl, open, placement, team, name } = searchState;
 
     return (
       <div>
@@ -74,8 +38,8 @@ export class SearchContents extends React.Component {
                     select
                     label="チーム"
                     className={classes.textField}
-                    value={this.state.team}
-                    onChange={this.handleDecideText("team")}
+                    value={team}
+                    onChange={() => decideTeamText()}
                     variant="outlined"
                     fullWidth="true"
                     margin="normal"
@@ -92,8 +56,8 @@ export class SearchContents extends React.Component {
                     id="filled-name"
                     label="選手名"
                     className={classes.textField}
-                    value={this.state.name}
-                    onChange={this.handleDecideText("name")}
+                    value={name}
+                    onChange={() => decideNameText()}
                     variant="outlined"
                     fullWidth="true"
                     margin="normal"
@@ -105,7 +69,7 @@ export class SearchContents extends React.Component {
                       variant="outlined"
                       color="secondary"
                       className={classes.resetButton}
-                      onClick={this.handleReset}
+                      onClick={() => resetSearch()}
                     >
                       リセット
                     </Button>
@@ -116,12 +80,9 @@ export class SearchContents extends React.Component {
                       color="primary"
                       className={classes.searchButton}
                       disabled={
-                        this.state.team || this.state.name ? false : true
+                        team || name ? false : true
                       }
-                      onClick={this.handleSearchExec(
-                        this.state.team,
-                        this.state.name
-                      )}
+                      onClick={() => execSearch(team, name)}
                     >
                       検索
                     </Button>
@@ -133,7 +94,7 @@ export class SearchContents extends React.Component {
           )}
         </Popper>
         <Fab color="primary" aria-label="Search" className={classes.fab}>
-          <SearchIcon onClick={this.handleSearchPopper("top-end")} />
+          <SearchIcon onClick={() => handlePopper("top-end")} />
         </Fab>
       </div>
     );
@@ -142,5 +103,20 @@ export class SearchContents extends React.Component {
 
 SearchContents.propTypes = {
   classes: PropTypes.object.isRequired,
-  search_func: PropTypes.func.isRequired
+  searchState: PropTypes.arrayOf(
+    PropTypes.shape({
+      anchorEl: PropTypes.object.isRequired,
+      open: PropTypes.bool.isRequired,
+      placement: PropTypes.object.isRequired,
+      team: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired
+    }).isRequired
+    ).isRequired,
+  execSearch: PropTypes.func.isRequired,
+  resetSearch: PropTypes.func.isRequired,
+  handlePopper: PropTypes.func.isRequired,
+  decideTeamText: PropTypes.func.isRequired,
+  decideNameText: PropTypes.func.isRequired,
 };
+
+export default withStyles(styles)(SearchContents);

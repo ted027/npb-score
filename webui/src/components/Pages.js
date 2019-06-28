@@ -24,63 +24,74 @@ HideOnScroll.propTypes = {
   direction: PropTypes.string.isRequired,
 };
 
-export function MainAppBar(selected, onChange) {
-  return (
-    <AppBar>
-      <Tabs
-        variant="fullWidth"
-        selected={selected}
-        value={selected}
-        scrollable
-        scrollButtons="auto"
-        onChange={onChange}
-      >
-        <Tab label="順位表" />
-        <Tab label="野手成績" />
-        <Tab label="投手成績" />
-        <LinkTab label="BLOG" href="/" />
-      </Tabs>
-    </AppBar>
-  );
+export const MainAppBar = ({ selected, onChange }) => (
+  <AppBar>
+    <Tabs
+      variant="fullWidth"
+      selected={selected}
+      value={selected}
+      scrollable
+      scrollButtons="auto"
+      onChange={onChange}
+    >
+      <Tab label="順位表" />
+      <Tab label="野手成績" />
+      <Tab label="投手成績" />
+      <LinkTab label="BLOG" href="/" />
+    </Tabs>
+  </AppBar>
+);
+
+MainAppBar.propTypes = {
+  selected: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired
 }
 
-export function LeagueAppBar(className, selected, onChange) {
-  return (
-    <AppBar className={className}>
-      <Tabs
-        variant="fullWidth"
-        selected={selected}
-        value={selected}
-        indicatorColor="primary"
-        textColor="primary"
-        scrollable
-        scrollButtons="auto"
-        onChange={onChange}
-      >
-        <Tab label="ALL" />
-        <Tab label="セリーグ" />
-        <Tab label="パリーグ" />
-      </Tabs>
-    </AppBar>
-  );
+export const LeagueAppBar = ({ className, selected, onChange }) => (
+  <AppBar className={className}>
+    <Tabs
+      variant="fullWidth"
+      selected={selected}
+      value={selected}
+      indicatorColor="primary"
+      textColor="primary"
+      scrollable
+      scrollButtons="auto"
+      onChange={onChange}
+    >
+      <Tab label="ALL" />
+      <Tab label="セリーグ" />
+      <Tab label="パリーグ" />
+    </Tabs>
+  </AppBar>
+);
+
+LeagueAppBar.propTypes = {
+  className: PropTypes.object.isRequired, 
+  selected: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired
 }
 
-export function OrderAppBar(className, selected, onChange) {
-  return (
-    <AppBar className={className}>
-      <Tabs
-        variant="fullWidth"
-        selected={selected}
-        value={selected}
-        indicatorColor="primary"
-        textColor="primary"
-        scrollable
-        scrollButtons="auto"
-        onChange={onChange}
-      >
-        <Tab label="順位表" />
-        <Tab label="パークファクター" />
-      </Tabs>
-    </AppBar>
-  );
+export const OrderAppBar = ({ className, selected, onChange }) => (
+  <AppBar className={className}>
+    <Tabs
+      variant="fullWidth"
+      selected={selected}
+      value={selected}
+      indicatorColor="primary"
+      textColor="primary"
+      scrollable
+      scrollButtons="auto"
+      onChange={onChange}
+    >
+      <Tab label="順位表" />
+      <Tab label="パークファクター" />
+    </Tabs>
+  </AppBar>
+);
+
+OrderAppBar.propTypes = {
+  className: PropTypes.object.isRequired, 
+  selected: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired
 }
