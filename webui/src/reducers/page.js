@@ -31,14 +31,15 @@ const MainPage = (state, action) => {
                 searchName: ""
             }
         case 'EXEC_SEARCH':
-                return {
-                    selected: state.selected,
-                    order_selected: state.order_selected,
-                    league_selected: state.league_selected,
-                    league: state.league,
-                    searchTeam: searchTeam,
-                    searchName: searchName
-                }
+        case 'RESET_SEARCH':
+            return {
+                selected: state.selected,
+                order_selected: state.order_selected,
+                league_selected: state.league_selected,
+                league: state.league,
+                searchTeam: action.searchTeam,
+                searchName: action.searchName
+            }
         default:
             return state
     }

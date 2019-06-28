@@ -35,3 +35,41 @@ export const execSearch = (searchTeam, searchName) => {
         searchName: searchName
     }
 }
+
+export const resetSearch = () => {
+    return {
+        type: 'RESET_SEARCH',
+        searchTeam: "",
+        searchName: ""
+    }
+}
+
+export const handlePopper = placement => event => {
+    const { currentTarget } = event;
+    return {
+        type: 'HANDLE_POPPER',
+        anchorEl: currentTarget,
+        placement: placement
+    }
+}
+
+// export const clickAway = () => {
+//     return {
+//         type: 'CLICK_AWAY',
+//         open: false
+//     }
+// }
+
+export const decideTeamText = event => {
+    return {
+        type: 'DECIDE_TEAM_TEXT',
+        team: event.target.value
+    }
+}
+
+export const decideNameText = event => {
+    return {
+        type: 'DECIDE_NAME_TEXT',
+        name: event.target.value
+    }
+}
