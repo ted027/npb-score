@@ -63,6 +63,7 @@ import { styles } from "./Common";
 import { CommonTable } from "./Tables";
 import { SearchContents } from "./Search";
 import { HideOnScroll, MainAppBar, LeagueAppBar, OrderAppBar } from "./Pages";
+import { VisibleMainAppBar, VisibleLeagueAppBar, VisibleOrderAppBar } from "../containers/changeTab";
 import {
   top_ad,
   bottom_ad,
@@ -83,7 +84,7 @@ const ALL = 0;
 const CENTRAL = 1;
 const PACIFIC = 2;
 
-class DefaultPage extends React.Component {
+class MainPage extends React.Component {
   state = {
     selected: ORDER_VALUE,
     order_selected: ORDER,
@@ -93,57 +94,23 @@ class DefaultPage extends React.Component {
     searchName: ""
   };
 
-  handleTabChange = (event, selected) => {
-    this.setState({ selected });
-  };
-
-  handleTeamOrderChange = (event, order_selected) => {
-    this.setState({ order_selected });
-  };
-
-  handleLeagueChange = (event, league_selected) => {
-    var league;
-    if (league_selected === ALL) {
-      league = "CentralPacific";
-    } else if (league_selected === CENTRAL) {
-      league = "Central";
-    } else if (league_selected === PACIFIC) {
-      league = "Pacific";
-    }
-
-    this.setState({ league_selected, league });
-  };
-
-  handleSearch = (team, name) => {
-    let sTeam;
-    let sName;
-    if (team) {
-      sTeam = team;
-    }
-    if (name) {
-      sName = name;
-    }
-    this.setState({ searchTeam: sTeam, searchName: sName });
-  };
-
   render() {
-    const { classes } = this.props;
-    const { selected, league_selected, league, order_selected } = this.state;
+    const { classes, pageState } = this.props;
+    const { selected, league_selected, league, order_selected } = pageState;
     return (
       <MuiThemeProvider theme={theme}>
         <div className={classes.root}>
           <div className={classes.tab}>
             <HideOnScroll {...this.props} direction="down">
-              {MainAppBar(selected, this.handleTabChange)}
+              {VisibleMainAppBar(selected)}
             </HideOnScroll>
           </div>
           {selected === ORDER_VALUE && (
             <div className={classes.individualRoot}>
               <HideOnScroll {...this.props}  direction="down">
-                {OrderAppBar(
+                {VisibleOrderAppBar(
                   classes.subtab,
-                  order_selected,
-                  this.handleTeamOrderChange
+                  order_selected
                 )}
               </HideOnScroll>
               {top_ad(classes)}
@@ -339,10 +306,9 @@ class DefaultPage extends React.Component {
           {selected === HITTER_VALUE && (
             <div className={classes.individualRoot}>
               <HideOnScroll {...this.props}  direction="down">
-                {LeagueAppBar(
+                {VisibleLeagueAppBar(
                   classes.subtab,
-                  league_selected,
-                  this.handleLeagueChange
+                  league_selected
                 )}
               </HideOnScroll>
               <div className={classes.fab}>
@@ -375,7 +341,7 @@ class DefaultPage extends React.Component {
                   head={hitters_sabr_header}
                   data={hitters_sabr_body}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
               </p>
               <p>
@@ -397,7 +363,7 @@ class DefaultPage extends React.Component {
                   head={hitters_header}
                   data={hitters_body}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
               </p>
               {middle_ad2(classes)}
@@ -420,7 +386,7 @@ class DefaultPage extends React.Component {
                   head={hitters_header_ops}
                   data={hitters_body_ops}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
               </p>
               <p>
@@ -442,7 +408,7 @@ class DefaultPage extends React.Component {
                   head={hitters_header_woba}
                   data={hitters_body_woba}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
               </p>
               {middle_ad1(classes)}
@@ -465,7 +431,7 @@ class DefaultPage extends React.Component {
                   head={hitters_header_xr}
                   data={hitters_body_xr}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
               </p>
               <p>
@@ -487,7 +453,7 @@ class DefaultPage extends React.Component {
                   head={hitters_header_contact}
                   data={hitters_body_contact}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
               </p>
               {middle_ad4(classes)}
@@ -510,7 +476,7 @@ class DefaultPage extends React.Component {
                   head={hitters_header_power}
                   data={hitters_body_power}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
               </p>
               <p>
@@ -532,7 +498,7 @@ class DefaultPage extends React.Component {
                   head={hitters_header_eye}
                   data={hitters_body_eye}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
               </p>
               {middle_ad2(classes)}
@@ -555,7 +521,7 @@ class DefaultPage extends React.Component {
                   head={hitters_header_steal}
                   data={hitters_body_steal}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
               </p>
               <p>
@@ -577,7 +543,7 @@ class DefaultPage extends React.Component {
                   head={hitters_header_clutch}
                   data={hitters_body_clutch}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
               </p>
               {middle_ad3(classes)}
@@ -600,7 +566,7 @@ class DefaultPage extends React.Component {
                   head={hitters_header_oth}
                   data={hitters_body_oth}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
               </p>
             </div>
@@ -608,10 +574,9 @@ class DefaultPage extends React.Component {
           {selected === PITCHER_VALUE && (
             <div className={classes.individualRoot}>
               <HideOnScroll {...this.props}  direction="down">
-                {LeagueAppBar(
+                {VisibleLeagueAppBar(
                   classes.subtab,
-                  league_selected,
-                  this.handleLeagueChange
+                  league_selected
                 )}
               </HideOnScroll>
               <div className={classes.fab}>
@@ -644,7 +609,7 @@ class DefaultPage extends React.Component {
                   head={pitchers_sabr_header}
                   data={pitchers_sabr_body}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
               </p>
               <p>
@@ -666,7 +631,7 @@ class DefaultPage extends React.Component {
                   head={pitchers_header}
                   data={pitchers_body}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
               </p>
               {middle_ad1(classes)}
@@ -689,7 +654,7 @@ class DefaultPage extends React.Component {
                   head={pitchers_header_kbb}
                   data={pitchers_body_kbb}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
               </p>
               <p>
@@ -711,7 +676,7 @@ class DefaultPage extends React.Component {
                   head={pitchers_header_whip}
                   data={pitchers_body_whip}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
               </p>
               {middle_ad2(classes)}
@@ -734,7 +699,7 @@ class DefaultPage extends React.Component {
                   head={pitchers_header_qs}
                   data={pitchers_body_qs}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
               </p>
               {middle_ad4(classes)}
@@ -757,7 +722,7 @@ class DefaultPage extends React.Component {
                   head={pitchers_header_closer}
                   data={pitchers_body_closer}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
               </p>
               <p>
@@ -779,7 +744,7 @@ class DefaultPage extends React.Component {
                   head={pitchers_header_relief}
                   data={pitchers_body_relief}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
               </p>
               {middle_ad3(classes)}
@@ -802,7 +767,7 @@ class DefaultPage extends React.Component {
                   head={pitchers_header_oth}
                   data={pitchers_body_oth}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
               </p>
             </div>
@@ -815,8 +780,18 @@ class DefaultPage extends React.Component {
   }
 }
 
-DefaultPage.propTypes = {
-  classes: PropTypes.object.isRequired
+MainPage.propTypes = {
+  classes: PropTypes.object.isRequired,
+  pageState: PropTypes.arrayOf(
+    PropTypes.shape({
+      selected: PropTypes.number.isRequired,
+      order_selected: PropTypes.number.isRequired,
+      league_selected: PropTypes.number.isRequired,
+      league: PropTypes.string.isRequired,
+      searchTeam: PropTypes.string.isRequired,
+      searchName: PropTypes.string.isRequired
+    }).isRequired
+  ).isRequired
 };
 
-export default withStyles(styles)(DefaultPage);
+export default withStyles(styles)(MainPage);

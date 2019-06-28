@@ -12,7 +12,6 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import grey from "@material-ui/core/colors/grey";
 import {
-  ROWS_PER_PAGE,
   stableSort,
   getSorting,
   getProperty,
