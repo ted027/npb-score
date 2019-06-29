@@ -104,15 +104,13 @@ class SearchContents extends React.Component {
 
 SearchContents.propTypes = {
   classes: PropTypes.object.isRequired,
-  searchState: PropTypes.arrayOf(
-    PropTypes.shape({
+  searchState: PropTypes.shape({
       anchorEl: PropTypes.object.isRequired,
       open: PropTypes.bool.isRequired,
       placement: PropTypes.object.isRequired,
       team: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired
-    }).isRequired
-    ).isRequired,
+  }).isRequired,
   execSearch: PropTypes.func.isRequired,
   resetSearch: PropTypes.func.isRequired,
   handlePopper: PropTypes.func.isRequired,

@@ -755,16 +755,14 @@ class MainPage extends React.Component {
 
 MainPage.propTypes = {
   classes: PropTypes.object.isRequired,
-  pageState: PropTypes.arrayOf(
-    PropTypes.shape({
+  pageState: PropTypes.shape({
       selected: PropTypes.number.isRequired,
       order_selected: PropTypes.number.isRequired,
       league_selected: PropTypes.number.isRequired,
       league: PropTypes.string.isRequired,
       searchTeam: PropTypes.string.isRequired,
       searchName: PropTypes.string.isRequired
-    }).isRequired
-  ).isRequired
+  }).isRequired
 };
 
 export default withStyles(styles)(MainPage);

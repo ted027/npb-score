@@ -48,7 +48,7 @@ export const resetSearch = () => {
     }
 }
 
-export const handlePopper = placement => event => {
+export const handlePopper = (event, placement) => {
     const { currentTarget } = event;
     return {
         type: 'HANDLE_POPPER',
@@ -64,14 +64,14 @@ export const handlePopper = placement => event => {
 //     }
 // }
 
-export const decideTeamText = event => {
+export const decideTeamText = (event) => {
     return {
         type: 'DECIDE_TEAM_TEXT',
         team: event.target.value
     }
 }
 
-export const decideNameText = event => {
+export const decideNameText = (event) => {
     return {
         type: 'DECIDE_NAME_TEXT',
         name: event.target.value

@@ -8,23 +8,23 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        execSearch: (team, name) => {
+        execSearch: (event, team, name) => {
             dispatch(execSearch(team, name))
         },
-        resetSearch: () => {
+        resetSearch: (event) => {
             dispatch(resetSearch())
         },
-        handlePopper: (placement) => (event) => {
-            dispatch(handlePopper(placement))
+        handlePopper: (event, placement) => {
+            dispatch(handlePopper(event, placement))
         },
-        // clickAway: () => {
+        // clickAway: (event) => {
         //     dispatch(clickAway())
         // },
         decideTeamText: (event) => {
-            dispatch(decideTeamText())
+            dispatch(decideTeamText(event))
         },
         decideNameText: (event) => {
-            dispatch(decideNameText())
+            dispatch(decideNameText(event))
         },
     }
 }
