@@ -13,25 +13,7 @@ import * as serviceWorker from "./serviceWorker";
 // disable the production enviroment analytics
 process.env.NODE_ENV === "development" && (window.gtagPageview = (path) => { /*console.log("pageview:", path);*/ });
 
-const initialState = {
-    MainPage: {
-        selected: 0,
-        order_selected: 0,
-        league_selected: 0,
-        league: "CentralPacific",
-        searchTeam: "",
-        searchName: ""
-    },
-    Search: {
-        anchorEl: null,
-        open: false,
-        placement: null,
-        team: "",
-        name: ""
-    }
-  };
-
-let store = createStore(recordsApp, initialState)
+let store = createStore(recordsApp)
 
 ReactDOM.render(
     <Provider store={store}>

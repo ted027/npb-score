@@ -1,4 +1,12 @@
-const Search = (state, action) => {
+const initialState = {
+    anchorEl: null,
+    open: false,
+    placement: null,
+    team: "",
+    name: ""
+};
+
+const Search = (state = initialState, action) => {
     switch (action.type) {
         case 'HANDLE_POPPER':
             return {

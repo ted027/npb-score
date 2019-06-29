@@ -1,3 +1,7 @@
+const ALL = 0;
+const CENTRAL = 1;
+const PACIFIC = 2;
+
 export const changeTab = (selected) => {
     return {
         type: 'CHANGE_TAB',

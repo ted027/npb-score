@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Search from './components/Search';
+import Search from '../components/Search';
 import { execSearch, resetSearch, handlePopper, decideTeamText, decideNameText } from '../actions';
 
 const mapStateToProps = (state) => {

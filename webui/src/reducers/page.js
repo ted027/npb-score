@@ -1,7 +1,16 @@
 const ORDER = 0;
 const ALL = 0;
 
-const MainPage = (state, action) => {
+const initialState = {
+    selected: 0,
+    order_selected: 0,
+    league_selected: 0,
+    league: "CentralPacific",
+    searchTeam: "",
+    searchName: ""
+  };
+
+const MainPage = (state = initialState, action) => {
     switch (action.type) {
         case 'CHANGE_TAB':
             return {

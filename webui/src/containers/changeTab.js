@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { MainAppBar, OrderAppBar, LeagueAppBar } from './components/Pages';
+import { MainAppBar, OrderAppBar, LeagueAppBar } from '../components/Pages';
 import { changeTab, changeOrderSelected, changeLeague } from '../actions';
 
 const mapMainDispatchToProps = (dispatch) => {
