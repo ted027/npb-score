@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import VisibleRecords from './containers/VisibleRecords';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';

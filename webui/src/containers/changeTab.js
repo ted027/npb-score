@@ -2,9 +2,13 @@ import { connect } from 'react-redux';
 import { MainAppBar, OrderAppBar, LeagueAppBar } from '../components/Pages';
 import { changeTab, changeOrderSelected, changeLeague } from '../actions';
 
+const mapStateToProps = () => {
+    return
+}
+
 const mapMainDispatchToProps = (dispatch) => {
     return {
-        onClick: (selected) => {
+        onChange: (selected) => {
             dispatch(changeTab(selected));
         }
     }
@@ -12,7 +16,7 @@ const mapMainDispatchToProps = (dispatch) => {
 
 const mapOrderDispatchToProps = (dispatch) => {
     return {
-        onClick: (order_selected) => {
+        onChange: (order_selected) => {
             dispatch(changeOrderSelected(order_selected));
         }
     }
@@ -20,20 +24,23 @@ const mapOrderDispatchToProps = (dispatch) => {
 
 const mapLeagueDispatchToProps = (dispatch) => {
     return {
-        onClick: (league_selected) => {
+        onChange: (league_selected) => {
             dispatch(changeLeague(league_selected));
         }
     }
 }
 
 export const VisibleMainAppBar = connect(
+    mapStateToProps,
     mapMainDispatchToProps
 )(MainAppBar)
 
 export const VisibleOrderAppBar = connect(
+    mapStateToProps,
     mapOrderDispatchToProps
 )(OrderAppBar)
 
 export const VisibleLeagueAppBar = connect(
+    mapStateToProps,
     mapLeagueDispatchToProps
 )(LeagueAppBar)
