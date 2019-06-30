@@ -113,7 +113,7 @@ class CommonTableHead extends React.Component {
                     >
                       <Button
                         style={{
-                          "text-transform": "none"
+                          "textTransform": "none"
                         }}
                         variant={orderBy === cell.id ? "contained" : "outlined"}
                         size="small"
@@ -409,7 +409,7 @@ CommonTable.propTypes = {
   default_orderBy: PropTypes.string.isRequired,
   head: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,
-  row_length: PropTypes.string,
+  row_length: PropTypes.number,
   league: PropTypes.string.isRequired,
   main_state: PropTypes.object
 };

@@ -1,46 +1,46 @@
-import { connect } from 'react-redux';
-import { MainAppBar, OrderAppBar, LeagueAppBar } from '../components/Pages';
-import { changeTab, changeOrderSelected, changeLeague } from '../actions';
+import { connect } from "react-redux";
+import { MainAppBar, OrderAppBar, LeagueAppBar } from "../components/Pages";
+import { changeTab, changeOrderSelected, changeLeague } from "../actions";
 
 const mapStateToProps = () => {
-    return {}
-}
+  return {};
+};
 
-const mapMainDispatchToProps = (dispatch) => {
-    return {
-        onChange: (event, selected) => {
-            dispatch(changeTab(selected));
-        }
+const mapMainDispatchToProps = dispatch => {
+  return {
+    onChange: (event, selected) => {
+      dispatch(changeTab(selected));
     }
-}
+  };
+};
 
-const mapOrderDispatchToProps = (dispatch) => {
-    return {
-        onChange: (event, order_selected) => {
-            dispatch(changeOrderSelected(order_selected));
-        }
+const mapOrderDispatchToProps = dispatch => {
+  return {
+    onChange: (event, order_selected) => {
+      dispatch(changeOrderSelected(order_selected));
     }
-}
+  };
+};
 
-const mapLeagueDispatchToProps = (dispatch) => {
-    return {
-        onChange: (event, league_selected) => {
-            dispatch(changeLeague(league_selected));
-        }
+const mapLeagueDispatchToProps = dispatch => {
+  return {
+    onChange: (event, league_selected) => {
+      dispatch(changeLeague(league_selected));
     }
-}
+  };
+};
 
 export const VisibleMainAppBar = connect(
-    mapStateToProps,
-    mapMainDispatchToProps
-)(MainAppBar)
+  mapStateToProps,
+  mapMainDispatchToProps
+)(MainAppBar);
 
 export const VisibleOrderAppBar = connect(
-    mapStateToProps,
-    mapOrderDispatchToProps
-)(OrderAppBar)
+  mapStateToProps,
+  mapOrderDispatchToProps
+)(OrderAppBar);
 
 export const VisibleLeagueAppBar = connect(
-    mapStateToProps,
-    mapLeagueDispatchToProps
-)(LeagueAppBar)
+  mapStateToProps,
+  mapLeagueDispatchToProps
+)(LeagueAppBar);

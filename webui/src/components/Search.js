@@ -15,9 +15,16 @@ import { styles } from "./Common";
 import { teamConverter } from "./datastore/DataCommon";
 
 class SearchContents extends React.Component {
-
   render() {
-    const { classes, searchState, execSearch, resetSearch, handlePopper, decideTeamText, decideNameText } = this.props;
+    const {
+      classes,
+      searchState,
+      execSearch,
+      resetSearch,
+      handlePopper,
+      decideTeamText,
+      decideNameText
+    } = this.props;
     const { anchorEl, open, placement, team, name } = searchState;
 
     return (
@@ -80,9 +87,7 @@ class SearchContents extends React.Component {
                       variant="outlined"
                       color="primary"
                       className={classes.searchButton}
-                      disabled={
-                        team || name ? false : true
-                      }
+                      disabled={team || name ? false : true}
                       onClick={() => execSearch(team, name)}
                     >
                       検索
@@ -105,17 +110,17 @@ class SearchContents extends React.Component {
 SearchContents.propTypes = {
   classes: PropTypes.object.isRequired,
   searchState: PropTypes.shape({
-      anchorEl: PropTypes.object.isRequired,
-      open: PropTypes.bool.isRequired,
-      placement: PropTypes.object.isRequired,
-      team: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired
+    anchorEl: PropTypes.object.isRequired,
+    open: PropTypes.bool.isRequired,
+    placement: PropTypes.object.isRequired,
+    team: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
   }).isRequired,
   execSearch: PropTypes.func.isRequired,
   resetSearch: PropTypes.func.isRequired,
   handlePopper: PropTypes.func.isRequired,
   decideTeamText: PropTypes.func.isRequired,
-  decideNameText: PropTypes.func.isRequired,
+  decideNameText: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(SearchContents);

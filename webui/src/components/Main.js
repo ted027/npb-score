@@ -62,7 +62,11 @@ import {
 import { styles } from "./Common";
 import { CommonTable } from "./Tables";
 import { HideOnScroll } from "./Pages";
-import { VisibleMainAppBar, VisibleLeagueAppBar, VisibleOrderAppBar } from "../containers/changeTab";
+import {
+  VisibleMainAppBar,
+  VisibleLeagueAppBar,
+  VisibleOrderAppBar
+} from "../containers/changeTab";
 import VisibleSearch from "../containers/VisibleSearch";
 import {
   top_ad,
@@ -81,7 +85,6 @@ const ORDER = 0;
 const PARKFACTOR = 1;
 
 class MainPage extends React.Component {
-
   render() {
     const { classes, pageState } = this.props;
     const { selected, league_selected, league, order_selected } = pageState;
@@ -95,8 +98,11 @@ class MainPage extends React.Component {
           </div>
           {selected === ORDER_VALUE && (
             <div className={classes.individualRoot}>
-              <HideOnScroll {...this.props}  direction="down">
-                <VisibleOrderAppBar className={classes.subtab} selected={order_selected} />
+              <HideOnScroll {...this.props} direction="down">
+                <VisibleOrderAppBar
+                  className={classes.subtab}
+                  selected={order_selected}
+                />
               </HideOnScroll>
               {top_ad(classes)}
               {order_selected === ORDER && (
@@ -290,14 +296,15 @@ class MainPage extends React.Component {
           )}
           {selected === HITTER_VALUE && (
             <div className={classes.individualRoot}>
-              <HideOnScroll {...this.props}  direction="down">
-                <VisibleLeagueAppBar className={classes.subtab} selected={league_selected} />
+              <HideOnScroll {...this.props} direction="down">
+                <VisibleLeagueAppBar
+                  className={classes.subtab}
+                  selected={league_selected}
+                />
               </HideOnScroll>
               <div className={classes.fab}>
-                <HideOnScroll {...this.props}  direction="up">
-                  {
-                    <VisibleSearch />
-                  }
+                <HideOnScroll {...this.props} direction="up">
+                  {<VisibleSearch />}
                 </HideOnScroll>
               </div>
               {top_ad(classes)}
@@ -552,14 +559,15 @@ class MainPage extends React.Component {
           )}
           {selected === PITCHER_VALUE && (
             <div className={classes.individualRoot}>
-              <HideOnScroll {...this.props}  direction="down">
-                <VisibleLeagueAppBar className={classes.subtab} selected={league_selected} />
+              <HideOnScroll {...this.props} direction="down">
+                <VisibleLeagueAppBar
+                  className={classes.subtab}
+                  selected={league_selected}
+                />
               </HideOnScroll>
               <div className={classes.fab}>
-                <HideOnScroll {...this.props}  direction="up">
-                  {
-                    <VisibleSearch />
-                  }
+                <HideOnScroll {...this.props} direction="up">
+                  {<VisibleSearch />}
                 </HideOnScroll>
               </div>
               {top_ad(classes)}
@@ -756,12 +764,12 @@ class MainPage extends React.Component {
 MainPage.propTypes = {
   classes: PropTypes.object.isRequired,
   pageState: PropTypes.shape({
-      selected: PropTypes.number.isRequired,
-      order_selected: PropTypes.number.isRequired,
-      league_selected: PropTypes.number.isRequired,
-      league: PropTypes.string.isRequired,
-      searchTeam: PropTypes.string.isRequired,
-      searchName: PropTypes.string.isRequired
+    selected: PropTypes.number.isRequired,
+    order_selected: PropTypes.number.isRequired,
+    league_selected: PropTypes.number.isRequired,
+    league: PropTypes.string.isRequired,
+    searchTeam: PropTypes.string.isRequired,
+    searchName: PropTypes.string.isRequired
   }).isRequired
 };
 

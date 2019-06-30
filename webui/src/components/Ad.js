@@ -110,7 +110,7 @@ export function middle_ad4(classes) {
 function middle_ad_game_wide(classes) {
   return (
     <Typography className={classes.adTypo}>
-      <p>
+      <div>
         <div>
           <a
             target="_blank"
@@ -134,8 +134,8 @@ function middle_ad_game_wide(classes) {
             style={{ border: "0px" }}
           />
         </div>
-      </p>
-      <p>
+      </div>
+      <div>
         <div>
           <a
             target="_blank"
@@ -159,8 +159,8 @@ function middle_ad_game_wide(classes) {
             style={{ border: "0px" }}
           />
         </div>
-      </p>
-      <p>
+      </div>
+      <div>
         <div>
           <a
             target="_blank"
@@ -184,8 +184,8 @@ function middle_ad_game_wide(classes) {
             style={{ border: "0px" }}
           />
         </div>
-      </p>
-      <p>
+      </div>
+      <div>
         <div>
           <a
             target="_blank"
@@ -209,7 +209,7 @@ function middle_ad_game_wide(classes) {
             style={{ border: "0px" }}
           />
         </div>
-      </p>
+      </div>
     </Typography>
   );
 }
@@ -218,7 +218,7 @@ function middle_ad_game_wide(classes) {
 function middle_ad_game1(classes) {
   return (
     <Typography className={classes.adTypo}>
-      <p>
+      <div>
         <div>
           <a
             target="_blank"
@@ -242,8 +242,8 @@ function middle_ad_game1(classes) {
             style={{ border: "0px" }}
           />
         </div>
-      </p>
-      <p>
+      </div>
+      <div>
         <div>
           <a
             target="_blank"
@@ -267,7 +267,7 @@ function middle_ad_game1(classes) {
             style={{ border: "0px" }}
           />
         </div>
-      </p>
+      </div>
     </Typography>
   );
 }
@@ -276,7 +276,7 @@ function middle_ad_game1(classes) {
 export function middle_ad_game2(classes) {
   return (
     <Typography className={classes.adTypo}>
-      <p>
+      <div>
         <div>
           <a
             target="_blank"
@@ -300,8 +300,8 @@ export function middle_ad_game2(classes) {
             style={{ border: "0px" }}
           />
         </div>
-      </p>
-      <p>
+      </div>
+      <div>
         <div>
           <a
             target="_blank"
@@ -325,7 +325,7 @@ export function middle_ad_game2(classes) {
             style={{ border: "0px" }}
           />
         </div>
-      </p>
+      </div>
     </Typography>
   );
 }

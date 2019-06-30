@@ -8,8 +8,9 @@ import Slide from "@material-ui/core/Slide";
 import { LinkTab } from "./Common";
 
 export function HideOnScroll(props) {
-  const { children, window, direction } = props;
-  const trigger = useScrollTrigger({ target: window ? window() : undefined });
+  const { children, direction } = props;
+  const trigger = useScrollTrigger({ target: undefined });
+  console.log(children);
 
   return (
     <Slide appear={false} direction={direction} in={!trigger}>
@@ -20,8 +21,7 @@ export function HideOnScroll(props) {
 
 HideOnScroll.propTypes = {
   children: PropTypes.node.isRequired,
-  window: PropTypes.func,
-  direction: PropTypes.string.isRequired,
+  direction: PropTypes.string.isRequired
 };
 
 export const MainAppBar = ({ selected, onChange }) => (
@@ -45,7 +45,7 @@ export const MainAppBar = ({ selected, onChange }) => (
 MainAppBar.propTypes = {
   selected: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired
-}
+};
 
 export const LeagueAppBar = ({ className, selected, onChange }) => (
   <AppBar className={className}>
@@ -67,10 +67,10 @@ export const LeagueAppBar = ({ className, selected, onChange }) => (
 );
 
 LeagueAppBar.propTypes = {
-  className: PropTypes.object.isRequired, 
+  className: PropTypes.object.isRequired,
   selected: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired
-}
+};
 
 export const OrderAppBar = ({ className, selected, onChange }) => (
   <AppBar className={className}>
@@ -91,7 +91,7 @@ export const OrderAppBar = ({ className, selected, onChange }) => (
 );
 
 OrderAppBar.propTypes = {
-  className: PropTypes.object.isRequired, 
+  className: PropTypes.object.isRequired,
   selected: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired
-}
+};
