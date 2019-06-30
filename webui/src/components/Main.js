@@ -106,8 +106,8 @@ class MainPage extends React.Component {
               </HideOnScroll>
               {top_ad(classes)}
               {order_selected === ORDER && (
-                <p>
-                  <p>
+                <div>
+                  <div>
                     <AppBar
                       position="static"
                       color="default"
@@ -128,8 +128,8 @@ class MainPage extends React.Component {
                       row_length={teams_body.length}
                       league="Central"
                     />
-                  </p>
-                  <p>
+                  </div>
+                  <div>
                     <AppBar
                       position="static"
                       color="default"
@@ -150,9 +150,9 @@ class MainPage extends React.Component {
                       row_length={teams_body.length}
                       league="Pacific"
                     />
-                  </p>
+                  </div>
                   {middle_ad1(classes)}
-                  <p>
+                  <div>
                     <AppBar
                       position="static"
                       color="default"
@@ -173,8 +173,8 @@ class MainPage extends React.Component {
                       row_length={teams_body.length}
                       league="Central"
                     />
-                  </p>
-                  <p>
+                  </div>
+                  <div>
                     <AppBar
                       position="static"
                       color="default"
@@ -195,9 +195,9 @@ class MainPage extends React.Component {
                       row_length={teams_body.length}
                       league="Pacific"
                     />
-                  </p>
+                  </div>
                   {middle_ad4(classes)}
-                  <p>
+                  <div>
                     <AppBar
                       position="static"
                       color="default"
@@ -218,8 +218,8 @@ class MainPage extends React.Component {
                       row_length={teams_body.length}
                       league="Central"
                     />
-                  </p>
-                  <p>
+                  </div>
+                  <div>
                     <AppBar
                       position="static"
                       color="default"
@@ -240,12 +240,12 @@ class MainPage extends React.Component {
                       row_length={teams_body.length}
                       league="Pacific"
                     />
-                  </p>
-                </p>
+                  </div>
+                </div>
               )}
               {order_selected === PARKFACTOR && (
-                <p>
-                  <p>
+                <div>
+                  <div>
                     <AppBar
                       position="static"
                       color="default"
@@ -266,9 +266,9 @@ class MainPage extends React.Component {
                       row_length={parks_body.length}
                       league=""
                     />
-                  </p>
+                  </div>
                   {middle_ad1(classes)}
-                  <p>
+                  <div>
                     <AppBar
                       position="static"
                       color="default"
@@ -289,8 +289,8 @@ class MainPage extends React.Component {
                       row_length={parks_body.length}
                       league=""
                     />
-                  </p>
-                </p>
+                  </div>
+                </div>
               )}
             </div>
           )}
@@ -308,7 +308,7 @@ class MainPage extends React.Component {
                 </HideOnScroll>
               </div>
               {top_ad(classes)}
-              <p>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -329,8 +329,8 @@ class MainPage extends React.Component {
                   league={league}
                   main_state={pageState}
                 />
-              </p>
-              <p>
+              </div>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -351,9 +351,9 @@ class MainPage extends React.Component {
                   league={league}
                   main_state={pageState}
                 />
-              </p>
+              </div>
               {middle_ad2(classes)}
-              <p>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -374,8 +374,8 @@ class MainPage extends React.Component {
                   league={league}
                   main_state={pageState}
                 />
-              </p>
-              <p>
+              </div>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -396,9 +396,9 @@ class MainPage extends React.Component {
                   league={league}
                   main_state={pageState}
                 />
-              </p>
+              </div>
               {middle_ad1(classes)}
-              <p>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -419,8 +419,8 @@ class MainPage extends React.Component {
                   league={league}
                   main_state={pageState}
                 />
-              </p>
-              <p>
+              </div>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -441,9 +441,9 @@ class MainPage extends React.Component {
                   league={league}
                   main_state={pageState}
                 />
-              </p>
+              </div>
               {middle_ad4(classes)}
-              <p>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -464,8 +464,8 @@ class MainPage extends React.Component {
                   league={league}
                   main_state={pageState}
                 />
-              </p>
-              <p>
+              </div>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -486,9 +486,9 @@ class MainPage extends React.Component {
                   league={league}
                   main_state={pageState}
                 />
-              </p>
+              </div>
               {middle_ad2(classes)}
-              <p>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -509,8 +509,8 @@ class MainPage extends React.Component {
                   league={league}
                   main_state={pageState}
                 />
-              </p>
-              <p>
+              </div>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -531,9 +531,9 @@ class MainPage extends React.Component {
                   league={league}
                   main_state={pageState}
                 />
-              </p>
+              </div>
               {middle_ad3(classes)}
-              <p>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -554,7 +554,7 @@ class MainPage extends React.Component {
                   league={league}
                   main_state={pageState}
                 />
-              </p>
+              </div>
             </div>
           )}
           {selected === PITCHER_VALUE && (
@@ -571,7 +571,7 @@ class MainPage extends React.Component {
                 </HideOnScroll>
               </div>
               {top_ad(classes)}
-              <p>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -592,8 +592,8 @@ class MainPage extends React.Component {
                   league={league}
                   main_state={pageState}
                 />
-              </p>
-              <p>
+              </div>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -614,9 +614,9 @@ class MainPage extends React.Component {
                   league={league}
                   main_state={pageState}
                 />
-              </p>
+              </div>
               {middle_ad1(classes)}
-              <p>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -637,8 +637,8 @@ class MainPage extends React.Component {
                   league={league}
                   main_state={pageState}
                 />
-              </p>
-              <p>
+              </div>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -659,9 +659,9 @@ class MainPage extends React.Component {
                   league={league}
                   main_state={pageState}
                 />
-              </p>
+              </div>
               {middle_ad2(classes)}
-              <p>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -682,9 +682,9 @@ class MainPage extends React.Component {
                   league={league}
                   main_state={pageState}
                 />
-              </p>
+              </div>
               {middle_ad4(classes)}
-              <p>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -705,8 +705,8 @@ class MainPage extends React.Component {
                   league={league}
                   main_state={pageState}
                 />
-              </p>
-              <p>
+              </div>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -727,9 +727,9 @@ class MainPage extends React.Component {
                   league={league}
                   main_state={pageState}
                 />
-              </p>
+              </div>
               {middle_ad3(classes)}
-              <p>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -750,7 +750,7 @@ class MainPage extends React.Component {
                   league={league}
                   main_state={pageState}
                 />
-              </p>
+              </div>
             </div>
           )}
           {middle_ad2(classes)}

@@ -10,7 +10,6 @@ import { LinkTab } from "./Common";
 export function HideOnScroll(props) {
   const { children, direction } = props;
   const trigger = useScrollTrigger({ target: undefined });
-  console.log(children);
 
   return (
     <Slide appear={false} direction={direction} in={!trigger}>
