@@ -5,7 +5,8 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Slide from "@material-ui/core/Slide";
-import { LinkTab } from "./Common";
+import { styles, LinkTab } from "./Common";
+import { withStyles } from "@material-ui/styles";
 
 export function HideOnScroll(props) {
   const { children, direction } = props;
@@ -46,8 +47,8 @@ MainAppBar.propTypes = {
   onChange: PropTypes.func.isRequired
 };
 
-export const LeagueAppBar = ({ className, selected, onChange }) => (
-  <AppBar className={className}>
+const LeagueAppBarWithoutStyles = ({ classes, selected, onChange }) => (
+  <AppBar className={classes.subtab}>
     <Tabs
       variant="fullWidth"
       selected={selected}
@@ -65,14 +66,16 @@ export const LeagueAppBar = ({ className, selected, onChange }) => (
   </AppBar>
 );
 
-LeagueAppBar.propTypes = {
-  className: PropTypes.object.isRequired,
+LeagueAppBarWithoutStyles.propTypes = {
+  classes: PropTypes.object.isRequired,
   selected: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired
 };
 
-export const OrderAppBar = ({ className, selected, onChange }) => (
-  <AppBar className={className}>
+export const LeagueAppBar = withStyles(styles)(LeagueAppBarWithoutStyles);
+
+const OrderAppBarWithoutStyles = ({ classes, selected, onChange }) => (
+  <AppBar className={classes.subtab}>
     <Tabs
       variant="fullWidth"
       selected={selected}
@@ -89,8 +92,10 @@ export const OrderAppBar = ({ className, selected, onChange }) => (
   </AppBar>
 );
 
-OrderAppBar.propTypes = {
-  className: PropTypes.object.isRequired,
+OrderAppBarWithoutStyles.propTypes = {
+  classes: PropTypes.object.isRequired,
   selected: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired
 };
+
+export const OrderAppBar = withStyles(styles)(OrderAppBarWithoutStyles);

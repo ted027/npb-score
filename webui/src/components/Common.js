@@ -5,11 +5,11 @@ import blue from "@material-ui/core/colors/blue";
 export const styles = theme => ({
   root: {
     width: "100%",
-    marginTop: theme.spacing.unit * 8
+    marginTop: theme.spacing(8)
   },
   individualRoot: {
     width: "100%",
-    marginTop: theme.spacing.unit * 14
+    marginTop: theme.spacing(14)
   },
   table: {
     maxWidth: 320

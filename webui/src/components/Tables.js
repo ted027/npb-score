@@ -12,6 +12,7 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import grey from "@material-ui/core/colors/grey";
 import {
+  styles,
   stableSort,
   getSorting,
   getProperty,
@@ -86,7 +87,7 @@ const CustomTableCellWide = withStyles(theme => ({
   }
 }))(TableCell);
 
-class CommonTableHead extends React.Component {
+class CommonTableHeadWithoutStyles extends React.Component {
   createSortHandler = property => event => {
     this.props.onRequestSort(event, property);
   };
@@ -199,7 +200,7 @@ class CommonTableHead extends React.Component {
   }
 }
 
-CommonTableHead.propTypes = {
+CommonTableHeadWithoutStyles.propTypes = {
   classes: PropTypes.object.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.string.isRequired,
@@ -209,7 +210,9 @@ CommonTableHead.propTypes = {
   head: PropTypes.array.isRequired
 };
 
-export class CommonTable extends React.Component {
+const CommonTableHead = withStyles(styles)(CommonTableHeadWithoutStyles);
+
+class CommonTableWithoutStyles extends React.Component {
   state = {
     order: this.props.default_order,
     orderBy: this.props.default_orderBy,
@@ -248,6 +251,7 @@ export class CommonTable extends React.Component {
 
   render() {
     const { classes, data, head, row_length, league, main_state } = this.props;
+    console.log(classes);
     const { order, orderBy, orderMean, page, rowsPerPage } = this.state;
     var jun = 0;
     var jun2 = 0;
@@ -256,7 +260,6 @@ export class CommonTable extends React.Component {
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
             <CommonTableHead
-              classes={classes}
               order={order}
               orderBy={orderBy}
               orderMean={orderMean}
@@ -403,7 +406,7 @@ export class CommonTable extends React.Component {
     );
   }
 }
-CommonTable.propTypes = {
+CommonTableWithoutStyles.propTypes = {
   classes: PropTypes.object.isRequired,
   default_order: PropTypes.string.isRequired,
   default_orderBy: PropTypes.string.isRequired,
@@ -413,3 +416,5 @@ CommonTable.propTypes = {
   league: PropTypes.string.isRequired,
   main_state: PropTypes.object
 };
+
+export const CommonTable = withStyles(styles)(CommonTableWithoutStyles) 

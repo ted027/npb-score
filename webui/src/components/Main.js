@@ -100,7 +100,6 @@ class MainPage extends React.Component {
             <div className={classes.individualRoot}>
               <HideOnScroll {...this.props} direction="down">
                 <VisibleOrderAppBar
-                  className={classes.subtab}
                   selected={order_selected}
                 />
               </HideOnScroll>
@@ -298,7 +297,6 @@ class MainPage extends React.Component {
             <div className={classes.individualRoot}>
               <HideOnScroll {...this.props} direction="down">
                 <VisibleLeagueAppBar
-                  className={classes.subtab}
                   selected={league_selected}
                 />
               </HideOnScroll>
@@ -561,7 +559,6 @@ class MainPage extends React.Component {
             <div className={classes.individualRoot}>
               <HideOnScroll {...this.props} direction="down">
                 <VisibleLeagueAppBar
-                  className={classes.subtab}
                   selected={league_selected}
                 />
               </HideOnScroll>
