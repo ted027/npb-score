@@ -8,16 +8,28 @@ import Slide from "@material-ui/core/Slide";
 import { styles, LinkTab } from "./Common";
 import { withStyles } from "@material-ui/styles";
 
-export function HideOnScroll(props) {
-  const { children, direction } = props;
+export const HideOnScroll = ({ children, direction }) => {
   const trigger = useScrollTrigger({ target: undefined });
-
+  
   return (
     <Slide appear={false} direction={direction} in={!trigger}>
       {children}
     </Slide>
   );
 }
+
+// export class HideOnScroll extends React.Component {
+//   render() {
+//     const { children, direction } = this.props;
+//     const trigger = useScrollTrigger({ target: undefined });
+    
+//     return (
+//       <Slide appear={false} direction={direction} in={!trigger}>
+//         {children}
+//       </Slide>
+//     );
+//   }
+// }
 
 HideOnScroll.propTypes = {
   children: PropTypes.node.isRequired,
