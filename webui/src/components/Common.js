@@ -11,9 +11,6 @@ export const styles = theme => ({
     width: "100%",
     marginTop: theme.spacing(14)
   },
-  table: {
-    maxWidth: 320
-  },
   tableWrapper: {
     overflowX: "auto"
   },

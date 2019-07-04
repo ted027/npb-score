@@ -251,14 +251,13 @@ class CommonTableWithoutStyles extends React.Component {
 
   render() {
     const { classes, data, head, row_length, league, main_state } = this.props;
-    console.log(classes);
     const { order, orderBy, orderMean, page, rowsPerPage } = this.state;
     var jun = 0;
     var jun2 = 0;
     return (
       <Paper className={classes.root}>
         <div className={classes.tableWrapper}>
-          <Table className={classes.table} aria-labelledby="tableTitle">
+          <Table aria-labelledby="tableTitle">
             <CommonTableHead
               order={order}
               orderBy={orderBy}
