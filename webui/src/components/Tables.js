@@ -162,7 +162,7 @@ class CommonTableHeadWithoutStyles extends React.Component {
                     >
                       <Button
                         style={{
-                          "text-transform": "none"
+                          "textTransform": "none"
                         }}
                         variant={orderBy === cell.id ? "contained" : "outlined"}
                         size="small"
