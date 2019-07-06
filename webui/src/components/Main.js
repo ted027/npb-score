@@ -92,17 +92,17 @@ class MainPage extends React.Component {
       <MuiThemeProvider theme={theme}>
         <div className={classes.root}>
           <div className={classes.tab}>
-            <HideOnScroll {...this.props} direction="down">
+            {/* <HideOnScroll {...this.props} direction="down"> */}
               <VisibleMainAppBar selected={selected} />
-            </HideOnScroll>
+            {/* </HideOnScroll> */}
           </div>
           {selected === ORDER_VALUE && (
             <div className={classes.individualRoot}>
-              <HideOnScroll {...this.props} direction="down">
+              {/* <HideOnScroll {...this.props} direction="down"> */}
                 <VisibleOrderAppBar
                   selected={order_selected}
                 />
-              </HideOnScroll>
+              {/* </HideOnScroll> */}
               {top_ad(classes)}
               {order_selected === ORDER && (
                 <div>
@@ -119,7 +119,6 @@ class MainPage extends React.Component {
                       </Toolbar>
                     </AppBar>
                     <CommonTable
-                      classes={styles}
                       default_order="desc"
                       default_orderBy="勝率"
                       head={teams_header}
@@ -141,7 +140,6 @@ class MainPage extends React.Component {
                       </Toolbar>
                     </AppBar>
                     <CommonTable
-                      classes={styles}
                       default_order="desc"
                       default_orderBy="勝率"
                       head={teams_header}
@@ -164,7 +162,6 @@ class MainPage extends React.Component {
                       </Toolbar>
                     </AppBar>
                     <CommonTable
-                      classes={styles}
                       default_order="desc"
                       default_orderBy="得点"
                       head={teams_atk_header}
@@ -186,7 +183,6 @@ class MainPage extends React.Component {
                       </Toolbar>
                     </AppBar>
                     <CommonTable
-                      classes={styles}
                       default_order="desc"
                       default_orderBy="得点"
                       head={teams_atk_header}
@@ -209,7 +205,6 @@ class MainPage extends React.Component {
                       </Toolbar>
                     </AppBar>
                     <CommonTable
-                      classes={styles}
                       default_order="asc"
                       default_orderBy="失点"
                       head={teams_def_header}
@@ -231,7 +226,6 @@ class MainPage extends React.Component {
                       </Toolbar>
                     </AppBar>
                     <CommonTable
-                      classes={styles}
                       default_order="asc"
                       default_orderBy="失点"
                       head={teams_def_header}
@@ -257,7 +251,6 @@ class MainPage extends React.Component {
                       </Toolbar>
                     </AppBar>
                     <CommonTable
-                      classes={styles}
                       default_order="desc"
                       default_orderBy="得点PF"
                       head={parks_header}
@@ -280,7 +273,6 @@ class MainPage extends React.Component {
                       </Toolbar>
                     </AppBar>
                     <CommonTable
-                      classes={styles}
                       default_order="desc"
                       default_orderBy="得点PF"
                       head={parks_header}
@@ -295,15 +287,15 @@ class MainPage extends React.Component {
           )}
           {selected === HITTER_VALUE && (
             <div className={classes.individualRoot}>
-              <HideOnScroll {...this.props} direction="down">
+              {/* <HideOnScroll {...this.props} direction="down"> */}
                 <VisibleLeagueAppBar
                   selected={league_selected}
                 />
-              </HideOnScroll>
+              {/* </HideOnScroll> */}
               <div className={classes.fab}>
-                <HideOnScroll {...this.props} direction="up">
+                {/* <HideOnScroll {...this.props} direction="up"> */}
                   {<VisibleSearch />}
-                </HideOnScroll>
+                {/* </HideOnScroll> */}
               </div>
               {top_ad(classes)}
               <div>
@@ -319,7 +311,6 @@ class MainPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="wRC+"
                   head={hitters_sabr_header}
@@ -341,7 +332,6 @@ class MainPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="打率"
                   head={hitters_header}
@@ -364,7 +354,6 @@ class MainPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="出塁率"
                   head={hitters_header_ops}
@@ -386,7 +375,6 @@ class MainPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="wOBA"
                   head={hitters_header_woba}
@@ -409,7 +397,6 @@ class MainPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="XR"
                   head={hitters_header_xr}
@@ -431,7 +418,6 @@ class MainPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="asc"
                   default_orderBy="K%"
                   head={hitters_header_contact}
@@ -454,7 +440,6 @@ class MainPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="IsoP"
                   head={hitters_header_power}
@@ -476,7 +461,6 @@ class MainPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="BB%"
                   head={hitters_header_eye}
@@ -499,7 +483,6 @@ class MainPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="wSB"
                   head={hitters_header_steal}
@@ -521,7 +504,6 @@ class MainPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="圏打率"
                   head={hitters_header_clutch}
@@ -544,7 +526,6 @@ class MainPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="BABIP"
                   head={hitters_header_oth}
@@ -581,7 +562,6 @@ class MainPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="asc"
                   default_orderBy="防御率"
                   head={pitchers_sabr_header}
@@ -603,7 +583,6 @@ class MainPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="投球回"
                   head={pitchers_header}
@@ -626,7 +605,6 @@ class MainPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="K-BB%"
                   head={pitchers_header_kbb}
@@ -648,7 +626,6 @@ class MainPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="asc"
                   default_orderBy="WHIP"
                   head={pitchers_header_whip}
@@ -671,7 +648,6 @@ class MainPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="QS率"
                   head={pitchers_header_qs}
@@ -694,7 +670,6 @@ class MainPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="セーブ"
                   head={pitchers_header_closer}
@@ -716,7 +691,6 @@ class MainPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="HP"
                   head={pitchers_header_relief}
@@ -739,7 +713,6 @@ class MainPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="小松式ドネーション"
                   head={pitchers_header_oth}
@@ -765,8 +738,8 @@ MainPage.propTypes = {
     order_selected: PropTypes.number.isRequired,
     league_selected: PropTypes.number.isRequired,
     league: PropTypes.string.isRequired,
-    searchTeam: PropTypes.string.isRequired,
-    searchName: PropTypes.string.isRequired
+    searchTeam: PropTypes.string,
+    searchName: PropTypes.string
   }).isRequired
 };
 

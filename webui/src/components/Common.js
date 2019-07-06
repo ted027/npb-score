@@ -42,7 +42,9 @@ export const styles = theme => ({
   adTypo: {
     display: "flex",
     margin: "auto",
-    maxWidth: "100%"
+    maxWidth: "100%",
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1)
   },
   adA: {
     fontSize: "70%"
@@ -69,10 +71,14 @@ export const styles = theme => ({
     width: "100%"
   },
   searchButton: {
-    position: "absolute"
+    width: "60%",
+    position: "absolute",
+    right: 2
   },
   resetButton: {
-    position: "absolute"
+    width: "60%",
+    position: "absolute",
+    left: 2
   }
 });
 

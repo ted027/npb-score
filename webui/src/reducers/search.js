@@ -1,7 +1,6 @@
 const initialState = {
   anchorEl: null,
   open: false,
-  placement: null,
   team: "",
   name: ""
 };
@@ -11,8 +10,7 @@ const Search = (state = initialState, action) => {
     case "HANDLE_POPPER":
       return {
         anchorEl: action.anchorEl,
-        open: state.placement !== action.placement || !state.open,
-        placement: action.placement,
+        open: !state.open,
         team: state.team,
         name: state.name
       };
@@ -20,7 +18,6 @@ const Search = (state = initialState, action) => {
     //     return {
     //         anchorEl: null,
     //         open: false,
-    //         placement: null,
     //         team: state.team,
     //         name: state.name
     //     }
@@ -28,7 +25,6 @@ const Search = (state = initialState, action) => {
       return {
         anchorEl: state.anchorEl,
         open: state.open,
-        placement: state.placement,
         team: action.team,
         name: state.name
       };
@@ -36,7 +32,6 @@ const Search = (state = initialState, action) => {
       return {
         anchorEl: state.anchorEl,
         open: state.open,
-        placement: state.placement,
         team: state.team,
         name: action.name
       };
@@ -44,7 +39,6 @@ const Search = (state = initialState, action) => {
       return {
         anchorEl: null,
         open: false,
-        placement: null,
         team: state.team,
         name: state.name
       };
@@ -52,7 +46,6 @@ const Search = (state = initialState, action) => {
       return {
         anchorEl: null,
         open: false,
-        placement: null,
         team: "",
         name: ""
       };

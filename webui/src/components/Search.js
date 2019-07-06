@@ -25,14 +25,14 @@ class SearchContents extends React.Component {
       decideTeamText,
       decideNameText
     } = this.props;
-    const { anchorEl, open, placement, team, name } = searchState;
+    const { anchorEl, open, team, name } = searchState;
 
     return (
       <div>
         <Popper
           open={open}
           anchorEl={anchorEl}
-          placement={placement}
+          placement="top-end"
           transition
           style={{ zIndex: 20 }}
         >
@@ -47,9 +47,9 @@ class SearchContents extends React.Component {
                     label="チーム"
                     className={classes.textField}
                     value={team}
-                    onChange={() => decideTeamText()}
+                    onChange={decideTeamText}
                     variant="outlined"
-                    fullWidth="true"
+                    fullWidth={true}
                     margin="normal"
                   >
                     {Object.keys(teamConverter).map(shortTeam => (
@@ -65,9 +65,9 @@ class SearchContents extends React.Component {
                     label="選手名"
                     className={classes.textField}
                     value={name}
-                    onChange={() => decideNameText()}
+                    onChange={decideNameText}
                     variant="outlined"
-                    fullWidth="true"
+                    fullWidth={true}
                     margin="normal"
                   />
                 </form>
@@ -77,7 +77,7 @@ class SearchContents extends React.Component {
                       variant="outlined"
                       color="secondary"
                       className={classes.resetButton}
-                      onClick={() => resetSearch()}
+                      onClick={resetSearch}
                     >
                       リセット
                     </Button>
@@ -88,7 +88,7 @@ class SearchContents extends React.Component {
                       color="primary"
                       className={classes.searchButton}
                       disabled={team || name ? false : true}
-                      onClick={() => execSearch(team, name)}
+                      onClick={(team, name) => execSearch(team, name)}
                     >
                       検索
                     </Button>
@@ -100,7 +100,7 @@ class SearchContents extends React.Component {
           )}
         </Popper>
         <Fab color="primary" aria-label="Search" className={classes.fab}>
-          <SearchIcon onClick={() => handlePopper("top-end")} />
+          <SearchIcon onClick={handlePopper} />
         </Fab>
       </div>
     );
@@ -110,9 +110,8 @@ class SearchContents extends React.Component {
 SearchContents.propTypes = {
   classes: PropTypes.object.isRequired,
   searchState: PropTypes.shape({
-    anchorEl: PropTypes.object.isRequired,
+    anchorEl: PropTypes.object,
     open: PropTypes.bool.isRequired,
-    placement: PropTypes.object.isRequired,
     team: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired
   }).isRequired,

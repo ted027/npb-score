@@ -20,8 +20,8 @@ const mapDispatchToProps = dispatch => {
     resetSearch: event => {
       dispatch(resetSearch());
     },
-    handlePopper: (event, placement) => {
-      dispatch(handlePopper(event, placement));
+    handlePopper: event => {
+      dispatch(handlePopper(event));
     },
     // clickAway: (event) => {
     //     dispatch(clickAway())

@@ -32,11 +32,11 @@ export const changeLeague = league_selected => {
   };
 };
 
-export const execSearch = (searchTeam, searchName) => {
+export const execSearch = (team, name) => {
   return {
     type: "EXEC_SEARCH",
-    searchTeam: searchTeam,
-    searchName: searchName
+    searchTeam: team,
+    searchName: name
   };
 };
 
@@ -48,12 +48,11 @@ export const resetSearch = () => {
   };
 };
 
-export const handlePopper = (event, placement) => {
+export const handlePopper = event => {
   const { currentTarget } = event;
   return {
     type: "HANDLE_POPPER",
     anchorEl: currentTarget,
-    placement: placement
   };
 };
 
