@@ -14,7 +14,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    execSearch: (event, team, name) => {
+    execSearch: (team, name) => {
       dispatch(execSearch(team, name));
     },
     resetSearch: event => {

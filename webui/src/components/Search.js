@@ -59,13 +59,19 @@ class SearchContents extends React.Component {
                     ))}
                   </TextField>
                 </form>
-                <form noValidate autoComplete="off">
+                <form autoComplete="off">
                   <TextField
                     id="filled-name"
                     label="選手名"
                     className={classes.textField}
                     value={name}
                     onChange={decideNameText}
+                    onKeyPress={ (ev) => {
+                      if (ev.key === 'Enter') {
+                        ev.preventDefault();
+                        execSearch(team, name);
+                      }
+                    }}
                     variant="outlined"
                     fullWidth={true}
                     margin="normal"
@@ -88,7 +94,7 @@ class SearchContents extends React.Component {
                       color="primary"
                       className={classes.searchButton}
                       disabled={team || name ? false : true}
-                      onClick={(team, name) => execSearch(team, name)}
+                      onClick={() => execSearch(team, name)}
                     >
                       検索
                     </Button>
