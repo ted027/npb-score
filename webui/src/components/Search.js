@@ -94,6 +94,15 @@ export class SearchContents extends React.Component {
                     className={classes.textField}
                     value={this.state.name}
                     onChange={this.handleDecideText("name")}
+                    onKeyPress={ (ev) => {
+                      if (ev.key === 'Enter') {
+                        ev.preventDefault();
+                        this.handleSearchExec(
+                          this.state.team,
+                          this.state.name
+                        );
+                      }
+                    }}
                     variant="outlined"
                     fullWidth="true"
                     margin="normal"
