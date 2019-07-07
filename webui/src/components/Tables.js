@@ -108,7 +108,6 @@ class CommonTableHeadWithoutStyles extends React.Component {
                   return (
                     <CustomTableCell
                       key={cell.id}
-                      numeric={cell.numeric}
                       padding="checkbox"
                       sortDirection={orderBy === cell.id ? order : false}
                     >
@@ -136,7 +135,6 @@ class CommonTableHeadWithoutStyles extends React.Component {
                   return (
                     <CustomTableCell
                       key={cell.id}
-                      numeric={cell.numeric}
                       padding="checkbox"
                     >
                       {cell.label}
@@ -156,7 +154,6 @@ class CommonTableHeadWithoutStyles extends React.Component {
                   return (
                     <CustomTableCellWide
                       key={cell.id}
-                      numeric={cell.numeric}
                       padding="checkbox"
                       sortDirection={orderBy === cell.id ? order : false}
                     >
@@ -184,7 +181,6 @@ class CommonTableHeadWithoutStyles extends React.Component {
                   return (
                     <CustomTableCellWide
                       key={cell.id}
-                      numeric={cell.numeric}
                       padding="checkbox"
                     >
                       {cell.label}
@@ -281,11 +277,11 @@ class CommonTableWithoutStyles extends React.Component {
                         {Object.keys(n).map(value => {
                           if (NARROW_BR_ELEMENTS.indexOf(value) >= 0) {
                             return (
-                              <TableRow hover tabIndex={-1} key={n.id}>
+                              <TableRow hover tabIndex={-1} key={n.id + "_name"}>
                                 <CustomTableCellOrder
                                   rowSpan="2"
-                                  numeric="false"
                                   padding="checkbox"
+                                  key={value + "_order"}
                                 >
                                   {jun}
                                 </CustomTableCellOrder>
@@ -293,12 +289,12 @@ class CommonTableWithoutStyles extends React.Component {
                                   colSpan={
                                     Object.keys(n).length - IGNORE_ELEM_NUM
                                   }
-                                  numeric="false"
                                   style={
                                     n.規定 || n.チーム || n.球場
                                       ? { color: "black" }
                                       : { color: grey[500] }
                                   }
+                                  key={value + "_name"}
                                 >
                                   {n[value]}
                                 </CustomTableCellName>
@@ -306,7 +302,7 @@ class CommonTableWithoutStyles extends React.Component {
                             );
                           }
                         })}
-                        <TableRow hover tabIndex={-1} key={n.id}>
+                        <TableRow hover tabIndex={-1} key={n.id + "_records"}>
                           {Object.keys(n).map(value2 => {
                             if (
                               IGNORE_ELEMENTS.indexOf(value2) < 0 &&
@@ -314,13 +310,13 @@ class CommonTableWithoutStyles extends React.Component {
                             ) {
                               return (
                                 <CustomTableCell
-                                  numeric={value2.numeric}
                                   padding="checkbox"
                                   style={
                                     n.規定 || n.チーム || n.球場
                                       ? { color: "black" }
                                       : { color: grey[500] }
                                   }
+                                  key={value2}
                                 >
                                   {n[value2]}
                                 </CustomTableCell>
@@ -348,8 +344,8 @@ class CommonTableWithoutStyles extends React.Component {
                       return (
                         <TableRow hover tabIndex={-1} key={n.id}>
                           <CustomTableCellOrderWide
-                            numeric="false"
                             padding="checkbox"
+                            key={order}
                           >
                             {jun2}
                           </CustomTableCellOrderWide>
@@ -357,13 +353,13 @@ class CommonTableWithoutStyles extends React.Component {
                             if (IGNORE_ELEMENTS.indexOf(value) < 0) {
                               return (
                                 <CustomTableCellWide
-                                  numeric={value.numeric}
                                   padding="checkbox"
                                   style={
                                     n.規定 || n.チーム || n.球場
                                       ? { color: "black" }
                                       : { color: grey[500] }
                                   }
+                                  key={value}
                                 >
                                   {n[value]}
                                 </CustomTableCellWide>

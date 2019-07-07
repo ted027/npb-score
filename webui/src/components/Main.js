@@ -92,17 +92,17 @@ class MainPage extends React.Component {
       <MuiThemeProvider theme={theme}>
         <div className={classes.root}>
           <div className={classes.tab}>
-            {/* <HideOnScroll {...this.props} direction="down"> */}
+            <HideOnScroll {...this.props} direction="down">
               <VisibleMainAppBar selected={selected} />
-            {/* </HideOnScroll> */}
+            </HideOnScroll>
           </div>
           {selected === ORDER_VALUE && (
             <div className={classes.individualRoot}>
-              {/* <HideOnScroll {...this.props} direction="down"> */}
+              <HideOnScroll {...this.props} direction="down">
                 <VisibleOrderAppBar
                   selected={order_selected}
                 />
-              {/* </HideOnScroll> */}
+              </HideOnScroll>
               {top_ad(classes)}
               {order_selected === ORDER && (
                 <div>
@@ -287,15 +287,15 @@ class MainPage extends React.Component {
           )}
           {selected === HITTER_VALUE && (
             <div className={classes.individualRoot}>
-              {/* <HideOnScroll {...this.props} direction="down"> */}
+              <HideOnScroll {...this.props} direction="down">
                 <VisibleLeagueAppBar
                   selected={league_selected}
                 />
-              {/* </HideOnScroll> */}
+              </HideOnScroll>
               <div className={classes.fab}>
-                {/* <HideOnScroll {...this.props} direction="up"> */}
+                <HideOnScroll {...this.props} direction="up">
                   {<VisibleSearch />}
-                {/* </HideOnScroll> */}
+                </HideOnScroll>
               </div>
               {top_ad(classes)}
               <div>

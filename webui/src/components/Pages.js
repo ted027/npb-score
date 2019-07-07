@@ -42,7 +42,7 @@ export const MainAppBar = ({ selected, onChange }) => (
       variant="fullWidth"
       selected={selected}
       value={selected}
-      scrollable
+      variant="fullWidth"
       scrollButtons="auto"
       onChange={onChange}
     >
@@ -67,7 +67,7 @@ const LeagueAppBarWithoutStyles = ({ classes, selected, onChange }) => (
       value={selected}
       indicatorColor="primary"
       textColor="primary"
-      scrollable
+      variant="fullWidth"
       scrollButtons="auto"
       onChange={onChange}
     >
@@ -94,7 +94,7 @@ const OrderAppBarWithoutStyles = ({ classes, selected, onChange }) => (
       value={selected}
       indicatorColor="primary"
       textColor="primary"
-      scrollable
+      variant="fullWidth"
       scrollButtons="auto"
       onChange={onChange}
     >
