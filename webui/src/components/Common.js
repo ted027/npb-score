@@ -49,17 +49,19 @@ export const styles = theme => ({
   adA: {
     fontSize: "70%"
   },
-  adImg: {
+  adImgWide: {
     margin: "auto",
     width: "100%",
     maxWidth: "720px",
-    height: "width"
+    height: "width",
+    marginTop: theme.spacing(1)
   },
-  adImg2: {
+  adImg: {
     margin: "auto",
     width: "100%",
     maxWidth: "300px",
-    height: "width"
+    height: "width",
+    marginTop: theme.spacing(1)
   },
   fab: {
     position: "fixed",
