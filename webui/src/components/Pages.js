@@ -5,12 +5,11 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Slide from "@material-ui/core/Slide";
-import { LinkTab } from "./Common";
+import { styles, LinkTab } from "./Common";
+import { withStyles } from "@material-ui/styles";
 
-export function HideOnScroll(props) {
-  const { children, window, direction } = props;
-  const trigger = useScrollTrigger({ target: window ? window() : undefined });
-
+export const HideOnScroll = ({ children, direction }) => {
+  const trigger = useScrollTrigger({ target: undefined });
   return (
     <Slide appear={false} direction={direction} in={!trigger}>
       {children}
@@ -20,67 +19,78 @@ export function HideOnScroll(props) {
 
 HideOnScroll.propTypes = {
   children: PropTypes.node.isRequired,
-  window: PropTypes.func,
-  direction: PropTypes.string.isRequired,
+  direction: PropTypes.string.isRequired
 };
 
-export function MainAppBar(selected, onChange) {
-  return (
-    <AppBar>
-      <Tabs
-        variant="fullWidth"
-        selected={selected}
-        value={selected}
-        scrollable
-        scrollButtons="auto"
-        onChange={onChange}
-      >
-        <Tab label="順位表" />
-        <Tab label="野手成績" />
-        <Tab label="投手成績" />
-        <LinkTab label="BLOG" href="/" />
-      </Tabs>
-    </AppBar>
-  );
-}
+export const MainAppBar = React.forwardRef((props, ref) => (
+  <AppBar ref={ref}>
+    <Tabs
+      variant="fullWidth"
+      selected={props.selected}
+      value={props.selected}
+      scrollButtons="auto"
+      onChange={props.onChange}
+    >
+      <Tab label="順位表" />
+      <Tab label="野手成績" />
+      <Tab label="投手成績" />
+      <LinkTab label="BLOG" href="/" />
+    </Tabs>
+  </AppBar>
+));
 
-export function LeagueAppBar(className, selected, onChange) {
-  return (
-    <AppBar className={className}>
-      <Tabs
-        variant="fullWidth"
-        selected={selected}
-        value={selected}
-        indicatorColor="primary"
-        textColor="primary"
-        scrollable
-        scrollButtons="auto"
-        onChange={onChange}
-      >
-        <Tab label="ALL" />
-        <Tab label="セリーグ" />
-        <Tab label="パリーグ" />
-      </Tabs>
-    </AppBar>
-  );
-}
+MainAppBar.propTypes = {
+  selected: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired
+};
 
-export function OrderAppBar(className, selected, onChange) {
-  return (
-    <AppBar className={className}>
-      <Tabs
-        variant="fullWidth"
-        selected={selected}
-        value={selected}
-        indicatorColor="primary"
-        textColor="primary"
-        scrollable
-        scrollButtons="auto"
-        onChange={onChange}
-      >
-        <Tab label="順位表" />
-        <Tab label="パークファクター" />
-      </Tabs>
-    </AppBar>
-  );
-}
+const LeagueAppBarWithoutStyles = React.forwardRef((props, ref) => (
+  <AppBar className={props.classes.subtab} ref={ref}>
+    <Tabs
+      variant="fullWidth"
+      selected={props.selected}
+      value={props.selected}
+      indicatorColor="primary"
+      textColor="primary"
+      scrollButtons="auto"
+      onChange={props.onChange}
+    >
+      <Tab label="ALL" />
+      <Tab label="セリーグ" />
+      <Tab label="パリーグ" />
+    </Tabs>
+  </AppBar>
+));
+
+LeagueAppBarWithoutStyles.propTypes = {
+  classes: PropTypes.object.isRequired,
+  selected: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired
+};
+
+export const LeagueAppBar = withStyles(styles)(LeagueAppBarWithoutStyles);
+
+const OrderAppBarWithoutStyles = React.forwardRef((props, ref) => (
+  <AppBar className={props.classes.subtab} ref={ref}>
+    <Tabs
+      variant="fullWidth"
+      selected={props.selected}
+      value={props.selected}
+      indicatorColor="primary"
+      textColor="primary"
+      scrollButtons="auto"
+      onChange={props.onChange}
+    >
+      <Tab label="順位表" />
+      <Tab label="パークファクター" />
+    </Tabs>
+  </AppBar>
+));
+
+OrderAppBarWithoutStyles.propTypes = {
+  classes: PropTypes.object.isRequired,
+  selected: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired
+};
+
+export const OrderAppBar = withStyles(styles)(OrderAppBarWithoutStyles);

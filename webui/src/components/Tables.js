@@ -12,7 +12,7 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import grey from "@material-ui/core/colors/grey";
 import {
-  ROWS_PER_PAGE,
+  styles,
   stableSort,
   getSorting,
   getProperty,
@@ -87,7 +87,7 @@ const CustomTableCellWide = withStyles(theme => ({
   }
 }))(TableCell);
 
-class CommonTableHead extends React.Component {
+class CommonTableHeadWithoutStyles extends React.Component {
   createSortHandler = property => event => {
     this.props.onRequestSort(event, property);
   };
@@ -108,13 +108,12 @@ class CommonTableHead extends React.Component {
                   return (
                     <CustomTableCell
                       key={cell.id}
-                      numeric={cell.numeric}
                       padding="checkbox"
                       sortDirection={orderBy === cell.id ? order : false}
                     >
                       <Button
                         style={{
-                          "text-transform": "none"
+                          "textTransform": "none"
                         }}
                         variant={orderBy === cell.id ? "contained" : "outlined"}
                         size="small"
@@ -136,7 +135,6 @@ class CommonTableHead extends React.Component {
                   return (
                     <CustomTableCell
                       key={cell.id}
-                      numeric={cell.numeric}
                       padding="checkbox"
                     >
                       {cell.label}
@@ -156,13 +154,12 @@ class CommonTableHead extends React.Component {
                   return (
                     <CustomTableCellWide
                       key={cell.id}
-                      numeric={cell.numeric}
                       padding="checkbox"
                       sortDirection={orderBy === cell.id ? order : false}
                     >
                       <Button
                         style={{
-                          "text-transform": "none"
+                          "textTransform": "none"
                         }}
                         variant={orderBy === cell.id ? "contained" : "outlined"}
                         size="small"
@@ -184,7 +181,6 @@ class CommonTableHead extends React.Component {
                   return (
                     <CustomTableCellWide
                       key={cell.id}
-                      numeric={cell.numeric}
                       padding="checkbox"
                     >
                       {cell.label}
@@ -200,7 +196,7 @@ class CommonTableHead extends React.Component {
   }
 }
 
-CommonTableHead.propTypes = {
+CommonTableHeadWithoutStyles.propTypes = {
   classes: PropTypes.object.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.string.isRequired,
@@ -210,7 +206,9 @@ CommonTableHead.propTypes = {
   head: PropTypes.array.isRequired
 };
 
-export class CommonTable extends React.Component {
+const CommonTableHead = withStyles(styles)(CommonTableHeadWithoutStyles);
+
+class CommonTableWithoutStyles extends React.Component {
   state = {
     order: this.props.default_order,
     orderBy: this.props.default_orderBy,
@@ -253,11 +251,10 @@ export class CommonTable extends React.Component {
     var jun = 0;
     var jun2 = 0;
     return (
-      <Paper className={classes.root}>
+      <Paper>
         <div className={classes.tableWrapper}>
-          <Table className={classes.table} aria-labelledby="tableTitle">
+          <Table aria-labelledby="tableTitle">
             <CommonTableHead
-              classes={classes}
               order={order}
               orderBy={orderBy}
               orderMean={orderMean}
@@ -280,11 +277,11 @@ export class CommonTable extends React.Component {
                         {Object.keys(n).map(value => {
                           if (NARROW_BR_ELEMENTS.indexOf(value) >= 0) {
                             return (
-                              <TableRow hover tabIndex={-1} key={n.id}>
+                              <TableRow hover tabIndex={-1} key={n.id + "_name"}>
                                 <CustomTableCellOrder
                                   rowSpan="2"
-                                  numeric="false"
                                   padding="checkbox"
+                                  key={value + "_order"}
                                 >
                                   {jun}
                                 </CustomTableCellOrder>
@@ -292,12 +289,12 @@ export class CommonTable extends React.Component {
                                   colSpan={
                                     Object.keys(n).length - IGNORE_ELEM_NUM
                                   }
-                                  numeric="false"
                                   style={
                                     n.規定 || n.チーム || n.球場
                                       ? { color: "black" }
                                       : { color: grey[500] }
                                   }
+                                  key={value + "_name"}
                                 >
                                   {n[value]}
                                 </CustomTableCellName>
@@ -305,7 +302,7 @@ export class CommonTable extends React.Component {
                             );
                           }
                         })}
-                        <TableRow hover tabIndex={-1} key={n.id}>
+                        <TableRow hover tabIndex={-1} key={n.id + "_records"}>
                           {Object.keys(n).map(value2 => {
                             if (
                               IGNORE_ELEMENTS.indexOf(value2) < 0 &&
@@ -313,13 +310,13 @@ export class CommonTable extends React.Component {
                             ) {
                               return (
                                 <CustomTableCell
-                                  numeric={value2.numeric}
                                   padding="checkbox"
                                   style={
                                     n.規定 || n.チーム || n.球場
                                       ? { color: "black" }
                                       : { color: grey[500] }
                                   }
+                                  key={value2}
                                 >
                                   {n[value2]}
                                 </CustomTableCell>
@@ -347,8 +344,8 @@ export class CommonTable extends React.Component {
                       return (
                         <TableRow hover tabIndex={-1} key={n.id}>
                           <CustomTableCellOrderWide
-                            numeric="false"
                             padding="checkbox"
+                            key={order}
                           >
                             {jun2}
                           </CustomTableCellOrderWide>
@@ -356,13 +353,13 @@ export class CommonTable extends React.Component {
                             if (IGNORE_ELEMENTS.indexOf(value) < 0) {
                               return (
                                 <CustomTableCellWide
-                                  numeric={value.numeric}
                                   padding="checkbox"
                                   style={
                                     n.規定 || n.チーム || n.球場
                                       ? { color: "black" }
                                       : { color: grey[500] }
                                   }
+                                  key={value}
                                 >
                                   {n[value]}
                                 </CustomTableCellWide>
@@ -404,13 +401,15 @@ export class CommonTable extends React.Component {
     );
   }
 }
-CommonTable.propTypes = {
+CommonTableWithoutStyles.propTypes = {
   classes: PropTypes.object.isRequired,
   default_order: PropTypes.string.isRequired,
   default_orderBy: PropTypes.string.isRequired,
   head: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,
-  row_length: PropTypes.string,
+  row_length: PropTypes.number,
   league: PropTypes.string.isRequired,
   main_state: PropTypes.object
 };
+
+export const CommonTable = withStyles(styles)(CommonTableWithoutStyles) 

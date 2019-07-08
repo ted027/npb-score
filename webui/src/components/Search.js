@@ -1,68 +1,39 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
 import Popper from "@material-ui/core/Popper";
 import Fade from "@material-ui/core/Fade";
 import Paper from "@material-ui/core/Paper";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import Fab from "@material-ui/core/Fab";
 import SearchIcon from "@material-ui/icons/Search";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 // import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import { styles } from "./Common";
 import { teamConverter } from "./datastore/DataCommon";
 
-export class SearchContents extends React.Component {
-  state = {
-    anchorEl: null,
-    open: false,
-    placement: null,
-    team: "",
-    name: ""
-  };
-
-  handleSearchPopper = placement => event => {
-    const { currentTarget } = event;
-    this.setState(state => ({
-      anchorEl: currentTarget,
-      open: state.placement !== placement || !state.open,
-      placement
-    }));
-  };
-
-  handleClickAway = () => {
-    this.setState({
-      open: false
-    });
-  };
-
-  handleDecideText = name => event => {
-    this.setState({ [name]: event.target.value });
-  };
-
-  handleSearchExec = (team, name) => event => {
-    this.setState({ open: false });
-    return this.props.search_func(team, name);
-  };
-
-  handleReset = event => {
-    this.setState({ open: false, team: "", name: "" });
-    return this.props.search_func("", "");
-  };
-
+class SearchContents extends React.Component {
   render() {
-    const { classes } = this.props;
-    const { anchorEl, open, placement } = this.state;
+    const {
+      classes,
+      searchState,
+      execSearch,
+      resetSearch,
+      handlePopper,
+      decideTeamText,
+      decideNameText
+    } = this.props;
+    const { anchorEl, open, team, name } = searchState;
 
     return (
       <div>
         <Popper
           open={open}
           anchorEl={anchorEl}
-          placement={placement}
+          placement="top-end"
           transition
-          style={{ zIndex: 20 }}
         >
           {({ TransitionProps }) => (
             <Fade {...TransitionProps} timeout={30}>
@@ -74,10 +45,10 @@ export class SearchContents extends React.Component {
                     select
                     label="チーム"
                     className={classes.textField}
-                    value={this.state.team}
-                    onChange={this.handleDecideText("team")}
+                    value={team}
+                    onChange={decideTeamText}
                     variant="outlined"
-                    fullWidth="true"
+                    fullWidth={true}
                     margin="normal"
                   >
                     {Object.keys(teamConverter).map(shortTeam => (
@@ -87,24 +58,21 @@ export class SearchContents extends React.Component {
                     ))}
                   </TextField>
                 </form>
-                <form noValidate autoComplete="off">
+                <form autoComplete="off">
                   <TextField
                     id="filled-name"
                     label="選手名"
                     className={classes.textField}
-                    value={this.state.name}
-                    onChange={this.handleDecideText("name")}
+                    value={name}
+                    onChange={decideNameText}
                     onKeyPress={ (ev) => {
                       if (ev.key === 'Enter') {
                         ev.preventDefault();
-                        this.handleSearchExec(
-                          this.state.team,
-                          this.state.name
-                        );
+                        execSearch(team, name);
                       }
                     }}
                     variant="outlined"
-                    fullWidth="true"
+                    fullWidth={true}
                     margin="normal"
                   />
                 </form>
@@ -114,7 +82,7 @@ export class SearchContents extends React.Component {
                       variant="outlined"
                       color="secondary"
                       className={classes.resetButton}
-                      onClick={this.handleReset}
+                      onClick={resetSearch}
                     >
                       リセット
                     </Button>
@@ -124,13 +92,8 @@ export class SearchContents extends React.Component {
                       variant="outlined"
                       color="primary"
                       className={classes.searchButton}
-                      disabled={
-                        this.state.team || this.state.name ? false : true
-                      }
-                      onClick={this.handleSearchExec(
-                        this.state.team,
-                        this.state.name
-                      )}
+                      disabled={team || name ? false : true}
+                      onClick={() => execSearch(team, name)}
                     >
                       検索
                     </Button>
@@ -141,8 +104,8 @@ export class SearchContents extends React.Component {
             </Fade>
           )}
         </Popper>
-        <Fab color="primary" aria-label="Search" className={classes.fab}>
-          <SearchIcon onClick={this.handleSearchPopper("top-end")} />
+        <Fab color="primary" aria-label="Search">
+          <SearchIcon onClick={handlePopper} />
         </Fab>
       </div>
     );
@@ -151,5 +114,17 @@ export class SearchContents extends React.Component {
 
 SearchContents.propTypes = {
   classes: PropTypes.object.isRequired,
-  search_func: PropTypes.func.isRequired
+  searchState: PropTypes.shape({
+    anchorEl: PropTypes.object,
+    open: PropTypes.bool.isRequired,
+    team: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  }).isRequired,
+  execSearch: PropTypes.func.isRequired,
+  resetSearch: PropTypes.func.isRequired,
+  handlePopper: PropTypes.func.isRequired,
+  decideTeamText: PropTypes.func.isRequired,
+  decideNameText: PropTypes.func.isRequired
 };
+
+export default withStyles(styles)(SearchContents);

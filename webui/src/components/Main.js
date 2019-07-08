@@ -61,8 +61,13 @@ import {
 } from "./datastore/Pitchers";
 import { styles } from "./Common";
 import { CommonTable } from "./Tables";
-import { SearchContents } from "./Search";
-import { HideOnScroll, MainAppBar, LeagueAppBar, OrderAppBar } from "./Pages";
+import { HideOnScroll } from "./Pages";
+import {
+  VisibleMainAppBar,
+  VisibleLeagueAppBar,
+  VisibleOrderAppBar
+} from "../containers/changeTab";
+import VisibleSearch from "../containers/VisibleSearch";
 import {
   top_ad,
   bottom_ad,
@@ -79,77 +84,29 @@ const PITCHER_VALUE = 2;
 const ORDER = 0;
 const PARKFACTOR = 1;
 
-const ALL = 0;
-const CENTRAL = 1;
-const PACIFIC = 2;
-
-class DefaultPage extends React.Component {
-  state = {
-    selected: ORDER_VALUE,
-    order_selected: ORDER,
-    league_selected: ALL,
-    league: "CentralPacific",
-    searchTeam: "",
-    searchName: ""
-  };
-
-  handleTabChange = (event, selected) => {
-    this.setState({ selected });
-  };
-
-  handleTeamOrderChange = (event, order_selected) => {
-    this.setState({ order_selected });
-  };
-
-  handleLeagueChange = (event, league_selected) => {
-    var league;
-    if (league_selected === ALL) {
-      league = "CentralPacific";
-    } else if (league_selected === CENTRAL) {
-      league = "Central";
-    } else if (league_selected === PACIFIC) {
-      league = "Pacific";
-    }
-
-    this.setState({ league_selected, league });
-  };
-
-  handleSearch = (team, name) => {
-    let sTeam;
-    let sName;
-    if (team) {
-      sTeam = team;
-    }
-    if (name) {
-      sName = name;
-    }
-    this.setState({ searchTeam: sTeam, searchName: sName });
-  };
-
+class MainPage extends React.Component {
   render() {
-    const { classes } = this.props;
-    const { selected, league_selected, league, order_selected } = this.state;
+    const { classes, pageState } = this.props;
+    const { selected, league_selected, league, order_selected } = pageState;
     return (
       <MuiThemeProvider theme={theme}>
         <div className={classes.root}>
           <div className={classes.tab}>
             <HideOnScroll {...this.props} direction="down">
-              {MainAppBar(selected, this.handleTabChange)}
+              <VisibleMainAppBar selected={selected} />
             </HideOnScroll>
           </div>
           {selected === ORDER_VALUE && (
             <div className={classes.individualRoot}>
-              <HideOnScroll {...this.props}  direction="down">
-                {OrderAppBar(
-                  classes.subtab,
-                  order_selected,
-                  this.handleTeamOrderChange
-                )}
+              <HideOnScroll {...this.props} direction="down">
+                <VisibleOrderAppBar
+                  selected={order_selected}
+                />
               </HideOnScroll>
               {top_ad(classes)}
               {order_selected === ORDER && (
-                <p>
-                  <p>
+                <div>
+                  <div>
                     <AppBar
                       position="static"
                       color="default"
@@ -162,7 +119,6 @@ class DefaultPage extends React.Component {
                       </Toolbar>
                     </AppBar>
                     <CommonTable
-                      classes={styles}
                       default_order="desc"
                       default_orderBy="勝率"
                       head={teams_header}
@@ -170,8 +126,8 @@ class DefaultPage extends React.Component {
                       row_length={teams_body.length}
                       league="Central"
                     />
-                  </p>
-                  <p>
+                  </div>
+                  <div>
                     <AppBar
                       position="static"
                       color="default"
@@ -184,7 +140,6 @@ class DefaultPage extends React.Component {
                       </Toolbar>
                     </AppBar>
                     <CommonTable
-                      classes={styles}
                       default_order="desc"
                       default_orderBy="勝率"
                       head={teams_header}
@@ -192,9 +147,9 @@ class DefaultPage extends React.Component {
                       row_length={teams_body.length}
                       league="Pacific"
                     />
-                  </p>
+                  </div>
                   {middle_ad1(classes)}
-                  <p>
+                  <div>
                     <AppBar
                       position="static"
                       color="default"
@@ -207,7 +162,6 @@ class DefaultPage extends React.Component {
                       </Toolbar>
                     </AppBar>
                     <CommonTable
-                      classes={styles}
                       default_order="desc"
                       default_orderBy="得点"
                       head={teams_atk_header}
@@ -215,8 +169,8 @@ class DefaultPage extends React.Component {
                       row_length={teams_body.length}
                       league="Central"
                     />
-                  </p>
-                  <p>
+                  </div>
+                  <div>
                     <AppBar
                       position="static"
                       color="default"
@@ -229,7 +183,6 @@ class DefaultPage extends React.Component {
                       </Toolbar>
                     </AppBar>
                     <CommonTable
-                      classes={styles}
                       default_order="desc"
                       default_orderBy="得点"
                       head={teams_atk_header}
@@ -237,9 +190,9 @@ class DefaultPage extends React.Component {
                       row_length={teams_body.length}
                       league="Pacific"
                     />
-                  </p>
+                  </div>
                   {middle_ad4(classes)}
-                  <p>
+                  <div>
                     <AppBar
                       position="static"
                       color="default"
@@ -252,7 +205,6 @@ class DefaultPage extends React.Component {
                       </Toolbar>
                     </AppBar>
                     <CommonTable
-                      classes={styles}
                       default_order="asc"
                       default_orderBy="失点"
                       head={teams_def_header}
@@ -260,8 +212,8 @@ class DefaultPage extends React.Component {
                       row_length={teams_body.length}
                       league="Central"
                     />
-                  </p>
-                  <p>
+                  </div>
+                  <div>
                     <AppBar
                       position="static"
                       color="default"
@@ -274,7 +226,6 @@ class DefaultPage extends React.Component {
                       </Toolbar>
                     </AppBar>
                     <CommonTable
-                      classes={styles}
                       default_order="asc"
                       default_orderBy="失点"
                       head={teams_def_header}
@@ -282,12 +233,12 @@ class DefaultPage extends React.Component {
                       row_length={teams_body.length}
                       league="Pacific"
                     />
-                  </p>
-                </p>
+                  </div>
+                </div>
               )}
               {order_selected === PARKFACTOR && (
-                <p>
-                  <p>
+                <div>
+                  <div>
                     <AppBar
                       position="static"
                       color="default"
@@ -300,7 +251,6 @@ class DefaultPage extends React.Component {
                       </Toolbar>
                     </AppBar>
                     <CommonTable
-                      classes={styles}
                       default_order="desc"
                       default_orderBy="得点PF"
                       head={parks_header}
@@ -308,9 +258,9 @@ class DefaultPage extends React.Component {
                       row_length={parks_body.length}
                       league=""
                     />
-                  </p>
+                  </div>
                   {middle_ad1(classes)}
-                  <p>
+                  <div>
                     <AppBar
                       position="static"
                       color="default"
@@ -323,7 +273,6 @@ class DefaultPage extends React.Component {
                       </Toolbar>
                     </AppBar>
                     <CommonTable
-                      classes={styles}
                       default_order="desc"
                       default_orderBy="得点PF"
                       head={parks_header}
@@ -331,32 +280,25 @@ class DefaultPage extends React.Component {
                       row_length={parks_body.length}
                       league=""
                     />
-                  </p>
-                </p>
+                  </div>
+                </div>
               )}
             </div>
           )}
           {selected === HITTER_VALUE && (
             <div className={classes.individualRoot}>
-              <HideOnScroll {...this.props}  direction="down">
-                {LeagueAppBar(
-                  classes.subtab,
-                  league_selected,
-                  this.handleLeagueChange
-                )}
+              <HideOnScroll {...this.props} direction="down">
+                <VisibleLeagueAppBar
+                  selected={league_selected}
+                />
               </HideOnScroll>
               <div className={classes.fab}>
-                <HideOnScroll {...this.props}  direction="up">
-                  {
-                    <SearchContents
-                      classes={styles}
-                      search_func={this.handleSearch}
-                    />
-                  }
+                <HideOnScroll {...this.props} direction="up">
+                  <VisibleSearch />
                 </HideOnScroll>
               </div>
               {top_ad(classes)}
-              <p>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -369,16 +311,15 @@ class DefaultPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="wRC+"
                   head={hitters_sabr_header}
                   data={hitters_sabr_body}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
-              </p>
-              <p>
+              </div>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -391,17 +332,16 @@ class DefaultPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="打率"
                   head={hitters_header}
                   data={hitters_body}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
-              </p>
+              </div>
               {middle_ad2(classes)}
-              <p>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -414,16 +354,15 @@ class DefaultPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="出塁率"
                   head={hitters_header_ops}
                   data={hitters_body_ops}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
-              </p>
-              <p>
+              </div>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -436,17 +375,16 @@ class DefaultPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="wOBA"
                   head={hitters_header_woba}
                   data={hitters_body_woba}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
-              </p>
+              </div>
               {middle_ad1(classes)}
-              <p>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -459,16 +397,15 @@ class DefaultPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="XR"
                   head={hitters_header_xr}
                   data={hitters_body_xr}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
-              </p>
-              <p>
+              </div>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -481,17 +418,16 @@ class DefaultPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="asc"
                   default_orderBy="K%"
                   head={hitters_header_contact}
                   data={hitters_body_contact}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
-              </p>
+              </div>
               {middle_ad4(classes)}
-              <p>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -504,16 +440,15 @@ class DefaultPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="IsoP"
                   head={hitters_header_power}
                   data={hitters_body_power}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
-              </p>
-              <p>
+              </div>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -526,17 +461,16 @@ class DefaultPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="BB%"
                   head={hitters_header_eye}
                   data={hitters_body_eye}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
-              </p>
+              </div>
               {middle_ad2(classes)}
-              <p>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -549,16 +483,15 @@ class DefaultPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="wSB"
                   head={hitters_header_steal}
                   data={hitters_body_steal}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
-              </p>
-              <p>
+              </div>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -571,17 +504,16 @@ class DefaultPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="圏打率"
                   head={hitters_header_clutch}
                   data={hitters_body_clutch}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
-              </p>
+              </div>
               {middle_ad3(classes)}
-              <p>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -594,38 +526,30 @@ class DefaultPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="BABIP"
                   head={hitters_header_oth}
                   data={hitters_body_oth}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
-              </p>
+              </div>
             </div>
           )}
           {selected === PITCHER_VALUE && (
             <div className={classes.individualRoot}>
-              <HideOnScroll {...this.props}  direction="down">
-                {LeagueAppBar(
-                  classes.subtab,
-                  league_selected,
-                  this.handleLeagueChange
-                )}
+              <HideOnScroll {...this.props} direction="down">
+                <VisibleLeagueAppBar
+                  selected={league_selected}
+                />
               </HideOnScroll>
               <div className={classes.fab}>
-                <HideOnScroll {...this.props}  direction="up">
-                  {
-                    <SearchContents
-                      classes={styles}
-                      search_func={this.handleSearch}
-                    />
-                  }
+                <HideOnScroll {...this.props} direction="up">
+                  <VisibleSearch />
                 </HideOnScroll>
               </div>
               {top_ad(classes)}
-              <p>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -638,16 +562,15 @@ class DefaultPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="asc"
                   default_orderBy="防御率"
                   head={pitchers_sabr_header}
                   data={pitchers_sabr_body}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
-              </p>
-              <p>
+              </div>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -660,17 +583,16 @@ class DefaultPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="投球回"
                   head={pitchers_header}
                   data={pitchers_body}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
-              </p>
+              </div>
               {middle_ad1(classes)}
-              <p>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -683,16 +605,15 @@ class DefaultPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="K-BB%"
                   head={pitchers_header_kbb}
                   data={pitchers_body_kbb}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
-              </p>
-              <p>
+              </div>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -705,17 +626,16 @@ class DefaultPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="asc"
                   default_orderBy="WHIP"
                   head={pitchers_header_whip}
                   data={pitchers_body_whip}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
-              </p>
+              </div>
               {middle_ad2(classes)}
-              <p>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -728,17 +648,16 @@ class DefaultPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="QS率"
                   head={pitchers_header_qs}
                   data={pitchers_body_qs}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
-              </p>
+              </div>
               {middle_ad4(classes)}
-              <p>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -751,16 +670,15 @@ class DefaultPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="セーブ"
                   head={pitchers_header_closer}
                   data={pitchers_body_closer}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
-              </p>
-              <p>
+              </div>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -773,17 +691,16 @@ class DefaultPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="HP"
                   head={pitchers_header_relief}
                   data={pitchers_body_relief}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
-              </p>
+              </div>
               {middle_ad3(classes)}
-              <p>
+              <div>
                 <AppBar
                   position="static"
                   color="default"
@@ -796,15 +713,14 @@ class DefaultPage extends React.Component {
                   </Toolbar>
                 </AppBar>
                 <CommonTable
-                  classes={styles}
                   default_order="desc"
                   default_orderBy="小松式ドネーション"
                   head={pitchers_header_oth}
                   data={pitchers_body_oth}
                   league={league}
-                  main_state={this.state}
+                  main_state={pageState}
                 />
-              </p>
+              </div>
             </div>
           )}
           {middle_ad2(classes)}
@@ -815,8 +731,16 @@ class DefaultPage extends React.Component {
   }
 }
 
-DefaultPage.propTypes = {
-  classes: PropTypes.object.isRequired
+MainPage.propTypes = {
+  classes: PropTypes.object.isRequired,
+  pageState: PropTypes.shape({
+    selected: PropTypes.number.isRequired,
+    order_selected: PropTypes.number.isRequired,
+    league_selected: PropTypes.number.isRequired,
+    league: PropTypes.string.isRequired,
+    searchTeam: PropTypes.string,
+    searchName: PropTypes.string
+  }).isRequired
 };
 
-export default withStyles(styles)(DefaultPage);
+export default withStyles(styles)(MainPage);

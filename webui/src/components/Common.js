@@ -5,14 +5,11 @@ import blue from "@material-ui/core/colors/blue";
 export const styles = theme => ({
   root: {
     width: "100%",
-    marginTop: theme.spacing.unit * 8
+    marginTop: theme.spacing(8)
   },
   individualRoot: {
     width: "100%",
-    marginTop: theme.spacing.unit * 14
-  },
-  table: {
-    maxWidth: 320
+    marginTop: theme.spacing(14)
   },
   tableWrapper: {
     overflowX: "auto"
@@ -45,37 +42,45 @@ export const styles = theme => ({
   adTypo: {
     display: "flex",
     margin: "auto",
-    maxWidth: "100%"
+    maxWidth: "100%",
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1)
   },
   adA: {
     fontSize: "70%"
   },
-  adImg: {
+  adImgWide: {
     margin: "auto",
     width: "100%",
     maxWidth: "720px",
-    height: "width"
+    height: "width",
+    marginTop: theme.spacing(1)
   },
-  adImg2: {
+  adImg: {
     margin: "auto",
     width: "100%",
     maxWidth: "300px",
-    height: "width"
+    height: "width",
+    marginTop: theme.spacing(1)
   },
   fab: {
     position: "fixed",
     right: theme.spacing(3),
     bottom: theme.spacing(3),
-    zIndex: 10
+    zIndex: 20
   },
   textField: {
     width: "100%"
   },
   searchButton: {
-    position: "absolute"
+    width: "60%",
+    position: "absolute",
+    right: 2
   },
   resetButton: {
-    position: "absolute"
+    width: "60%",
+    position: "absolute",
+    left: 2
   }
 });
 

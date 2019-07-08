@@ -3,6 +3,7 @@ export function createHeader(array, regulated, order) {
     {
       id: "選手",
       numeric: false,
+      defaultOrder: "",
       regulated: false,
       label: "選手"
     }
@@ -24,6 +25,7 @@ export function createHeaderRelief(array, regulated, order, numeric) {
     {
       id: "選手",
       numeric: false,
+      defaultOrder: "",
       regulated: false,
       label: "選手"
     }

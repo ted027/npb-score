@@ -38,11 +38,11 @@ export function createTeamBody(array, head) {
 }
 
 export const teams_header = [];
-for (var i = 0; i < theader.length; i++) {
+for (var t = 0; t < theader.length; t++) {
   teams_header.push({
-    id: theader[i],
-    numeric: teams_numeric[i],
-    label: theader[i]
+    id: theader[t],
+    numeric: teams_numeric[t],
+    label: theader[t]
   });
 }
 
@@ -71,12 +71,12 @@ const teams_atk_order = [
 ];
 
 export const teams_atk_header = [];
-for (var i = 0; i < t_atk_header.length; i++) {
+for (var ta = 0; ta < t_atk_header.length; ta++) {
   teams_atk_header.push({
-    id: t_atk_header[i],
-    numeric: teams_atk_numeric[i],
-    defaultOrder: teams_atk_order[i],
-    label: t_atk_header[i]
+    id: t_atk_header[ta],
+    numeric: teams_atk_numeric[ta],
+    defaultOrder: teams_atk_order[ta],
+    label: t_atk_header[ta]
   });
 }
 
@@ -97,12 +97,12 @@ const teams_def_numeric = [false, true, true, true, true, true, false];
 const teams_def_order = ["desc", "asc", "asc", "desc", "asc", "asc", "desc"];
 
 export const teams_def_header = [];
-for (var i = 0; i < t_def_header.length; i++) {
+for (var td = 0; td < t_def_header.length; td++) {
   teams_def_header.push({
-    id: t_def_header[i],
-    numeric: teams_def_numeric[i],
-    defaultOrder: teams_def_order[i],
-    label: t_def_header[i]
+    id: t_def_header[td],
+    numeric: teams_def_numeric[td],
+    defaultOrder: teams_def_order[td],
+    label: t_def_header[td]
   });
 }
 
