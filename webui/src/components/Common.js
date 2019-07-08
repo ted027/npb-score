@@ -65,7 +65,7 @@ export const styles = theme => ({
     position: "fixed",
     right: theme.spacing(3),
     bottom: theme.spacing(3),
-    zIndex: 10
+    zIndex: 20
   },
   textField: {
     width: "100%"

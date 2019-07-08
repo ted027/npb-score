@@ -32,15 +32,21 @@ const mapLeagueDispatchToProps = dispatch => {
 
 export const VisibleMainAppBar = connect(
   mapStateToProps,
-  mapMainDispatchToProps
+  mapMainDispatchToProps,
+  null,
+  { forwardRef: true }
 )(MainAppBar);
 
 export const VisibleOrderAppBar = connect(
   mapStateToProps,
-  mapOrderDispatchToProps
+  mapOrderDispatchToProps,
+  null,
+  { forwardRef: true }
 )(OrderAppBar);
 
 export const VisibleLeagueAppBar = connect(
   mapStateToProps,
-  mapLeagueDispatchToProps
+  mapLeagueDispatchToProps,
+  null,
+  { forwardRef: true }
 )(LeagueAppBar);

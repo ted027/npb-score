@@ -10,7 +10,6 @@ import { withStyles } from "@material-ui/styles";
 
 export const HideOnScroll = ({ children, direction }) => {
   const trigger = useScrollTrigger({ target: undefined });
-  
   return (
     <Slide appear={false} direction={direction} in={!trigger}>
       {children}
@@ -18,33 +17,19 @@ export const HideOnScroll = ({ children, direction }) => {
   );
 }
 
-// export class HideOnScroll extends React.Component {
-//   render() {
-//     const { children, direction } = this.props;
-//     const trigger = useScrollTrigger({ target: undefined });
-    
-//     return (
-//       <Slide appear={false} direction={direction} in={!trigger}>
-//         {children}
-//       </Slide>
-//     );
-//   }
-// }
-
 HideOnScroll.propTypes = {
   children: PropTypes.node.isRequired,
   direction: PropTypes.string.isRequired
 };
 
-export const MainAppBar = ({ selected, onChange }) => (
-  <AppBar>
+export const MainAppBar = React.forwardRef((props, ref) => (
+  <AppBar ref={ref}>
     <Tabs
       variant="fullWidth"
-      selected={selected}
-      value={selected}
-      variant="fullWidth"
+      selected={props.selected}
+      value={props.selected}
       scrollButtons="auto"
-      onChange={onChange}
+      onChange={props.onChange}
     >
       <Tab label="順位表" />
       <Tab label="野手成績" />
@@ -52,31 +37,30 @@ export const MainAppBar = ({ selected, onChange }) => (
       <LinkTab label="BLOG" href="/" />
     </Tabs>
   </AppBar>
-);
+));
 
 MainAppBar.propTypes = {
   selected: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired
 };
 
-const LeagueAppBarWithoutStyles = ({ classes, selected, onChange }) => (
-  <AppBar className={classes.subtab}>
+const LeagueAppBarWithoutStyles = React.forwardRef((props, ref) => (
+  <AppBar className={props.classes.subtab} ref={ref}>
     <Tabs
       variant="fullWidth"
-      selected={selected}
-      value={selected}
+      selected={props.selected}
+      value={props.selected}
       indicatorColor="primary"
       textColor="primary"
-      variant="fullWidth"
       scrollButtons="auto"
-      onChange={onChange}
+      onChange={props.onChange}
     >
       <Tab label="ALL" />
       <Tab label="セリーグ" />
       <Tab label="パリーグ" />
     </Tabs>
   </AppBar>
-);
+));
 
 LeagueAppBarWithoutStyles.propTypes = {
   classes: PropTypes.object.isRequired,
@@ -86,23 +70,22 @@ LeagueAppBarWithoutStyles.propTypes = {
 
 export const LeagueAppBar = withStyles(styles)(LeagueAppBarWithoutStyles);
 
-const OrderAppBarWithoutStyles = ({ classes, selected, onChange }) => (
-  <AppBar className={classes.subtab}>
+const OrderAppBarWithoutStyles = React.forwardRef((props, ref) => (
+  <AppBar className={props.classes.subtab} ref={ref}>
     <Tabs
       variant="fullWidth"
-      selected={selected}
-      value={selected}
+      selected={props.selected}
+      value={props.selected}
       indicatorColor="primary"
       textColor="primary"
-      variant="fullWidth"
       scrollButtons="auto"
-      onChange={onChange}
+      onChange={props.onChange}
     >
       <Tab label="順位表" />
       <Tab label="パークファクター" />
     </Tabs>
   </AppBar>
-);
+));
 
 OrderAppBarWithoutStyles.propTypes = {
   classes: PropTypes.object.isRequired,

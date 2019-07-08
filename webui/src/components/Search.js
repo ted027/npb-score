@@ -34,7 +34,6 @@ class SearchContents extends React.Component {
           anchorEl={anchorEl}
           placement="top-end"
           transition
-          style={{ zIndex: 20 }}
         >
           {({ TransitionProps }) => (
             <Fade {...TransitionProps} timeout={30}>
@@ -105,7 +104,7 @@ class SearchContents extends React.Component {
             </Fade>
           )}
         </Popper>
-        <Fab color="primary" aria-label="Search" className={classes.fab}>
+        <Fab color="primary" aria-label="Search">
           <SearchIcon onClick={handlePopper} />
         </Fab>
       </div>

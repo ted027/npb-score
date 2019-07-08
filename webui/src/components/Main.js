@@ -294,7 +294,7 @@ class MainPage extends React.Component {
               </HideOnScroll>
               <div className={classes.fab}>
                 <HideOnScroll {...this.props} direction="up">
-                  {<VisibleSearch />}
+                  <VisibleSearch />
                 </HideOnScroll>
               </div>
               {top_ad(classes)}
@@ -545,7 +545,7 @@ class MainPage extends React.Component {
               </HideOnScroll>
               <div className={classes.fab}>
                 <HideOnScroll {...this.props} direction="up">
-                  {<VisibleSearch />}
+                  <VisibleSearch />
                 </HideOnScroll>
               </div>
               {top_ad(classes)}
