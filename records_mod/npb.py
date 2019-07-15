@@ -15,38 +15,6 @@ TEAM_TR_LIST = [2, 4, 6, 8, 10, 12]
 
 IBB_COLUMN_DICT = {'p': 18, 'b': 17}
 
-# def create_team_list():
-#     team_list = []
-#     for leag_initial in LEAG_INITIAL_DICT.keys():
-#         url = f'http://npb.jp/bis/{str(YEAR)}/stats/std_{leag_initial}.html'
-#         soup = request_soup(url)
-#         table = soup.find('table')
-#         trs = table.find_all('tr')
-#         # trs [0]:full, [1]:header, [2,4,6...]:team [3,5,8..]:team_cell
-#         header_tds = trs[1].find_all('td')
-#         header = [
-#             header_td.text.replace('\u3000', '').replace('｜', 'ー')
-#             for header_td in header_tds[:-TEAM_NUM] if header_td.text
-#         ]
-#         for body_iter in TEAM_TR_LIST:
-#             body_tds = trs[body_iter].find_all('td')
-#             body = [
-#                 body_td.text.replace('\u3000', '')
-#                 for body_td in body_tds[2:-TEAM_NUM]  # rm team cell
-#             ]
-#             # unify team notation
-#             body[0] = unify_teams(body[0])
-#             team_dic = dict(zip(header, body))
-#             team_dic["League"] = LEAG_INITIAL_DICT[leag_initial]
-#             team_list.append(team_dic)
-#     return team_list
-
-# def write_team_records():
-#     team_list = create_team_list()
-
-#     write_json('teams.json', {'Team': team_list})
-#     # write_records('TEAMS', team_list)
-
 
 def create_intentional_bb_dict(p_or_b):
     intentional_bb_dict = {}
