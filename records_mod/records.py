@@ -22,6 +22,12 @@ CHANCE_STR_DIVIDER = 3
 PITCHER_DUMP_VAL = 1
 HITTER_DUMP_VAL = 2
 
+# profile, records, le, park, open
+PITCH_TOO_SHORT_TABLES = 4
+
+# profile, records, open
+HIT_TOO_SHORT_TABLES = 2
+
 TEAM_NUM_LIST = [376 if i == 10 else i for i in list(range(1, 13))]
 
 CENTRAL_LIST = ['広島', '巨人', 'ヤクルト', 'ＤｅＮＡ', '中日', '阪神']
@@ -176,28 +182,22 @@ def append_team_pitcher_array(link_tail_list):
         # personal_dict = {'id': personal_id}
 
         personal_link = BASEURL + ptail
-        personal_soup = request_soup(personal_link)
+
         # retry if contents is too short
-        if 3 < len(personal_soup.find_all('table')) < 5:
-            print(f'retry: {personal_link}')
+        while True:
             personal_soup = request_soup(personal_link)
 
-        personal_dict = basic_information(personal_soup)
+            personal_dict = basic_information(personal_soup)
 
-        tables = personal_soup.find_all('table')
-        records_table, rl_table, park_table = confirm_pitcher_tables(tables)
-        # 0: profile
-        # 1: **pitch records
-        # (2): hit records
-        # (3): chance records
-        # 4: *recent records
-        # 5/(6): *records by teams central/pacific
-        # -4: monthly records
-        # -3: **left/right
-        # -2: field
-        # -1: open
+            tables = personal_soup.find_all('table')
+            records_table, rl_table, park_table = confirm_pitcher_tables(tables)
 
-        records = dict_records(records_table)
+            records = dict_records(records_table)
+
+            if len(tables) > PITCH_TOO_SHORT_TABLES or not Decimal(records['登板']):
+                break
+            else:
+                print(f'retry: {personal_link}')
 
         if not Decimal(records['登板']):
             continue
@@ -233,30 +233,23 @@ def append_team_hitter_array(link_tail_list):
         # personal_dict = {'id': personal_id}
 
         personal_link = BASEURL + htail
-        personal_soup = request_soup(personal_link)
+
         # retry if contents is too short
-        if 3 < len(personal_soup.find_all('table')) < 7:
-            print(f'retry: {personal_link}')
+        while True:
             personal_soup = request_soup(personal_link)
 
-        personal_dict = basic_information(personal_soup)
+            personal_dict = basic_information(personal_soup)
 
-        tables = personal_soup.find_all('table')
-        records_table, chance_table, rl_table, count_table, runner_table, park_table = confirm_hitter_tables(
+            tables = personal_soup.find_all('table')
+            records_table, chance_table, rl_table, count_table, runner_table, park_table = confirm_hitter_tables(
             tables)
-        # 0: profile
-        # 1: **records
-        # (2): **chance
-        # 3: *recent records
-        # 4/(5): *records by teams central/pacific
-        # 6: monthly records
-        # 7: **left/right
-        # 8: **count
-        # 9: **runner
-        # 10: field
-        # -1: open
 
-        records = dict_records(records_table)
+            records = dict_records(records_table)
+
+            if len(tables) > HIT_TOO_SHORT_TABLES or not Decimal(records['試合']):
+                break
+            else:
+                print(f'retry: {personal_link}')
 
         if not Decimal(records['試合']):
             continue

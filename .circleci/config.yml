@@ -14,7 +14,7 @@ jobs:
             rm -rf records/*
             python main.py
             cd -            
-          no_output_timeout: 20m
+          no_output_timeout: 15m
       - add_ssh_keys:
           fingerprints:
             - "e5:f7:07:ca:a4:5c:76:22:db:ba:db:23:1c:ae:b8:95"
@@ -90,7 +90,7 @@ workflows:
   nightly_build:
     triggers:
       - schedule:
-          cron: "30 15 * * *"
+          cron: "0,40 14 * * *"
           filters:
             branches:
               only: master
