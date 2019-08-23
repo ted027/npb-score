@@ -141,7 +141,7 @@ export const pitchers_header_relief = createHeaderRelief(
 export const pitchers_body_relief = createBody(pitchers, pheader_relief);
 
 // oth
-const pheader_oth = ["小松式ドネーション", "ONE OUTS年俸(万)", "規定", "League"];
+const pheader_oth = ["小松式ドネーション", "ONE OUTS(万)", "規定", "League"];
 const pheader_regulated_oth = [false, false, false, false];
 const pheader_order_oth = ["desc", "desc", "desc", "desc"];
 export const pitchers_header_oth = createHeader(

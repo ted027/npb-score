@@ -23,7 +23,7 @@ def calc_sabr_pitcher(pitcher, league_pitcher_dic=None, cor_pf=None):
     pitcher['K-BB%'] = k_bb_percent_p(pitcher)
     pitcher['LOB%'] = lob_percent(pitcher)
     pitcher['小松式ドネーション'] = komatsu(pitcher)
-    pitcher['ONE OUTS年俸(万)'] = one_outs_p(pitcher)
+    pitcher['ONE OUTS(万)'] = one_outs_p(pitcher)
     if league_pitcher_dic:
         pitcher['FIP'], raw_fip = fip(pitcher, league_pitcher_dic)
         pitcher['FIP(RA)'], raw_fip_ra = fip_ra(pitcher, league_pitcher_dic,

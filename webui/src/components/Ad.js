@@ -327,7 +327,7 @@ export function middle_ad3(classes) {
 // 5*6 dazn
 export function bottom_ad(classes) {
     return (
-        <Typography className={classes.adTypo}>
+        <Typography>
             <a
                 href="https://px.a8.net/svt/ejp?a8mat=35F4ZJ+1IRWFM+491Q+67Z9T"
                 target="_blank"
