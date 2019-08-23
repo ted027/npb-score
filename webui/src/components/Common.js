@@ -37,7 +37,7 @@ export const styles = theme => ({
   },
   tableButton: {
     width: "100%",
-    maxWidth: 120
+    maxWidth: 140
   },
   adTypo: {
     display: "flex",
