@@ -139,3 +139,56 @@ export const hitters_header_oth = createHeader(
   hheader_oth_order
 );
 export const hitters_body_oth = createBody(hitters, hheader_oth);
+
+//wide
+const hheader_wide = [
+  "打率",
+  "安打",
+  "本塁打",
+  "打点",
+  "出塁率",
+  "長打率",
+  "OPS",
+  "OPS+",
+  "K%",
+  "三振",
+  "wOBA",
+  "wRAA",
+  "wRC",
+  "wRC+",
+  "XR",
+  "XR27",
+  "XR+",
+  "XRWIN",
+  "IsoP",
+  "長打率",
+  "本塁打率",
+  "本塁打",
+  "盗塁",
+  "BB%",
+  "四球",
+  "IsoD",
+  "BB/K",
+  "TAv",
+  "wSB",
+  "盗塁",
+  "盗成功率",
+  "二塁打",
+  "三塁打",
+  "圏打率",
+  "圏打数",
+  "圏安打",
+  "BABIP",
+  "アダムダン率",
+  "ONE OUTS(万)",
+  "規定",
+  "League"
+];
+const hheader_wide_regulated = [true, true, true, true, false, false];
+const hheader_wide_order = new Array(hheader_wide.length).fill("desc");
+export const hitters_wide_header = createHeader(
+  hheader_wide,
+  hheader_wide_regulated,
+  hheader_wide_order
+);
+export const hitters_wide_body = createBody(hitters, hheader_wide);
