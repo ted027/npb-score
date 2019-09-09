@@ -141,52 +141,229 @@ export const hitters_header_oth = createHeader(
 export const hitters_body_oth = createBody(hitters, hheader_oth);
 
 //wide
-const hheader_wide = [
-  "打率",
-  "安打",
-  "二塁打",
-  "三塁打",
-  "本塁打",
-  "打点",
-  "出塁率",
-  "長打率",
-  "OPS",
-  "三振",
-  "K%",
-  "四球",
-  "BB%",
-  "BB/K",
-  "wOBA",
-  "wRAA",
-  "wRC",
-  "wRC+",
-  "OPS+",
-  "TAv",
-  "RC",
-  "RC27",
-  "RC+",
-  "RCWIN",
-  "XR",
-  "XR27",
-  "XR+",
-  "XRWIN",
-  "本塁打率",
-  "IsoP",
-  "IsoD",
-  "盗塁",
-  "盗成功率",
-  "wSB",
-  "圏打率",
-  "圏打数",
-  "圏安打",
-  "BABIP",
-  "アダムダン率",
-  "ONE OUTS(万)",
-  "規定",
-  "League"
+const hheader_wide_array = [
+  {
+    label: "打率",
+    regulated: true,
+    order: "desc"
+  },
+  {
+    label: "安打",
+    regulated: false,
+    order: "desc"
+  },
+  {
+    label: "二塁打",
+    regulated: false,
+    order: "desc"
+  },
+  {
+    label: "三塁打",
+    regulated: false,
+    order: "desc"
+  },
+  {
+    label: "本塁打",
+    regulated: false,
+    order: "desc"
+  },
+  {
+    label: "打点",
+    regulated: false,
+    order: "desc"
+  },
+  {
+    label: "出塁率",
+    regulated: true,
+    order: "desc"
+  },
+  {
+    label: "長打率",
+    regulated: true,
+    order: "desc"
+  },
+  {
+    label: "OPS",
+    regulated: true,
+    order: "desc"
+  },
+  {
+    label: "wOBA",
+    regulated: true,
+    order: "desc"
+  },
+  {
+    label: "wRAA",
+    regulated: false,
+    order: "desc"
+  },
+  {
+    label: "wRC",
+    regulated: false,
+    order: "desc"
+  },
+  {
+    label: "wRC+",
+    regulated: true,
+    order: "desc"
+  },
+  {
+    label: "OPS+",
+    regulated: true,
+    order: "desc"
+  },
+  {
+    label: "RC",
+    regulated: false,
+    order: "desc"
+  },
+  {
+    label: "RC27",
+    regulated: true,
+    order: "desc"
+  },
+  {
+    label: "RC+",
+    regulated: false,
+    order: "desc"
+  },
+  {
+    label: "RCWIN",
+    regulated: false,
+    order: "desc"
+  },
+  {
+    label: "XR",
+    regulated: false,
+    order: "desc"
+  },
+  {
+    label: "XR27",
+    regulated: true,
+    order: "desc"
+  },
+  {
+    label: "XR+",
+    regulated: false,
+    order: "desc"
+  },
+  {
+    label: "XRWIN",
+    regulated: false,
+    order: "desc"
+  },
+  {
+    label: "TAv",
+    regulated: true,
+    order: "desc"
+  },
+  {
+    label: "本塁打率",
+    regulated: true,
+    order: "desc"
+  },
+  {
+    label: "IsoP",
+    regulated: true,
+    order: "desc"
+  },
+  {
+    label: "IsoD",
+    regulated: true,
+    order: "desc"
+  },
+  {
+    label: "四球",
+    regulated: false,
+    order: "desc"
+  },
+  {
+    label: "BB%",
+    regulated: true,
+    order: "desc"
+  },
+  {
+    label: "三振",
+    regulated: false,
+    order: "asc"
+  },
+  {
+    label: "K%",
+    regulated: true,
+    order: "asc"
+  },
+  {
+    label: "BB/K",
+    regulated: true,
+    order: "desc"
+  },
+  {
+    label: "盗塁",
+    regulated: false,
+    order: "desc"
+  },
+  {
+    label: "盗成功率",
+    regulated: true,
+    order: "desc"
+  },
+  {
+    label: "wSB",
+    regulated: false,
+    order: "desc"
+  },
+  {
+    label: "圏打率",
+    regulated: true,
+    order: "desc"
+  },
+  {
+    label: "圏打数",
+    regulated: false,
+    order: "desc"
+  },
+  {
+    label: "圏安打",
+    regulated: false,
+    order: "desc"
+  },
+  {
+    label: "BABIP",
+    regulated: true,
+    order: "desc"
+  },
+  {
+    label: "アダムダン率",
+    regulated: false,
+    order: "desc"
+  },
+  {
+    label: "ONE OUTS(万)",
+    regulated: false,
+    order: "desc"
+  },
+  {
+    label: "規定",
+    regulated: true,
+    order: "desc"
+  },
+  {
+    label: "League",
+    regulated: true,
+    order: "desc"
+  }
 ];
-const hheader_wide_regulated = [true, true, true, true, false, false];
-const hheader_wide_order = new Array(hheader_wide.length).fill("desc");
+
+let hheader_wide = []
+let hheader_wide_regulated = []
+let hheader_wide_order = []
+
+for (let v of hheader_wide_array) {
+  hheader_wide.push(v[label]);
+  hheader_wide_regulated.push(v[regulated]);
+  hheader_wide_order.push(v[order]);
+}
+
 export const hitters_wide_header = createHeader(
   hheader_wide,
   hheader_wide_regulated,
