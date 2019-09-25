@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Slide from "@material-ui/core/Slide";
 import { styles, LinkTab } from "./Common";
@@ -31,9 +30,9 @@ export const MainAppBar = React.forwardRef((props, ref) => (
       scrollButtons="auto"
       onChange={props.onChange}
     >
-      <Tab label="順位表" />
-      <Tab label="野手成績" />
-      <Tab label="投手成績" />
+      <LinkTab label="順位表" href="/records" />
+      <LinkTab label="野手成績" href="/records/hitter" />
+      <LinkTab label="投手成績" href="/records/pitcher" />
       <LinkTab label="BLOG" href="/" />
     </Tabs>
   </AppBar>
@@ -55,9 +54,9 @@ const LeagueAppBarWithoutStyles = React.forwardRef((props, ref) => (
       scrollButtons="auto"
       onChange={props.onChange}
     >
-      <Tab label="ALL" />
-      <Tab label="セリーグ" />
-      <Tab label="パリーグ" />
+      <LinkTab label="ALL" />
+      <LinkTab label="セリーグ" />
+      <LinkTab label="パリーグ" />
     </Tabs>
   </AppBar>
 ));
@@ -81,8 +80,8 @@ const OrderAppBarWithoutStyles = React.forwardRef((props, ref) => (
       scrollButtons="auto"
       onChange={props.onChange}
     >
-      <Tab label="順位表" />
-      <Tab label="パークファクター" />
+      <LinkTab label="順位表" href="/records" />
+      <LinkTab label="パークファクター" href="/records/parkfactor" />
     </Tabs>
   </AppBar>
 ));
