@@ -54,9 +54,9 @@ const LeagueAppBarWithoutStyles = React.forwardRef((props, ref) => (
       scrollButtons="auto"
       onChange={props.onChange}
     >
-      <LinkTab label="ALL" />
-      <LinkTab label="セリーグ" />
-      <LinkTab label="パリーグ" />
+      <LinkTab label="ALL" href="/records/hitter" />
+      <LinkTab label="セリーグ" href="/records/hitter/central" />
+      <LinkTab label="パリーグ" href="/records/hitter/pacific" />
     </Tabs>
   </AppBar>
 ));
