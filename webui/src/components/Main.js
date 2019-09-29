@@ -78,51 +78,44 @@ import {
   middle_ad4
 } from "./Ad";
 
-const ORDER_VALUE = 0;
-const HITTER_VALUE = 1;
-const PITCHER_VALUE = 2;
-
-const ORDER = 0;
-const PARKFACTOR = 1;
-
 const Order = (props) => (
   <div>
     <HideOnScroll {...this.props} direction="down">
       <VisibleOrderAppBar
-        selected={props.order_selected}
+        selected={props.pageState.order_selected}
       />
     </HideOnScroll>
     {top_ad(props.classes)}
-    <Route exact path='/records' component={TeamOrder} />
-    <Route path='/records/parkfactor' component={ParkFactorOrder} />
+    <Route exact path='/records' render={props => <TeamOrder props={props} />} />
+    <Route path='/records/parkfactor' render={props => <ParkFactorOrder props={props} />} />
   </div>
 )
 
 const HitterOrder = (props) => (
   <div>
     <HideOnScroll {...this.props} direction="down">
-      <VisibleOrderAppBar
-        selected={order_selected}
+      <VisibleLeagueAppBar
+        selected={props.pageState.order_selected}
       />
     </HideOnScroll>
     {top_ad(props.classes)}
-    <Route exact path='/records/hitter' render={props => <HitterLeagueOrder league={props.league} />} />
-    <Route path='/records/hitter/central' render={props => <HitterLeagueOrder league={props.league} />} />
-    <Route path='/records/hitter/pacific' render={props => <HitterLeagueOrder league={props.league} />} />
+    <Route exact path='/records/hitter' render={props => <HitterLeagueOrder props={props} />} />
+    <Route path='/records/hitter/central' render={props => <HitterLeagueOrder props={props} />} />
+    <Route path='/records/hitter/pacific' render={props => <HitterLeagueOrder props={props} />} />
   </div>
 )
 
 const PitcherOrder = (props) => (
   <div>
     <HideOnScroll {...this.props} direction="down">
-      <VisibleOrderAppBar
-        selected={order_selected}
+      <VisibleLeagueAppBar
+        selected={props.pageState.order_selected}
       />
     </HideOnScroll>
     {top_ad(props.classes)}
-    <Route exact path='/records/pitcher' render={props => <PitcherLeagueOrder league={props.league} />} />
-    <Route path='/records/pitcher/central' render={props => <PitcherLeagueOrder league={props.league} />} />
-    <Route path='/records/pitcher/pacific' render={props => <PitcherLeagueOrder league={props.league} />} />
+    <Route exact path='/records/pitcher' render={props => <PitcherLeagueOrder props={props} />} />
+    <Route path='/records/pitcher/central' render={props => <PitcherLeagueOrder props={props} />} />
+    <Route path='/records/pitcher/pacific' render={props => <PitcherLeagueOrder props={props} />} />
   </div>
 )
 
@@ -136,7 +129,7 @@ const TeamOrder = (props) => (
           className={props.des}
         >
           <Toolbar variant="dense">
-            <Typography variant="h6" className={classes.des2}>
+            <Typography variant="h6" className={props.classes.des2}>
               セリーグ順位表
             </Typography>
           </Toolbar>
@@ -154,10 +147,10 @@ const TeamOrder = (props) => (
         <AppBar
           position="static"
           color="default"
-          className={classes.des}
+          className={props.classes.des}
         >
           <Toolbar variant="dense">
-            <Typography variant="h6" className={classes.des2}>
+            <Typography variant="h6" className={props.classes.des2}>
               パリーグ順位表
             </Typography>
           </Toolbar>
@@ -171,15 +164,15 @@ const TeamOrder = (props) => (
           league="Pacific"
         />
       </div>
-      {middle_ad1(classes)}
+      {middle_ad1(props.classes)}
       <div>
         <AppBar
           position="static"
           color="default"
-          className={classes.des}
+          className={props.classes.des}
         >
           <Toolbar variant="dense">
-            <Typography variant="h6" className={classes.des2}>
+            <Typography variant="h6" className={props.classes.des2}>
               セリーグ野手成績
             </Typography>
           </Toolbar>
@@ -197,10 +190,10 @@ const TeamOrder = (props) => (
         <AppBar
           position="static"
           color="default"
-          className={classes.des}
+          className={props.classes.des}
         >
           <Toolbar variant="dense">
-            <Typography variant="h6" className={classes.des2}>
+            <Typography variant="h6" className={props.classes.des2}>
               パリーグ野手成績
             </Typography>
           </Toolbar>
@@ -214,15 +207,15 @@ const TeamOrder = (props) => (
           league="Pacific"
         />
       </div>
-      {middle_ad4(classes)}
+      {middle_ad4(props.classes)}
       <div>
         <AppBar
           position="static"
           color="default"
-          className={classes.des}
+          className={props.classes.des}
         >
           <Toolbar variant="dense">
-            <Typography variant="h6" className={classes.des2}>
+            <Typography variant="h6" className={props.classes.des2}>
               セリーグ投手成績
             </Typography>
           </Toolbar>
@@ -240,10 +233,10 @@ const TeamOrder = (props) => (
         <AppBar
           position="static"
           color="default"
-          className={classes.des}
+          className={props.classes.des}
         >
           <Toolbar variant="dense">
-            <Typography variant="h6" className={classes.des2}>
+            <Typography variant="h6" className={props.classes.des2}>
               パリーグ投手成績
             </Typography>
           </Toolbar>
@@ -268,10 +261,10 @@ const ParkFactorOrder = (props) => (
         <AppBar
           position="static"
           color="default"
-          className={classes.des}
+          className={props.classes.des}
         >
           <Toolbar variant="dense">
-            <Typography variant="h6" className={classes.des2}>
+            <Typography variant="h6" className={props.classes.des2}>
               パークファクター(2019)　※参考値
             </Typography>
           </Toolbar>
@@ -285,15 +278,15 @@ const ParkFactorOrder = (props) => (
           league=""
         />
       </div>
-      {middle_ad1(classes)}
+      {middle_ad1(props.classes)}
       <div>
         <AppBar
           position="static"
           color="default"
-          className={classes.des}
+          className={props.classes.des}
         >
           <Toolbar variant="dense">
-            <Typography variant="h6" className={classes.des2}>
+            <Typography variant="h6" className={props.classes.des2}>
               パークファクター(2016以降)　※参考値
             </Typography>
           </Toolbar>
@@ -313,20 +306,20 @@ const ParkFactorOrder = (props) => (
 
 const HitterLeagueOrder = (props) => (
   <div>
-    <div className={classes.fab}>
+    <div className={props.classes.fab}>
       <HideOnScroll {...this.props} direction="up">
         <VisibleSearch />
       </HideOnScroll>
     </div>
-    {top_ad(classes)}
+    {top_ad(props.classes)}
     <div>
       <AppBar
         position="static"
         color="default"
-        className={classes.des}
+        className={props.classes.des}
       >
         <Toolbar variant="dense">
-          <Typography variant="h6" className={classes.des2}>
+          <Typography variant="h6" className={props.classes.des2}>
             野手総合指標
           </Typography>
         </Toolbar>
@@ -336,18 +329,18 @@ const HitterLeagueOrder = (props) => (
         default_orderBy="wRC+"
         head={hitters_sabr_header}
         data={hitters_sabr_body}
-        league={league}
-        main_state={pageState}
+        league={props.pageState.league}
+        main_state={props.pageState}
       />
     </div>
     <div>
       <AppBar
         position="static"
         color="default"
-        className={classes.des}
+        className={props.classes.des}
       >
         <Toolbar variant="dense">
-          <Typography variant="h6" className={classes.des2}>
+          <Typography variant="h6" className={props.classes.des2}>
             野手タイトル
           </Typography>
         </Toolbar>
@@ -357,19 +350,19 @@ const HitterLeagueOrder = (props) => (
         default_orderBy="打率"
         head={hitters_header}
         data={hitters_body}
-        league={league}
-        main_state={pageState}
+        league={props.pageState.league}
+        main_state={props.pageState}
       />
     </div>
-    {middle_ad2(classes)}
+    {middle_ad2(props.classes)}
     <div>
       <AppBar
         position="static"
         color="default"
-        className={classes.des}
+        className={props.classes.des}
       >
         <Toolbar variant="dense">
-          <Typography variant="h6" className={classes.des2}>
+          <Typography variant="h6" className={props.classes.des2}>
             打撃力総合１
           </Typography>
         </Toolbar>
@@ -379,18 +372,18 @@ const HitterLeagueOrder = (props) => (
         default_orderBy="出塁率"
         head={hitters_header_ops}
         data={hitters_body_ops}
-        league={league}
-        main_state={pageState}
+        league={props.pageState.league}
+        main_state={props.pageState}
       />
     </div>
     <div>
       <AppBar
         position="static"
         color="default"
-        className={classes.des}
+        className={props.classes.des}
       >
         <Toolbar variant="dense">
-          <Typography variant="h6" className={classes.des2}>
+          <Typography variant="h6" className={props.classes.des2}>
             打撃力総合２
           </Typography>
         </Toolbar>
@@ -400,19 +393,19 @@ const HitterLeagueOrder = (props) => (
         default_orderBy="wOBA"
         head={hitters_header_woba}
         data={hitters_body_woba}
-        league={league}
-        main_state={pageState}
+        league={props.pageState.league}
+        main_state={props.pageState}
       />
     </div>
-    {middle_ad1(classes)}
+    {middle_ad1(props.classes)}
     <div>
       <AppBar
         position="static"
         color="default"
-        className={classes.des}
+        className={props.classes.des}
       >
         <Toolbar variant="dense">
-          <Typography variant="h6" className={classes.des2}>
+          <Typography variant="h6" className={props.classes.des2}>
             攻撃力総合
           </Typography>
         </Toolbar>
@@ -422,18 +415,18 @@ const HitterLeagueOrder = (props) => (
         default_orderBy="XR"
         head={hitters_header_xr}
         data={hitters_body_xr}
-        league={league}
-        main_state={pageState}
+        league={props.pageState.league}
+        main_state={props.pageState}
       />
     </div>
     <div>
       <AppBar
         position="static"
         color="default"
-        className={classes.des}
+        className={props.classes.des}
       >
         <Toolbar variant="dense">
-          <Typography variant="h6" className={classes.des2}>
+          <Typography variant="h6" className={props.classes.des2}>
             ミート
           </Typography>
         </Toolbar>
@@ -443,19 +436,19 @@ const HitterLeagueOrder = (props) => (
         default_orderBy="K%"
         head={hitters_header_contact}
         data={hitters_body_contact}
-        league={league}
-        main_state={pageState}
+        league={props.pageState.league}
+        main_state={props.pageState}
       />
     </div>
-    {middle_ad4(classes)}
+    {middle_ad4(props.classes)}
     <div>
       <AppBar
         position="static"
         color="default"
-        className={classes.des}
+        className={props.classes.des}
       >
         <Toolbar variant="dense">
-          <Typography variant="h6" className={classes.des2}>
+          <Typography variant="h6" className={props.classes.des2}>
             パワー
           </Typography>
         </Toolbar>
@@ -465,18 +458,18 @@ const HitterLeagueOrder = (props) => (
         default_orderBy="IsoP"
         head={hitters_header_power}
         data={hitters_body_power}
-        league={league}
-        main_state={pageState}
+        league={props.pageState.league}
+        main_state={props.pageState}
       />
     </div>
     <div>
       <AppBar
         position="static"
         color="default"
-        className={classes.des}
+        className={props.classes.des}
       >
         <Toolbar variant="dense">
-          <Typography variant="h6" className={classes.des2}>
+          <Typography variant="h6" className={props.classes.des2}>
             選球眼
           </Typography>
         </Toolbar>
@@ -486,19 +479,19 @@ const HitterLeagueOrder = (props) => (
         default_orderBy="BB%"
         head={hitters_header_eye}
         data={hitters_body_eye}
-        league={league}
-        main_state={pageState}
+        league={props.pageState.league}
+        main_state={props.pageState}
       />
     </div>
-    {middle_ad2(classes)}
+    {middle_ad2(props.classes)}
     <div>
       <AppBar
         position="static"
         color="default"
-        className={classes.des}
+        className={props.classes.des}
       >
         <Toolbar variant="dense">
-          <Typography variant="h6" className={classes.des2}>
+          <Typography variant="h6" className={props.classes.des2}>
             走力
           </Typography>
         </Toolbar>
@@ -508,18 +501,18 @@ const HitterLeagueOrder = (props) => (
         default_orderBy="wSB"
         head={hitters_header_steal}
         data={hitters_body_steal}
-        league={league}
-        main_state={pageState}
+        league={props.pageState.league}
+        main_state={props.pageState}
       />
     </div>
     <div>
       <AppBar
         position="static"
         color="default"
-        className={classes.des}
+        className={props.classes.des}
       >
         <Toolbar variant="dense">
-          <Typography variant="h6" className={classes.des2}>
+          <Typography variant="h6" className={props.classes.des2}>
             チャンス
           </Typography>
         </Toolbar>
@@ -529,19 +522,19 @@ const HitterLeagueOrder = (props) => (
         default_orderBy="圏打率"
         head={hitters_header_clutch}
         data={hitters_body_clutch}
-        league={league}
-        main_state={pageState}
+        league={props.pageState.league}
+        main_state={props.pageState}
       />
     </div>
-    {middle_ad3(classes)}
+    {middle_ad3(props.classes)}
     <div>
       <AppBar
         position="static"
         color="default"
-        className={classes.des}
+        className={props.classes.des}
       >
         <Toolbar variant="dense">
-          <Typography variant="h6" className={classes.des2}>
+          <Typography variant="h6" className={props.classes.des2}>
             その他
           </Typography>
         </Toolbar>
@@ -551,8 +544,8 @@ const HitterLeagueOrder = (props) => (
         default_orderBy="BABIP"
         head={hitters_header_oth}
         data={hitters_body_oth}
-        league={league}
-        main_state={pageState}
+        league={props.pageState.league}
+        main_state={props.pageState}
       />
     </div>
   </div>
@@ -560,20 +553,20 @@ const HitterLeagueOrder = (props) => (
 
 const PitcherLeagueOrder = (props) => (
   <div>
-    <div className={classes.fab}>
+    <div className={props.classes.fab}>
       <HideOnScroll {...this.props} direction="up">
         <VisibleSearch />
       </HideOnScroll>
     </div>
-    {top_ad(classes)}
+    {top_ad(props.classes)}
     <div>
       <AppBar
         position="static"
         color="default"
-        className={classes.des}
+        className={props.classes.des}
       >
         <Toolbar variant="dense">
-          <Typography variant="h6" className={classes.des2}>
+          <Typography variant="h6" className={props.classes.des2}>
             先発投手総合指標
           </Typography>
         </Toolbar>
@@ -583,18 +576,18 @@ const PitcherLeagueOrder = (props) => (
         default_orderBy="防御率"
         head={pitchers_sabr_header}
         data={pitchers_sabr_body}
-        league={league}
-        main_state={pageState}
+        league={props.pageState.league}
+        main_state={props.pageState}
       />
     </div>
     <div>
       <AppBar
         position="static"
         color="default"
-        className={classes.des}
+        className={props.classes.des}
       >
         <Toolbar variant="dense">
-          <Typography variant="h6" className={classes.des2}>
+          <Typography variant="h6" className={props.classes.des2}>
             先発投手（投手タイトル関連）
           </Typography>
         </Toolbar>
@@ -604,19 +597,19 @@ const PitcherLeagueOrder = (props) => (
         default_orderBy="投球回"
         head={pitchers_header}
         data={pitchers_body}
-        league={league}
-        main_state={pageState}
+        league={props.pageState.league}
+        main_state={props.pageState}
       />
     </div>
-    {middle_ad1(classes)}
+    {middle_ad1(props.classes)}
     <div>
       <AppBar
         position="static"
         color="default"
-        className={classes.des}
+        className={props.classes.des}
       >
         <Toolbar variant="dense">
-          <Typography variant="h6" className={classes.des2}>
+          <Typography variant="h6" className={props.classes.des2}>
             先発投手（三振・四球・本塁打）
           </Typography>
         </Toolbar>
@@ -626,18 +619,18 @@ const PitcherLeagueOrder = (props) => (
         default_orderBy="K-BB%"
         head={pitchers_header_kbb}
         data={pitchers_body_kbb}
-        league={league}
-        main_state={pageState}
+        league={props.pageState.league}
+        main_state={props.pageState}
       />
     </div>
     <div>
       <AppBar
         position="static"
         color="default"
-        className={classes.des}
+        className={props.classes.des}
       >
         <Toolbar variant="dense">
-          <Typography variant="h6" className={classes.des2}>
+          <Typography variant="h6" className={props.classes.des2}>
             先発投手（被出塁）
           </Typography>
         </Toolbar>
@@ -647,19 +640,19 @@ const PitcherLeagueOrder = (props) => (
         default_orderBy="WHIP"
         head={pitchers_header_whip}
         data={pitchers_body_whip}
-        league={league}
-        main_state={pageState}
+        league={props.pageState.league}
+        main_state={props.pageState}
       />
     </div>
-    {middle_ad2(classes)}
+    {middle_ad2(props.classes)}
     <div>
       <AppBar
         position="static"
         color="default"
-        className={classes.des}
+        className={props.classes.des}
       >
         <Toolbar variant="dense">
-          <Typography variant="h6" className={classes.des2}>
+          <Typography variant="h6" className={props.classes.des2}>
             先発投手（ＱＳ・完投）
           </Typography>
         </Toolbar>
@@ -669,19 +662,19 @@ const PitcherLeagueOrder = (props) => (
         default_orderBy="QS率"
         head={pitchers_header_qs}
         data={pitchers_body_qs}
-        league={league}
-        main_state={pageState}
+        league={props.pageState.league}
+        main_state={props.pageState}
       />
     </div>
-    {middle_ad4(classes)}
+    {middle_ad4(props.classes)}
     <div>
       <AppBar
         position="static"
         color="default"
-        className={classes.des}
+        className={props.classes.des}
       >
         <Toolbar variant="dense">
-          <Typography color="inherit" className={classes.des2}>
+          <Typography color="inherit" className={props.classes.des2}>
             抑え投手
           </Typography>
         </Toolbar>
@@ -691,18 +684,18 @@ const PitcherLeagueOrder = (props) => (
         default_orderBy="セーブ"
         head={pitchers_header_closer}
         data={pitchers_body_closer}
-        league={league}
-        main_state={pageState}
+        league={props.pageState.league}
+        main_state={props.pageState}
       />
     </div>
     <div>
       <AppBar
         position="static"
         color="default"
-        className={classes.des}
+        className={props.classes.des}
       >
         <Toolbar variant="dense">
-          <Typography variant="h6" className={classes.des2}>
+          <Typography variant="h6" className={props.classes.des2}>
             中継ぎ投手
           </Typography>
         </Toolbar>
@@ -712,19 +705,19 @@ const PitcherLeagueOrder = (props) => (
         default_orderBy="HP"
         head={pitchers_header_relief}
         data={pitchers_body_relief}
-        league={league}
-        main_state={pageState}
+        league={props.pageState.league}
+        main_state={props.pageState}
       />
     </div>
-    {middle_ad3(classes)}
+    {middle_ad3(props.classes)}
     <div>
       <AppBar
         position="static"
         color="default"
-        className={classes.des}
+        className={props.classes.des}
       >
         <Toolbar variant="dense">
-          <Typography variant="h6" className={classes.des2}>
+          <Typography variant="h6" className={props.classes.des2}>
             その他
           </Typography>
         </Toolbar>
@@ -734,8 +727,8 @@ const PitcherLeagueOrder = (props) => (
         default_orderBy="小松式ドネーション"
         head={pitchers_header_oth}
         data={pitchers_body_oth}
-        league={league}
-        main_state={pageState}
+        league={props.pageState.league}
+        main_state={props.pageState}
       />
     </div>
   </div>
@@ -744,7 +737,7 @@ const PitcherLeagueOrder = (props) => (
 class MainPage extends React.Component {
   render() {
     const { classes, pageState } = this.props;
-    const { selected, league_selected, league, order_selected } = pageState;
+    const selected = pageState;
     return (
       <MuiThemeProvider theme={theme}>
         <div className={classes.root}>
@@ -755,9 +748,9 @@ class MainPage extends React.Component {
           </div>
           <BrowserRouter>
             <div>
-              <Route exact path='/records' component={Order} />
-              <Route path='/records/hitter' component={HitterOrder} />
-              <Route path='/records/pitcher' component={PitcherOrder} />
+              <Route exact path='/records' render={props => <Order props={props} />} />
+              <Route path='/records/hitter' render={props => <HitterOrder props={props} />} />
+              <Route path='/records/pitcher' render={props => <PitcherOrder props={props} />} />
             </div>
           </BrowserRouter>
           {middle_ad2(classes)}
