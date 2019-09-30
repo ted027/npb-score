@@ -91,6 +91,16 @@ const Order = (props) => (
   </div>
 )
 
+Order.propTypes = {
+  classes: PropTypes.object.isRequired,
+  pageState: PropTypes.shape({
+    selected: PropTypes.number.isRequired,
+    order_selected: PropTypes.number.isRequired,
+    league_selected: PropTypes.number.isRequired,
+    league: PropTypes.string.isRequired
+  }).isRequired
+};
+
 const HitterOrder = (props) => (
   <div>
     <HideOnScroll {...this.props} direction="down">
@@ -105,6 +115,16 @@ const HitterOrder = (props) => (
   </div>
 )
 
+HitterOrder.propTypes = {
+  classes: PropTypes.object.isRequired,
+  pageState: PropTypes.shape({
+    selected: PropTypes.number.isRequired,
+    order_selected: PropTypes.number.isRequired,
+    league_selected: PropTypes.number.isRequired,
+    league: PropTypes.string.isRequired
+  }).isRequired
+};
+
 const PitcherOrder = (props) => (
   <div>
     <HideOnScroll {...this.props} direction="down">
@@ -118,6 +138,16 @@ const PitcherOrder = (props) => (
     <Route path='/records/pitcher/pacific' render={props => <PitcherLeagueOrder props={props} />} />
   </div>
 )
+
+PitcherOrder.propTypes = {
+  classes: PropTypes.object.isRequired,
+  pageState: PropTypes.shape({
+    selected: PropTypes.number.isRequired,
+    order_selected: PropTypes.number.isRequired,
+    league_selected: PropTypes.number.isRequired,
+    league: PropTypes.string.isRequired
+  }).isRequired
+};
 
 const TeamOrder = (props) => (
   <div>
@@ -254,6 +284,16 @@ const TeamOrder = (props) => (
   </div>
 )
 
+TeamOrder.propTypes = {
+  classes: PropTypes.object.isRequired,
+  pageState: PropTypes.shape({
+    selected: PropTypes.number.isRequired,
+    order_selected: PropTypes.number.isRequired,
+    league_selected: PropTypes.number.isRequired,
+    league: PropTypes.string.isRequired
+  }).isRequired
+};
+
 const ParkFactorOrder = (props) => (
   <div>
     <div>
@@ -303,6 +343,16 @@ const ParkFactorOrder = (props) => (
     </div>
   </div>
 )
+
+ParkFactorOrder.propTypes = {
+  classes: PropTypes.object.isRequired,
+  pageState: PropTypes.shape({
+    selected: PropTypes.number.isRequired,
+    order_selected: PropTypes.number.isRequired,
+    league_selected: PropTypes.number.isRequired,
+    league: PropTypes.string.isRequired
+  }).isRequired
+};
 
 const HitterLeagueOrder = (props) => (
   <div>
@@ -551,6 +601,18 @@ const HitterLeagueOrder = (props) => (
   </div>
 )
 
+HitterLeagueOrder.propTypes = {
+  classes: PropTypes.object.isRequired,
+  pageState: PropTypes.shape({
+    selected: PropTypes.number.isRequired,
+    order_selected: PropTypes.number.isRequired,
+    league_selected: PropTypes.number.isRequired,
+    league: PropTypes.string.isRequired,
+    searchTeam: PropTypes.string,
+    searchName: PropTypes.string
+  }).isRequired
+};
+
 const PitcherLeagueOrder = (props) => (
   <div>
     <div className={props.classes.fab}>
@@ -733,6 +795,18 @@ const PitcherLeagueOrder = (props) => (
     </div>
   </div>
 )
+
+PitcherLeagueOrder.propTypes = {
+  classes: PropTypes.object.isRequired,
+  pageState: PropTypes.shape({
+    selected: PropTypes.number.isRequired,
+    order_selected: PropTypes.number.isRequired,
+    league_selected: PropTypes.number.isRequired,
+    league: PropTypes.string.isRequired,
+    searchTeam: PropTypes.string,
+    searchName: PropTypes.string
+  }).isRequired
+};
 
 class MainPage extends React.Component {
   render() {
