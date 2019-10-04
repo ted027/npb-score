@@ -86,8 +86,8 @@ const Order = (props) => (
       />
     </HideOnScroll>
     {top_ad(props.classes)}
-    <Route exact path='/records' render={props => <TeamOrder props={props} />} />
-    <Route path='/records/parkfactor' render={props => <ParkFactorOrder props={props} />} />
+    <Route exact path='/records' render={props => <TeamOrder props={this.props} />} />
+    <Route path='/records/parkfactor' render={props => <ParkFactorOrder props={this.props} />} />
   </div>
 )
 
@@ -103,15 +103,15 @@ Order.propTypes = {
 
 const HitterOrder = (props) => (
   <div>
-    <HideOnScroll {...this.props} direction="down">
+    {/* <HideOnScroll {...this.props} direction="down">
       <VisibleLeagueAppBar
         selected={props.pageState.order_selected}
       />
-    </HideOnScroll>
+    </HideOnScroll> */}
     {top_ad(props.classes)}
-    <Route exact path='/records/hitter' render={props => <HitterLeagueOrder props={props} />} />
-    <Route path='/records/hitter/central' render={props => <HitterLeagueOrder props={props} />} />
-    <Route path='/records/hitter/pacific' render={props => <HitterLeagueOrder props={props} />} />
+    <Route exact path='/records/hitter' render={props => <HitterLeagueOrder props={this.props} />} />
+    <Route path='/records/hitter/central' render={props => <HitterLeagueOrder props={this.props} />} />
+    <Route path='/records/hitter/pacific' render={props => <HitterLeagueOrder props={this.props} />} />
   </div>
 )
 
@@ -127,15 +127,15 @@ HitterOrder.propTypes = {
 
 const PitcherOrder = (props) => (
   <div>
-    <HideOnScroll {...this.props} direction="down">
+    {/* <HideOnScroll {...this.props} direction="down">
       <VisibleLeagueAppBar
         selected={props.pageState.order_selected}
       />
-    </HideOnScroll>
+    </HideOnScroll> */}
     {top_ad(props.classes)}
-    <Route exact path='/records/pitcher' render={props => <PitcherLeagueOrder props={props} />} />
-    <Route path='/records/pitcher/central' render={props => <PitcherLeagueOrder props={props} />} />
-    <Route path='/records/pitcher/pacific' render={props => <PitcherLeagueOrder props={props} />} />
+    <Route exact path='/records/pitcher' render={props => <PitcherLeagueOrder props={this.props} />} />
+    <Route path='/records/pitcher/central' render={props => <PitcherLeagueOrder props={this.props} />} />
+    <Route path='/records/pitcher/pacific' render={props => <PitcherLeagueOrder props={this.props} />} />
   </div>
 )
 
@@ -357,9 +357,9 @@ ParkFactorOrder.propTypes = {
 const HitterLeagueOrder = (props) => (
   <div>
     <div className={props.classes.fab}>
-      <HideOnScroll {...this.props} direction="up">
+      {/* <HideOnScroll {...this.props} direction="up">
         <VisibleSearch />
-      </HideOnScroll>
+      </HideOnScroll> */}
     </div>
     {top_ad(props.classes)}
     <div>
@@ -616,9 +616,9 @@ HitterLeagueOrder.propTypes = {
 const PitcherLeagueOrder = (props) => (
   <div>
     <div className={props.classes.fab}>
-      <HideOnScroll {...this.props} direction="up">
+      {/* <HideOnScroll {...this.props} direction="up">
         <VisibleSearch />
-      </HideOnScroll>
+      </HideOnScroll> */}
     </div>
     {top_ad(props.classes)}
     <div>
@@ -822,9 +822,9 @@ class MainPage extends React.Component {
           </div>
           <BrowserRouter>
             <div>
-              <Route exact path='/records' render={props => <Order props={props} />} />
-              <Route path='/records/hitter' render={props => <HitterOrder props={props} />} />
-              <Route path='/records/pitcher' render={props => <PitcherOrder props={props} />} />
+              <Route exact path='/records' render={props => <Order props={this.props} />} />
+              <Route path='/records/hitter' render={props => <HitterOrder props={this.props} />} />
+              <Route path='/records/pitcher' render={props => <PitcherOrder props={this.props} />} />
             </div>
           </BrowserRouter>
           {middle_ad2(classes)}
