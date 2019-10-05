@@ -80,38 +80,28 @@ import {
 
 const Order = (props) => (
   <div>
-    <HideOnScroll {...this.props} direction="down">
+    <HideOnScroll {...props} direction="down">
       <VisibleOrderAppBar
         selected={props.pageState.order_selected}
       />
     </HideOnScroll>
     {top_ad(props.classes)}
-    <Route exact path='/records' render={props => <TeamOrder props={this.props} />} />
-    <Route path='/records/parkfactor' render={props => <ParkFactorOrder props={this.props} />} />
+    <Route exact path='/records' render={()=> {TeamOrder(props)}} />
+    <Route path='/records/parkfactor' render={()=> {ParkFactorOrder(props)}} />
   </div>
 )
 
-Order.propTypes = {
-  classes: PropTypes.object.isRequired,
-  pageState: PropTypes.shape({
-    selected: PropTypes.number.isRequired,
-    order_selected: PropTypes.number.isRequired,
-    league_selected: PropTypes.number.isRequired,
-    league: PropTypes.string.isRequired
-  }).isRequired
-};
-
 const HitterOrder = (props) => (
   <div>
-    {/* <HideOnScroll {...this.props} direction="down">
+    <HideOnScroll {...props} direction="down">
       <VisibleLeagueAppBar
         selected={props.pageState.order_selected}
       />
-    </HideOnScroll> */}
+    </HideOnScroll>
     {top_ad(props.classes)}
-    <Route exact path='/records/hitter' render={props => <HitterLeagueOrder props={this.props} />} />
-    <Route path='/records/hitter/central' render={props => <HitterLeagueOrder props={this.props} />} />
-    <Route path='/records/hitter/pacific' render={props => <HitterLeagueOrder props={this.props} />} />
+    <Route exact path='/records/hitter' render={() => {HitterLeagueOrder(props)}} />
+    <Route path='/records/hitter/central' render={() => {HitterLeagueOrder(props)}} />
+    <Route path='/records/hitter/pacific' render={() => {HitterLeagueOrder(props)}} />
   </div>
 )
 
@@ -127,15 +117,15 @@ HitterOrder.propTypes = {
 
 const PitcherOrder = (props) => (
   <div>
-    {/* <HideOnScroll {...this.props} direction="down">
+    <HideOnScroll {...props} direction="down">
       <VisibleLeagueAppBar
         selected={props.pageState.order_selected}
       />
-    </HideOnScroll> */}
+    </HideOnScroll>
     {top_ad(props.classes)}
-    <Route exact path='/records/pitcher' render={props => <PitcherLeagueOrder props={this.props} />} />
-    <Route path='/records/pitcher/central' render={props => <PitcherLeagueOrder props={this.props} />} />
-    <Route path='/records/pitcher/pacific' render={props => <PitcherLeagueOrder props={this.props} />} />
+    <Route exact path='/records/pitcher' render={() => {PitcherLeagueOrder(props)}} />
+    <Route path='/records/pitcher/central' render={() => {PitcherLeagueOrder(props)}} />
+    <Route path='/records/pitcher/pacific' render={() => {PitcherLeagueOrder(props)}} />
   </div>
 )
 
@@ -152,134 +142,132 @@ PitcherOrder.propTypes = {
 const TeamOrder = (props) => (
   <div>
     <div>
-      <div>
-        <AppBar
-          position="static"
-          color="default"
-          className={props.des}
-        >
-          <Toolbar variant="dense">
-            <Typography variant="h6" className={props.classes.des2}>
-              セリーグ順位表
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <CommonTable
-          default_order="desc"
-          default_orderBy="勝率"
-          head={teams_header}
-          data={teams_body}
-          row_length={teams_body.length}
-          league="Central"
-        />
-      </div>
-      <div>
-        <AppBar
-          position="static"
-          color="default"
-          className={props.classes.des}
-        >
-          <Toolbar variant="dense">
-            <Typography variant="h6" className={props.classes.des2}>
-              パリーグ順位表
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <CommonTable
-          default_order="desc"
-          default_orderBy="勝率"
-          head={teams_header}
-          data={teams_body}
-          row_length={teams_body.length}
-          league="Pacific"
-        />
-      </div>
-      {middle_ad1(props.classes)}
-      <div>
-        <AppBar
-          position="static"
-          color="default"
-          className={props.classes.des}
-        >
-          <Toolbar variant="dense">
-            <Typography variant="h6" className={props.classes.des2}>
-              セリーグ野手成績
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <CommonTable
-          default_order="desc"
-          default_orderBy="得点"
-          head={teams_atk_header}
-          data={teams_atk_body}
-          row_length={teams_body.length}
-          league="Central"
-        />
-      </div>
-      <div>
-        <AppBar
-          position="static"
-          color="default"
-          className={props.classes.des}
-        >
-          <Toolbar variant="dense">
-            <Typography variant="h6" className={props.classes.des2}>
-              パリーグ野手成績
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <CommonTable
-          default_order="desc"
-          default_orderBy="得点"
-          head={teams_atk_header}
-          data={teams_atk_body}
-          row_length={teams_body.length}
-          league="Pacific"
-        />
-      </div>
-      {middle_ad4(props.classes)}
-      <div>
-        <AppBar
-          position="static"
-          color="default"
-          className={props.classes.des}
-        >
-          <Toolbar variant="dense">
-            <Typography variant="h6" className={props.classes.des2}>
-              セリーグ投手成績
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <CommonTable
-          default_order="asc"
-          default_orderBy="失点"
-          head={teams_def_header}
-          data={teams_def_body}
-          row_length={teams_body.length}
-          league="Central"
-        />
-      </div>
-      <div>
-        <AppBar
-          position="static"
-          color="default"
-          className={props.classes.des}
-        >
-          <Toolbar variant="dense">
-            <Typography variant="h6" className={props.classes.des2}>
-              パリーグ投手成績
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        <CommonTable
-          default_order="asc"
-          default_orderBy="失点"
-          head={teams_def_header}
-          data={teams_def_body}
-          row_length={teams_body.length}
-          league="Pacific"
-        />
-      </div>
+      <AppBar
+        position="static"
+        color="default"
+        className={props.des}
+      >
+        <Toolbar variant="dense">
+          <Typography variant="h6" className={props.classes.des2}>
+            セリーグ順位表
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <CommonTable
+        default_order="desc"
+        default_orderBy="勝率"
+        head={teams_header}
+        data={teams_body}
+        row_length={teams_body.length}
+        league="Central"
+      />
+    </div>
+    <div>
+      <AppBar
+        position="static"
+        color="default"
+        className={props.classes.des}
+      >
+        <Toolbar variant="dense">
+          <Typography variant="h6" className={props.classes.des2}>
+            パリーグ順位表
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <CommonTable
+        default_order="desc"
+        default_orderBy="勝率"
+        head={teams_header}
+        data={teams_body}
+        row_length={teams_body.length}
+        league="Pacific"
+      />
+    </div>
+    {middle_ad1(props.classes)}
+    <div>
+      <AppBar
+        position="static"
+        color="default"
+        className={props.classes.des}
+      >
+        <Toolbar variant="dense">
+          <Typography variant="h6" className={props.classes.des2}>
+            セリーグ野手成績
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <CommonTable
+        default_order="desc"
+        default_orderBy="得点"
+        head={teams_atk_header}
+        data={teams_atk_body}
+        row_length={teams_body.length}
+        league="Central"
+      />
+    </div>
+    <div>
+      <AppBar
+        position="static"
+        color="default"
+        className={props.classes.des}
+      >
+        <Toolbar variant="dense">
+          <Typography variant="h6" className={props.classes.des2}>
+            パリーグ野手成績
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <CommonTable
+        default_order="desc"
+        default_orderBy="得点"
+        head={teams_atk_header}
+        data={teams_atk_body}
+        row_length={teams_body.length}
+        league="Pacific"
+      />
+    </div>
+    {middle_ad4(props.classes)}
+    <div>
+      <AppBar
+        position="static"
+        color="default"
+        className={props.classes.des}
+      >
+        <Toolbar variant="dense">
+          <Typography variant="h6" className={props.classes.des2}>
+            セリーグ投手成績
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <CommonTable
+        default_order="asc"
+        default_orderBy="失点"
+        head={teams_def_header}
+        data={teams_def_body}
+        row_length={teams_body.length}
+        league="Central"
+      />
+    </div>
+    <div>
+      <AppBar
+        position="static"
+        color="default"
+        className={props.classes.des}
+      >
+        <Toolbar variant="dense">
+          <Typography variant="h6" className={props.classes.des2}>
+            パリーグ投手成績
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <CommonTable
+        default_order="asc"
+        default_orderBy="失点"
+        head={teams_def_header}
+        data={teams_def_body}
+        row_length={teams_body.length}
+        league="Pacific"
+      />
     </div>
   </div>
 )
@@ -357,9 +345,9 @@ ParkFactorOrder.propTypes = {
 const HitterLeagueOrder = (props) => (
   <div>
     <div className={props.classes.fab}>
-      {/* <HideOnScroll {...this.props} direction="up">
+      <HideOnScroll {...props} direction="up">
         <VisibleSearch />
-      </HideOnScroll> */}
+      </HideOnScroll>
     </div>
     {top_ad(props.classes)}
     <div>
@@ -616,9 +604,9 @@ HitterLeagueOrder.propTypes = {
 const PitcherLeagueOrder = (props) => (
   <div>
     <div className={props.classes.fab}>
-      {/* <HideOnScroll {...this.props} direction="up">
+      <HideOnScroll {...props} direction="up">
         <VisibleSearch />
-      </HideOnScroll> */}
+      </HideOnScroll>
     </div>
     {top_ad(props.classes)}
     <div>
@@ -822,9 +810,9 @@ class MainPage extends React.Component {
           </div>
           <BrowserRouter>
             <div>
-              <Route exact path='/records' render={props => <Order props={this.props} />} />
-              <Route path='/records/hitter' render={props => <HitterOrder props={this.props} />} />
-              <Route path='/records/pitcher' render={props => <PitcherOrder props={this.props} />} />
+              <Route exact path='/records' render={() => {Order(this.props)}} />
+              <Route path='/records/hitter' render={() => {HitterOrder(this.props)}} />
+              <Route path='/records/pitcher' render={() => {PitcherOrder(this.props)}} />
             </div>
           </BrowserRouter>
           {middle_ad2(classes)}
