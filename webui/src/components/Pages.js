@@ -31,9 +31,9 @@ export const MainAppBar = React.forwardRef((props, ref) => (
       scrollButtons="auto"
       onChange={props.onChange}
     >
-      <Tab label="順位表" />
-      <Tab label="野手成績" />
-      <Tab label="投手成績" />
+      <LinkTab label="順位表" href="?category=order" />
+      <LinkTab label="野手成績" href="?category=hitter" />
+      <LinkTab label="投手成績" href="?category=pitcher" />
       <LinkTab label="BLOG" href="/" />
     </Tabs>
   </AppBar>
