@@ -78,7 +78,7 @@ import {
   middle_ad4
 } from "./Ad";
 
-const Order = (props) => (
+const Order = props => (
   <div>
     <HideOnScroll {...props} direction="down">
       <VisibleOrderAppBar
@@ -86,12 +86,12 @@ const Order = (props) => (
       />
     </HideOnScroll>
     {top_ad(props.classes)}
-    <Route exact path='/records' render={()=> {TeamOrder(props)}} />
-    <Route path='/records/parkfactor' render={()=> {ParkFactorOrder(props)}} />
+    <Route exact path='/records' render={() => <TeamOrder classes={props.classes} pageState={props.pageState} />} />
+    <Route path='/records/parkfactor' render={() => <ParkFactorOrder classes={props.classes} pageState={props.pageState} />} />
   </div>
 )
 
-const HitterOrder = (props) => (
+const HitterOrder = props => (
   <div>
     <HideOnScroll {...props} direction="down">
       <VisibleLeagueAppBar
@@ -99,21 +99,11 @@ const HitterOrder = (props) => (
       />
     </HideOnScroll>
     {top_ad(props.classes)}
-    <Route exact path='/records/hitter' render={() => {HitterLeagueOrder(props)}} />
-    <Route path='/records/hitter/central' render={() => {HitterLeagueOrder(props)}} />
-    <Route path='/records/hitter/pacific' render={() => {HitterLeagueOrder(props)}} />
+    <Route exact path='/records/hitter' render={() => <HitterLeagueOrder classes={props.classes} pageState={props.pageState} />} />
+    <Route path='/records/hitter/central' render={() => <HitterLeagueOrder classes={props.classes} pageState={props.pageState} />} />
+    <Route path='/records/hitter/pacific' render={() => <HitterLeagueOrder classes={props.classes} pageState={props.pageState} />} />
   </div>
 )
-
-HitterOrder.propTypes = {
-  classes: PropTypes.object.isRequired,
-  pageState: PropTypes.shape({
-    selected: PropTypes.number.isRequired,
-    order_selected: PropTypes.number.isRequired,
-    league_selected: PropTypes.number.isRequired,
-    league: PropTypes.string.isRequired
-  }).isRequired
-};
 
 const PitcherOrder = (props) => (
   <div>
@@ -271,16 +261,6 @@ const TeamOrder = (props) => (
     </div>
   </div>
 )
-
-TeamOrder.propTypes = {
-  classes: PropTypes.object.isRequired,
-  pageState: PropTypes.shape({
-    selected: PropTypes.number.isRequired,
-    order_selected: PropTypes.number.isRequired,
-    league_selected: PropTypes.number.isRequired,
-    league: PropTypes.string.isRequired
-  }).isRequired
-};
 
 const ParkFactorOrder = (props) => (
   <div>
@@ -810,9 +790,9 @@ class MainPage extends React.Component {
           </div>
           <BrowserRouter>
             <div>
-              <Route exact path='/records' render={() => {Order(this.props)}} />
-              <Route path='/records/hitter' render={() => {HitterOrder(this.props)}} />
-              <Route path='/records/pitcher' render={() => {PitcherOrder(this.props)}} />
+              <Route exact path='/records' render={props => <Order classes={classes} pageState={pageState} />} />
+              <Route path='/records/hitter' render={props => <HitterOrder classes={classes} pageState={pageState} />} />
+              <Route path='/records/pitcher' render={props => <PitcherOrder classes={classes} pageState={pageState} />} />
             </div>
           </BrowserRouter>
           {middle_ad2(classes)}
