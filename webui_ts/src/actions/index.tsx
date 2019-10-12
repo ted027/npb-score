@@ -1,26 +1,25 @@
-const ALL = 0;
+// const ALL = 0;
 const CENTRAL = 1;
 const PACIFIC = 2;
 
-export const changeTab = selected => {
+export const changeTab = (selected: number): {[key: string]: any}  => {
   return {
     type: "CHANGE_TAB",
     selected: selected
   };
 };
 
-export const changeOrderSelected = order_selected => {
+export const changeOrderSelected = (order_selected: number): {[key: string]: any} => {
   return {
     type: "CHANGE_ORDER_SELECTED",
     order_selected: order_selected
   };
 };
 
-export const changeLeague = league_selected => {
-  var league;
-  if (league_selected === ALL) {
-    league = "CentralPacific";
-  } else if (league_selected === CENTRAL) {
+export const changeLeague = (league_selected: number): {[key: string]: any} => {
+  // if (league_selected === ALL)
+  var league: string = "CentralPacific";
+  if (league_selected === CENTRAL) {
     league = "Central";
   } else if (league_selected === PACIFIC) {
     league = "Pacific";
@@ -32,7 +31,7 @@ export const changeLeague = league_selected => {
   };
 };
 
-export const execSearch = (team, name) => {
+export const execSearch = (team: string, name: string): {[key: string]: string} => {
   return {
     type: "EXEC_SEARCH",
     searchTeam: team,
@@ -40,7 +39,7 @@ export const execSearch = (team, name) => {
   };
 };
 
-export const resetSearch = () => {
+export const resetSearch = (): {[key: string]: string} => {
   return {
     type: "RESET_SEARCH",
     searchTeam: "",
@@ -48,7 +47,7 @@ export const resetSearch = () => {
   };
 };
 
-export const handlePopper = event => {
+export const handlePopper = (event: any): {[key: string]: any} => {
   const { currentTarget } = event;
   return {
     type: "HANDLE_POPPER",
