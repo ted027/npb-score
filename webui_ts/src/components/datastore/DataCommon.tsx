@@ -60,11 +60,11 @@ export function createBody(array: {Name: string; Team: string; [key: string]: an
 }
 
 export function createBodyClutch(array: {Name: string; Team: string; [key: string]: any}[], head: string[]) {
-  const body : {[key: string]: string | boolean}[]= [];
+  const body: {[key: string]: string | boolean}[]= [];
   for (var j = 0; j < array.length; j++) {
     if (array[j][head[0]]) {
       var name: string = createNameContent(array[j]["Name"], array[j]["Team"]);
-      const body_player: {[key: string]: any} = { 選手: name };
+      var body_player: {[key: string]: any} = { 選手: name };
       for (var k = 0; k < head.length; k++) {
         body_player[head[k]] = array[j][head[k]];
       }
@@ -83,7 +83,7 @@ export function createData(json: {[key: string]: any}) {
   return row;
 }
 
-export const teamConverter = {
+export const teamConverter: {[key: string]: string} = {
   西武: "埼玉西武ライオンズ",
   ソフトバンク: "福岡ソフトバンクホークス",
   日本ハム: "北海道日本ハムファイターズ",
