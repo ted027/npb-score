@@ -1,4 +1,4 @@
-export function createHeader(array: string[]], regulated, order) {
+export function createHeader(array: string[], regulated: boolean[], order: string[]) {
   const header = [
     {
       id: "選手",
@@ -20,7 +20,7 @@ export function createHeader(array: string[]], regulated, order) {
   return header;
 }
 
-export function createHeaderRelief(array, regulated, order, numeric) {
+export function createHeaderRelief(array: string[], regulated: boolean[], order: string[], numeric: boolean[]) {
   const header = [
     {
       id: "選手",
@@ -42,15 +42,15 @@ export function createHeaderRelief(array, regulated, order, numeric) {
   return header;
 }
 
-function createNameContent(name, team) {
+function createNameContent(name: string, team: string) {
   return name + " (" + team + ")";
 }
 
-export function createBody(array, head) {
-  const body = [];
+export function createBody(array: {Name: string; Team: string; [key: string]: any}[], head: string[]) {
+  const body: {[key: string]: string | boolean}[] = [];
   for (var j = 0; j < array.length; j++) {
-    var name = createNameContent(array[j]["Name"], array[j]["Team"]);
-    const body_player = { 選手: name };
+    var name: string = createNameContent(array[j]["Name"], array[j]["Team"]);
+    var body_player: {[key: string]: any} = { 選手: name };
     for (var k = 0; k < head.length; k++) {
       body_player[head[k]] = array[j][head[k]];
     }
@@ -59,12 +59,12 @@ export function createBody(array, head) {
   return body;
 }
 
-export function createBodyClutch(array, head) {
-  const body = [];
+export function createBodyClutch(array: {Name: string; Team: string; [key: string]: any}[], head: string[]) {
+  const body : {[key: string]: string | boolean}[]= [];
   for (var j = 0; j < array.length; j++) {
     if (array[j][head[0]]) {
-      var name = createNameContent(array[j]["Name"], array[j]["Team"]);
-      const body_player = { 選手: name };
+      var name: string = createNameContent(array[j]["Name"], array[j]["Team"]);
+      const body_player: {[key: string]: any} = { 選手: name };
       for (var k = 0; k < head.length; k++) {
         body_player[head[k]] = array[j][head[k]];
       }
@@ -74,9 +74,9 @@ export function createBodyClutch(array, head) {
   return body;
 }
 
-export function createData(json) {
-  var keys = Object.keys(json);
-  var row = {};
+export function createData(json: {[key: string]: any}) {
+  var keys: string[] = Object.keys(json);
+  var row: {[key: string]: string} = {};
   for (var k = 0; k < keys.length; k++) {
     row[keys[k]] = json[keys[k]];
   }

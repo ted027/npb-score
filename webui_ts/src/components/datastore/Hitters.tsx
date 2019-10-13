@@ -1,18 +1,18 @@
 import hittersj from "../../records/hitters.json";
 import { createHeader, createBody, createBodyClutch } from "./DataCommon";
 
-const hitters = hittersj.Hitter;
+const hitters: {Name: string; Team: string; [key: string]: any}[] = hittersj.Hitter;
 
 //sabr
 const hheader_sabr = ["wRC+", "OPS+", "TAv", "XRWIN", "規定", "League"];
 const hheader_sabr_regulated = [true, true, true, true, false, false];
 const hheader_sabr_order = new Array(hheader_sabr.length).fill("desc");
-export const hitters_sabr_header = createHeader(
+export const hitters_sabr_header: {[key: string]: string | boolean}[] = createHeader(
   hheader_sabr,
   hheader_sabr_regulated,
   hheader_sabr_order
 );
-export const hitters_sabr_body = createBody(hitters, hheader_sabr);
+export const hitters_sabr_body: {[key: string]: string | boolean}[] = createBody(hitters, hheader_sabr);
 
 // award
 const hheader = ["打率", "安打", "本塁打", "打点", "盗塁", "規定", "League"];
