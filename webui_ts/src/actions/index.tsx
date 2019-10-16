@@ -64,14 +64,14 @@ export const handlePopper = (event: React.MouseEvent<SVGSVGElement, MouseEvent>)
 //     }
 // }
 
-export const decideTeamText = (event: any): {[key: string]: string} => {
+export const decideTeamText = (event: any): {[key: string]: any} => {
   return {
     type: "DECIDE_TEAM_TEXT",
     team: event.target.value
   };
 };
 
-export const decideNameText = (event: any): {[key: string]: string} => {
+export const decideNameText = (event: any): {[key: string]: any} => {
   return {
     type: "DECIDE_NAME_TEXT",
     name: event.target.value
