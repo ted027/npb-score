@@ -1,5 +1,5 @@
 import React from "react";
-import mediaQuery from "react-responsive";
+import MediaQuery from "react-responsive";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
 
@@ -14,14 +14,12 @@ export function top_ad(classes: any) {
                     rel="nofollow"
                 >
                     <img
-                        border="0"
                         className={classes.adImg}
                         alt=""
                         src="https://www28.a8.net/svt/bgt?aid=190502911092&wid=001&eno=01&mid=s00000019835001037000&mc=1"
                     />
                 </a>
                 <img
-                    border="0"
                     width="1"
                     height="1"
                     src="https://www12.a8.net/0.gif?a8mat=35F4ZJ+1IRWFM+491Q+669JL"
@@ -35,14 +33,12 @@ export function top_ad(classes: any) {
                     rel="nofollow"
                 >
                     <img
-                        border="0"
                         className={classes.adImgWide}
                         alt=""
                         src="https://www24.a8.net/svt/bgt?aid=190502911092&wid=001&eno=01&mid=s00000019835001046000&mc=1"
                     />
                 </a>
                 <img
-                    border="0"
                     width="1"
                     height="1"
                     src="https://www16.a8.net/0.gif?a8mat=35F4ZJ+1IRWFM+491Q+686ZL"
@@ -54,7 +50,7 @@ export function top_ad(classes: any) {
 }
 
 // skyperfect
-export function middle_ad1(classes) {
+export function middle_ad1(classes: any) {
     return (
         <Typography>
             <a
@@ -63,14 +59,12 @@ export function middle_ad1(classes) {
                 rel="nofollow"
             >
                 <img
-                    border="0"
                     className={classes.adImgWide}
                     alt=""
                     src="https://www28.a8.net/svt/bgt?aid=190503911122&wid=001&eno=01&mid=s00000019447001045000&mc=1"
                 />
             </a>
             <img
-                border="0"
                 width="1"
                 height="1"
                 src="https://www16.a8.net/0.gif?a8mat=35F5RB+20MWKY+461Y+67Z9T"
@@ -81,7 +75,7 @@ export function middle_ad1(classes) {
 }
 
 // dazn
-export function middle_ad4(classes) {
+export function middle_ad4(classes: any) {
     return (
         <Typography>
             <a
@@ -90,14 +84,12 @@ export function middle_ad4(classes) {
                 rel="nofollow"
             >
                 <img
-                    border="0"
                     className={classes.adImgWide}
                     alt=""
                     src="https://www24.a8.net/svt/bgt?aid=190502911092&wid=001&eno=01&mid=s00000019835001046000&mc=1"
                 />
             </a>
             <img
-                border="0"
                 width="1"
                 height="1"
                 src="https://www16.a8.net/0.gif?a8mat=35F4ZJ+1IRWFM+491Q+686ZL"
@@ -107,7 +99,7 @@ export function middle_ad4(classes) {
     );
 }
 
-function middle_ad_game_wide(classes) {
+function middle_ad_game_wide(classes: any) {
     return (
         <Typography className={classes.adTypo}>
             <a
@@ -199,7 +191,7 @@ function middle_ad_game_wide(classes) {
 }
 
 // amazon baseball games1
-function middle_ad_game1(classes) {
+function middle_ad_game1(classes: any) {
     return (
         <Typography className={classes.adTypo}>
             <a
@@ -249,7 +241,7 @@ function middle_ad_game1(classes) {
 }
 
 // amazon baseball games2
-export function middle_ad_game2(classes) {
+export function middle_ad_game2(classes: any) {
     return (
         <Typography className={classes.adTypo}>
             <a
@@ -298,7 +290,7 @@ export function middle_ad_game2(classes) {
     );
 }
 
-export function middle_ad2(classes) {
+export function middle_ad2(classes: any) {
     return (
         <Toolbar>
             <MediaQuery query="(max-width: 767px)">
@@ -311,7 +303,7 @@ export function middle_ad2(classes) {
     );
 }
 
-export function middle_ad3(classes) {
+export function middle_ad3(classes: any) {
     return (
         <Toolbar>
             <MediaQuery query="(max-width: 767px)">
@@ -325,7 +317,7 @@ export function middle_ad3(classes) {
 }
 
 // 5*6 dazn
-export function bottom_ad(classes) {
+export function bottom_ad(classes: any) {
     return (
         <Typography>
             <a
@@ -334,14 +326,12 @@ export function bottom_ad(classes) {
                 rel="nofollow"
             >
                 <img
-                    border="0"
                     className={classes.adImgWide}
                     alt=""
                     src="https://www22.a8.net/svt/bgt?aid=190502911092&wid=001&eno=01&mid=s00000019835001045000&mc=1"
                 />
             </a>
             <img
-                border="0"
                 width="1"
                 height="1"
                 src="https://www14.a8.net/0.gif?a8mat=35F4ZJ+1IRWFM+491Q+67Z9T"

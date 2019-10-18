@@ -2,7 +2,7 @@ import React from "react";
 import Tab from "@material-ui/core/Tab";
 import blue from "@material-ui/core/colors/blue";
 
-export const styles = theme => ({
+export const styles = (theme: {[key: string]: any}) => ({
   root: {
     width: "100%",
     marginTop: theme.spacing(8)
@@ -84,11 +84,11 @@ export const styles = theme => ({
   }
 });
 
-export function LinkTab(props) {
-  return <Tab component="a" onClick={event => {}} {...props} />;
+export function LinkTab(props: {[key: string]: any}) {
+  return <Tab component="a" onClick={(event: any) => {}} {...props} />;
 }
 
-export function getProperty(head, id, property) {
+export function getProperty(head: {[key: string]: any}[], id: string, property: string) {
   for (var item of head) {
     if (item.id === id) {
       return item[property];
@@ -97,7 +97,7 @@ export function getProperty(head, id, property) {
   return false;
 }
 
-export function stableSort(array, cmp) {
+export function stableSort(array: any[], cmp: (a: any, b: any) => number) {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = cmp(a[0], b[0]);
@@ -107,13 +107,13 @@ export function stableSort(array, cmp) {
   return stabilizedThis.map(el => el[0]);
 }
 
-export function getSorting(order, orderBy) {
+export function getSorting(order: string, orderBy: string) {
   return order === "asc"
-    ? (a, b) => a[orderBy] - b[orderBy]
-    : (a, b) => b[orderBy] - a[orderBy];
+    ? (a: any, b: any) => a[orderBy] - b[orderBy]
+    : (a: any, b: any) => b[orderBy] - a[orderBy];
 }
 
-export function judgePageReturn(row_length, jun, page, rowsPerPage) {
+export function judgePageReturn(row_length: number, jun: number, page: number, rowsPerPage: number) {
   if (row_length) {
     return true;
   }
@@ -123,7 +123,7 @@ export function judgePageReturn(row_length, jun, page, rowsPerPage) {
   return false;
 }
 
-export function judgeSearchStr(player, team, name) {
+export function judgeSearchStr(player: string, team: string, name: string) {
   var playerForSearch = player
     .replace(/\s+/g, "")
     .replace(")", "")
@@ -144,7 +144,7 @@ export function judgeSearchStr(player, team, name) {
   return true;
 }
 
-export function enableSearch(main_state) {
+export function enableSearch(main_state: {searchTeam: string; searchName: string; [key: string]: any}) {
   if (!main_state) {
     return false;
   }
@@ -154,7 +154,7 @@ export function enableSearch(main_state) {
   return true;
 }
 
-export function judgeSearch(main_state, player) {
+export function judgeSearch(main_state: {searchTeam: string; searchName: string; [key: string]: any, player: string) {
   if (!enableSearch(main_state)) {
     return false;
   }
