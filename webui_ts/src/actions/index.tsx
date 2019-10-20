@@ -41,7 +41,7 @@ export const execSearch = (team: string, name: string): {[key: string]: string} 
   };
 };
 
-export const resetSearch = (): {[key: string]: string} => {
+export const resetSearch = () => {
   return {
     type: "RESET_SEARCH",
     searchTeam: "",

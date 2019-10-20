@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Popper from "@material-ui/core/Popper";
 import Fade from "@material-ui/core/Fade";
@@ -14,18 +14,45 @@ import Button from "@material-ui/core/Button";
 import { styles } from "./Common";
 import { teamConverter } from "./datastore/DataCommon";
 
-class SearchContents extends React.Component {
+interface PropsInterface {
+  classes: PropTypes.object;
+  execSearch: PropTypes.func;
+  resetSearch: PropTypes.func;
+  handlePopper: PropTypes.func;
+  decideTeamText: PropTypes.func;
+  decideNameText: PropTypes.func;
+}
+
+interface Props extends PropsInterface {
+  classes: ({[key: string]: any});
+  execSearch: ((team: string, name: string) => {[key: string]: string});
+  resetSearch: (() => {[key: string]: string});
+  handlePopper: ((event: React.MouseEvent<SVGSVGElement, MouseEvent>) => {[key: string]: any});
+  decideTeamText: ((event: any) => {[key: string]: any});
+  decideNameText: ((event: any) => {[key: string]: any});
+}
+
+type State = {
+  anchorEl: React.MouseEvent<SVGSVGElement, MouseEvent>,
+  open: boolean,
+  team: string,
+  name: string
+}
+
+class SearchContents extends React.Component<Props, State> {
+  static propTypes = {
+    headers: PropTypes.arrayOf(PropTypes.string) // sample
+  };
   render() {
     const {
       classes,
-      searchState,
       execSearch,
       resetSearch,
       handlePopper,
       decideTeamText,
       decideNameText
     } = this.props;
-    const { anchorEl, open, team, name } = searchState;
+    const { anchorEl, open, team, name } = this.state;
 
     return (
       <div>
@@ -111,20 +138,5 @@ class SearchContents extends React.Component {
     );
   }
 }
-
-SearchContents.propTypes = {
-  classes: PropTypes.object.isRequired,
-  searchState: PropTypes.shape({
-    anchorEl: PropTypes.object,
-    open: PropTypes.bool.isRequired,
-    team: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired
-  }).isRequired,
-  execSearch: PropTypes.func.isRequired,
-  resetSearch: PropTypes.func.isRequired,
-  handlePopper: PropTypes.func.isRequired,
-  decideTeamText: PropTypes.func.isRequired,
-  decideNameText: PropTypes.func.isRequired
-};
 
 export default withStyles(styles)(SearchContents);
