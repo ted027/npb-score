@@ -14,16 +14,7 @@ import Button from "@material-ui/core/Button";
 import { styles } from "./Common";
 import { teamConverter } from "./datastore/DataCommon";
 
-interface PropsInterface {
-  classes: PropTypes.object;
-  execSearch: PropTypes.func;
-  resetSearch: PropTypes.func;
-  handlePopper: PropTypes.func;
-  decideTeamText: PropTypes.func;
-  decideNameText: PropTypes.func;
-}
-
-interface Props extends PropsInterface {
+interface Props {
   classes: ({[key: string]: any});
   execSearch: ((team: string, name: string) => {[key: string]: string});
   resetSearch: (() => {[key: string]: string});
@@ -33,7 +24,7 @@ interface Props extends PropsInterface {
 }
 
 type State = {
-  anchorEl: React.MouseEvent<SVGSVGElement, MouseEvent>,
+  anchorEl: HTMLDivElement,
   open: boolean,
   team: string,
   name: string
@@ -41,7 +32,12 @@ type State = {
 
 class SearchContents extends React.Component<Props, State> {
   static propTypes = {
-    headers: PropTypes.arrayOf(PropTypes.string) // sample
+    classes: PropTypes.object.isRequired,
+    execSearch: PropTypes.func.isRequired,
+    resetSearch: PropTypes.func.isRequired,
+    handlePopper: PropTypes.func.isRequired,
+    decideTeamText: PropTypes.func.isRequired,
+    decideNameText: PropTypes.func.isRequired
   };
   render() {
     const {

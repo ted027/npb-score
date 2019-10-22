@@ -49,10 +49,9 @@ export const resetSearch = () => {
 };
 
 export const handlePopper = event => {
-  const { currentTarget } = event;
   return {
     type: "HANDLE_POPPER",
-    anchorEl: currentTarget,
+    anchorEl: event.currentTarget,
   };
 };
 

@@ -50,10 +50,9 @@ export const resetSearch = () => {
 };
 
 export const handlePopper = (event: React.MouseEvent<SVGSVGElement, MouseEvent>): {[key: string]: any} => {
-  const currentTarget = event;
   return {
     type: "HANDLE_POPPER",
-    anchorEl: currentTarget,
+    anchorEl: event.currentTarget,
   };
 };
 
