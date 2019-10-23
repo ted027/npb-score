@@ -6,9 +6,15 @@ import Tab from "@material-ui/core/Tab";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Slide from "@material-ui/core/Slide";
 import { styles, LinkTab } from "./Common";
-import { withStyles } from "@material-ui/styles";
+import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 
-export const HideOnScroll = ({ children, direction }) => {
+
+interface HideOnScrollProps {
+  children: React.FC;
+  direction: string;
+}
+
+export const HideOnScroll: React.FC<HideOnScrollProps> = ({ children, direction }) => {
   const trigger = useScrollTrigger({ target: undefined });
   return (
     <Slide appear={false} direction={direction} in={!trigger}>
@@ -17,12 +23,12 @@ export const HideOnScroll = ({ children, direction }) => {
   );
 }
 
-HideOnScroll.propTypes = {
-  children: PropTypes.node.isRequired,
-  direction: PropTypes.string.isRequired
-};
+interface HideOnScrollProps {
+  selected: number;
+  onChange: (event: any, selected: number) => any;
+}
 
-export const MainAppBar = React.forwardRef((props, ref) => (
+export const MainAppBar: React.FC<HideOnScrollProps> = React.forwardRef((props, ref) => (
   <AppBar ref={ref}>
     <Tabs
       variant="fullWidth"
@@ -39,12 +45,12 @@ export const MainAppBar = React.forwardRef((props, ref) => (
   </AppBar>
 ));
 
-MainAppBar.propTypes = {
-  selected: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired
-};
+interface LeagueAppBarProps extends WithStyles<typeof styles> {
+  selected: number;
+  onChange: (event: any, selected: number) => any;
+}
 
-const LeagueAppBarWithoutStyles = React.forwardRef((props, ref) => (
+const LeagueAppBarWithoutStyles: React.FC<LeagueAppBarProps> = React.forwardRef((props, ref) => (
   <AppBar className={props.classes.subtab} ref={ref}>
     <Tabs
       variant="fullWidth"
@@ -62,15 +68,14 @@ const LeagueAppBarWithoutStyles = React.forwardRef((props, ref) => (
   </AppBar>
 ));
 
-LeagueAppBarWithoutStyles.propTypes = {
-  classes: PropTypes.object.isRequired,
-  selected: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired
-};
-
 export const LeagueAppBar = withStyles(styles)(LeagueAppBarWithoutStyles);
 
-const OrderAppBarWithoutStyles = React.forwardRef((props, ref) => (
+interface OrderAppBarProps extends WithStyles<typeof styles> {
+  selected: number;
+  onChange: (event: any, selected: number) => any;
+}
+
+const OrderAppBarWithoutStyles: React.FC<OrderAppBarProps> = React.forwardRef((props, ref) => (
   <AppBar className={props.classes.subtab} ref={ref}>
     <Tabs
       variant="fullWidth"
@@ -86,11 +91,5 @@ const OrderAppBarWithoutStyles = React.forwardRef((props, ref) => (
     </Tabs>
   </AppBar>
 ));
-
-OrderAppBarWithoutStyles.propTypes = {
-  classes: PropTypes.object.isRequired,
-  selected: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired
-};
 
 export const OrderAppBar = withStyles(styles)(OrderAppBarWithoutStyles);

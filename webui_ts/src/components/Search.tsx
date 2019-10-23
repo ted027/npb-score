@@ -1,6 +1,5 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
 import Popper from "@material-ui/core/Popper";
 import Fade from "@material-ui/core/Fade";
 import Paper from "@material-ui/core/Paper";
@@ -11,16 +10,16 @@ import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 // import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import { styles } from "./Common";
 import { teamConverter } from "./datastore/DataCommon";
 
-interface Props {
-  classes: ({[key: string]: any});
-  execSearch: ((team: string, name: string) => {[key: string]: string});
-  resetSearch: (() => {[key: string]: string});
-  handlePopper: ((event: React.MouseEvent<SVGSVGElement, MouseEvent>) => {[key: string]: any});
-  decideTeamText: ((event: any) => {[key: string]: any});
-  decideNameText: ((event: any) => {[key: string]: any});
+interface Props extends WithStyles<typeof styles> {
+  execSearch: (team: string, name: string) => {[key: string]: string};
+  resetSearch: () => {[key: string]: string};
+  handlePopper: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => {[key: string]: any};
+  decideTeamText: (event: any) => {[key: string]: any};
+  decideNameText: (event: any) => {[key: string]: any};
 }
 
 type State = {

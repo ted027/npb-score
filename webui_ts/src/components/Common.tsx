@@ -1,8 +1,11 @@
 import React from "react";
 import Tab from "@material-ui/core/Tab";
 import blue from "@material-ui/core/colors/blue";
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import { StyleRules } from '@material-ui/core/styles/withStyles';
+import createStyles from '@material-ui/core/styles/createStyles';
 
-export const styles = (theme: {[key: string]: any}) => ({
+export const styles = (theme: Theme): StyleRules => createStyles({
   root: {
     width: "100%",
     marginTop: theme.spacing(8)
