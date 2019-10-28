@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
 import MediaQuery from "react-responsive";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -11,6 +10,10 @@ import TablePagination from "@material-ui/core/TablePagination";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import grey from "@material-ui/core/colors/grey";
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import { StyleRules } from '@material-ui/core/styles/withStyles';
+import createStyles from '@material-ui/core/styles/createStyles';
+import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import {
   styles,
   stableSort,
@@ -25,7 +28,7 @@ const IGNORE_ELEMENTS = ["規定", "League"];
 const NARROW_BR_ELEMENTS = ["チーム", "選手", "球場"];
 const IGNORE_ELEM_NUM = 2;
 
-const CustomTableCellOrder = withStyles(theme => ({
+const CustomTableCellOrder = withStyles((theme: Theme): StyleRules =>  createStyles({
   head: {
     backgroundColor: grey[100],
     width: 20
@@ -38,7 +41,7 @@ const CustomTableCellOrder = withStyles(theme => ({
   }
 }))(TableCell);
 
-const CustomTableCellOrderWide = withStyles(theme => ({
+const CustomTableCellOrderWide = withStyles((theme: Theme): StyleRules =>  createStyles({
   head: {
     backgroundColor: grey[100],
     maxWidth: 20
@@ -51,7 +54,7 @@ const CustomTableCellOrderWide = withStyles(theme => ({
   }
 }))(TableCell);
 
-const CustomTableCellName = withStyles(theme => ({
+const CustomTableCellName = withStyles((theme: Theme): StyleRules =>  createStyles({
   body: {
     fontSize: 15,
     padding: 1,
@@ -59,7 +62,7 @@ const CustomTableCellName = withStyles(theme => ({
   }
 }))(TableCell);
 
-const CustomTableCell = withStyles(theme => ({
+const CustomTableCell = withStyles((theme: Theme): StyleRules =>  createStyles({
   head: {
     backgroundColor: grey[100],
     fontSize: 15,
@@ -73,7 +76,7 @@ const CustomTableCell = withStyles(theme => ({
   }
 }))(TableCell);
 
-const CustomTableCellWide = withStyles(theme => ({
+const CustomTableCellWide = withStyles((theme: Theme): StyleRules =>  createStyles({
   head: {
     backgroundColor: grey[100],
     fontSize: 15,
@@ -87,8 +90,17 @@ const CustomTableCellWide = withStyles(theme => ({
   }
 }))(TableCell);
 
-class CommonTableHeadWithoutStyles extends React.Component {
-  createSortHandler = property => event => {
+interface TableHeadProps extends WithStyles<typeof styles> {
+  onRequestSort: (event: any, property: string) => void;
+  order: string;
+  orderBy: string;
+  orderMean: string;
+  rowCount: number;
+  head: {id: string; [key: string]: string | boolean}[] ;
+}
+
+class CommonTableHeadWithoutStyles extends React.Component<TableHeadProps> {
+  createSortHandler = (property: string) => (event: any) => {
     this.props.onRequestSort(event, property);
   };
 
@@ -196,16 +208,6 @@ class CommonTableHeadWithoutStyles extends React.Component {
   }
 }
 
-CommonTableHeadWithoutStyles.propTypes = {
-  classes: PropTypes.object.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  order: PropTypes.string.isRequired,
-  orderBy: PropTypes.string.isRequired,
-  orderMean: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-  head: PropTypes.array.isRequired
-};
-
 const CommonTableHead = withStyles(styles)(CommonTableHeadWithoutStyles);
 
 class CommonTableWithoutStyles extends React.Component {
@@ -217,7 +219,7 @@ class CommonTableWithoutStyles extends React.Component {
     rowsPerPage: 5
   };
 
-  handleRequestSort = (event, property) => {
+  handleRequestSort = (event: any, property: string) => {
     const orderBy = property;
     var firstOrder = getProperty(this.props.head, property, "defaultOrder");
     var reverseOrder;

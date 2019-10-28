@@ -1,5 +1,4 @@
 import * as React from "react";
-import PropTypes from "prop-types";
 import Popper from "@material-ui/core/Popper";
 import Fade from "@material-ui/core/Fade";
 import Paper from "@material-ui/core/Paper";
@@ -30,14 +29,6 @@ type State = {
 }
 
 class SearchContents extends React.Component<Props, State> {
-  static propTypes = {
-    classes: PropTypes.object.isRequired,
-    execSearch: PropTypes.func.isRequired,
-    resetSearch: PropTypes.func.isRequired,
-    handlePopper: PropTypes.func.isRequired,
-    decideTeamText: PropTypes.func.isRequired,
-    decideNameText: PropTypes.func.isRequired
-  };
   render() {
     const {
       classes,
