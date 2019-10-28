@@ -92,9 +92,9 @@ const CustomTableCellWide = withStyles((theme: Theme): StyleRules =>  createStyl
 
 interface TableHeadProps extends WithStyles<typeof styles> {
   onRequestSort: (event: any, property: string) => void;
-  order: string;
+  order: 'asc' | 'desc';
   orderBy: string;
-  orderMean: string;
+  orderMean: 'good' | 'bad';
   rowCount: number;
   head: {id: string; [key: string]: string | boolean}[] ;
 }

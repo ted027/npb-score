@@ -11,7 +11,7 @@ import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 
 interface HideOnScrollProps {
   children: React.FC;
-  direction: any;
+  direction: 'up' | 'down';
 }
 
 export const HideOnScroll: React.FC<HideOnScrollProps> = ({ children, direction }) => {
