@@ -210,7 +210,17 @@ class CommonTableHeadWithoutStyles extends React.Component<TableHeadProps> {
 
 const CommonTableHead = withStyles(styles)(CommonTableHeadWithoutStyles);
 
-class CommonTableWithoutStyles extends React.Component {
+interface TableProps extends WithStyles<typeof styles> {
+  default_order: 'asc' | 'desc';
+  default_orderBy: string;
+  head: {[key: string]: any}[];
+  data: {[key: string]: any}[];
+  row_length: number;
+  league: 'CentralPacific' | 'Central' | 'Pacific';
+  main_state: {[key: string]: any};
+}
+
+class CommonTableWithoutStyles extends React.Component<TableProps> {
   state = {
     order: this.props.default_order,
     orderBy: this.props.default_orderBy,
@@ -403,15 +413,5 @@ class CommonTableWithoutStyles extends React.Component {
     );
   }
 }
-CommonTableWithoutStyles.propTypes = {
-  classes: PropTypes.object.isRequired,
-  default_order: PropTypes.string.isRequired,
-  default_orderBy: PropTypes.string.isRequired,
-  head: PropTypes.array.isRequired,
-  data: PropTypes.array.isRequired,
-  row_length: PropTypes.number,
-  league: PropTypes.string.isRequired,
-  main_state: PropTypes.object
-};
 
 export const CommonTable = withStyles(styles)(CommonTableWithoutStyles) 
