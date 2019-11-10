@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import MediaQuery from "react-responsive";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
