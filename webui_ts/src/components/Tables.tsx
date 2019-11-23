@@ -212,11 +212,11 @@ const CommonTableHead = withStyles(styles)(CommonTableHeadWithoutStyles);
 interface TableProps extends WithStyles<typeof styles> {
   default_order: 'asc' | 'desc';
   default_orderBy: string;
-  head: {[key: string]: any}[];
+  head: {[key: string]: string | boolean; id: string}[];
   data: {[key: string]: any}[];
   row_length: number;
   league: 'CentralPacific' | 'Central' | 'Pacific';
-  main_state: {[key: string]: any};
+  main_state: {[key: string]: any; searchTeam: string; searchName: string};
 }
 
 class CommonTableWithoutStyles extends React.Component<TableProps> {
@@ -248,11 +248,11 @@ class CommonTableWithoutStyles extends React.Component<TableProps> {
     this.setState({ order, orderBy, orderMean, page });
   };
 
-  handleChangePage = (event, page) => {
+  handleChangePage = (event: any, page: number) => {
     this.setState({ page });
   };
 
-  handleChangeRowsPerPage = (event, rowsPerPage) => {
+  handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, rowsPerPage: number) => { // TODO: change type number -> ?
     this.setState({ rowsPerPage: rowsPerPage.key });
   };
 
@@ -290,7 +290,7 @@ class CommonTableWithoutStyles extends React.Component<TableProps> {
                             return (
                               <TableRow hover tabIndex={-1} key={n.id + "_name"}>
                                 <CustomTableCellOrder
-                                  rowSpan="2"
+                                  rowSpan={2}
                                   padding="checkbox"
                                   key={value + "_order"}
                                 >

@@ -157,7 +157,7 @@ export function enableSearch(main_state: {searchTeam: string; searchName: string
   return true;
 }
 
-export function judgeSearch(main_state: {searchTeam: string; searchName: string; [key: string]: any, player: string) {
+export function judgeSearch(main_state: {searchTeam: string; searchName: string; [key: string]: any}, player: string) {
   if (!enableSearch(main_state)) {
     return false;
   }
