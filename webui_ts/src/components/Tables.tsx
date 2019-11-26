@@ -219,24 +219,35 @@ interface TableProps extends WithStyles<typeof styles> {
   main_state: {[key: string]: any; searchTeam: string; searchName: string};
 }
 
-class CommonTableWithoutStyles extends React.Component<TableProps> {
-  state = {
-    order: this.props.default_order,
-    orderBy: this.props.default_orderBy,
-    orderMean: "good",
-    page: 0,
-    rowsPerPage: 5
-  };
+type TableState = {
+  order: 'asc' | 'desc',
+  orderBy: string,
+  orderMean: 'good' | 'bad',
+  page: number,
+  rowsPerPage: number
+}
+
+class CommonTableWithoutStyles extends React.Component<TableProps, TableState> {
+  constructor(props: TableProps) {
+    super(props);
+    this.state = {
+      order: props.default_order,
+      orderBy: props.default_orderBy,
+      orderMean: "good",
+      page: 0,
+      rowsPerPage: 5
+    };
+  }
 
   handleRequestSort = (event: any, property: string) => {
-    const orderBy = property;
+    const orderBy: string = property;
     var firstOrder = getProperty(this.props.head, property, "defaultOrder");
     var reverseOrder;
 
     firstOrder === "desc" ? (reverseOrder = "asc") : (reverseOrder = "desc");
 
     let order = firstOrder;
-    let orderMean = "good";
+    let orderMean: ('good' | 'bad') = "good";
 
     if (this.state.orderBy === property && this.state.order === firstOrder) {
       order = reverseOrder;
@@ -252,8 +263,9 @@ class CommonTableWithoutStyles extends React.Component<TableProps> {
     this.setState({ page });
   };
 
-  handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, rowsPerPage: number) => { // TODO: change type number -> ?
-    this.setState({ rowsPerPage: rowsPerPage.key });
+  handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    // TODO: testing
+    this.setState({ rowsPerPage: parseInt(event.target.value, 10) });
   };
 
   render() {
