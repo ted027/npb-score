@@ -4,21 +4,21 @@ import React from 'react';
 const CENTRAL = 1;
 const PACIFIC = 2;
 
-export const changeTab = (selected: number): {[key: string]: string | number}  => {
+export const changeTab = (selected: number)  => {
   return {
     type: "CHANGE_TAB",
     selected: selected
   };
 };
 
-export const changeOrderSelected = (order_selected: number): {[key: string]: string | number} => {
+export const changeOrderSelected = (order_selected: number) => {
   return {
     type: "CHANGE_ORDER_SELECTED",
     order_selected: order_selected
   };
 };
 
-export const changeLeague = (league_selected: number): {[key: string]: string | number} => {
+export const changeLeague = (league_selected: number) => {
   // if (league_selected === ALL)
   var league: string = "CentralPacific";
   if (league_selected === CENTRAL) {
