@@ -14,11 +14,11 @@ import { styles } from "./Common";
 import { teamConverter } from "./datastore/DataCommon";
 
 interface Props extends WithStyles<typeof styles> {
-  execSearch: (team: string, name: string) => {[key: string]: string};
-  resetSearch: () => {[key: string]: string};
-  handlePopper: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => {[key: string]: any};
-  decideTeamText: (event: any) => {[key: string]: any};
-  decideNameText: (event: any) => {[key: string]: any};
+  execSearch: (team: string, name: string) => any;
+  resetSearch: (event: any) => any;
+  handlePopper: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => any;
+  decideTeamText: (event: any) => any;
+  decideNameText: (event: any) => any;
 }
 
 type State = {

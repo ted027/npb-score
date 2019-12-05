@@ -33,7 +33,7 @@ export const changeLeague = (league_selected: number) => {
   };
 };
 
-export const execSearch = (team: string, name: string): {[key: string]: string} => {
+export const execSearch = (team: string, name: string) => {
   return {
     type: "EXEC_SEARCH",
     searchTeam: team,
@@ -41,7 +41,7 @@ export const execSearch = (team: string, name: string): {[key: string]: string} 
   };
 };
 
-export const resetSearch = (): {[key: string]: string}  => {
+export const resetSearch = () => {
   return {
     type: "RESET_SEARCH",
     searchTeam: "",
@@ -49,28 +49,28 @@ export const resetSearch = (): {[key: string]: string}  => {
   };
 };
 
-export const handlePopper = (event: React.MouseEvent<SVGSVGElement, MouseEvent>): {[key: string]: any} => {
+export const handlePopper = (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
   return {
     type: "HANDLE_POPPER",
     anchorEl: event.currentTarget,
   };
 };
 
-// export const clickAway = (): {[key: string]: string | boolean}  => {
+// export const clickAway = () => {
 //     return {
 //         type: 'CLICK_AWAY',
 //         open: false
 //     }
 // }
 
-export const decideTeamText = (event: any): {[key: string]: any} => {
+export const decideTeamText = (event: any) => {
   return {
     type: "DECIDE_TEAM_TEXT",
     team: event.target.value
   };
 };
 
-export const decideNameText = (event: any): {[key: string]: any} => {
+export const decideNameText = (event: any) => {
   return {
     type: "DECIDE_NAME_TEXT",
     name: event.target.value
