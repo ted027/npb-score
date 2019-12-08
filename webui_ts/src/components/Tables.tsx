@@ -215,7 +215,7 @@ interface TableProps extends WithStyles<typeof styles> {
   head: {[key: string]: string | boolean; id: string}[];
   data: {[key: string]: any}[];
   row_length: number;
-  league: 'CentralPacific' | 'Central' | 'Pacific';
+  league: 'CentralPacific' | 'Central' | 'Pacific' | '';
   main_state: {[key: string]: any; searchTeam: string; searchName: string};
 }
 

@@ -7,7 +7,7 @@ const pitchers: {Name: string; Team: string; League: string; [key: string]: any}
 const pheader_sabr = ["防御率", "FIP", "FIP_pf", "K/BB", "規定", "League"];
 const pheader_sabr_regulated = [true, true, true, true, false, false];
 const pheader_sabr_order = ["asc", "asc", "asc", "desc", "desc", "desc"];
-export const pitchers_sabr_header: {[key: string]: string | boolean}[] = createHeader(
+export const pitchers_sabr_header: {[key: string]: string | boolean; id: string}[] = createHeader(
   pheader_sabr,
   pheader_sabr_regulated,
   pheader_sabr_order
@@ -18,7 +18,7 @@ export const pitchers_sabr_body: {[key: string]: string | boolean}[] = createBod
 const pheader = ["投球回", "勝利", "敗戦", "勝率", "奪三振", "規定", "League"];
 const pheader_regulated = [false, false, false, true, false, false, false];
 const pheader_order = ["desc", "desc", "desc", "desc", "desc", "desc", "desc"];
-export const pitchers_header: {[key: string]: string | boolean}[] = createHeader(
+export const pitchers_header: {[key: string]: string | boolean; id: string}[] = createHeader(
   pheader,
   pheader_regulated,
   pheader_order
@@ -29,7 +29,7 @@ export const pitchers_body: {[key: string]: string | boolean}[] = createBody(pit
 const pheader_whip = ["WHIP", "被打率", "LOB%", "BABIP", "規定", "League"];
 const pheader_regulated_whip = [true, true, true, true, false, false];
 const pheader_order_whip = ["asc", "asc", "desc", "asc", "desc", "desc"];
-export const pitchers_header_whip: {[key: string]: string | boolean}[] = createHeader(
+export const pitchers_header_whip: {[key: string]: string | boolean; id: string}[] = createHeader(
   pheader_whip,
   pheader_regulated_whip,
   pheader_order_whip
@@ -48,7 +48,7 @@ const pheader_order_qs = [
   "desc",
   "desc"
 ];
-export const pitchers_header_qs: {[key: string]: string | boolean}[] = createHeader(
+export const pitchers_header_qs: {[key: string]: string | boolean; id: string}[] = createHeader(
   pheader_qs,
   pheader_regulated_qs,
   pheader_order_qs
@@ -59,7 +59,7 @@ export const pitchers_body_qs: {[key: string]: string | boolean}[] = createBody(
 const pheader_kbb = ["K-BB%", "K%", "BB%", "HR%", "規定", "League"];
 const pheader_regulated_kbb = [true, true, true, true, false, false];
 const pheader_order_kbb = ["desc", "desc", "asc", "asc", "desc", "desc"];
-export const pitchers_header_kbb: {[key: string]: string | boolean}[] = createHeader(
+export const pitchers_header_kbb: {[key: string]: string | boolean; id: string}[] = createHeader(
   pheader_kbb,
   pheader_regulated_kbb,
   pheader_order_kbb
@@ -95,7 +95,7 @@ const pheader_order_closer = [
   "desc",
   "desc"
 ];
-export const pitchers_header_closer: {[key: string]: string | boolean}[] = createHeaderRelief(
+export const pitchers_header_closer: {[key: string]: string | boolean; id: string}[] = createHeaderRelief(
   pheader_closer,
   pheader_regulated_closer,
   pheader_order_closer,
@@ -132,7 +132,7 @@ const pheader_order_relief = [
   "desc",
   "desc"
 ];
-export const pitchers_header_relief: {[key: string]: string | boolean}[] = createHeaderRelief(
+export const pitchers_header_relief: {[key: string]: string | boolean; id: string}[] = createHeaderRelief(
   pheader_relief,
   pheader_regulated_relief,
   pheader_order_relief,
@@ -144,7 +144,7 @@ export const pitchers_body_relief: {[key: string]: string | boolean}[] = createB
 const pheader_oth = ["小松式ドネーション", "ONE OUTS(万)", "規定", "League"];
 const pheader_regulated_oth = [false, false, false, false];
 const pheader_order_oth = ["desc", "desc", "desc", "desc"];
-export const pitchers_header_oth: {[key: string]: string | boolean}[] = createHeader(
+export const pitchers_header_oth: {[key: string]: string | boolean; id: string}[] = createHeader(
   pheader_oth,
   pheader_regulated_oth,
   pheader_order_oth

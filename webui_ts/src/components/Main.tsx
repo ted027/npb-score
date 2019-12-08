@@ -89,7 +89,7 @@ interface Props extends WithStyles<typeof styles> {
     selected: number;
     order_selected: number;
     league_selected: number;
-    league: string;
+    league: 'CentralPacific' | 'Central' | 'Pacific' | '';
     searchTeam: string;
     searchName: string;
   }
