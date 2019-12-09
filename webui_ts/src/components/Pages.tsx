@@ -9,7 +9,7 @@ import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 
 
 interface HideOnScrollProps {
-  children: React.Component;
+  children: JSX.Element;
   direction: 'up' | 'down';
 }
 
@@ -22,12 +22,12 @@ export const HideOnScroll: React.FC<HideOnScrollProps> = ({ children, direction 
   );
 }
 
-interface HideOnScrollProps {
+interface MainAppBarProps {
   selected: number;
   onChange: (event: any, selected: number) => any;
 }
 
-export const MainAppBar: React.FC<HideOnScrollProps> = React.forwardRef((props, ref) => (
+export const MainAppBar: React.FC<MainAppBarProps> = React.forwardRef((props, ref) => (
   <AppBar ref={ref}>
     <Tabs
       variant="fullWidth"
