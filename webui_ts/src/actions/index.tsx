@@ -4,21 +4,21 @@ import React from 'react';
 const CENTRAL = 1;
 const PACIFIC = 2;
 
-export const changeTab = (selected: number): {[key: string]: string | number}  => {
+export const changeTab = (selected: number)  => {
   return {
     type: "CHANGE_TAB",
     selected: selected
   };
 };
 
-export const changeOrderSelected = (order_selected: number): {[key: string]: string | number} => {
+export const changeOrderSelected = (order_selected: number) => {
   return {
     type: "CHANGE_ORDER_SELECTED",
     order_selected: order_selected
   };
 };
 
-export const changeLeague = (league_selected: number): {[key: string]: string | number} => {
+export const changeLeague = (league_selected: number) => {
   // if (league_selected === ALL)
   var league: string = "CentralPacific";
   if (league_selected === CENTRAL) {
@@ -33,7 +33,7 @@ export const changeLeague = (league_selected: number): {[key: string]: string | 
   };
 };
 
-export const execSearch = (team: string, name: string): {[key: string]: string} => {
+export const execSearch = (team: string, name: string) => {
   return {
     type: "EXEC_SEARCH",
     searchTeam: team,
@@ -41,7 +41,7 @@ export const execSearch = (team: string, name: string): {[key: string]: string} 
   };
 };
 
-export const resetSearch = (): {[key: string]: string}  => {
+export const resetSearch = () => {
   return {
     type: "RESET_SEARCH",
     searchTeam: "",
@@ -49,28 +49,28 @@ export const resetSearch = (): {[key: string]: string}  => {
   };
 };
 
-export const handlePopper = (event: React.MouseEvent<SVGSVGElement, MouseEvent>): {[key: string]: any} => {
+export const handlePopper = (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
   return {
     type: "HANDLE_POPPER",
     anchorEl: event.currentTarget,
   };
 };
 
-// export const clickAway = (): {[key: string]: string | boolean}  => {
+// export const clickAway = () => {
 //     return {
 //         type: 'CLICK_AWAY',
 //         open: false
 //     }
 // }
 
-export const decideTeamText = (event: any): {[key: string]: any} => {
+export const decideTeamText = (event: any) => {
   return {
     type: "DECIDE_TEAM_TEXT",
     team: event.target.value
   };
 };
 
-export const decideNameText = (event: any): {[key: string]: any} => {
+export const decideNameText = (event: any) => {
   return {
     type: "DECIDE_NAME_TEXT",
     name: event.target.value

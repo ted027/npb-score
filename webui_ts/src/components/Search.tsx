@@ -1,5 +1,4 @@
 import * as React from "react";
-import PropTypes from "prop-types";
 import Popper from "@material-ui/core/Popper";
 import Fade from "@material-ui/core/Fade";
 import Paper from "@material-ui/core/Paper";
@@ -15,11 +14,11 @@ import { styles } from "./Common";
 import { teamConverter } from "./datastore/DataCommon";
 
 interface Props extends WithStyles<typeof styles> {
-  execSearch: (team: string, name: string) => {[key: string]: string};
-  resetSearch: () => {[key: string]: string};
-  handlePopper: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => {[key: string]: any};
-  decideTeamText: (event: any) => {[key: string]: any};
-  decideNameText: (event: any) => {[key: string]: any};
+  execSearch: (team: string, name: string) => any;
+  resetSearch: (event: any) => any;
+  handlePopper: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => any;
+  decideTeamText: (event: any) => any;
+  decideNameText: (event: any) => any;
 }
 
 type State = {
@@ -30,14 +29,6 @@ type State = {
 }
 
 class SearchContents extends React.Component<Props, State> {
-  static propTypes = {
-    classes: PropTypes.object.isRequired,
-    execSearch: PropTypes.func.isRequired,
-    resetSearch: PropTypes.func.isRequired,
-    handlePopper: PropTypes.func.isRequired,
-    decideTeamText: PropTypes.func.isRequired,
-    decideNameText: PropTypes.func.isRequired
-  };
   render() {
     const {
       classes,

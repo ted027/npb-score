@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -10,8 +9,8 @@ import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 
 
 interface HideOnScrollProps {
-  children: React.FC;
-  direction: string;
+  children: JSX.Element;
+  direction: 'up' | 'down';
 }
 
 export const HideOnScroll: React.FC<HideOnScrollProps> = ({ children, direction }) => {
@@ -23,16 +22,15 @@ export const HideOnScroll: React.FC<HideOnScrollProps> = ({ children, direction 
   );
 }
 
-interface HideOnScrollProps {
+interface MainAppBarProps {
   selected: number;
   onChange: (event: any, selected: number) => any;
 }
 
-export const MainAppBar: React.FC<HideOnScrollProps> = React.forwardRef((props, ref) => (
+export const MainAppBar: React.FC<MainAppBarProps> = React.forwardRef((props, ref) => (
   <AppBar ref={ref}>
     <Tabs
       variant="fullWidth"
-      selected={props.selected}
       value={props.selected}
       scrollButtons="auto"
       onChange={props.onChange}
@@ -54,7 +52,6 @@ const LeagueAppBarWithoutStyles: React.FC<LeagueAppBarProps> = React.forwardRef(
   <AppBar className={props.classes.subtab} ref={ref}>
     <Tabs
       variant="fullWidth"
-      selected={props.selected}
       value={props.selected}
       indicatorColor="primary"
       textColor="primary"
@@ -79,7 +76,6 @@ const OrderAppBarWithoutStyles: React.FC<OrderAppBarProps> = React.forwardRef((p
   <AppBar className={props.classes.subtab} ref={ref}>
     <Tabs
       variant="fullWidth"
-      selected={props.selected}
       value={props.selected}
       indicatorColor="primary"
       textColor="primary"

@@ -37,7 +37,7 @@ export function createTeamBody(array: {チーム: string; [key: string]: any}[],
   return body;
 }
 
-export const teams_header: {[key: string]: string | boolean}[] = [];
+export const teams_header: {[key: string]: string | boolean; id: string}[] = [];
 for (var t = 0; t < theader.length; t++) {
   teams_header.push({
     id: theader[t],
@@ -70,7 +70,7 @@ const teams_atk_order = [
   "desc"
 ];
 
-export const teams_atk_header: {[key: string]: string | boolean}[] = [];
+export const teams_atk_header: {[key: string]: string | boolean; id: string}[] = [];
 for (var ta = 0; ta < t_atk_header.length; ta++) {
   teams_atk_header.push({
     id: t_atk_header[ta],
@@ -96,7 +96,7 @@ const teams_def_numeric = [false, true, true, true, true, true, false];
 
 const teams_def_order = ["desc", "asc", "asc", "desc", "asc", "asc", "desc"];
 
-export const teams_def_header: {[key: string]: string | boolean}[] = [];
+export const teams_def_header: {[key: string]: string | boolean; id: string}[] = [];
 for (var td = 0; td < t_def_header.length; td++) {
   teams_def_header.push({
     id: t_def_header[td],
@@ -118,7 +118,7 @@ var prheader = raw_prheader.filter(function(raw_prh) {
 prheader.push("League");
 const parks_numeric = [false, true, true, false];
 
-export const parks_header: {[key: string]: string | boolean}[] = [];
+export const parks_header: {[key: string]: string | boolean; id: string}[] = [];
 for (var l = 0; l < prheader.length; l++) {
   parks_header.push({
     id: prheader[l],

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
+import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -84,10 +84,21 @@ const PITCHER_VALUE = 2;
 const ORDER = 0;
 const PARKFACTOR = 1;
 
-class MainPage extends React.Component {
+interface Props extends WithStyles<typeof styles> {
+  pageState: {
+    selected: number;
+    order_selected: number;
+    league_selected: number;
+    league: 'CentralPacific' | 'Central' | 'Pacific' | '';
+    searchTeam: string;
+    searchName: string;
+  }
+}
+
+class MainPage extends React.Component<Props> {
   render() {
     const { classes, pageState } = this.props;
-    const { selected, league_selected, league, order_selected } = pageState;
+    const { selected, order_selected, league_selected, league } = pageState;
     return (
       <MuiThemeProvider theme={theme}>
         <div className={classes.root}>
@@ -730,17 +741,5 @@ class MainPage extends React.Component {
     );
   }
 }
-
-MainPage.propTypes = {
-  classes: PropTypes.object.isRequired,
-  pageState: PropTypes.shape({
-    selected: PropTypes.number.isRequired,
-    order_selected: PropTypes.number.isRequired,
-    league_selected: PropTypes.number.isRequired,
-    league: PropTypes.string.isRequired,
-    searchTeam: PropTypes.string,
-    searchName: PropTypes.string
-  }).isRequired
-};
 
 export default withStyles(styles)(MainPage);
