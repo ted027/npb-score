@@ -214,7 +214,7 @@ interface TableProps extends WithStyles<typeof styles> {
   default_orderBy: string;
   head: {[key: string]: string | boolean; id: string}[];
   data: {[key: string]: any}[];
-  row_length?: number;
+  const_row_length?: number;
   league: 'CentralPacific' | 'Central' | 'Pacific' | '';
   main_state?: {[key: string]: any; searchTeam: string; searchName: string};
 }
@@ -269,7 +269,7 @@ class CommonTableWithoutStyles extends React.Component<TableProps, TableState> {
   };
 
   render() {
-    const { classes, data, head, row_length, league, main_state } = this.props;
+    const { classes, data, head, const_row_length, league, main_state } = this.props;
     const { order, orderBy, orderMean, page, rowsPerPage } = this.state;
     var jun = 0;
     var jun2 = 0;
@@ -288,13 +288,14 @@ class CommonTableWithoutStyles extends React.Component<TableProps, TableState> {
             <MediaQuery query="(max-width: 767px)">
               {stableSort(data, getSorting(order, orderBy)).map(n => {
                 if (
-                  judgeSearch(main_state, n.選手) ||
+                  // very bad
+                  judgeSearch(n.選手, main_state) ||
                   (!enableSearch(main_state) &&
                     league.indexOf(n.League) >= 0 &&
                     (!getProperty(head, orderBy, "regulated") || n.規定))
                 ) {
                   jun++;
-                  if (judgePageReturn(row_length, jun, page, rowsPerPage)) {
+                  if (judgePageReturn(jun, page, rowsPerPage, const_row_length)) {
                     return (
                       <TableBody>
                         {Object.keys(n).map(value => {
@@ -357,13 +358,14 @@ class CommonTableWithoutStyles extends React.Component<TableProps, TableState> {
               <TableBody>
                 {stableSort(data, getSorting(order, orderBy)).map(n => {
                   if (
-                    judgeSearch(main_state, n.選手) ||
+                    // very bad
+                    judgeSearch(n.選手, main_state) ||
                     (!enableSearch(main_state) &&
                       league.indexOf(n.League) >= 0 &&
                       (!getProperty(head, orderBy, "regulated") || n.規定))
                   ) {
                     jun2++;
-                    if (judgePageReturn(row_length, jun2, page, rowsPerPage)) {
+                    if (judgePageReturn(jun2, page, rowsPerPage, const_row_length)) {
                       return (
                         <TableRow hover tabIndex={-1} key={n.id}>
                           <CustomTableCellOrderWide
@@ -399,7 +401,7 @@ class CommonTableWithoutStyles extends React.Component<TableProps, TableState> {
           </Table>
         </div>
         {[data].map(n => {
-          if (!row_length) {
+          if (!const_row_length) {
             return (
               <TablePagination
                 component="div"

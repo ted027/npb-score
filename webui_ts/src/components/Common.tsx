@@ -116,8 +116,8 @@ export function getSorting(order: string, orderBy: string) {
     : (a: any, b: any) => b[orderBy] - a[orderBy];
 }
 
-export function judgePageReturn(row_length: number, jun: number, page: number, rowsPerPage: number) {
-  if (row_length) {
+export function judgePageReturn(jun: number, page: number, rowsPerPage: number, const_row_length?: number) {
+  if (const_row_length) {
     return true;
   }
   if (page * rowsPerPage < jun && jun <= (page + 1) * rowsPerPage) {
@@ -147,7 +147,7 @@ export function judgeSearchStr(player: string, team: string, name: string) {
   return true;
 }
 
-export function enableSearch(main_state: {searchTeam: string; searchName: string; [key: string]: any}) {
+export function enableSearch(main_state?: {searchTeam: string; searchName: string; [key: string]: any}) {
   if (!main_state) {
     return false;
   }
@@ -157,7 +157,10 @@ export function enableSearch(main_state: {searchTeam: string; searchName: string
   return true;
 }
 
-export function judgeSearch(main_state: {searchTeam: string; searchName: string; [key: string]: any}, player: string) {
+export function judgeSearch(player: string, main_state?: {searchTeam: string; searchName: string; [key: string]: any}) {
+  if (!main_state) {
+    return false
+  }
   if (!enableSearch(main_state)) {
     return false;
   }

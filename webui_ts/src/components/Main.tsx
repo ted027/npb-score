@@ -134,8 +134,9 @@ class MainPage extends React.Component<Props> {
                       default_orderBy="勝率"
                       head={teams_header}
                       data={teams_body}
-                      row_length={teams_body.length}
+                      const_row_length={teams_body.length}
                       league="Central"
+                      main_state={pageState}
                     />
                   </div>
                   <div>
@@ -155,8 +156,9 @@ class MainPage extends React.Component<Props> {
                       default_orderBy="勝率"
                       head={teams_header}
                       data={teams_body}
-                      row_length={teams_body.length}
+                      const_row_length={teams_body.length}
                       league="Pacific"
+                      main_state={pageState}
                     />
                   </div>
                   {middle_ad1(classes)}
@@ -177,8 +179,9 @@ class MainPage extends React.Component<Props> {
                       default_orderBy="得点"
                       head={teams_atk_header}
                       data={teams_atk_body}
-                      row_length={teams_body.length}
+                      const_row_length={teams_body.length}
                       league="Central"
+                      main_state={pageState}
                     />
                   </div>
                   <div>
@@ -198,8 +201,9 @@ class MainPage extends React.Component<Props> {
                       default_orderBy="得点"
                       head={teams_atk_header}
                       data={teams_atk_body}
-                      row_length={teams_body.length}
+                      const_row_length={teams_body.length}
                       league="Pacific"
+                      main_state={pageState}
                     />
                   </div>
                   {middle_ad4(classes)}
@@ -220,8 +224,9 @@ class MainPage extends React.Component<Props> {
                       default_orderBy="失点"
                       head={teams_def_header}
                       data={teams_def_body}
-                      row_length={teams_body.length}
+                      const_row_length={teams_body.length}
                       league="Central"
+                      main_state={pageState}
                     />
                   </div>
                   <div>
@@ -241,8 +246,9 @@ class MainPage extends React.Component<Props> {
                       default_orderBy="失点"
                       head={teams_def_header}
                       data={teams_def_body}
-                      row_length={teams_body.length}
+                      const_row_length={teams_body.length}
                       league="Pacific"
+                      main_state={pageState}
                     />
                   </div>
                 </div>
@@ -266,8 +272,9 @@ class MainPage extends React.Component<Props> {
                       default_orderBy="得点PF"
                       head={parks_header}
                       data={parks_body}
-                      row_length={parks_body.length}
+                      const_row_length={parks_body.length}
                       league=""
+                      main_state={pageState}
                     />
                   </div>
                   {middle_ad1(classes)}
@@ -288,8 +295,9 @@ class MainPage extends React.Component<Props> {
                       default_orderBy="得点PF"
                       head={parks_header}
                       data={parks_total_body}
-                      row_length={parks_body.length}
+                      const_row_length={parks_body.length}
                       league=""
+                      main_state={pageState}
                     />
                   </div>
                 </div>
