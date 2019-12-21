@@ -8,8 +8,9 @@ import {
   decideTeamText,
   decideNameText
 } from "../actions";
+import { state } from "../reducers"
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: state) => {
   return { searchState: state.Search };
 };
 

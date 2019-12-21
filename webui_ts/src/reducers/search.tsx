@@ -1,11 +1,22 @@
-const initialState = {
+export interface SearchIf {
+  anchorEl: HTMLDivElement | null,
+  open: boolean,
+  team: string,
+  name: string
+}
+
+interface action extends SearchIf {
+  type: string
+}
+
+const initialState: SearchIf = {
   anchorEl: null,
   open: false,
   team: "",
   name: ""
 };
 
-const Search = (state = initialState, action: {type: string; [key: string]: any} ) => {
+const Search = (state = initialState, action: action ): SearchIf => {
   switch (action.type) {
     case "HANDLE_POPPER":
       return {

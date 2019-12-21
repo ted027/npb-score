@@ -22,7 +22,7 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 type State = {
-  anchorEl: HTMLDivElement,
+  anchorEl: HTMLDivElement | null,
   open: boolean,
   team: string,
   name: string
