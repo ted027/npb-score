@@ -29,6 +29,7 @@ interface State {
 }
 
 class SearchContents extends React.Component<Props, State> {
+  // fix point
   constructor(props: any) {
     super(props);
     this.state = {
