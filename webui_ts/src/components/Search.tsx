@@ -21,14 +21,24 @@ interface Props extends WithStyles<typeof styles> {
   decideNameText: (event: any) => any;
 }
 
-type State = {
-  anchorEl: HTMLDivElement | null,
-  open: boolean,
-  team: string,
+interface State {
+  anchorEl: HTMLDivElement | null;
+  open: boolean;
+  team: string;
   name: string
 }
 
 class SearchContents extends React.Component<Props, State> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      anchorEl: null,
+      open: false,
+      team: '',
+      name: '',
+    };
+  }
+
   render() {
     const {
       classes,
