@@ -129,7 +129,7 @@ class SearchContents extends React.Component<Props, State> {
           )}
         </Popper>
         <Fab color="primary" aria-label="Search">
-          <SearchIcon onClick={handlePopper} />
+          <SearchIcon onClick={() => handlePopper} />
         </Fab>
       </div>
     );
