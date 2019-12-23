@@ -13,14 +13,6 @@ import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import { styles } from "./Common";
 import { teamConverter } from "./datastore/DataCommon";
 
-interface Props extends WithStyles<typeof styles> {
-  execSearch: (team: string, name: string) => any;
-  resetSearch: (event: any) => any;
-  handlePopper: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => any;
-  decideTeamText: (event: any) => any;
-  decideNameText: (event: any) => any;
-}
-
 interface State {
   anchorEl: HTMLDivElement | null;
   open: boolean;
@@ -28,28 +20,28 @@ interface State {
   name: string
 }
 
-class SearchContents extends React.Component<Props, State> {
-  // fix point
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      anchorEl: null,
-      open: false,
-      team: '',
-      name: '',
-    };
-  }
+interface Props extends WithStyles<typeof styles> {
+  searchState: State;
+  execSearch: (team: string, name: string) => any;
+  resetSearch: (event: any) => any;
+  handlePopper: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => any;
+  decideTeamText: (event: any) => any;
+  decideNameText: (event: any) => any;
+}
+
+class SearchContents extends React.Component<Props> {
 
   render() {
     const {
       classes,
+      searchState,
       execSearch,
       resetSearch,
       handlePopper,
       decideTeamText,
       decideNameText
     } = this.props;
-    const { anchorEl, open, team, name } = this.state;
+    const { anchorEl, open, team, name } = searchState;
 
     return (
       <div>
@@ -129,7 +121,7 @@ class SearchContents extends React.Component<Props, State> {
           )}
         </Popper>
         <Fab color="primary" aria-label="Search">
-          <SearchIcon onClick={() => handlePopper} />
+          <SearchIcon onClick={handlePopper} />
         </Fab>
       </div>
     );
