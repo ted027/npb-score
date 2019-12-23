@@ -10,7 +10,7 @@ import { createStore } from 'redux';
 import recordsApp from './reducers'
 
 // disable the production enviroment analytics
-process.env.NODE_ENV === "development" && (window.gtagPageview = (path: string) => { /*console.log("pageview:", path);*/ });
+// process.env.NODE_ENV === "development" && (window.gtagPageview = (path: string) => { /*console.log("pageview:", path);*/ });
 
 let store = createStore(recordsApp)
 

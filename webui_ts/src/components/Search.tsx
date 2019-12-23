@@ -13,7 +13,15 @@ import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 import { styles } from "./Common";
 import { teamConverter } from "./datastore/DataCommon";
 
+interface State {
+  anchorEl: HTMLDivElement | null;
+  open: boolean;
+  team: string;
+  name: string
+}
+
 interface Props extends WithStyles<typeof styles> {
+  searchState: State;
   execSearch: (team: string, name: string) => any;
   resetSearch: (event: any) => any;
   handlePopper: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => any;
@@ -21,24 +29,19 @@ interface Props extends WithStyles<typeof styles> {
   decideNameText: (event: any) => any;
 }
 
-type State = {
-  anchorEl: HTMLDivElement | null,
-  open: boolean,
-  team: string,
-  name: string
-}
+class SearchContents extends React.Component<Props> {
 
-class SearchContents extends React.Component<Props, State> {
   render() {
     const {
       classes,
+      searchState,
       execSearch,
       resetSearch,
       handlePopper,
       decideTeamText,
       decideNameText
     } = this.props;
-    const { anchorEl, open, team, name } = this.state;
+    const { anchorEl, open, team, name } = searchState;
 
     return (
       <div>
