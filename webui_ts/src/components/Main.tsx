@@ -83,15 +83,17 @@ const PITCHER_VALUE = 2;
 const ORDER = 0;
 const PARKFACTOR = 1;
 
+interface State {
+  selected: number;
+  order_selected: number;
+  league_selected: number;
+  league: 'CentralPacific' | 'Central' | 'Pacific' | '';
+  searchTeam: string;
+  searchName: string;
+}
+
 interface Props extends WithStyles<typeof styles> {
-  pageState: {
-    selected: number;
-    order_selected: number;
-    league_selected: number;
-    league: 'CentralPacific' | 'Central' | 'Pacific' | '';
-    searchTeam: string;
-    searchName: string;
-  }
+  pageState: State
 }
 
 class MainPage extends React.Component<Props> {
