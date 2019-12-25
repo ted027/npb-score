@@ -1,4 +1,4 @@
-import pitchersj from "../../records/pitchers.json";
+import pitchersj from "../../records/pitchers.json.js";
 import { createHeader, createBody, createHeaderRelief } from "./DataCommon";
 
 const pitchers: {Name: string; Team: string; League: string; [key: string]: any}[] = pitchersj.Pitcher;
