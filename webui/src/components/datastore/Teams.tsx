@@ -1,5 +1,5 @@
-import teamsj from "../../records/teams.json.js";
-import parksj from "../../records/parks.json.js";
+import teamsj from "../../records/teams.json";
+import parksj from "../../records/parks.json";
 import { createData, teamConverter } from "./DataCommon";
 
 const teams: {チーム: string; [key: string]: any}[] = teamsj.Team;

@@ -1,4 +1,4 @@
-import hittersj from "../../records/hitters.json.js";
+import hittersj from "../../records/hitters.json";
 import { createHeader, createBody, createBodyClutch } from "./DataCommon";
 
 const hitters: {Name: string; Team: string; League: string; [key: string]: any}[] = hittersj.Hitter;
