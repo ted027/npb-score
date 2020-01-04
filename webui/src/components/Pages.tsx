@@ -2,6 +2,8 @@ import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import TextField from "@material-ui/core/TextField";
+import MenuItem from "@material-ui/core/MenuItem";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Slide from "@material-ui/core/Slide";
 import { styles, LinkTab } from "./Common";
@@ -89,3 +91,31 @@ const OrderAppBarWithoutStyles: React.FC<OrderAppBarProps> = React.forwardRef((p
 ));
 
 export const OrderAppBar = withStyles(styles)(OrderAppBarWithoutStyles);
+
+interface selectYearBarProps extends WithStyles<typeof styles> {
+  selected_year: number;
+}
+
+const selectYearBarWithoutStyles: React.FC<selectYearBarProps> = React.forwardRef((props, ref) => (
+  // TODO: fix class name
+  <AppBar className={props.classes.XXXXX} ref={ref}>
+    <form noValidate autoComplete="off">
+      <TextField
+        id="filled-select-year"
+        select
+        label="年"
+        className={props.classes.textField}
+        value={props.selected_year}
+        onChange={decideYearText} // TODO
+        variant="outlined"
+        margin="normal"
+      >
+        {Object.keys(teamConverter).map(shortTeam => (
+          <MenuItem key={shortTeam} value={shortTeam}>
+            {shortTeam}
+          </MenuItem>
+        ))}
+      </TextField>
+    </form>
+  </AppBar>
+));
