@@ -169,3 +169,7 @@ export function judgeSearch(player: string, main_state?: {searchTeam: string; se
   }
   return false;
 }
+
+export const years_list: number[] = [
+  2019
+]

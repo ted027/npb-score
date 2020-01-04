@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Slide from "@material-ui/core/Slide";
-import { styles, LinkTab } from "./Common";
+import { styles, LinkTab, years_list } from "./Common";
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 
 
@@ -110,9 +110,9 @@ const selectYearBarWithoutStyles: React.FC<selectYearBarProps> = React.forwardRe
         variant="outlined"
         margin="normal"
       >
-        {Object.keys(teamConverter).map(shortTeam => (
-          <MenuItem key={shortTeam} value={shortTeam}>
-            {shortTeam}
+        {years_list.map(year => (
+          <MenuItem key={year} value={year}>
+            {year}
           </MenuItem>
         ))}
       </TextField>
