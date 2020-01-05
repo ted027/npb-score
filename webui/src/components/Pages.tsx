@@ -109,6 +109,7 @@ const selectYearBarWithoutStyles: React.FC<selectYearBarProps> = React.forwardRe
         onChange={decideYearText} // TODO
         variant="outlined"
         margin="normal"
+        defaultValue={years_list.slice(-1)[0]}
       >
         {years_list.map(year => (
           <MenuItem key={year} value={year}>
