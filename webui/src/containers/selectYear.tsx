@@ -10,8 +10,8 @@ const mapStateToProps = (state: state) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        selectYear: (event: any) => {
-            dispatch(selectYear(event))
+        selectYear: (event: any, year_selected: number) => {
+            dispatch(selectYear(year_selected));
         }
     }
 }

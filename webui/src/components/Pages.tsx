@@ -94,7 +94,7 @@ export const OrderAppBar = withStyles(styles)(OrderAppBarWithoutStyles);
 
 interface selectYearBarProps extends WithStyles<typeof styles> {
   selected: number;
-  onChange: (event: any, selected: number) => any;
+  onChange: (event: any, year_selected: number) => any;
 }
 
 const selectYearBarWithoutStyles: React.FC<selectYearBarProps> = React.forwardRef((props, ref) => (
