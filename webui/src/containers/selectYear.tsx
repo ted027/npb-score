@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { Dispatch } from 'redux';
-// import { SelectYearBar } from "../components/Years"; TODO
+import { SelectYearBar } from "../components/Pages"; TODO
 import { selectYear } from "../actions";
 import { state } from "../reducers"
 
@@ -10,8 +10,15 @@ const mapStateToProps = (state: state) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        selectYear: (event: any, year_selected: number) => {
+        onChange: (event: any, year_selected: number) => {
             dispatch(selectYear(year_selected));
         }
     }
 }
+
+export const VisibleSelectYearBar = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+    null,
+    { forwardRef: true}
+)(SelectYearBar);

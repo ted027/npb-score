@@ -122,3 +122,5 @@ const selectYearBarWithoutStyles: React.FC<selectYearBarProps> = React.forwardRe
     </form>
   </AppBar>
 ));
+
+export const SelectYearBar = withStyles(styles)(selectYearBarWithoutStyles);
