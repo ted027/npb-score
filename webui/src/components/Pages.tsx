@@ -92,9 +92,13 @@ const OrderAppBarWithoutStyles: React.FC<OrderAppBarProps> = React.forwardRef((p
 
 export const OrderAppBar = withStyles(styles)(OrderAppBarWithoutStyles);
 
+interface yearsState {
+  year_selected: number
+}
+
 interface selectYearBarProps extends WithStyles<typeof styles> {
-  selected: number;
-  onChange: (event: any, year_selected: number) => any;
+  yearsState: yearsState;
+  onChange: (event: any) => any;
 }
 
 const selectYearBarWithoutStyles: React.FC<selectYearBarProps> = React.forwardRef((props, ref) => (
@@ -106,9 +110,8 @@ const selectYearBarWithoutStyles: React.FC<selectYearBarProps> = React.forwardRe
         select
         label="年"
         className={props.classes.textField}
-        value={props.selected}
-        // onChange={decideYearText} // TODO
-        onChange={props.onChange} // TODO
+        value={props.yearsState.year_selected}
+        onChange={props.onChange}
         variant="outlined"
         margin="normal"
         defaultValue={years_list.slice(-1)[0]}

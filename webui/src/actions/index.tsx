@@ -77,9 +77,9 @@ export const decideNameText = (event: any) => {
   };
 };
 
-export const selectYear = (year_selected: any) => {
+export const selectYear = (event: any) => {
   return {
-    type: "",
-    year_selected: year_selected
+    type: "SELECT_YEAR",
+    year_selected: event.target.value
   }
 }

@@ -14,7 +14,7 @@ const initialState: YearsIf = {
 
 const Years = (state = initialState, action: action): YearsIf => {
     switch (action.type) {
-        case "CHANGE_YEAR":
+        case "SELECT_YEAR":
             return {
                 year_selected: action.year_selected
             }
