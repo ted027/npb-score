@@ -103,7 +103,7 @@ interface selectYearBarProps extends WithStyles<typeof styles> {
 
 const selectYearBarWithoutStyles: React.FC<selectYearBarProps> = React.forwardRef((props, ref) => (
   // TODO: fix class name
-  <AppBar className={props.classes.XXXXX} ref={ref}>
+  <AppBar className={props.classes.tab} ref={ref}>
     <form noValidate autoComplete="off">
       <TextField
         id="filled-select-year"

@@ -66,7 +66,8 @@ import {
   VisibleLeagueAppBar,
   VisibleOrderAppBar
 } from "../containers/changeTab";
-import VisibleSearch from "../containers/VisibleSearch";
+import { VisibleSelectYearBar } from "../containers/selectYear";
+import { VisibleSearch } from "../containers/VisibleSearch";
 import {
   top_ad,
   bottom_ad,
@@ -103,6 +104,11 @@ class MainPage extends React.Component<Props> {
     return (
       <MuiThemeProvider theme={theme}>
         <div className={classes.root}>
+          <div className={classes.tab}>
+            <HideOnScroll {...this.props} direction="down">
+              <VisibleSelectYearBar />
+            </HideOnScroll>
+          </div>
           <div className={classes.tab}>
             <HideOnScroll {...this.props} direction="down">
               <VisibleMainAppBar selected={selected} />
