@@ -1,7 +1,17 @@
-import hittersj from "../../records/hitters.json";
+import hittersj2019 from "../../records/2019/hitters.json";
+// import hittersj2020 from "../../records/2020/hitters.json";
 import { createHeader, createBody, createBodyClutch } from "./DataCommon";
 
-const hitters: {Name: string; Team: string; League: string; [key: string]: any}[] = hittersj.Hitter;
+
+var hitters: {Name: string; Team: string; League: string; [key: string]: any}[] = hittersj2019.Hitter;
+
+var yearJson = {
+  ['2019']: hittersj2019.Hitter
+}
+
+export const yearHitters = (year: ('2019')) => ({
+  hitters = yearJson.year
+})
 
 //sabr
 const hheader_sabr = ["wRC+", "OPS+", "TAv", "XRWIN", "規定", "League"];

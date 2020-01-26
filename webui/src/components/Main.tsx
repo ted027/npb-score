@@ -104,7 +104,7 @@ class MainPage extends React.Component<Props> {
     return (
       <MuiThemeProvider theme={theme}>
         <div className={classes.root}>
-          <div className={classes.tab}>
+          <div>
             <HideOnScroll {...this.props} direction="down">
               <VisibleSelectYearBar />
             </HideOnScroll>
