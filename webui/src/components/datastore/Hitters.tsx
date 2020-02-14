@@ -6,12 +6,39 @@ import { createHeader, createBody, createBodyClutch } from "./DataCommon";
 var hitters: {Name: string; Team: string; League: string; [key: string]: any}[] = hittersj2019.Hitter;
 
 var yearJson = {
-  ['2019']: hittersj2019.Hitter
+  '2019': hittersj2019.Hitter
 }
 
-export const yearHitters = (year: ('2019')) => ({
-  hitters = yearJson.year
-})
+type hitters_body = {
+  sabr: {[key: string]: string | boolean}[],
+  title: {[key: string]: string | boolean}[],
+  ops: {[key: string]: string | boolean}[],
+  woba: {[key: string]: string | boolean}[],
+  xr: {[key: string]: string | boolean}[],
+  contact: {[key: string]: string | boolean}[],
+  power: {[key: string]: string | boolean}[],
+  eye: {[key: string]: string | boolean}[],
+  steal: {[key: string]: string | boolean}[],
+  clutch: {[key: string]: string | boolean}[],
+  oth: {[key: string]: string | boolean}[]
+}
+
+export const hitters_body: hitters_body = (year: ('2019')) => {
+  var hitters = yearJson[year]
+  return {
+    sabr: createBody(hitters, hheader_sabr),
+    title: createBody(hitters, hheader),
+    ops: createBody(hitters, hheader_ops),
+    woba: createBody(hitters, hheader_woba),
+    xr:  createBody(hitters, hheader_xr),
+    contact: createBody(hitters, hheader_contact),
+    power: createBody(hitters, hheader_power),
+    eye: createBody(hitters, hheader_eye),
+    steal: createBody(hitters, hheader_steal),
+    clutch: createBody(hitters, hheader_clutch),
+    oth: createBody(hitters, hheader_oth)
+  }
+}
 
 //sabr
 const hheader_sabr = ["wRC+", "OPS+", "TAv", "XRWIN", "規定", "League"];
