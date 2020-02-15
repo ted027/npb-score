@@ -19,8 +19,8 @@ import {
 import {
   hitters_sabr_header,
   hitters_sabr_body,
-  hitters_header,
-  hitters_body,
+  hitters_header_title,
+  hitters_body_title,
   hitters_header_ops,
   hitters_body_ops,
   hitters_header_woba,
@@ -360,8 +360,8 @@ class MainPage extends React.Component<Props> {
                 <CommonTable
                   default_order="desc"
                   default_orderBy="打率"
-                  head={hitters_header}
-                  data={hitters_body}
+                  head={hitters_header_title}
+                  data={hitters_body_title}
                   league={league}
                   main_state={pageState}
                 />

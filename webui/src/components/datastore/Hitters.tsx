@@ -9,37 +9,6 @@ var yearJson = {
   '2019': hittersj2019.Hitter
 }
 
-type hitters_body = {
-  sabr: {[key: string]: string | boolean}[],
-  title: {[key: string]: string | boolean}[],
-  ops: {[key: string]: string | boolean}[],
-  woba: {[key: string]: string | boolean}[],
-  xr: {[key: string]: string | boolean}[],
-  contact: {[key: string]: string | boolean}[],
-  power: {[key: string]: string | boolean}[],
-  eye: {[key: string]: string | boolean}[],
-  steal: {[key: string]: string | boolean}[],
-  clutch: {[key: string]: string | boolean}[],
-  oth: {[key: string]: string | boolean}[]
-}
-
-export const hitters_body_of_year: hitters_body = (year: ('2019')) => {
-  var hitters = yearJson[year]
-  return {
-    sabr: createBody(hitters, hheader_sabr),
-    title: createBody(hitters, hheader),
-    ops: createBody(hitters, hheader_ops),
-    woba: createBody(hitters, hheader_woba),
-    xr:  createBody(hitters, hheader_xr),
-    contact: createBody(hitters, hheader_contact),
-    power: createBody(hitters, hheader_power),
-    eye: createBody(hitters, hheader_eye),
-    steal: createBody(hitters, hheader_steal),
-    clutch: createBody(hitters, hheader_clutch),
-    oth: createBody(hitters, hheader_oth)
-  }
-}
-
 //sabr
 const hheader_sabr = ["wRC+", "OPS+", "TAv", "XRWIN", "規定", "League"];
 const hheader_sabr_regulated = [true, true, true, true, false, false];
@@ -52,15 +21,15 @@ export const hitters_sabr_header: {[key: string]: string | boolean; id: string}[
 export const hitters_sabr_body: {[key: string]: string | boolean}[] = createBody(hitters, hheader_sabr);
 
 // award
-const hheader = ["打率", "安打", "本塁打", "打点", "盗塁", "規定", "League"];
-const hheader_regulated = [true, false, false, false, false, false, false];
-const hheader_order = new Array(hheader.length).fill("desc");
-export const hitters_header: {[key: string]: string | boolean; id: string}[] = createHeader(
-  hheader,
-  hheader_regulated,
-  hheader_order
+const hheader_title = ["打率", "安打", "本塁打", "打点", "盗塁", "規定", "League"];
+const hheader_title_regulated = [true, false, false, false, false, false, false];
+const hheader_title_order = new Array(hheader_title.length).fill("desc");
+export const hitters_header_title: {[key: string]: string | boolean; id: string}[] = createHeader(
+  hheader_title,
+  hheader_title_regulated,
+  hheader_title_order
 );
-export const hitters_body: {[key: string]: string | boolean}[] = createBody(hitters, hheader);
+export const hitters_body_title: {[key: string]: string | boolean}[] = createBody(hitters, hheader_title);
 
 // ops
 
@@ -176,3 +145,34 @@ export const hitters_header_oth: {[key: string]: string | boolean; id: string}[]
   hheader_oth_order
 );
 export const hitters_body_oth: {[key: string]: string | boolean}[] = createBody(hitters, hheader_oth);
+
+type hitters_body = {
+  sabr: {[key: string]: string | boolean}[],
+  title: {[key: string]: string | boolean}[],
+  ops: {[key: string]: string | boolean}[],
+  woba: {[key: string]: string | boolean}[],
+  xr: {[key: string]: string | boolean}[],
+  contact: {[key: string]: string | boolean}[],
+  power: {[key: string]: string | boolean}[],
+  eye: {[key: string]: string | boolean}[],
+  steal: {[key: string]: string | boolean}[],
+  clutch: {[key: string]: string | boolean}[],
+  oth: {[key: string]: string | boolean}[]
+};
+
+export const hitters_body_of_year: hitters_body = (year: '2019') => {
+  var hitters = yearJson[year]
+  return {
+    sabr: createBody(hitters, hheader_sabr),
+    title: createBody(hitters, hheader),
+    ops: createBody(hitters, hheader_ops),
+    woba: createBody(hitters, hheader_woba),
+    xr:  createBody(hitters, hheader_xr),
+    contact: createBody(hitters, hheader_contact),
+    power: createBody(hitters, hheader_power),
+    eye: createBody(hitters, hheader_eye),
+    steal: createBody(hitters, hheader_steal),
+    clutch: createBody(hitters, hheader_clutch),
+    oth: createBody(hitters, hheader_oth)
+  };
+}
