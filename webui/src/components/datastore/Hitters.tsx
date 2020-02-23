@@ -160,7 +160,7 @@ type hitters_body = {
   oth: {[key: string]: string | boolean}[]
 };
 
-export const hitters_body_of_year: hitters_body = (year: '2019') => {
+export const hitters_body_of_year = (year: '2019'): hitters_body => {
   var hitters = yearJson[year]
   return {
     sabr: createBody(hitters, hheader_sabr),
