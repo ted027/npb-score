@@ -1,4 +1,8 @@
-export function createHeader(array: string[], regulated: boolean[], order: string[]) {
+export function createHeader(
+  array: string[],
+  regulated: boolean[],
+  order: string[]
+) {
   const header = [
     {
       id: "選手",
@@ -20,7 +24,12 @@ export function createHeader(array: string[], regulated: boolean[], order: strin
   return header;
 }
 
-export function createHeaderRelief(array: string[], regulated: boolean[], order: string[], numeric: boolean[]) {
+export function createHeaderRelief(
+  array: string[],
+  regulated: boolean[],
+  order: string[],
+  numeric: boolean[]
+) {
   const header = [
     {
       id: "選手",
@@ -46,11 +55,14 @@ function createNameContent(name: string, team: string) {
   return name + " (" + team + ")";
 }
 
-export function createBody(array: {Name: string; Team: string; [key: string]: any}[], head: string[]) {
-  const body: {[key: string]: string | boolean}[] = [];
+export function createBody(
+  array: { Name: string; Team: string; [key: string]: any }[],
+  head: string[]
+): { [key: string]: string | boolean }[] {
+  const body: { [key: string]: string | boolean }[] = [];
   for (var j = 0; j < array.length; j++) {
     var name: string = createNameContent(array[j]["Name"], array[j]["Team"]);
-    var body_player: {[key: string]: any} = { 選手: name };
+    var body_player: { [key: string]: any } = { 選手: name };
     for (var k = 0; k < head.length; k++) {
       body_player[head[k]] = array[j][head[k]];
     }
@@ -59,12 +71,15 @@ export function createBody(array: {Name: string; Team: string; [key: string]: an
   return body;
 }
 
-export function createBodyClutch(array: {Name: string; Team: string; [key: string]: any}[], head: string[]) {
-  const body: {[key: string]: string | boolean}[]= [];
+export function createBodyClutch(
+  array: { Name: string; Team: string; [key: string]: any }[],
+  head: string[]
+) {
+  const body: { [key: string]: string | boolean }[] = [];
   for (var j = 0; j < array.length; j++) {
     if (array[j][head[0]]) {
       var name: string = createNameContent(array[j]["Name"], array[j]["Team"]);
-      var body_player: {[key: string]: any} = { 選手: name };
+      var body_player: { [key: string]: any } = { 選手: name };
       for (var k = 0; k < head.length; k++) {
         body_player[head[k]] = array[j][head[k]];
       }
@@ -74,16 +89,16 @@ export function createBodyClutch(array: {Name: string; Team: string; [key: strin
   return body;
 }
 
-export function createData(json: {[key: string]: any}) {
+export function createData(json: { [key: string]: any }) {
   var keys: string[] = Object.keys(json);
-  var row: {[key: string]: string} = {};
+  var row: { [key: string]: string } = {};
   for (var k = 0; k < keys.length; k++) {
     row[keys[k]] = json[keys[k]];
   }
   return row;
 }
 
-export const teamConverter: {[key: string]: string} = {
+export const teamConverter: { [key: string]: string } = {
   西武: "埼玉西武ライオンズ",
   ソフトバンク: "福岡ソフトバンクホークス",
   日本ハム: "北海道日本ハムファイターズ",

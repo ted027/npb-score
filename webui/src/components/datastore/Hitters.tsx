@@ -164,7 +164,7 @@ export const hitters_body_of_year: hitters_body = (year: '2019') => {
   var hitters = yearJson[year]
   return {
     sabr: createBody(hitters, hheader_sabr),
-    title: createBody(hitters, hheader),
+    title: createBody(hitters, hheader_title),
     ops: createBody(hitters, hheader_ops),
     woba: createBody(hitters, hheader_woba),
     xr:  createBody(hitters, hheader_xr),
