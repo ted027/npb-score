@@ -1,9 +1,10 @@
-import teamsj from "../../records/teams.json";
 import parksj from "../../records/parks.json";
+import teamsj2019 from "../../records/2019/teams.json";
+// import teamsj2020 from "../../records/2020/teams.json";
 import { createData, teamConverter } from "./DataCommon";
 
-const teams: {チーム: string; [key: string]: any}[] = teamsj.Team;
 const parks: {球場: string; [key: string]: any}[] = parksj.Park;
+const teams: {チーム: string; [key: string]: any}[] = teamsj2019.Team;
 
 // Teams
 //

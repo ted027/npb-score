@@ -1,9 +1,9 @@
 import hittersj2019 from "../../records/2019/hitters.json";
 // import hittersj2020 from "../../records/2020/hitters.json";
 import { createHeader, createBody, createBodyClutch } from "./DataCommon";
+import { selectYears, teamDict } from "../../constants";
 
-
-var hitters: {Name: string; Team: string; League: string; [key: string]: any}[] = hittersj2019.Hitter;
+var hitters: teamDict[] = hittersj2019.Hitter;
 
 var yearJson = {
   '2019': hittersj2019.Hitter
@@ -18,7 +18,6 @@ export const hitters_sabr_header: {[key: string]: string | boolean; id: string}[
   hheader_sabr_regulated,
   hheader_sabr_order
 );
-export const hitters_sabr_body: {[key: string]: string | boolean}[] = createBody(hitters, hheader_sabr);
 
 // award
 const hheader_title = ["打率", "安打", "本塁打", "打点", "盗塁", "規定", "League"];
@@ -29,7 +28,6 @@ export const hitters_header_title: {[key: string]: string | boolean; id: string}
   hheader_title_regulated,
   hheader_title_order
 );
-export const hitters_body_title: {[key: string]: string | boolean}[] = createBody(hitters, hheader_title);
 
 // ops
 
@@ -41,7 +39,6 @@ export const hitters_header_ops: {[key: string]: string | boolean; id: string}[]
   hheader_ops_regulated,
   hheader_ops_order
 );
-export const hitters_body_ops: {[key: string]: string | boolean}[] = createBody(hitters, hheader_ops);
 
 // woba
 
@@ -53,7 +50,6 @@ export const hitters_header_woba: {[key: string]: string | boolean; id: string}[
   hheader_woba_regulated,
   hheader_woba_order
 );
-export const hitters_body_woba: {[key: string]: string | boolean}[] = createBody(hitters, hheader_woba);
 
 // xr
 
@@ -65,7 +61,6 @@ export const hitters_header_xr: {[key: string]: string | boolean; id: string}[] 
   hheader_xr_regulated,
   hheader_xr_order
 );
-export const hitters_body_xr: {[key: string]: string | boolean}[] = createBody(hitters, hheader_xr);
 
 // contact
 
@@ -77,7 +72,6 @@ export const hitters_header_contact: {[key: string]: string | boolean; id: strin
   hheader_contact_regulated,
   hheader_contact_order
 );
-export const hitters_body_contact: {[key: string]: string | boolean}[] = createBody(hitters, hheader_contact);
 
 // power
 
@@ -96,7 +90,6 @@ export const hitters_header_power: {[key: string]: string | boolean; id: string}
   hheader_power_regulated,
   hheader_power_order
 );
-export const hitters_body_power: {[key: string]: string | boolean}[] = createBody(hitters, hheader_power);
 
 // eye
 
@@ -108,7 +101,6 @@ export const hitters_header_eye: {[key: string]: string | boolean; id: string}[]
   hheader_eye_regulated,
   hheader_eye_order
 );
-export const hitters_body_eye: {[key: string]: string | boolean}[] = createBody(hitters, hheader_eye);
 
 // steal
 
@@ -120,7 +112,6 @@ export const hitters_header_steal: {[key: string]: string | boolean; id: string}
   hheader_steal_regulated,
   hheader_steal_order
 );
-export const hitters_body_steal: {[key: string]: string | boolean}[] = createBody(hitters, hheader_steal);
 
 // clutch
 
@@ -132,7 +123,6 @@ export const hitters_header_clutch: {[key: string]: string | boolean; id: string
   hheader_clutch_regulated,
   hheader_clutch_order
 );
-export const hitters_body_clutch: {[key: string]: string | boolean}[] = createBodyClutch(hitters, hheader_clutch);
 
 // oth
 
@@ -144,7 +134,6 @@ export const hitters_header_oth: {[key: string]: string | boolean; id: string}[]
   hheader_oth_regulated,
   hheader_oth_order
 );
-export const hitters_body_oth: {[key: string]: string | boolean}[] = createBody(hitters, hheader_oth);
 
 type hitters_body = {
   sabr: {[key: string]: string | boolean}[],
@@ -160,7 +149,7 @@ type hitters_body = {
   oth: {[key: string]: string | boolean}[]
 };
 
-export const hitters_body_of_year = (year: '2019'): hitters_body => {
+export const hitters_body_of_year = (year: selectYears): hitters_body => {
   var hitters = yearJson[year]
   return {
     sabr: createBody(hitters, hheader_sabr),

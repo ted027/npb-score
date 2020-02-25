@@ -1,7 +1,9 @@
-import pitchersj from "../../records/pitchers.json";
+import pitchersj2019 from "../../records/2019/pitchers.json";
+// import pitchersj2020 from "../../records/2020/pitchers.json";
 import { createHeader, createBody, createHeaderRelief } from "./DataCommon";
+import { selectYears, teamDict } from "../../constants"
 
-const pitchers: {Name: string; Team: string; League: string; [key: string]: any}[] = pitchersj.Pitcher;
+const pitchers: teamDict[] = pitchersj2019.Pitcher;
 
 // sabr
 const pheader_sabr = ["防御率", "FIP", "FIP_pf", "K/BB", "規定", "League"];
@@ -12,18 +14,16 @@ export const pitchers_sabr_header: {[key: string]: string | boolean; id: string}
   pheader_sabr_regulated,
   pheader_sabr_order
 );
-export const pitchers_sabr_body: {[key: string]: string | boolean}[] = createBody(pitchers, pheader_sabr);
 
 // main records
-const pheader = ["投球回", "勝利", "敗戦", "勝率", "奪三振", "規定", "League"];
-const pheader_regulated = [false, false, false, true, false, false, false];
-const pheader_order = ["desc", "desc", "desc", "desc", "desc", "desc", "desc"];
-export const pitchers_header: {[key: string]: string | boolean; id: string}[] = createHeader(
-  pheader,
-  pheader_regulated,
-  pheader_order
+const pheader_title = ["投球回", "勝利", "敗戦", "勝率", "奪三振", "規定", "League"];
+const pheader_regulated_title = [false, false, false, true, false, false, false];
+const pheader_order_title = ["desc", "desc", "desc", "desc", "desc", "desc", "desc"];
+export const pitchers_header_title: {[key: string]: string | boolean; id: string}[] = createHeader(
+  pheader_title,
+  pheader_regulated_title,
+  pheader_order_title
 );
-export const pitchers_body: {[key: string]: string | boolean}[] = createBody(pitchers, pheader);
 
 // whip
 const pheader_whip = ["WHIP", "被打率", "LOB%", "BABIP", "規定", "League"];
@@ -34,7 +34,6 @@ export const pitchers_header_whip: {[key: string]: string | boolean; id: string}
   pheader_regulated_whip,
   pheader_order_whip
 );
-export const pitchers_body_whip: {[key: string]: string | boolean}[] = createBody(pitchers, pheader_whip);
 
 // qs
 const pheader_qs = ["QS率", "QS", "先発", "完投", "完封", "規定", "League"];
@@ -53,7 +52,6 @@ export const pitchers_header_qs: {[key: string]: string | boolean; id: string}[]
   pheader_regulated_qs,
   pheader_order_qs
 );
-export const pitchers_body_qs: {[key: string]: string | boolean}[] = createBody(pitchers, pheader_qs);
 
 // kbb
 const pheader_kbb = ["K-BB%", "K%", "BB%", "HR%", "規定", "League"];
@@ -64,7 +62,6 @@ export const pitchers_header_kbb: {[key: string]: string | boolean; id: string}[
   pheader_regulated_kbb,
   pheader_order_kbb
 );
-export const pitchers_body_kbb: {[key: string]: string | boolean}[] = createBody(pitchers, pheader_kbb);
 
 // closer
 const pheader_closer = [
@@ -101,7 +98,6 @@ export const pitchers_header_closer: {[key: string]: string | boolean; id: strin
   pheader_order_closer,
   pheader_rnumeric_closer
 );
-export const pitchers_body_closer: {[key: string]: string | boolean}[] = createBody(pitchers, pheader_closer);
 
 // relief
 const pheader_relief = [
@@ -138,7 +134,6 @@ export const pitchers_header_relief: {[key: string]: string | boolean; id: strin
   pheader_order_relief,
   pheader_rnumeric_relief
 );
-export const pitchers_body_relief: {[key: string]: string | boolean}[] = createBody(pitchers, pheader_relief);
 
 // oth
 const pheader_oth = ["小松式ドネーション", "ONE OUTS(万)", "規定", "League"];
@@ -149,4 +144,31 @@ export const pitchers_header_oth: {[key: string]: string | boolean; id: string}[
   pheader_regulated_oth,
   pheader_order_oth
 );
-export const pitchers_body_oth: {[key: string]: string | boolean}[] = createBody(pitchers, pheader_oth);
+
+type pitchers_body = {
+  sabr: {[key: string]: string | boolean}[],
+  title: {[key: string]: string | boolean}[],
+  ops: {[key: string]: string | boolean}[],
+  woba: {[key: string]: string | boolean}[],
+  xr: {[key: string]: string | boolean}[],
+  contact: {[key: string]: string | boolean}[],
+  power: {[key: string]: string | boolean}[],
+  eye: {[key: string]: string | boolean}[],
+  steal: {[key: string]: string | boolean}[],
+  clutch: {[key: string]: string | boolean}[],
+  oth: {[key: string]: string | boolean}[]
+};
+
+export const pitchers_body_of_year = (year: selectYears): pitchers_body => {
+  var pitchers = yearJson[year]
+  return {
+    sabr: createBody(pitchers, pheader_sabr),
+    title: createBody(pitchers, pheader_title),
+    whip: createBody(pitchers, pheader_whip),
+    qs: createBody(pitchers, pheader_qs),
+    kbb:  createBody(pitchers, pheader_kbb),
+    closer: createBody(pitchers, pheader_closer),
+    relief: createBody(pitchers, pheader_relief),
+    oth: createBody(pitchers, pheader_oth)
+  };
+}
