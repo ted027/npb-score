@@ -1,21 +1,17 @@
 import React from "react";
-import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
+import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import { theme } from "../theme/theme";
 import {
-  parks_header,
-  parks_body,
-  parks_total_body,
-  teams_header,
-  teams_body,
-  teams_atk_header,
-  teams_atk_body,
-  teams_def_header,
-  teams_def_body
+  teams_header_stats,
+  teams_header_offense,
+  teams_header_defense,
+  teams_body_of_year
 } from "./datastore/Teams";
+import { parks_header, parks_body, parks_total_body } from "./datastore/Parks";
 import {
   hitters_sabr_header,
   hitters_header_title,
@@ -59,7 +55,7 @@ import {
   middle_ad3,
   middle_ad4
 } from "./Ad";
-import { selectYears } from "../constants"
+import { selectYears } from "../constants";
 
 const ORDER_VALUE = 0;
 const HITTER_VALUE = 1;
@@ -72,14 +68,14 @@ interface State {
   selected: number;
   order_selected: number;
   league_selected: number;
-  league: 'CentralPacific' | 'Central' | 'Pacific' | '';
+  league: "CentralPacific" | "Central" | "Pacific" | "";
   year_selected: selectYears;
   searchTeam: string;
   searchName: string;
 }
 
 interface Props extends WithStyles<typeof styles> {
-  pageState: State
+  pageState: State;
 }
 
 class MainPage extends React.Component<Props> {
@@ -102,9 +98,7 @@ class MainPage extends React.Component<Props> {
           {selected === ORDER_VALUE && (
             <div className={classes.individualRoot}>
               <HideOnScroll {...this.props} direction="down">
-                <VisibleOrderAppBar
-                  selected={order_selected}
-                />
+                <VisibleOrderAppBar selected={order_selected} />
               </HideOnScroll>
               {top_ad(classes)}
               {order_selected === ORDER && (
@@ -124,9 +118,11 @@ class MainPage extends React.Component<Props> {
                     <CommonTable
                       default_order="desc"
                       default_orderBy="勝率"
-                      head={teams_header}
-                      data={teams_body}
-                      const_row_length={teams_body.length}
+                      head={teams_header_stats}
+                      data={teams_body_of_year(pageState.year_selected).stats}
+                      const_row_length={
+                        teams_body_of_year(pageState.year_selected).stats.length
+                      }
                       league="Central"
                       main_state={pageState}
                     />
@@ -146,9 +142,11 @@ class MainPage extends React.Component<Props> {
                     <CommonTable
                       default_order="desc"
                       default_orderBy="勝率"
-                      head={teams_header}
-                      data={teams_body}
-                      const_row_length={teams_body.length}
+                      head={teams_header_stats}
+                      data={teams_body_of_year(pageState.year_selected).stats}
+                      const_row_length={
+                        teams_body_of_year(pageState.year_selected).stats.length
+                      }
                       league="Pacific"
                       main_state={pageState}
                     />
@@ -169,9 +167,11 @@ class MainPage extends React.Component<Props> {
                     <CommonTable
                       default_order="desc"
                       default_orderBy="得点"
-                      head={teams_atk_header}
-                      data={teams_atk_body}
-                      const_row_length={teams_body.length}
+                      head={teams_header_offense}
+                      data={teams_body_of_year(pageState.year_selected).offense}
+                      const_row_length={
+                        teams_body_of_year(pageState.year_selected).offense.length
+                      }
                       league="Central"
                       main_state={pageState}
                     />
@@ -191,9 +191,11 @@ class MainPage extends React.Component<Props> {
                     <CommonTable
                       default_order="desc"
                       default_orderBy="得点"
-                      head={teams_atk_header}
-                      data={teams_atk_body}
-                      const_row_length={teams_body.length}
+                      head={teams_header_offense}
+                      data={teams_body_of_year(pageState.year_selected).offense}
+                      const_row_length={
+                        teams_body_of_year(pageState.year_selected).offense.length
+                      }
                       league="Pacific"
                       main_state={pageState}
                     />
@@ -214,9 +216,11 @@ class MainPage extends React.Component<Props> {
                     <CommonTable
                       default_order="asc"
                       default_orderBy="失点"
-                      head={teams_def_header}
-                      data={teams_def_body}
-                      const_row_length={teams_body.length}
+                      head={teams_header_defense}
+                      data={teams_body_of_year(pageState.year_selected).defense}
+                      const_row_length={
+                        teams_body_of_year(pageState.year_selected).defense.length
+                      }
                       league="Central"
                       main_state={pageState}
                     />
@@ -236,9 +240,11 @@ class MainPage extends React.Component<Props> {
                     <CommonTable
                       default_order="asc"
                       default_orderBy="失点"
-                      head={teams_def_header}
-                      data={teams_def_body}
-                      const_row_length={teams_body.length}
+                      head={teams_header_defense}
+                      data={teams_body_of_year(pageState.year_selected).defense}
+                      const_row_length={
+                        teams_body_of_year(pageState.year_selected).defense.length
+                      }
                       league="Pacific"
                       main_state={pageState}
                     />
@@ -299,9 +305,7 @@ class MainPage extends React.Component<Props> {
           {selected === HITTER_VALUE && (
             <div className={classes.individualRoot}>
               <HideOnScroll {...this.props} direction="down">
-                <VisibleLeagueAppBar
-                  selected={league_selected}
-                />
+                <VisibleLeagueAppBar selected={league_selected} />
               </HideOnScroll>
               <div className={classes.fab}>
                 <HideOnScroll {...this.props} direction="up">
@@ -550,9 +554,7 @@ class MainPage extends React.Component<Props> {
           {selected === PITCHER_VALUE && (
             <div className={classes.individualRoot}>
               <HideOnScroll {...this.props} direction="down">
-                <VisibleLeagueAppBar
-                  selected={league_selected}
-                />
+                <VisibleLeagueAppBar selected={league_selected} />
               </HideOnScroll>
               <div className={classes.fab}>
                 <HideOnScroll {...this.props} direction="up">
