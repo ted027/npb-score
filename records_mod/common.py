@@ -3,7 +3,7 @@ from decimal import Decimal
 YEAR = 2019
 TEAM_NUM = 6
 
-RECORDS_DIRECTORY = 'records'
+RECORDS_DIRECTORY = f'records/{YEAR}'
 
 TEAM_LIST = [
     '西武', 'ソフトバンク', '日本ハム', 'オリックス', 'ロッテ', '楽天', '広島', 'ヤクルト', '巨人', 'ＤｅＮＡ',

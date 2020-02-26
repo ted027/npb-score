@@ -10,7 +10,7 @@ export interface MainPageIf {
   searchName: string;
 }
 
-interface action extends MainPageIf{
+interface action extends MainPageIf {
   type: string;
 }
 

@@ -37,11 +37,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   };
 };
 
-const VisibleSearch = connect(
+export const VisibleSearch = connect(
   mapStateToProps,
   mapDispatchToProps,
   null,
   { forwardRef: true }
 )(Search);
-
-export default VisibleSearch;

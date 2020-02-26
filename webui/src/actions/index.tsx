@@ -76,3 +76,10 @@ export const decideNameText = (event: any) => {
     name: event.target.value
   };
 };
+
+export const selectYear = (event: any) => {
+  return {
+    type: "SELECT_YEAR",
+    year_selected: event.target.value
+  }
+}

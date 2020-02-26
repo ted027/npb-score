@@ -22,6 +22,8 @@ import {
   enableSearch,
   judgeSearch
 } from "./Common";
+import { strBoolDictWithId } from "../constants";
+
 
 const IGNORE_ELEMENTS = ["規定", "League"];
 const NARROW_BR_ELEMENTS = ["チーム", "選手", "球場"];
@@ -212,7 +214,7 @@ const CommonTableHead = withStyles(styles)(CommonTableHeadWithoutStyles);
 interface TableProps extends WithStyles<typeof styles> {
   default_order: 'asc' | 'desc';
   default_orderBy: string;
-  head: {[key: string]: string | boolean; id: string}[];
+  head: strBoolDictWithId[];
   data: {[key: string]: any}[];
   const_row_length?: number;
   league: 'CentralPacific' | 'Central' | 'Pacific' | '';
