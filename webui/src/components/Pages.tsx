@@ -5,6 +5,7 @@ import Tab from "@material-ui/core/Tab";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
+import MediaQuery from "react-responsive";
 import Slide from "@material-ui/core/Slide";
 import { styles, LinkTab, years_list } from "./Common";
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
@@ -31,17 +32,29 @@ interface MainAppBarProps {
 
 export const MainAppBar: React.FC<MainAppBarProps> = React.forwardRef((props, ref) => (
   <AppBar ref={ref}>
-    <Tabs
-      variant="fullWidth"
-      value={props.selected}
-      scrollButtons="auto"
-      onChange={props.onChange}
-    >
-      <Tab label="順位表" />
-      <Tab label="野手成績" />
-      <Tab label="投手成績" />
-      <LinkTab label="BLOG" href="/" />
-    </Tabs>
+    <MediaQuery query="(max-width: 767px)">
+      <Tabs
+        variant="fullWidth"
+        value={props.selected}
+        onChange={props.onChange}
+      >
+        <Tab label="順位表" />
+        <Tab label="野手成績" />
+        <Tab label="投手成績" />
+        <LinkTab label="BLOG" href="/" />
+      </Tabs>
+    </MediaQuery>
+    <MediaQuery query="(min-width: 767px)">
+      <Tabs
+        value={props.selected}
+        onChange={props.onChange}
+      >
+        <Tab label="順位表" />
+        <Tab label="野手成績" />
+        <Tab label="投手成績" />
+        <LinkTab label="BLOG" href="/" />
+      </Tabs>
+    </MediaQuery>
   </AppBar>
 ));
 
@@ -52,18 +65,31 @@ interface LeagueAppBarProps extends WithStyles<typeof styles> {
 
 const LeagueAppBarWithoutStyles: React.FC<LeagueAppBarProps> = React.forwardRef((props, ref) => (
   <AppBar className={props.classes.subtab} ref={ref}>
-    <Tabs
-      variant="fullWidth"
-      value={props.selected}
-      indicatorColor="primary"
-      textColor="primary"
-      scrollButtons="auto"
-      onChange={props.onChange}
-    >
-      <Tab label="ALL" />
-      <Tab label="セリーグ" />
-      <Tab label="パリーグ" />
-    </Tabs>
+    <MediaQuery query="(max-width: 767px)">
+      <Tabs
+        variant="fullWidth"
+        value={props.selected}
+        indicatorColor="primary"
+        textColor="primary"
+        onChange={props.onChange}
+      >
+        <Tab label="ALL" />
+        <Tab label="セリーグ" />
+        <Tab label="パリーグ" />
+      </Tabs>
+    </MediaQuery>
+    <MediaQuery query="(min-width: 767px)">
+      <Tabs
+        value={props.selected}
+        indicatorColor="primary"
+        textColor="primary"
+        onChange={props.onChange}
+      >
+        <Tab label="ALL" />
+        <Tab label="セリーグ" />
+        <Tab label="パリーグ" />
+      </Tabs>
+    </MediaQuery>
   </AppBar>
 ));
 
@@ -76,17 +102,29 @@ interface OrderAppBarProps extends WithStyles<typeof styles> {
 
 const OrderAppBarWithoutStyles: React.FC<OrderAppBarProps> = React.forwardRef((props, ref) => (
   <AppBar className={props.classes.subtab} ref={ref}>
-    <Tabs
-      variant="fullWidth"
-      value={props.selected}
-      indicatorColor="primary"
-      textColor="primary"
-      scrollButtons="auto"
-      onChange={props.onChange}
-    >
-      <Tab label="順位表" />
-      <Tab label="パークファクター" />
-    </Tabs>
+    <MediaQuery query="(max-width: 767px)">
+      <Tabs
+        variant="fullWidth"
+        value={props.selected}
+        indicatorColor="primary"
+        textColor="primary"
+        onChange={props.onChange}
+      >
+        <Tab label="順位表" />
+        <Tab label="パークファクター" />
+      </Tabs>
+    </MediaQuery>
+    <MediaQuery query="(min-width: 767px)">
+      <Tabs
+        value={props.selected}
+        indicatorColor="primary"
+        textColor="primary"
+        onChange={props.onChange}
+      >
+        <Tab label="順位表" />
+        <Tab label="パークファクター" />
+      </Tabs>
+    </MediaQuery>
   </AppBar>
 ));
 
