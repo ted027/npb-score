@@ -64,24 +64,42 @@ const PITCHER_VALUE = 2;
 const ORDER = 0;
 const PARKFACTOR = 1;
 
-interface State {
+interface pageState {
   selected: number;
   order_selected: number;
   league_selected: number;
   league: "CentralPacific" | "Central" | "Pacific" | "";
-  year_selected: selectYears;
   searchTeam: string;
   searchName: string;
 }
 
+interface yearState {
+  year_selected: selectYears;
+}
+
 interface Props extends WithStyles<typeof styles> {
-  pageState: State;
+  pageState: pageState;
+  yearState: yearState
 }
 
 class MainPage extends React.Component<Props> {
   render() {
-    const { classes, pageState } = this.props;
-    const { selected, order_selected, league_selected, league } = pageState;
+    const { classes, pageState, yearState } = this.props;
+    const {
+      selected,
+      order_selected,
+      league_selected,
+      league,
+    } = pageState;
+    const { year_selected } = yearState;
+    console.log('selected');
+    console.log(selected);
+    console.log('order_selected');
+    console.log(order_selected);
+    console.log('league_selected');
+    console.log(league_selected);
+    console.log('year_selected');
+    console.log(year_selected);
     return (
       <MuiThemeProvider theme={theme}>
         <div className={classes.root}>
@@ -119,9 +137,9 @@ class MainPage extends React.Component<Props> {
                       default_order="desc"
                       default_orderBy="勝率"
                       head={teams_header_stats}
-                      data={teams_body_of_year(pageState.year_selected).stats}
+                      data={teams_body_of_year(year_selected).stats}
                       const_row_length={
-                        teams_body_of_year(pageState.year_selected).stats.length
+                        teams_body_of_year(year_selected).stats.length
                       }
                       league="Central"
                       main_state={pageState}
@@ -143,9 +161,9 @@ class MainPage extends React.Component<Props> {
                       default_order="desc"
                       default_orderBy="勝率"
                       head={teams_header_stats}
-                      data={teams_body_of_year(pageState.year_selected).stats}
+                      data={teams_body_of_year(year_selected).stats}
                       const_row_length={
-                        teams_body_of_year(pageState.year_selected).stats.length
+                        teams_body_of_year(year_selected).stats.length
                       }
                       league="Pacific"
                       main_state={pageState}
@@ -168,9 +186,9 @@ class MainPage extends React.Component<Props> {
                       default_order="desc"
                       default_orderBy="得点"
                       head={teams_header_offense}
-                      data={teams_body_of_year(pageState.year_selected).offense}
+                      data={teams_body_of_year(year_selected).offense}
                       const_row_length={
-                        teams_body_of_year(pageState.year_selected).offense.length
+                        teams_body_of_year(year_selected).offense.length
                       }
                       league="Central"
                       main_state={pageState}
@@ -192,9 +210,9 @@ class MainPage extends React.Component<Props> {
                       default_order="desc"
                       default_orderBy="得点"
                       head={teams_header_offense}
-                      data={teams_body_of_year(pageState.year_selected).offense}
+                      data={teams_body_of_year(year_selected).offense}
                       const_row_length={
-                        teams_body_of_year(pageState.year_selected).offense.length
+                        teams_body_of_year(year_selected).offense.length
                       }
                       league="Pacific"
                       main_state={pageState}
@@ -217,9 +235,9 @@ class MainPage extends React.Component<Props> {
                       default_order="asc"
                       default_orderBy="失点"
                       head={teams_header_defense}
-                      data={teams_body_of_year(pageState.year_selected).defense}
+                      data={teams_body_of_year(year_selected).defense}
                       const_row_length={
-                        teams_body_of_year(pageState.year_selected).defense.length
+                        teams_body_of_year(year_selected).defense.length
                       }
                       league="Central"
                       main_state={pageState}
@@ -241,9 +259,9 @@ class MainPage extends React.Component<Props> {
                       default_order="asc"
                       default_orderBy="失点"
                       head={teams_header_defense}
-                      data={teams_body_of_year(pageState.year_selected).defense}
+                      data={teams_body_of_year(year_selected).defense}
                       const_row_length={
-                        teams_body_of_year(pageState.year_selected).defense.length
+                        teams_body_of_year(year_selected).defense.length
                       }
                       league="Pacific"
                       main_state={pageState}
@@ -329,7 +347,7 @@ class MainPage extends React.Component<Props> {
                   default_order="desc"
                   default_orderBy="wRC+"
                   head={hitters_sabr_header}
-                  data={hitters_body_of_year(pageState.year_selected).sabr}
+                  data={hitters_body_of_year(year_selected).sabr}
                   league={league}
                   main_state={pageState}
                 />
@@ -350,7 +368,7 @@ class MainPage extends React.Component<Props> {
                   default_order="desc"
                   default_orderBy="打率"
                   head={hitters_header_title}
-                  data={hitters_body_of_year(pageState.year_selected).title}
+                  data={hitters_body_of_year(year_selected).title}
                   league={league}
                   main_state={pageState}
                 />
@@ -372,7 +390,7 @@ class MainPage extends React.Component<Props> {
                   default_order="desc"
                   default_orderBy="出塁率"
                   head={hitters_header_ops}
-                  data={hitters_body_of_year(pageState.year_selected).ops}
+                  data={hitters_body_of_year(year_selected).ops}
                   league={league}
                   main_state={pageState}
                 />
@@ -393,7 +411,7 @@ class MainPage extends React.Component<Props> {
                   default_order="desc"
                   default_orderBy="wOBA"
                   head={hitters_header_woba}
-                  data={hitters_body_of_year(pageState.year_selected).woba}
+                  data={hitters_body_of_year(year_selected).woba}
                   league={league}
                   main_state={pageState}
                 />
@@ -415,7 +433,7 @@ class MainPage extends React.Component<Props> {
                   default_order="desc"
                   default_orderBy="XR"
                   head={hitters_header_xr}
-                  data={hitters_body_of_year(pageState.year_selected).xr}
+                  data={hitters_body_of_year(year_selected).xr}
                   league={league}
                   main_state={pageState}
                 />
@@ -436,7 +454,7 @@ class MainPage extends React.Component<Props> {
                   default_order="asc"
                   default_orderBy="K%"
                   head={hitters_header_contact}
-                  data={hitters_body_of_year(pageState.year_selected).contact}
+                  data={hitters_body_of_year(year_selected).contact}
                   league={league}
                   main_state={pageState}
                 />
@@ -458,7 +476,7 @@ class MainPage extends React.Component<Props> {
                   default_order="desc"
                   default_orderBy="IsoP"
                   head={hitters_header_power}
-                  data={hitters_body_of_year(pageState.year_selected).power}
+                  data={hitters_body_of_year(year_selected).power}
                   league={league}
                   main_state={pageState}
                 />
@@ -479,7 +497,7 @@ class MainPage extends React.Component<Props> {
                   default_order="desc"
                   default_orderBy="BB%"
                   head={hitters_header_eye}
-                  data={hitters_body_of_year(pageState.year_selected).eye}
+                  data={hitters_body_of_year(year_selected).eye}
                   league={league}
                   main_state={pageState}
                 />
@@ -501,7 +519,7 @@ class MainPage extends React.Component<Props> {
                   default_order="desc"
                   default_orderBy="wSB"
                   head={hitters_header_steal}
-                  data={hitters_body_of_year(pageState.year_selected).steal}
+                  data={hitters_body_of_year(year_selected).steal}
                   league={league}
                   main_state={pageState}
                 />
@@ -522,7 +540,7 @@ class MainPage extends React.Component<Props> {
                   default_order="desc"
                   default_orderBy="圏打率"
                   head={hitters_header_clutch}
-                  data={hitters_body_of_year(pageState.year_selected).clutch}
+                  data={hitters_body_of_year(year_selected).clutch}
                   league={league}
                   main_state={pageState}
                 />
@@ -544,7 +562,7 @@ class MainPage extends React.Component<Props> {
                   default_order="desc"
                   default_orderBy="BABIP"
                   head={hitters_header_oth}
-                  data={hitters_body_of_year(pageState.year_selected).oth}
+                  data={hitters_body_of_year(year_selected).oth}
                   league={league}
                   main_state={pageState}
                 />
@@ -578,7 +596,7 @@ class MainPage extends React.Component<Props> {
                   default_order="asc"
                   default_orderBy="防御率"
                   head={pitchers_sabr_header}
-                  data={pitchers_body_of_year(pageState.year_selected).sabr}
+                  data={pitchers_body_of_year(year_selected).sabr}
                   league={league}
                   main_state={pageState}
                 />
@@ -599,7 +617,7 @@ class MainPage extends React.Component<Props> {
                   default_order="desc"
                   default_orderBy="投球回"
                   head={pitchers_header_title}
-                  data={pitchers_body_of_year(pageState.year_selected).title}
+                  data={pitchers_body_of_year(year_selected).title}
                   league={league}
                   main_state={pageState}
                 />
@@ -621,7 +639,7 @@ class MainPage extends React.Component<Props> {
                   default_order="desc"
                   default_orderBy="K-BB%"
                   head={pitchers_header_kbb}
-                  data={pitchers_body_of_year(pageState.year_selected).kbb}
+                  data={pitchers_body_of_year(year_selected).kbb}
                   league={league}
                   main_state={pageState}
                 />
@@ -642,7 +660,7 @@ class MainPage extends React.Component<Props> {
                   default_order="asc"
                   default_orderBy="WHIP"
                   head={pitchers_header_whip}
-                  data={pitchers_body_of_year(pageState.year_selected).whip}
+                  data={pitchers_body_of_year(year_selected).whip}
                   league={league}
                   main_state={pageState}
                 />
@@ -664,7 +682,7 @@ class MainPage extends React.Component<Props> {
                   default_order="desc"
                   default_orderBy="QS率"
                   head={pitchers_header_qs}
-                  data={pitchers_body_of_year(pageState.year_selected).qs}
+                  data={pitchers_body_of_year(year_selected).qs}
                   league={league}
                   main_state={pageState}
                 />
@@ -686,7 +704,7 @@ class MainPage extends React.Component<Props> {
                   default_order="desc"
                   default_orderBy="セーブ"
                   head={pitchers_header_closer}
-                  data={pitchers_body_of_year(pageState.year_selected).closer}
+                  data={pitchers_body_of_year(year_selected).closer}
                   league={league}
                   main_state={pageState}
                 />
@@ -707,7 +725,7 @@ class MainPage extends React.Component<Props> {
                   default_order="desc"
                   default_orderBy="HP"
                   head={pitchers_header_relief}
-                  data={pitchers_body_of_year(pageState.year_selected).relief}
+                  data={pitchers_body_of_year(year_selected).relief}
                   league={league}
                   main_state={pageState}
                 />
@@ -729,7 +747,7 @@ class MainPage extends React.Component<Props> {
                   default_order="desc"
                   default_orderBy="小松式ドネーション"
                   head={pitchers_header_oth}
-                  data={pitchers_body_of_year(pageState.year_selected).oth}
+                  data={pitchers_body_of_year(year_selected).oth}
                   league={league}
                   main_state={pageState}
                 />

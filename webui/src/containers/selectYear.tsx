@@ -2,10 +2,9 @@ import { connect } from "react-redux";
 import { Dispatch } from 'redux';
 import { SelectYearBar } from "../components/Pages";
 import { selectYear } from "../actions";
-import { state } from "../reducers"
 
-const mapStateToProps = (state: state) => {
-    return {yearsState: state.Years };
+const mapStateToProps = () => {
+    return { };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => {

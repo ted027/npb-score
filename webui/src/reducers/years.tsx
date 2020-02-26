@@ -1,7 +1,8 @@
 import { years_list } from "../components/Common";
+import { selectYears } from "../constants";
 
 export interface YearsIf {
-    year_selected: number;
+    year_selected: selectYears;
 }
 
 interface action extends YearsIf {

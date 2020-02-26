@@ -4,6 +4,7 @@ import blue from "@material-ui/core/colors/blue";
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { StyleRules } from '@material-ui/core/styles/withStyles';
 import createStyles from '@material-ui/core/styles/createStyles';
+import { selectYears } from "../constants";
 
 export const styles = (theme: Theme): StyleRules => createStyles({
   root: {
@@ -170,6 +171,6 @@ export function judgeSearch(player: string, main_state?: {searchTeam: string; se
   return false;
 }
 
-export const years_list: number[] = [
-  2019
+export const years_list: selectYears[] = [
+  '2019'
 ]
