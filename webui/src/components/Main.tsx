@@ -92,14 +92,6 @@ class MainPage extends React.Component<Props> {
       league,
     } = pageState;
     const { year_selected } = yearState;
-    console.log('selected');
-    console.log(selected);
-    console.log('order_selected');
-    console.log(order_selected);
-    console.log('league_selected');
-    console.log(league_selected);
-    console.log('year_selected');
-    console.log(year_selected);
     return (
       <MuiThemeProvider theme={theme}>
         <div className={classes.root}>

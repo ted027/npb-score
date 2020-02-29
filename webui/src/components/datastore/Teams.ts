@@ -110,11 +110,7 @@ type teams_body = {
 }
 
 export const teams_body_of_year = (year: selectYears): teams_body => {
-  console.log('year');
-  console.log(year);
   var teams = yearJson[year]
-  console.log('teams');
-  console.log(teams);
   return {
     stats: createTeamBody(teams, theader_stats),
     offense: createTeamBody(teams, theader_offense),
