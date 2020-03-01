@@ -1,6 +1,6 @@
-import parksj from "../../records/parks.json";
+import parksj from "../records/parks.json";
 import { createData } from "./DataCommon";
-import { strDict, strBoolDictWithId } from "../../constants";
+import { strDict, strBoolDictWithId } from "../constants";
 
 
 const parks: {球場: string; [key: string]: any}[] = parksj.Park;

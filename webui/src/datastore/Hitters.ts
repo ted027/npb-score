@@ -1,7 +1,7 @@
-import hittersj2019 from "../../records/2019/hitters.json";
+import hittersj2019 from "../records/2019/hitters.json";
 // import hittersj2020 from "../../records/2020/hitters.json";
 import { createHeader, createBody, createBodyClutch } from "./DataCommon";
-import { selectYears, strBoolDict, strBoolDictWithId } from "../../constants";
+import { selectYears, strBoolDict, strBoolDictWithId } from "../constants";
 
 var yearJson = {
   '2019': hittersj2019.Hitter

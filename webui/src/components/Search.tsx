@@ -10,8 +10,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 // import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
-import { styles } from "./Common";
-import { teamConverter } from "./datastore/DataCommon";
+import styles from "../styles";
+import { teamConverter } from "../datastore/DataCommon";
 
 interface State {
   anchorEl: HTMLDivElement | null;
