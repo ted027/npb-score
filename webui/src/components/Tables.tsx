@@ -9,12 +9,11 @@ import TablePagination from "@material-ui/core/TablePagination";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import grey from "@material-ui/core/colors/grey";
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import { StyleRules } from '@material-ui/core/styles/withStyles';
-import createStyles from '@material-ui/core/styles/createStyles';
-import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
+import { Theme } from "@material-ui/core/styles/createMuiTheme";
+import { StyleRules } from "@material-ui/core/styles/withStyles";
+import createStyles from "@material-ui/core/styles/createStyles";
+import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 import {
-  styles,
   stableSort,
   getSorting,
   getProperty,
@@ -22,82 +21,97 @@ import {
   enableSearch,
   judgeSearch
 } from "./Common";
+import styles from "../styles";
 import { strBoolDictWithId } from "../constants";
-
 
 const IGNORE_ELEMENTS = ["規定", "League"];
 const NARROW_BR_ELEMENTS = ["チーム", "選手", "球場"];
 const IGNORE_ELEM_NUM = 2;
 
-const CustomTableCellOrder = withStyles((theme: Theme): StyleRules =>  createStyles({
-  head: {
-    backgroundColor: grey[100],
-    width: 20
-  },
-  body: {
-    fontSize: 14,
-    textAlign: "center",
-    width: 20,
-    borderRight: "1px solid lightgrey"
-  }
-}))(TableCell);
+const CustomTableCellOrder = withStyles(
+  (theme: Theme): StyleRules =>
+    createStyles({
+      head: {
+        backgroundColor: grey[100],
+        width: 20
+      },
+      body: {
+        fontSize: 14,
+        textAlign: "center",
+        width: 20,
+        borderRight: "1px solid lightgrey"
+      }
+    })
+)(TableCell);
 
-const CustomTableCellOrderWide = withStyles((theme: Theme): StyleRules =>  createStyles({
-  head: {
-    backgroundColor: grey[100],
-    maxWidth: 20
-  },
-  body: {
-    fontSize: 14,
-    maxWidth: 20,
-    textAlign: "center",
-    padding: 5
-  }
-}))(TableCell);
+const CustomTableCellOrderWide = withStyles(
+  (theme: Theme): StyleRules =>
+    createStyles({
+      head: {
+        backgroundColor: grey[100],
+        maxWidth: 20
+      },
+      body: {
+        fontSize: 14,
+        maxWidth: 20,
+        textAlign: "center",
+        padding: 5
+      }
+    })
+)(TableCell);
 
-const CustomTableCellName = withStyles((theme: Theme): StyleRules =>  createStyles({
-  body: {
-    fontSize: 15,
-    padding: 1,
-    paddingLeft: "7%"
-  }
-}))(TableCell);
+const CustomTableCellName = withStyles(
+  (theme: Theme): StyleRules =>
+    createStyles({
+      body: {
+        fontSize: 15,
+        padding: 1,
+        paddingLeft: "7%"
+      }
+    })
+)(TableCell);
 
-const CustomTableCell = withStyles((theme: Theme): StyleRules =>  createStyles({
-  head: {
-    backgroundColor: grey[100],
-    fontSize: 15,
-    padding: 1,
-    textAlign: "center"
-  },
-  body: {
-    fontSize: 15,
-    textAlign: "center",
-    padding: 1
-  }
-}))(TableCell);
+const CustomTableCell = withStyles(
+  (theme: Theme): StyleRules =>
+    createStyles({
+      head: {
+        backgroundColor: grey[100],
+        fontSize: 15,
+        padding: 1,
+        textAlign: "center"
+      },
+      body: {
+        fontSize: 15,
+        textAlign: "center",
+        padding: 1
+      }
+    })
+)(TableCell);
 
-const CustomTableCellWide = withStyles((theme: Theme): StyleRules =>  createStyles({
-  head: {
-    backgroundColor: grey[100],
-    fontSize: 15,
-    padding: 1,
-    textAlign: "center"
-  },
-  body: {
-    fontSize: 16,
-    textAlign: "center",
-    padding: 3
-  }
-}))(TableCell);
+const CustomTableCellWide = withStyles(
+  (theme: Theme): StyleRules =>
+    createStyles({
+      head: {
+        backgroundColor: grey[100],
+        fontSize: 15,
+        padding: 1,
+        textAlign: "center"
+      },
+      body: {
+        fontSize: 16,
+        textAlign: "center",
+        padding: 3
+      }
+    })
+)(TableCell);
 
 interface TableHeadProps extends WithStyles<typeof styles> {
   onRequestSort: (event: any, property: string) => void;
-  order: 'asc' | 'desc';
+  order: "asc" | "desc";
   orderBy: string;
-  orderMean: 'good' | 'bad';
+  orderMean: "good" | "bad";
   rowCount: number;
-  head: {id: string; [key: string]: string | boolean}[] ;
+  head: { id: string; [key: string]: string | boolean }[];
 }
 
 class CommonTableHeadWithoutStyles extends React.Component<TableHeadProps> {
@@ -126,7 +140,7 @@ class CommonTableHeadWithoutStyles extends React.Component<TableHeadProps> {
                     >
                       <Button
                         style={{
-                          "textTransform": "none"
+                          textTransform: "none"
                         }}
                         variant={orderBy === cell.id ? "contained" : "outlined"}
                         size="small"
@@ -146,10 +160,7 @@ class CommonTableHeadWithoutStyles extends React.Component<TableHeadProps> {
                   );
                 } else {
                   return (
-                    <CustomTableCell
-                      key={cell.id}
-                      padding="checkbox"
-                    >
+                    <CustomTableCell key={cell.id} padding="checkbox">
                       {cell.label}
                     </CustomTableCell>
                   );
@@ -172,7 +183,7 @@ class CommonTableHeadWithoutStyles extends React.Component<TableHeadProps> {
                     >
                       <Button
                         style={{
-                          "textTransform": "none"
+                          textTransform: "none"
                         }}
                         variant={orderBy === cell.id ? "contained" : "outlined"}
                         size="small"
@@ -192,10 +203,7 @@ class CommonTableHeadWithoutStyles extends React.Component<TableHeadProps> {
                   );
                 } else {
                   return (
-                    <CustomTableCellWide
-                      key={cell.id}
-                      padding="checkbox"
-                    >
+                    <CustomTableCellWide key={cell.id} padding="checkbox">
                       {cell.label}
                     </CustomTableCellWide>
                   );
@@ -212,22 +220,22 @@ class CommonTableHeadWithoutStyles extends React.Component<TableHeadProps> {
 const CommonTableHead = withStyles(styles)(CommonTableHeadWithoutStyles);
 
 interface TableProps extends WithStyles<typeof styles> {
-  default_order: 'asc' | 'desc';
+  default_order: "asc" | "desc";
   default_orderBy: string;
   head: strBoolDictWithId[];
-  data: {[key: string]: any}[];
+  data: { [key: string]: any }[];
   const_row_length?: number;
-  league: 'CentralPacific' | 'Central' | 'Pacific' | '';
-  main_state?: {[key: string]: any; searchTeam: string; searchName: string};
+  league: "CentralPacific" | "Central" | "Pacific" | "";
+  main_state?: { [key: string]: any; searchTeam: string; searchName: string };
 }
 
 type TableState = {
-  order: 'asc' | 'desc',
-  orderBy: string,
-  orderMean: 'good' | 'bad',
-  page: number,
-  rowsPerPage: number
-}
+  order: "asc" | "desc";
+  orderBy: string;
+  orderMean: "good" | "bad";
+  page: number;
+  rowsPerPage: number;
+};
 
 class CommonTableWithoutStyles extends React.Component<TableProps, TableState> {
   constructor(props: TableProps) {
@@ -249,7 +257,7 @@ class CommonTableWithoutStyles extends React.Component<TableProps, TableState> {
     firstOrder === "desc" ? (reverseOrder = "asc") : (reverseOrder = "desc");
 
     let order = firstOrder;
-    let orderMean: ('good' | 'bad') = "good";
+    let orderMean: "good" | "bad" = "good";
 
     if (this.state.orderBy === property && this.state.order === firstOrder) {
       order = reverseOrder;
@@ -265,13 +273,22 @@ class CommonTableWithoutStyles extends React.Component<TableProps, TableState> {
     this.setState({ page });
   };
 
-  handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     // TODO: testing
     this.setState({ rowsPerPage: parseInt(event.target.value, 10) });
   };
 
   render() {
-    const { classes, data, head, const_row_length, league, main_state } = this.props;
+    const {
+      classes,
+      data,
+      head,
+      const_row_length,
+      league,
+      main_state
+    } = this.props;
     const { order, orderBy, orderMean, page, rowsPerPage } = this.state;
     var jun = 0;
     var jun2 = 0;
@@ -297,13 +314,19 @@ class CommonTableWithoutStyles extends React.Component<TableProps, TableState> {
                     (!getProperty(head, orderBy, "regulated") || n.規定))
                 ) {
                   jun++;
-                  if (judgePageReturn(jun, page, rowsPerPage, const_row_length)) {
+                  if (
+                    judgePageReturn(jun, page, rowsPerPage, const_row_length)
+                  ) {
                     return (
                       <TableBody>
                         {Object.keys(n).map(value => {
                           if (NARROW_BR_ELEMENTS.indexOf(value) >= 0) {
                             return (
-                              <TableRow hover tabIndex={-1} key={n.id + "_name"}>
+                              <TableRow
+                                hover
+                                tabIndex={-1}
+                                key={n.id + "_name"}
+                              >
                                 <CustomTableCellOrder
                                   rowSpan={2}
                                   padding="checkbox"
@@ -367,7 +390,9 @@ class CommonTableWithoutStyles extends React.Component<TableProps, TableState> {
                       (!getProperty(head, orderBy, "regulated") || n.規定))
                   ) {
                     jun2++;
-                    if (judgePageReturn(jun2, page, rowsPerPage, const_row_length)) {
+                    if (
+                      judgePageReturn(jun2, page, rowsPerPage, const_row_length)
+                    ) {
                       return (
                         <TableRow hover tabIndex={-1} key={n.id}>
                           <CustomTableCellOrderWide
@@ -429,4 +454,4 @@ class CommonTableWithoutStyles extends React.Component<TableProps, TableState> {
   }
 }
 
-export const CommonTable = withStyles(styles)(CommonTableWithoutStyles) 
+export const CommonTable = withStyles(styles)(CommonTableWithoutStyles);

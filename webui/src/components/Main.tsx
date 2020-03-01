@@ -4,14 +4,14 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { MuiThemeProvider } from "@material-ui/core/styles";
-import { theme } from "../theme/theme";
+import theme from "../theme";
 import {
   teams_header_stats,
   teams_header_offense,
   teams_header_defense,
   teams_body_of_year
-} from "./datastore/Teams";
-import { parks_header, parks_body, parks_total_body } from "./datastore/Parks";
+} from "../datastore/Teams";
+import { parks_header, parks_body, parks_total_body } from "../datastore/Parks";
 import {
   hitters_sabr_header,
   hitters_header_title,
@@ -25,7 +25,7 @@ import {
   hitters_header_clutch,
   hitters_header_oth,
   hitters_body_of_year
-} from "./datastore/Hitters";
+} from "../datastore/Hitters";
 import {
   pitchers_sabr_header,
   pitchers_header_title,
@@ -36,8 +36,8 @@ import {
   pitchers_header_closer,
   pitchers_header_oth,
   pitchers_body_of_year
-} from "./datastore/Pitchers";
-import { styles } from "./Common";
+} from "../datastore/Pitchers";
+import styles from "../styles";
 import { CommonTable } from "./Tables";
 import { HideOnScroll } from "./Pages";
 import {
