@@ -7,7 +7,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import MediaQuery from "react-responsive";
 import Slide from "@material-ui/core/Slide";
-import { styles, LinkTab, years_list } from "./Common";
+import { LinkTab, years_list } from "./Common";
+import styles from "../styles";
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
 
 
