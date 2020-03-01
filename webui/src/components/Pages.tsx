@@ -10,6 +10,7 @@ import Slide from "@material-ui/core/Slide";
 import { LinkTab, years_list } from "./Common";
 import styles from "../styles";
 import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
+import { selectYears } from "../constants";
 
 
 interface HideOnScrollProps {
@@ -131,12 +132,12 @@ const OrderAppBarWithoutStyles: React.FC<OrderAppBarProps> = React.forwardRef((p
 
 export const OrderAppBar = withStyles(styles)(OrderAppBarWithoutStyles);
 
-interface yearsState {
-  year_selected: number
+interface yearState {
+  year_selected: selectYears
 }
 
 interface selectYearBarProps extends WithStyles<typeof styles> {
-  yearsState: yearsState;
+  yearState: yearState;
   onChange: (event: any) => any;
 }
 
@@ -149,7 +150,7 @@ const selectYearBarWithoutStyles: React.FC<selectYearBarProps> = React.forwardRe
         select
         label="年"
         className={props.classes.textField}
-        value={props.yearsState.year_selected}
+        value={props.yearState.year_selected}
         onChange={props.onChange}
         variant="outlined"
         margin="normal"
