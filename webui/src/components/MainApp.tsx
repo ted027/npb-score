@@ -82,7 +82,7 @@ interface Props extends WithStyles<typeof styles> {
   yearState: yearState
 }
 
-class MainPage extends React.Component<Props> {
+class MainApp extends React.Component<Props> {
   render() {
     const { classes, pageState, yearState } = this.props;
     const {
@@ -754,4 +754,4 @@ class MainPage extends React.Component<Props> {
   }
 }
 
-export default withStyles(styles)(MainPage);
+export default withStyles(styles)(MainApp);
