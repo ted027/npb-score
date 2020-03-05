@@ -1,14 +1,14 @@
 import React from 'react';
 // import logo from './logo.svg';
 import './App.css';
-import VisibleRecords from "./containers/VisibleRecords";
+import VisibleApp from "./containers/VisibleApp";
 // import { MuiThemeProvider } from "@material-ui/core/styles";
 
 const App: React.FC = () => {
   return (
     // <MuiThemeProvider>
     <div className="App">
-      <VisibleRecords />
+      <VisibleApp />
     </div>
     // </MuiThemeProvider>
   );

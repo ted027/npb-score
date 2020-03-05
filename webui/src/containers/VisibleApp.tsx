@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import Main from "../components/Main";
+import MainApp from "../components/MainApp";
 import { state } from "../reducers";
 
 const mapStateToProps = (state: state) => {
@@ -9,6 +9,6 @@ const mapStateToProps = (state: state) => {
   };
 };
 
-const VisibleRecords = connect(mapStateToProps)(Main);
+const VisibleApp = connect(mapStateToProps)(MainApp);
 
-export default VisibleRecords;
+export default VisibleApp;
