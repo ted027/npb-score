@@ -1,8 +1,10 @@
-export function createHeader(
+import { strBoolDict } from "../constants";
+
+export const createHeader = (
   array: string[],
   regulated: boolean[],
   order: string[]
-) {
+) => {
   const header = [
     {
       id: "選手",
@@ -22,14 +24,14 @@ export function createHeader(
     });
   }
   return header;
-}
+};
 
-export function createHeaderRelief(
+export const createHeaderRelief = (
   array: string[],
   regulated: boolean[],
   order: string[],
   numeric: boolean[]
-) {
+) => {
   const header = [
     {
       id: "選手",
@@ -49,17 +51,16 @@ export function createHeaderRelief(
     });
   }
   return header;
-}
+};
 
-function createNameContent(name: string, team: string) {
-  return name + " (" + team + ")";
-}
+const createNameContent = (name: string, team: string) =>
+  name + " (" + team + ")";
 
-export function createBody(
+export const createBody = (
   array: { Name: string; Team: string; [key: string]: any }[],
   head: string[]
-): { [key: string]: string | boolean }[] {
-  const body: { [key: string]: string | boolean }[] = [];
+): strBoolDict[] => {
+  const body: strBoolDict[] = [];
   for (var j = 0; j < array.length; j++) {
     var name: string = createNameContent(array[j]["Name"], array[j]["Team"]);
     var body_player: { [key: string]: any } = { 選手: name };
@@ -69,13 +70,13 @@ export function createBody(
     body.push(createData(body_player));
   }
   return body;
-}
+};
 
-export function createBodyClutch(
+export const createBodyClutch = (
   array: { Name: string; Team: string; [key: string]: any }[],
   head: string[]
-) {
-  const body: { [key: string]: string | boolean }[] = [];
+) => {
+  const body: strBoolDict[] = [];
   for (var j = 0; j < array.length; j++) {
     if (array[j][head[0]]) {
       var name: string = createNameContent(array[j]["Name"], array[j]["Team"]);
@@ -87,16 +88,16 @@ export function createBodyClutch(
     }
   }
   return body;
-}
+};
 
-export function createData(json: { [key: string]: any }) {
+export const createData = (json: { [key: string]: any }) => {
   var keys: string[] = Object.keys(json);
   var row: { [key: string]: string } = {};
   for (var k = 0; k < keys.length; k++) {
     row[keys[k]] = json[keys[k]];
   }
   return row;
-}
+};
 
 export const teamConverter: { [key: string]: string } = {
   西武: "埼玉西武ライオンズ",

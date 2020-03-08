@@ -22,7 +22,7 @@ const theader_stats = [
 
 const teams_numeric_stats = new Array(theader_stats.length).fill(false);
 
-export function createTeamBody(array: {チーム: string; [key: string]: any}[], head: string[]) {
+export const createTeamBody = (array: {チーム: string; [key: string]: any}[], head: string[]) => {
   const body: strBoolDict[] = [];
   for (var j = 0; j < array.length; j++) {
     var body_team: {[key: string]: any} = {};
