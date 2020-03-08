@@ -2,21 +2,24 @@ import React from "react";
 import Tab from "@material-ui/core/Tab";
 import { selectYears } from "../constants";
 
+export const LinkTab = (props: { [key: string]: any }) => (
+  <Tab component="a" onClick={(event: any) => {}} {...props} />
+);
 
-export function LinkTab(props: {[key: string]: any}) {
-  return <Tab component="a" onClick={(event: any) => {}} {...props} />;
-}
-
-export function getProperty(head: {[key: string]: any}[], id: string, property: string) {
+export const getProperty = (
+  head: { [key: string]: any }[],
+  id: string,
+  property: string
+) => {
   for (var item of head) {
     if (item.id === id) {
       return item[property];
     }
   }
   return false;
-}
+};
 
-export function stableSort(array: any[], cmp: (a: any, b: any) => number) {
+export const stableSort = (array: any[], cmp: (a: any, b: any) => number) => {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = cmp(a[0], b[0]);
@@ -24,15 +27,19 @@ export function stableSort(array: any[], cmp: (a: any, b: any) => number) {
     return a[1] - b[1];
   });
   return stabilizedThis.map(el => el[0]);
-}
+};
 
-export function getSorting(order: string, orderBy: string) {
-  return order === "asc"
+export const getSorting = (order: string, orderBy: string) =>
+  order === "asc"
     ? (a: any, b: any) => a[orderBy] - b[orderBy]
     : (a: any, b: any) => b[orderBy] - a[orderBy];
-}
 
-export function judgePageReturn(jun: number, page: number, rowsPerPage: number, const_row_length?: number) {
+export const judgePageReturn = (
+  jun: number,
+  page: number,
+  rowsPerPage: number,
+  const_row_length?: number
+) => {
   if (const_row_length) {
     return true;
   }
@@ -42,7 +49,7 @@ export function judgePageReturn(jun: number, page: number, rowsPerPage: number, 
   return false;
 }
 
-export function judgeSearchStr(player: string, team: string, name: string) {
+export const judgeSearchStr = (player: string, team: string, name: string) => {
   var playerForSearch = player
     .replace(/\s+/g, "")
     .replace(")", "")
@@ -63,7 +70,11 @@ export function judgeSearchStr(player: string, team: string, name: string) {
   return true;
 }
 
-export function enableSearch(main_state?: {searchTeam: string; searchName: string; [key: string]: any}) {
+export const enableSearch = (main_state?: {
+  searchTeam: string;
+  searchName: string;
+  [key: string]: any;
+}) => {
   if (!main_state) {
     return false;
   }
@@ -73,9 +84,12 @@ export function enableSearch(main_state?: {searchTeam: string; searchName: strin
   return true;
 }
 
-export function judgeSearch(player: string, main_state?: {searchTeam: string; searchName: string; [key: string]: any}) {
+export const judgeSearch = (
+  player: string,
+  main_state?: { searchTeam: string; searchName: string; [key: string]: any }
+) => {
   if (!main_state) {
-    return false
+    return false;
   }
   if (!enableSearch(main_state)) {
     return false;
@@ -86,6 +100,4 @@ export function judgeSearch(player: string, main_state?: {searchTeam: string; se
   return false;
 }
 
-export const years_list: selectYears[] = [
-  '2019'
-]
+export const years_list: selectYears[] = ["2019"];
