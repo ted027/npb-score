@@ -9,15 +9,16 @@ import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 // import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
+import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 import styles from "../styles";
 import { teamConverter } from "../datastore/DataCommon";
+import { HideOnScroll } from "./Pages";
 
 interface State {
   anchorEl: HTMLDivElement | null;
   open: boolean;
   team: string;
-  name: string
+  name: string;
 }
 
 interface Props extends WithStyles<typeof styles> {
@@ -30,7 +31,6 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 class SearchContents extends React.Component<Props> {
-
   render() {
     const {
       classes,
@@ -45,77 +45,74 @@ class SearchContents extends React.Component<Props> {
 
     return (
       <div>
-        <Popper
-          open={open}
-          anchorEl={anchorEl}
-          placement="top-end"
-          transition
-        >
+        <Popper open={open} anchorEl={anchorEl} placement="top-end" transition>
           {({ TransitionProps }) => (
             <Fade {...TransitionProps} timeout={30}>
               {/* <ClickAwayListener onClickAway={this.handleClickAway}> */}
-              <Paper>
-                <form noValidate autoComplete="off">
-                  <TextField
-                    id="filled-select-team"
-                    select
-                    label="チーム"
-                    className={classes.textField}
-                    value={team}
-                    onChange={decideTeamText}
-                    variant="outlined"
-                    fullWidth={true}
-                    margin="normal"
-                  >
-                    {Object.keys(teamConverter).map(shortTeam => (
-                      <MenuItem key={shortTeam} value={shortTeam}>
-                        {shortTeam}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </form>
-                <form autoComplete="off">
-                  <TextField
-                    id="filled-name"
-                    label="選手名"
-                    className={classes.textField}
-                    value={name}
-                    onChange={decideNameText}
-                    onKeyPress={ (ev) => {
-                      if (ev.key === 'Enter') {
-                        ev.preventDefault();
-                        execSearch(team, name);
-                      }
-                    }}
-                    variant="outlined"
-                    fullWidth={true}
-                    margin="normal"
-                  />
-                </form>
-                <Toolbar>
-                  <Toolbar className={classes.resetButton}>
-                    <Button
+              <HideOnScroll direction="up">
+                <Paper>
+                  <form noValidate autoComplete="off">
+                    <TextField
+                      id="filled-select-team"
+                      select
+                      label="チーム"
+                      className={classes.textField}
+                      value={team}
+                      onChange={decideTeamText}
                       variant="outlined"
-                      color="secondary"
-                      className={classes.resetButton}
-                      onClick={resetSearch}
+                      fullWidth={true}
+                      margin="normal"
                     >
-                      リセット
-                    </Button>
-                  </Toolbar>
-                  <Toolbar className={classes.searchButton}>
-                    <Button
+                      {Object.keys(teamConverter).map(shortTeam => (
+                        <MenuItem key={shortTeam} value={shortTeam}>
+                          {shortTeam}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </form>
+                  <form autoComplete="off">
+                    <TextField
+                      id="filled-name"
+                      label="選手名"
+                      className={classes.textField}
+                      value={name}
+                      onChange={decideNameText}
+                      onKeyPress={ev => {
+                        if (ev.key === "Enter") {
+                          ev.preventDefault();
+                          execSearch(team, name);
+                        }
+                      }}
                       variant="outlined"
-                      color="primary"
-                      className={classes.searchButton}
-                      disabled={team || name ? false : true}
-                      onClick={() => execSearch(team, name)}
-                    >
-                      検索
-                    </Button>
+                      fullWidth={true}
+                      margin="normal"
+                    />
+                  </form>
+                  <Toolbar>
+                    <Toolbar className={classes.resetButton}>
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        className={classes.resetButton}
+                        onClick={resetSearch}
+                      >
+                        リセット
+                      </Button>
+                    </Toolbar>
+                    <Toolbar className={classes.searchButton}>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        className={classes.searchButton}
+                        disabled={team || name ? false : true}
+                        onClick={() => execSearch(team, name)}
+                      >
+                        検索
+                      </Button>
+                    </Toolbar>
                   </Toolbar>
-                </Toolbar>
-              </Paper>
+                </Paper>
+              </HideOnScroll>
               {/* </ClickAwayListener> */}
             </Fade>
           )}

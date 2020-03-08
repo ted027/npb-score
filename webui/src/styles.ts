@@ -74,7 +74,7 @@ const styles = (theme: Theme): StyleRules => createStyles({
     width: "100%"
   },
   searchButton: {
-    width: "60%",
+    width: "50%",
     position: "absolute",
     right: 2
   },
