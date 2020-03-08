@@ -2,6 +2,8 @@ import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
+import withStyles from "@material-ui/core/styles/withStyles";
+import styles from "../../styles";
 import { HideOnScroll } from "../Pages";
 import { CommonTable } from "../Tables";
 import { VisibleOrderAppBar } from "../../containers/changeTab";
@@ -22,7 +24,7 @@ import {
 const ORDER = 0;
 const PARKFACTOR = 1;
 
-export const Order: React.FC<MainProps> = (props) => {
+const Order: React.FC<MainProps> = (props) => {
   const { classes, pageState, yearState } = props;
   const { order_selected } = pageState;
   const { year_selected } = yearState;
@@ -198,3 +200,5 @@ export const Order: React.FC<MainProps> = (props) => {
     </div>
   );
 };
+
+export default withStyles(styles)(Order);

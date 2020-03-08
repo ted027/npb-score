@@ -8,8 +8,8 @@ import { VisibleMainAppBar } from "../../containers/changeTab";
 import { VisibleSelectYearBar } from "../../containers/selectYear";
 import { bottom_ad, middle_ad2 } from "../Ad";
 import { selectYears } from "../../constants";
-import { Order } from "./order";
-import { Hitter } from "./hitter";
+import { Order } from "./Order";
+import Hitter from "./Hitter";
 import { Pitcher } from "./pitcher";
 
 const ORDER_VALUE = 0;

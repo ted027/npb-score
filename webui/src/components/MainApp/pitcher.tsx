@@ -2,6 +2,8 @@ import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
+import withStyles from "@material-ui/core/styles/withStyles";
+import styles from "../../styles";
 import { HideOnScroll } from "../Pages";
 import { CommonTable } from "../Tables";
 import { VisibleLeagueAppBar } from "../../containers/changeTab";
@@ -20,7 +22,7 @@ import {
   pitchers_body_of_year
 } from "../../datastore/Pitchers";
 
-export const Pitcher: React.FC<MainProps> = props => {
+const Pitcher: React.FC<MainProps> = props => {
   const { classes, pageState, yearState } = props;
   const { league_selected, league } = pageState;
   const { year_selected } = yearState;
@@ -178,3 +180,5 @@ export const Pitcher: React.FC<MainProps> = props => {
     </div>
   );
 };
+
+export default withStyles(styles)(Pitcher);
