@@ -9,15 +9,16 @@ import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 // import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import withStyles, { WithStyles } from '@material-ui/core/styles/withStyles';
+import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 import styles from "../styles";
 import { teamConverter } from "../datastore/DataCommon";
+import { HideOnScroll } from "./Pages";
 
 interface State {
   anchorEl: HTMLDivElement | null;
   open: boolean;
   team: string;
-  name: string
+  name: string;
 }
 
 interface Props extends WithStyles<typeof styles> {
@@ -29,31 +30,25 @@ interface Props extends WithStyles<typeof styles> {
   decideNameText: (event: any) => any;
 }
 
-class SearchContents extends React.Component<Props> {
+const SearchContents: React.FC<Props> = props => {
+  const {
+    classes,
+    searchState,
+    execSearch,
+    resetSearch,
+    handlePopper,
+    decideTeamText,
+    decideNameText
+  } = props;
+  const { anchorEl, open, team, name } = searchState;
 
-  render() {
-    const {
-      classes,
-      searchState,
-      execSearch,
-      resetSearch,
-      handlePopper,
-      decideTeamText,
-      decideNameText
-    } = this.props;
-    const { anchorEl, open, team, name } = searchState;
-
-    return (
-      <div>
-        <Popper
-          open={open}
-          anchorEl={anchorEl}
-          placement="top-end"
-          transition
-        >
-          {({ TransitionProps }) => (
-            <Fade {...TransitionProps} timeout={30}>
-              {/* <ClickAwayListener onClickAway={this.handleClickAway}> */}
+  return (
+    <div>
+      <Popper open={open} anchorEl={anchorEl} placement="top-end" transition>
+        {({ TransitionProps }) => (
+          <Fade {...TransitionProps} timeout={30}>
+            {/* <ClickAwayListener onClickAway={this.handleClickAway}> */}
+            <HideOnScroll direction="up">
               <Paper>
                 <form noValidate autoComplete="off">
                   <TextField
@@ -81,8 +76,8 @@ class SearchContents extends React.Component<Props> {
                     className={classes.textField}
                     value={name}
                     onChange={decideNameText}
-                    onKeyPress={ (ev) => {
-                      if (ev.key === 'Enter') {
+                    onKeyPress={ev => {
+                      if (ev.key === "Enter") {
                         ev.preventDefault();
                         execSearch(team, name);
                       }
@@ -116,16 +111,16 @@ class SearchContents extends React.Component<Props> {
                   </Toolbar>
                 </Toolbar>
               </Paper>
-              {/* </ClickAwayListener> */}
-            </Fade>
-          )}
-        </Popper>
-        <Fab color="primary" aria-label="Search">
-          <SearchIcon onClick={handlePopper} />
-        </Fab>
-      </div>
-    );
-  }
-}
+            </HideOnScroll>
+            {/* </ClickAwayListener> */}
+          </Fade>
+        )}
+      </Popper>
+      <Fab color="primary" aria-label="Search">
+        <SearchIcon onClick={handlePopper} />
+      </Fab>
+    </div>
+  );
+};
 
 export default withStyles(styles)(SearchContents);

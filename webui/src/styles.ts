@@ -25,6 +25,10 @@ const styles = (theme: Theme): StyleRules => createStyles({
     color: "black",
     marginTop: 48
   },
+  yearbar: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper
+  },
   des: {
     backgroundColor: blue[600],
     color: theme.palette.common.white,
@@ -74,7 +78,7 @@ const styles = (theme: Theme): StyleRules => createStyles({
     width: "100%"
   },
   searchButton: {
-    width: "60%",
+    width: "50%",
     position: "absolute",
     right: 2
   },
