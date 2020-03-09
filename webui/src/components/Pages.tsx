@@ -1,5 +1,6 @@
 import React from "react";
 import AppBar from "@material-ui/core/AppBar";
+import Toolbar from '@material-ui/core/Toolbar';
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import TextField from "@material-ui/core/TextField";
@@ -27,13 +28,46 @@ export const HideOnScroll: React.FC<HideOnScrollProps> = ({ children, direction 
   );
 }
 
-interface MainAppBarProps {
+interface yearState {
+  year_selected: selectYears
+}
+
+interface SelectYearFormProps extends WithStyles<typeof styles> {
+  yearState: yearState;
+  onChange: (event: any) => any;
+}
+
+const SelectYearForm: React.FC<SelectYearFormProps> = (props) => (
+  <HideOnScroll direction="down">
+    <form noValidate autoComplete="off">
+      <TextField
+        id="filled-select-year"
+        select
+        label="年"
+        className={props.classes.textField}
+        value={props.yearState.year_selected}
+        onChange={props.onChange}
+        variant="outlined"
+        margin="normal"
+        defaultValue={years_list.slice(-1)[0]}
+      >
+        {years_list.map(year => (
+          <MenuItem key={year} value={year}>
+            {year}
+          </MenuItem>
+        ))}
+      </TextField>
+    </form>
+  </HideOnScroll>
+)
+
+interface MainAppBarProps extends WithStyles<typeof styles> {
   selected: number;
   onChange: (event: any, selected: number) => any;
 }
 
-export const MainAppBar: React.FC<MainAppBarProps> = React.forwardRef((props, ref) => (
-  <AppBar ref={ref}>
+export const MainAppBarWithoutStyles: React.FC<MainAppBarProps> = React.forwardRef((props, ref) => (
+  <AppBar className={props.classes.tab} ref={ref}>
     <MediaQuery query="(max-width: 767px)">
       <Tabs
         variant="fullWidth"
@@ -43,8 +77,8 @@ export const MainAppBar: React.FC<MainAppBarProps> = React.forwardRef((props, re
         <Tab label="順位表" />
         <Tab label="野手成績" />
         <Tab label="投手成績" />
-        <LinkTab label="BLOG" href="/" />
       </Tabs>
+      <SelectYearForm />
     </MediaQuery>
     <MediaQuery query="(min-width: 767px)">
       <Tabs
@@ -56,9 +90,12 @@ export const MainAppBar: React.FC<MainAppBarProps> = React.forwardRef((props, re
         <Tab label="投手成績" />
         <LinkTab label="BLOG" href="/" />
       </Tabs>
+      <SelectYearForm />
     </MediaQuery>
   </AppBar>
 ));
+
+export const MainAppBar = withStyles(styles)(MainAppBarWithoutStyles);
 
 interface LeagueAppBarProps extends WithStyles<typeof styles> {
   selected: number;
@@ -131,39 +168,3 @@ const OrderAppBarWithoutStyles: React.FC<OrderAppBarProps> = React.forwardRef((p
 ));
 
 export const OrderAppBar = withStyles(styles)(OrderAppBarWithoutStyles);
-
-interface yearState {
-  year_selected: selectYears
-}
-
-interface selectYearBarProps extends WithStyles<typeof styles> {
-  yearState: yearState;
-  onChange: (event: any) => any;
-}
-
-const selectYearBarWithoutStyles: React.FC<selectYearBarProps> = React.forwardRef((props, ref) => (
-  // TODO: fix class name
-  <AppBar className={props.classes.yearbar} ref={ref}>
-    <form noValidate autoComplete="off">
-      <TextField
-        id="filled-select-year"
-        select
-        label="年"
-        className={props.classes.textField}
-        value={props.yearState.year_selected}
-        onChange={props.onChange}
-        variant="outlined"
-        margin="normal"
-        defaultValue={years_list.slice(-1)[0]}
-      >
-        {years_list.map(year => (
-          <MenuItem key={year} value={year}>
-            {year}
-          </MenuItem>
-        ))}
-      </TextField>
-    </form>
-  </AppBar>
-));
-
-export const SelectYearBar = withStyles(styles)(selectYearBarWithoutStyles);

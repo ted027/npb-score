@@ -17,17 +17,12 @@ const styles = (theme: Theme): StyleRules => createStyles({
   },
   tab: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper
   },
   subtab: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     color: "black",
     marginTop: 48
-  },
-  yearbar: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper
   },
   des: {
     backgroundColor: blue[600],

@@ -10,7 +10,7 @@ import { bottom_ad, middle_ad2 } from "../Ad";
 import { selectYears } from "../../constants";
 import Order from "./Order";
 import Hitter from "./Hitter";
-import Pitcher from "./pitcher";
+import Pitcher from "./Pitcher";
 
 const ORDER_VALUE = 0;
 const HITTER_VALUE = 1;
@@ -42,12 +42,12 @@ class MainApp extends React.Component<MainProps> {
     return (
       <MuiThemeProvider theme={theme}>
         <div className={classes.root}>
-          {/* <div>
+          <div>
             <HideOnScroll {...this.props} direction="down">
               <VisibleSelectYearBar />
             </HideOnScroll>
-          </div> */}
-          <div className={classes.tab}>
+          </div>
+          <div>
             <HideOnScroll {...this.props} direction="down">
               <VisibleMainAppBar selected={selected} />
             </HideOnScroll>
