@@ -75,7 +75,7 @@ export const createBody = (
 export const createBodyClutch = (
   array: { Name: string; Team: string; [key: string]: any }[],
   head: string[]
-) => {
+): strBoolDict[] => {
   const body: strBoolDict[] = [];
   for (var j = 0; j < array.length; j++) {
     if (array[j][head[0]]) {
