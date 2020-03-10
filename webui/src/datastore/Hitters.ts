@@ -159,7 +159,7 @@ export const hitters_body_of_year = (year: selectYears): hitters_body => {
     power: createBody(hitters, hheader_power),
     eye: createBody(hitters, hheader_eye),
     steal: createBody(hitters, hheader_steal),
-    clutch: createBody(hitters, hheader_clutch),
+    clutch: createBodyClutch(hitters, hheader_clutch),
     oth: createBody(hitters, hheader_oth)
   };
 }

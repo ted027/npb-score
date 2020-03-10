@@ -1,16 +1,26 @@
 import { connect } from "react-redux";
 import { Dispatch } from 'redux';
 import { MainAppBar, OrderAppBar, LeagueAppBar } from "../components/Pages";
-import { changeTab, changeOrderSelected, changeLeague } from "../actions";
+import { changeTab, changeOrderSelected, changeLeague, selectYear } from "../actions";
+import { state } from "../reducers";
 
 const mapStateToProps = () => {
   return {};
 };
 
+const mapMainStateToProps = (state: state) => {
+  return {
+      yearState: state.Years
+  };
+};
+
 const mapMainDispatchToProps = (dispatch: Dispatch) => {
   return {
-    onChange: (event: any, selected: number) => {
+    onSelectRecords: (event: any, selected: number) => {
       dispatch(changeTab(selected));
+    },
+    onSelectYear: (event: any) => {
+      dispatch(selectYear(event));
     }
   };
 };
@@ -32,7 +42,7 @@ const mapLeagueDispatchToProps = (dispatch: Dispatch) => {
 };
 
 export const VisibleMainAppBar = connect(
-  mapStateToProps,
+  mapMainStateToProps,
   mapMainDispatchToProps,
   null,
   { forwardRef: true }

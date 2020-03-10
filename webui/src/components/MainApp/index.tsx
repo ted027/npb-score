@@ -5,12 +5,11 @@ import theme from "../../theme";
 import styles from "../../styles";
 import { HideOnScroll } from "../Pages";
 import { VisibleMainAppBar } from "../../containers/changeTab";
-import { VisibleSelectYearBar } from "../../containers/selectYear";
 import { bottom_ad, middle_ad2 } from "../Ad";
 import { selectYears } from "../../constants";
 import Order from "./Order";
 import Hitter from "./Hitter";
-import Pitcher from "./pitcher";
+import Pitcher from "./Pitcher";
 
 const ORDER_VALUE = 0;
 const HITTER_VALUE = 1;
@@ -38,16 +37,10 @@ class MainApp extends React.Component<MainProps> {
   render() {
     const { classes, pageState, yearState } = this.props;
     const { selected } = pageState;
-    const { year_selected } = yearState;
     return (
       <MuiThemeProvider theme={theme}>
         <div className={classes.root}>
-          {/* <div>
-            <HideOnScroll {...this.props} direction="down">
-              <VisibleSelectYearBar />
-            </HideOnScroll>
-          </div> */}
-          <div className={classes.tab}>
+          <div>
             <HideOnScroll {...this.props} direction="down">
               <VisibleMainAppBar selected={selected} />
             </HideOnScroll>

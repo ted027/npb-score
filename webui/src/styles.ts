@@ -2,6 +2,7 @@ import blue from "@material-ui/core/colors/blue";
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { StyleRules } from '@material-ui/core/styles/withStyles';
 import createStyles from '@material-ui/core/styles/createStyles';
+import { fade } from "@material-ui/core/styles";
 
 const styles = (theme: Theme): StyleRules => createStyles({
   root: {
@@ -17,7 +18,6 @@ const styles = (theme: Theme): StyleRules => createStyles({
   },
   tab: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper
   },
   subtab: {
     flexGrow: 1,
@@ -82,7 +82,18 @@ const styles = (theme: Theme): StyleRules => createStyles({
     width: "60%",
     position: "absolute",
     left: 2
-  }
+  },
+  selectYear: {
+    marginTop: 8,
+    right: '5%',
+    position: "absolute",
+    backgroundColor: fade(theme.palette.common.white, 0.85),
+    "&:hover": {
+      backgroundColor: fade(theme.palette.common.white, 1)
+    },
+    transition: theme.transitions.create('width'),
+    width: 80
+  },
 });
 
 export default styles;
