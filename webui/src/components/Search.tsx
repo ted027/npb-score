@@ -30,97 +30,99 @@ interface Props extends WithStyles<typeof styles> {
   decideNameText: (event: any) => any;
 }
 
-const SearchContents: React.FC<Props> = props => {
-  const {
-    classes,
-    searchState,
-    execSearch,
-    resetSearch,
-    handlePopper,
-    decideTeamText,
-    decideNameText
-  } = props;
-  const { anchorEl, open, team, name } = searchState;
+class SearchContents extends React.Component<Props> {
+  render() {
+    const {
+      classes,
+      searchState,
+      execSearch,
+      resetSearch,
+      handlePopper,
+      decideTeamText,
+      decideNameText
+    } = this.props;
+    const { anchorEl, open, team, name } = searchState;
 
-  return (
-    <div>
-      <Popper open={open} anchorEl={anchorEl} placement="top-end" transition>
-        {({ TransitionProps }) => (
-          <Fade {...TransitionProps} timeout={30}>
-            {/* <ClickAwayListener onClickAway={this.handleClickAway}> */}
-            <HideOnScroll direction="up">
-              <Paper>
-                <form noValidate autoComplete="off">
-                  <TextField
-                    id="filled-select-team"
-                    select
-                    label="チーム"
-                    className={classes.textField}
-                    value={team}
-                    onChange={decideTeamText}
-                    variant="outlined"
-                    fullWidth={true}
-                    margin="normal"
-                  >
-                    {Object.keys(teamConverter).map(shortTeam => (
-                      <MenuItem key={shortTeam} value={shortTeam}>
-                        {shortTeam}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </form>
-                <form autoComplete="off">
-                  <TextField
-                    id="filled-name"
-                    label="選手名"
-                    className={classes.textField}
-                    value={name}
-                    onChange={decideNameText}
-                    onKeyPress={ev => {
-                      if (ev.key === "Enter") {
-                        ev.preventDefault();
-                        execSearch(team, name);
-                      }
-                    }}
-                    variant="outlined"
-                    fullWidth={true}
-                    margin="normal"
-                  />
-                </form>
-                <Toolbar>
-                  <Toolbar className={classes.resetButton}>
-                    <Button
+    return (
+      <div>
+        <Popper open={open} anchorEl={anchorEl} placement="top-end" transition>
+          {({ TransitionProps }) => (
+            <Fade {...TransitionProps} timeout={30}>
+              {/* <ClickAwayListener onClickAway={this.handleClickAway}> */}
+              <HideOnScroll direction="up">
+                <Paper>
+                  <form noValidate autoComplete="off">
+                    <TextField
+                      id="filled-select-team"
+                      select
+                      label="チーム"
+                      className={classes.textField}
+                      value={team}
+                      onChange={decideTeamText}
                       variant="outlined"
-                      color="secondary"
-                      className={classes.resetButton}
-                      onClick={resetSearch}
+                      fullWidth={true}
+                      margin="normal"
                     >
-                      リセット
-                    </Button>
-                  </Toolbar>
-                  <Toolbar className={classes.searchButton}>
-                    <Button
+                      {Object.keys(teamConverter).map(shortTeam => (
+                        <MenuItem key={shortTeam} value={shortTeam}>
+                          {shortTeam}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </form>
+                  <form autoComplete="off">
+                    <TextField
+                      id="filled-name"
+                      label="選手名"
+                      className={classes.textField}
+                      value={name}
+                      onChange={decideNameText}
+                      onKeyPress={ev => {
+                        if (ev.key === "Enter") {
+                          ev.preventDefault();
+                          execSearch(team, name);
+                        }
+                      }}
                       variant="outlined"
-                      color="primary"
-                      className={classes.searchButton}
-                      disabled={team || name ? false : true}
-                      onClick={() => execSearch(team, name)}
-                    >
-                      検索
-                    </Button>
+                      fullWidth={true}
+                      margin="normal"
+                    />
+                  </form>
+                  <Toolbar>
+                    <Toolbar className={classes.resetButton}>
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        className={classes.resetButton}
+                        onClick={resetSearch}
+                      >
+                        リセット
+                      </Button>
+                    </Toolbar>
+                    <Toolbar className={classes.searchButton}>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        className={classes.searchButton}
+                        disabled={team || name ? false : true}
+                        onClick={() => execSearch(team, name)}
+                      >
+                        検索
+                      </Button>
+                    </Toolbar>
                   </Toolbar>
-                </Toolbar>
-              </Paper>
-            </HideOnScroll>
-            {/* </ClickAwayListener> */}
-          </Fade>
-        )}
-      </Popper>
-      <Fab color="primary" aria-label="Search">
-        <SearchIcon onClick={handlePopper} />
-      </Fab>
-    </div>
-  );
-};
+                </Paper>
+              </HideOnScroll>
+              {/* </ClickAwayListener> */}
+            </Fade>
+          )}
+        </Popper>
+        <Fab color="primary" aria-label="Search">
+          <SearchIcon onClick={handlePopper} />
+        </Fab>
+      </div>
+    );
+  }
+}
 
 export default withStyles(styles)(SearchContents);
