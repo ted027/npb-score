@@ -35,7 +35,7 @@ export interface MainProps extends WithStyles<typeof styles> {
 
 class MainApp extends React.Component<MainProps> {
   render() {
-    const { classes, pageState, yearState } = this.props;
+    const { classes, pageState } = this.props;
     const { selected } = pageState;
     return (
       <MuiThemeProvider theme={theme}>

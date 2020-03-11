@@ -19,6 +19,9 @@ const styles = (theme: Theme): StyleRules => createStyles({
   tab: {
     flexGrow: 1,
   },
+  title: {
+    flexGrow: 1,
+  },
   subtab: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
@@ -82,6 +85,9 @@ const styles = (theme: Theme): StyleRules => createStyles({
     width: "60%",
     position: "absolute",
     left: 2
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
   },
   selectYear: {
     marginTop: 8,
