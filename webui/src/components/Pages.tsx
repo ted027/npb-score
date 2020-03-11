@@ -15,7 +15,8 @@ import {
   Select,
   Toolbar,
   IconButton,
-  Typography
+  Typography,
+  Popover
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 
@@ -67,42 +68,42 @@ const SelectYearFormWithoutStyles: React.FC<SelectYearFormProps> = props => (
 
 const SelectYearForm = withStyles(styles)(SelectYearFormWithoutStyles);
 
-interface MenuPopperProps extends WithStyles<typeof styles> {
-}
+const [anchorEl, setAnchorEl] = React.useState(null);
+const handleMenuClick = (event: any) => setAnchorEl(event.currentTarget);
+const handleMenuClose = () => setAnchorEl(null);
 
-const MenuPopper: React.FC = () => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const handleMenuClick = event: any => setAnchorEl(event.currentTarget);
-  const handleMenuClose = () => setAnchorEl(null);
-  return (
-    <div>
-      <IconButton
-        edge="start"
-        className={props.classes.menuButton}
-        color="inherit"
-        aria-label="menu"
-        onClick={handleMenuClick}
-      >
-        <MenuIcon />
-      </IconButton>
-      <Popover
-        open={Boolean(anchorEl)}
-        anchorEl={anchorEl}
-        onClose={handleMenuClose}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-      >
-        <Typography className={classes.typography}>The content of the Popover.</Typography>
-      </Popover>
-    </div>
-  )
-};
+const MenuPopperWithoutStyles: React.FC<WithStyles<typeof styles>> = props => (
+  <div>
+    <IconButton
+      edge="start"
+      className={props.classes.menuButton}
+      color="inherit"
+      aria-label="menu"
+      onClick={handleMenuClick}
+    >
+      <MenuIcon />
+    </IconButton>
+    <Popover
+      open={Boolean(anchorEl)}
+      anchorEl={anchorEl}
+      onClose={handleMenuClose}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "left"
+      }}
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "left"
+      }}
+    >
+      <Typography className={props.classes.typography}>
+        The content of the Popover.
+      </Typography>
+    </Popover>
+  </div>
+);
+
+const MenuPopper = withStyles(styles)(MenuPopperWithoutStyles);
 
 interface MainAppBarProps extends WithStyles<typeof styles> {
   selected: number;
@@ -113,36 +114,36 @@ interface MainAppBarProps extends WithStyles<typeof styles> {
 
 export const MainAppBarWithoutStyles: React.FC<MainAppBarProps> = React.forwardRef(
   (props, ref) => (
-      <AppBar className={props.classes.tab} ref={ref}>
-        <MediaQuery query="(max-width: 767px)">
-          <Toolbar>
-            <MenuPopper />
-          </Toolbar>
-          {/* TODO: DELETE */}
-          <Tabs value={props.selected} onChange={props.onSelectRecords}>
-            <Tab label="順位表" />
-            <Tab label="野手成績" />
-            <Tab label="投手成績" />
-          </Tabs>
-          <SelectYearForm
-            onSelectYear={props.onSelectYear}
-            yearState={props.yearState}
-          />
-        </MediaQuery>
-        <MediaQuery query="(min-width: 767px)">
-          <Tabs value={props.selected} onChange={props.onSelectRecords}>
-            <Tab label="順位表" />
-            <Tab label="野手成績" />
-            <Tab label="投手成績" />
-            <LinkTab label="BLOG" href="/" />
-          </Tabs>
-          <SelectYearForm
-            onSelectYear={props.onSelectYear}
-            yearState={props.yearState}
-          />
-        </MediaQuery>
-      </AppBar>
-    );
+    <AppBar className={props.classes.tab} ref={ref}>
+      <MediaQuery query="(max-width: 767px)">
+        <Toolbar>
+          <MenuPopper />
+        </Toolbar>
+        {/* TODO: DELETE */}
+        <Tabs value={props.selected} onChange={props.onSelectRecords}>
+          <Tab label="順位表" />
+          <Tab label="野手成績" />
+          <Tab label="投手成績" />
+        </Tabs>
+        <SelectYearForm
+          onSelectYear={props.onSelectYear}
+          yearState={props.yearState}
+        />
+      </MediaQuery>
+      <MediaQuery query="(min-width: 767px)">
+        <Tabs value={props.selected} onChange={props.onSelectRecords}>
+          <Tab label="順位表" />
+          <Tab label="野手成績" />
+          <Tab label="投手成績" />
+          <LinkTab label="BLOG" href="/" />
+        </Tabs>
+        <SelectYearForm
+          onSelectYear={props.onSelectYear}
+          yearState={props.yearState}
+        />
+      </MediaQuery>
+    </AppBar>
+  )
 );
 
 export const MainAppBar = withStyles(styles)(MainAppBarWithoutStyles);
