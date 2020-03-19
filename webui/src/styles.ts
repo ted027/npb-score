@@ -7,11 +7,10 @@ import { fade } from "@material-ui/core/styles";
 const styles = (theme: Theme): StyleRules => createStyles({
   root: {
     width: "100%",
-    marginTop: theme.spacing(8)
   },
   individualRoot: {
     width: "100%",
-    marginTop: theme.spacing(14)
+    marginTop: theme.spacing(16)
   },
   tableWrapper: {
     overflowX: "auto"
@@ -19,11 +18,14 @@ const styles = (theme: Theme): StyleRules => createStyles({
   tab: {
     flexGrow: 1,
   },
+  title: {
+    flexGrow: 1,
+  },
   subtab: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     color: "black",
-    marginTop: 48
+    marginTop: 72
   },
   des: {
     backgroundColor: blue[600],
@@ -83,9 +85,12 @@ const styles = (theme: Theme): StyleRules => createStyles({
     position: "absolute",
     left: 2
   },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
   selectYear: {
-    marginTop: 8,
-    right: '5%',
+    marginTop: 20,
+    right: '4%',
     position: "absolute",
     backgroundColor: fade(theme.palette.common.white, 0.85),
     "&:hover": {
@@ -94,6 +99,11 @@ const styles = (theme: Theme): StyleRules => createStyles({
     transition: theme.transitions.create('width'),
     width: 80
   },
+  // listMenu: {
+  //   width: '50%',
+  //   maxWidth: 360,
+  //   backgroundColor: theme.palette.background.paper,
+  // },
 });
 
 export default styles;
