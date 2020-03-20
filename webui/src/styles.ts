@@ -18,9 +18,6 @@ const styles = (theme: Theme): StyleRules => createStyles({
   tab: {
     flexGrow: 1,
   },
-  title: {
-    flexGrow: 1,
-  },
   subtab: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
@@ -68,8 +65,8 @@ const styles = (theme: Theme): StyleRules => createStyles({
   },
   fab: {
     position: "fixed",
-    right: theme.spacing(3),
-    bottom: theme.spacing(3),
+    right: theme.spacing(2),
+    bottom: theme.spacing(2),
     zIndex: 20
   },
   textField: {
