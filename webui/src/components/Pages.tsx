@@ -82,7 +82,7 @@ export const MainAppBarWithoutStyles: React.FC<MainAppBarProps> = React.forwardR
         <LinkTab icon={<KeyboardReturnIcon />} label="BLOG" href="/" />
       </Tabs>
       </MediaQuery>
-      <MediaQuery query="(max-width: 767px)">
+      <MediaQuery query="(min-width: 767px)">
       <Tabs value={props.selected} onChange={props.onSelectRecords}>
         <Tab icon={<TableChartIcon />} label="順位表" />
         <Tab icon={<SportsCricketIcon />} label="野手成績" />
