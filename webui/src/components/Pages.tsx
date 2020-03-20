@@ -64,63 +64,6 @@ const SelectYearFormWithoutStyles: React.FC<SelectYearFormProps> = props => (
 
 const SelectYearForm = withStyles(styles)(SelectYearFormWithoutStyles);
 
-// interface ListMenuProps extends WithStyles<typeof styles> {
-//   onSelectListItem: (event: any, selected: number) => any;
-// }
-
-// const ListMenuWithoutStyles: React.FC<ListMenuProps> = props => (
-//   <List
-//       component="nav"
-//       aria-labelledby="nested-list-subheader"
-//       subheader={
-//         <ListSubheader component="div" id="nested-list-subheader">
-//           プロ野球成績表
-//         </ListSubheader>
-//       }
-//       className={props.classes.ListMenu}
-//     >
-
-//     </List>
-// )
-
-// const [anchorEl, setAnchorEl] = React.useState(null);
-// const handleMenuClick = (event: any) => setAnchorEl(event.currentTarget);
-// const handleMenuClose = () => setAnchorEl(null);
-
-// const MenuPopperWithoutStyles: React.FC<WithStyles<typeof styles>> = props => (
-//   <div>
-//     <IconButton
-//       edge="start"
-//       className={props.classes.menuButton}
-//       color="inherit"
-//       aria-label="menu"
-//       onClick={handleMenuClick}
-//     >
-//       <MenuIcon />
-//     </IconButton>
-//     <Popover
-//       open={Boolean(anchorEl)}
-//       anchorEl={anchorEl}
-//       onClose={handleMenuClose}
-//       anchorOrigin={{
-//         vertical: "top",
-//         horizontal: "left"
-//       }}
-//       transformOrigin={{
-//         vertical: "top",
-//         horizontal: "left"
-//       }}
-//     >
-//       <Typography className={props.classes.typography}>
-//         The content of the Popover.
-//       </Typography>
-//       {/* <ListMenu /> */}
-//     </Popover>
-//   </div>
-// );
-
-// const MenuPopper = withStyles(styles)(MenuPopperWithoutStyles);
-
 interface MainAppBarProps extends WithStyles<typeof styles> {
   selected: number;
   yearState: yearState;
@@ -131,6 +74,15 @@ interface MainAppBarProps extends WithStyles<typeof styles> {
 export const MainAppBarWithoutStyles: React.FC<MainAppBarProps> = React.forwardRef(
   (props, ref) => (
     <AppBar className={props.classes.tab} ref={ref}>
+      <MediaQuery query="(max-width: 767px)">
+      <Tabs value={props.selected} onChange={props.onSelectRecords}>
+        <Tab icon={<TableChartIcon />} label="順位表" />
+        <Tab icon={<SportsCricketIcon />} label="野手成績" />
+        <Tab icon={<SportsBaseballIcon />} label="投手成績" />
+        <LinkTab icon={<KeyboardReturnIcon />} label="BLOG" href="/" />
+      </Tabs>
+      </MediaQuery>
+      <MediaQuery query="(max-width: 767px)">
       <Tabs value={props.selected} onChange={props.onSelectRecords}>
         <Tab icon={<TableChartIcon />} label="順位表" />
         <Tab icon={<SportsCricketIcon />} label="野手成績" />
@@ -141,6 +93,7 @@ export const MainAppBarWithoutStyles: React.FC<MainAppBarProps> = React.forwardR
         onSelectYear={props.onSelectYear}
         yearState={props.yearState}
       />
+      </MediaQuery>
     </AppBar>
   )
 );
@@ -157,6 +110,7 @@ const LeagueAppBarWithoutStyles: React.FC<LeagueAppBarProps> = React.forwardRef(
     <AppBar className={props.classes.subtab} ref={ref}>
       <MediaQuery query="(max-width: 767px)">
         <Tabs
+          variant="fullWidth"
           value={props.selected}
           indicatorColor="primary"
           textColor="primary"
