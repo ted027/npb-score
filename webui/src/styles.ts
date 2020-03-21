@@ -63,7 +63,13 @@ const styles = (theme: Theme): StyleRules => createStyles({
     height: "width",
     marginTop: theme.spacing(1)
   },
-  fab: {
+  upFab: {
+    position: "fixed",
+    right: theme.spacing(2),
+    bottom: theme.spacing(13),
+    zIndex: 20
+  },
+  bottomFab: {
     position: "fixed",
     right: theme.spacing(2),
     bottom: theme.spacing(2),

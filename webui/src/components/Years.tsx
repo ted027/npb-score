@@ -52,16 +52,15 @@ interface SelectYearPopperProps extends SelectYearFormProps {
   handlePopper: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => any;
 }
 
-class SelectYearPopper extends React.Component<SelectYearPopperProps> {
+export class SelectYearPopper extends React.Component<SelectYearPopperProps> {
   render() {
     const {
-      classes,
       yearState,
       popperState,
       onSelectYear,
       handlePopper
     } = this.props;
-    const { year_selected } = yearState;
+    // const { year_selected } = yearState;
     const { anchorEl, open } = popperState;
 
     return (

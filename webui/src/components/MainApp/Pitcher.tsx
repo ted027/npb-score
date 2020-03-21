@@ -31,7 +31,7 @@ const Pitcher: React.FC<MainProps> = props => {
       <HideOnScroll {...props} direction="down">
         <VisibleLeagueAppBar selected={league_selected} />
       </HideOnScroll>
-      <div className={classes.fab}>
+      <div className={classes.bottomFab}>
         <HideOnScroll {...props} direction="up">
           <VisibleSearch />
         </HideOnScroll>
