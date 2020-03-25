@@ -75,24 +75,28 @@ export const MainAppBarWithoutStyles: React.FC<MainAppBarProps> = React.forwardR
   (props, ref) => (
     <AppBar className={props.classes.tab} ref={ref}>
       <MediaQuery query="(max-width: 767px)">
-      <Tabs value={props.selected} onChange={props.onSelectRecords}>
-        <Tab icon={<TableChartIcon />} label="順位表" />
-        <Tab icon={<SportsCricketIcon />} label="野手成績" />
-        <Tab icon={<SportsBaseballIcon />} label="投手成績" />
-        <LinkTab icon={<KeyboardReturnIcon />} label="BLOG" href="/" />
-      </Tabs>
+        <Tabs
+          variant="fullWidth"
+          value={props.selected}
+          onChange={props.onSelectRecords}
+        >
+          <Tab icon={<TableChartIcon />} label="順位表" />
+          <Tab icon={<SportsCricketIcon />} label="野手成績" />
+          <Tab icon={<SportsBaseballIcon />} label="投手成績" />
+          <LinkTab icon={<KeyboardReturnIcon />} label="BLOG" href="/" />
+        </Tabs>
       </MediaQuery>
       <MediaQuery query="(min-width: 767px)">
-      <Tabs value={props.selected} onChange={props.onSelectRecords}>
-        <Tab icon={<TableChartIcon />} label="順位表" />
-        <Tab icon={<SportsCricketIcon />} label="野手成績" />
-        <Tab icon={<SportsBaseballIcon />} label="投手成績" />
-        <LinkTab icon={<KeyboardReturnIcon />} label="BLOG" href="/" />
-      </Tabs>
-      <SelectYearForm
-        onSelectYear={props.onSelectYear}
-        yearState={props.yearState}
-      />
+        <Tabs value={props.selected} onChange={props.onSelectRecords}>
+          <Tab icon={<TableChartIcon />} label="順位表" />
+          <Tab icon={<SportsCricketIcon />} label="野手成績" />
+          <Tab icon={<SportsBaseballIcon />} label="投手成績" />
+          <LinkTab icon={<KeyboardReturnIcon />} label="BLOG" href="/" />
+        </Tabs>
+        <SelectYearForm
+          onSelectYear={props.onSelectYear}
+          yearState={props.yearState}
+        />
       </MediaQuery>
     </AppBar>
   )
