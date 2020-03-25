@@ -3,12 +3,14 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
+import MediaQuery from "react-responsive";
 import styles from "../../styles";
 import { HideOnScroll } from "../Pages";
 import { CommonTable } from "../Tables";
 import { VisibleOrderAppBar } from "../../containers/changeTab";
 import { top_ad, middle_ad1, middle_ad4 } from "../Ad";
 import { MainProps } from ".";
+import { VisibleSelectYearForm, VisibleSelectYearPopper } from "../../containers/selectYear";
 import {
   teams_header_stats,
   teams_header_offense,
@@ -36,6 +38,16 @@ const Order: React.FC<MainProps> = (props) => {
       {top_ad(classes)}
       {order_selected === ORDER && (
         <div>
+          <HideOnScroll {...props} direction="down">
+            <div>
+            <MediaQuery query="(max-width: 767px)">
+              <VisibleSelectYearPopper />
+            </MediaQuery>
+            <MediaQuery query="(min-width: 767px)">
+              <VisibleSelectYearForm />
+            </MediaQuery>
+            </div>
+          </HideOnScroll>
           <div>
             <AppBar position="static" color="default" className={classes.des}>
               <Toolbar variant="dense">

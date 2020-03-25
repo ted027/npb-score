@@ -1,14 +1,7 @@
+import { MainPageIf } from "../constants";
+
 const DEFAULT_ORDER = 0;
 const DEFAULT_ALL = 0;
-
-export interface MainPageIf {
-  selected: number;
-  order_selected: number;
-  league_selected: number;
-  league: 'CentralPacific' | 'Central' | 'Pacific' | '';
-  searchTeam: string;
-  searchName: string;
-}
 
 interface action extends MainPageIf {
   type: string;
@@ -18,7 +11,7 @@ const initialState: MainPageIf = {
   selected: 0,
   order_selected: 0,
   league_selected: 0,
-  league: 'CentralPacific',
+  league: "CentralPacific",
   searchTeam: "",
   searchName: ""
 };

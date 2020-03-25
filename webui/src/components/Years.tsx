@@ -3,7 +3,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { years_list } from "./Common";
 import styles from "../styles";
 import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
-import { yearState } from "../constants";
+import { YearsIf } from "../constants";
 import {
   FormControl,
   Select,
@@ -16,7 +16,7 @@ import { HideOnScroll } from "./Pages";
 import SettingsIcon from "@material-ui/icons/Settings";
 
 interface SelectYearFormProps extends WithStyles<typeof styles> {
-  yearState: yearState;
+  yearState: YearsIf;
   onSelectYear: (event: any) => any;
 }
 
@@ -42,26 +42,21 @@ const SelectYearFormWithoutStyles: React.FC<SelectYearFormProps> = props => (
 
 export const SelectYearForm = withStyles(styles)(SelectYearFormWithoutStyles);
 
-interface PopperState {
-  anchorEl: HTMLDivElement | null;
-  open: boolean;
+interface SelectYearPopperProps extends WithStyles<typeof styles> {
+  yearState: YearsIf;
+  onSelectYear: (event: any) => any;
+  yearHandlePopper: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => any;
 }
 
-interface SelectYearPopperProps extends SelectYearFormProps {
-  popperState: PopperState;
-  handlePopper: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => any;
-}
-
-export class SelectYearPopper extends React.Component<SelectYearPopperProps> {
+class SelectYearPopperWithoutStyles extends React.Component<SelectYearPopperProps> {
   render() {
     const {
+      classes,
       yearState,
-      popperState,
       onSelectYear,
-      handlePopper
+      yearHandlePopper
     } = this.props;
-    // const { year_selected } = yearState;
-    const { anchorEl, open } = popperState;
+    const { anchorEl, open } = yearState;
 
     return (
       <div>
@@ -82,11 +77,11 @@ export class SelectYearPopper extends React.Component<SelectYearPopperProps> {
           )}
         </Popper>
         <Fab color="secondary" aria-label="Search">
-          <SettingsIcon onClick={handlePopper} />
+          <SettingsIcon onClick={yearHandlePopper} />
         </Fab>
       </div>
     );
   }
 }
 
-export default withStyles(styles)(SelectYearPopper);
+export const SelectYearPopper = withStyles(styles)(SelectYearPopperWithoutStyles);

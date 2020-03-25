@@ -13,16 +13,10 @@ import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 import styles from "../styles";
 import { teamConverter } from "../datastore/DataCommon";
 import { HideOnScroll } from "./Pages";
-
-interface State {
-  anchorEl: HTMLDivElement | null;
-  open: boolean;
-  team: string;
-  name: string;
-}
+import { SearchIf } from "../constants";
 
 interface Props extends WithStyles<typeof styles> {
-  searchState: State;
+  searchState: SearchIf;
   execSearch: (team: string, name: string) => any;
   resetSearch: (event: any) => any;
   handlePopper: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => any;

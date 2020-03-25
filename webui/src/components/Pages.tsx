@@ -8,12 +8,10 @@ import Slide from "@material-ui/core/Slide";
 import { LinkTab } from "./Common";
 import styles from "../styles";
 import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
-import { yearState } from "../constants";
 import TableChartIcon from "@material-ui/icons/TableChart";
 import SportsCricketIcon from "@material-ui/icons/SportsCricket";
 import SportsBaseballIcon from "@material-ui/icons/SportsBaseball";
 import KeyboardReturnIcon from "@material-ui/icons/KeyboardReturn";
-import { SelectYearForm } from "./Years";
 
 interface HideOnScrollProps {
   children: JSX.Element;
@@ -65,33 +63,31 @@ export const HideOnScroll: React.FC<HideOnScrollProps> = ({
 
 interface MainAppBarProps extends WithStyles<typeof styles> {
   selected: number;
-  yearState: yearState;
   onSelectRecords: (event: any, selected: number) => any;
-  onSelectYear: (event: any) => any;
 }
 
 export const MainAppBarWithoutStyles: React.FC<MainAppBarProps> = React.forwardRef(
   (props, ref) => (
     <AppBar className={props.classes.tab} ref={ref}>
       <MediaQuery query="(max-width: 767px)">
-      <Tabs value={props.selected} onChange={props.onSelectRecords}>
-        <Tab icon={<TableChartIcon />} label="順位表" />
-        <Tab icon={<SportsCricketIcon />} label="野手成績" />
-        <Tab icon={<SportsBaseballIcon />} label="投手成績" />
-        <LinkTab icon={<KeyboardReturnIcon />} label="BLOG" href="/" />
-      </Tabs>
+        <Tabs
+          variant="fullWidth"
+          value={props.selected}
+          onChange={props.onSelectRecords}
+        >
+          <Tab icon={<TableChartIcon />} label="順位表" />
+          <Tab icon={<SportsCricketIcon />} label="野手成績" />
+          <Tab icon={<SportsBaseballIcon />} label="投手成績" />
+          <LinkTab icon={<KeyboardReturnIcon />} label="BLOG" href="/" />
+        </Tabs>
       </MediaQuery>
-      <MediaQuery query="(max-width: 767px)">
-      <Tabs value={props.selected} onChange={props.onSelectRecords}>
-        <Tab icon={<TableChartIcon />} label="順位表" />
-        <Tab icon={<SportsCricketIcon />} label="野手成績" />
-        <Tab icon={<SportsBaseballIcon />} label="投手成績" />
-        <LinkTab icon={<KeyboardReturnIcon />} label="BLOG" href="/" />
-      </Tabs>
-      <SelectYearForm
-        onSelectYear={props.onSelectYear}
-        yearState={props.yearState}
-      />
+      <MediaQuery query="(min-width: 767px)">
+        <Tabs value={props.selected} onChange={props.onSelectRecords}>
+          <Tab icon={<TableChartIcon />} label="順位表" />
+          <Tab icon={<SportsCricketIcon />} label="野手成績" />
+          <Tab icon={<SportsBaseballIcon />} label="投手成績" />
+          <LinkTab icon={<KeyboardReturnIcon />} label="BLOG" href="/" />
+        </Tabs>
       </MediaQuery>
     </AppBar>
   )

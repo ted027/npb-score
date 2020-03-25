@@ -6,7 +6,7 @@ import styles from "../../styles";
 import { HideOnScroll } from "../Pages";
 import { VisibleMainAppBar } from "../../containers/changeTab";
 import { bottom_ad, middle_ad2 } from "../Ad";
-import { selectYears } from "../../constants";
+import { selectYears, MainPageIf, YearsIf } from "../../constants";
 import Order from "./Order";
 import Hitter from "./Hitter";
 import Pitcher from "./Pitcher";
@@ -15,22 +15,13 @@ const ORDER_VALUE = 0;
 const HITTER_VALUE = 1;
 const PITCHER_VALUE = 2;
 
-interface pageState {
-  selected: number;
-  order_selected: number;
-  league_selected: number;
-  league: "CentralPacific" | "Central" | "Pacific" | "";
-  searchTeam: string;
-  searchName: string;
-}
-
 interface yearState {
   year_selected: selectYears;
 }
 
 export interface MainProps extends WithStyles<typeof styles> {
-  pageState: pageState;
-  yearState: yearState;
+  pageState: MainPageIf;
+  yearState: YearsIf;
 }
 
 class MainApp extends React.Component<MainProps> {

@@ -1,20 +1,28 @@
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { SelectYearForm, SelectYearPopper } from "../components/Years";
-import { handlePopper, selectYear } from "../actions";
+import { yearHandlePopper, selectYear } from "../actions";
 import { state } from "../reducers";
 
 const mapStateToProps = (state: state) => {
-  return { searchState: state.Search };
+  return { yearState: state.Years };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
+const mapDispatchToFormProps = (dispatch: Dispatch) => {
+  return {
+    onSelectYear: (event: any) => {
+      dispatch(selectYear(event));
+    }
+  };
+};
+
+const mapDispatchToPopperProps = (dispatch: Dispatch) => {
   return {
     onSelectYear: (event: any) => {
       dispatch(selectYear(event));
     },
-    handlePopper: (event: any) => {
-      dispatch(handlePopper(event));
+    yearHandlePopper: (event: any) => {
+      dispatch(yearHandlePopper(event));
     }
     // clickAway: (event: any) => {
     //     dispatch(clickAway())
@@ -24,14 +32,14 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 
 export const VisibleSelectYearForm = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToFormProps,
   null,
   { forwardRef: true }
 )(SelectYearForm);
 
 export const VisibleSelectYearPopper = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToPopperProps,
   null,
   { forwardRef: true }
 )(SelectYearPopper);

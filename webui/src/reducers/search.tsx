@@ -1,12 +1,7 @@
-export interface SearchIf {
-  anchorEl: HTMLDivElement | null,
-  open: boolean,
-  team: string,
-  name: string
-}
+import { SearchIf } from "../constants";
 
 interface action extends SearchIf {
-  type: string
+  type: string;
 }
 
 const initialState: SearchIf = {
@@ -16,7 +11,7 @@ const initialState: SearchIf = {
   name: ""
 };
 
-const Search = (state = initialState, action: action ): SearchIf => {
+const Search = (state = initialState, action: action): SearchIf => {
   switch (action.type) {
     case "HANDLE_POPPER":
       return {

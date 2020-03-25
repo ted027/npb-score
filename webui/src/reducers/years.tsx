@@ -1,27 +1,33 @@
 import { years_list } from "../components/Common";
-import { selectYears } from "../constants";
-
-export interface YearsIf {
-    year_selected: selectYears;
-}
+import { YearsIf } from "../constants";
 
 interface action extends YearsIf {
-    type: string;
+  type: string;
 }
 
 const initialState: YearsIf = {
-    year_selected: years_list.slice(-1)[0]
-}
+  anchorEl: null,
+  open: false,
+  year_selected: years_list.slice(-1)[0]
+};
 
 const Years = (state = initialState, action: action): YearsIf => {
-    switch (action.type) {
-        case "SELECT_YEAR":
-            return {
-                year_selected: action.year_selected
-            }
-        default:
-            return state;
-    }
-}
+  switch (action.type) {
+    case "SELECT_YEAR":
+      return {
+        anchorEl: null,
+        open: false,
+        year_selected: action.year_selected
+      };
+    case "YEAR_HANDLE_POPPER":
+      return {
+        anchorEl: action.anchorEl,
+        open: !state.open,
+        year_selected: state.year_selected
+      };
+    default:
+      return state;
+  }
+};
 
-export default Years
+export default Years;
