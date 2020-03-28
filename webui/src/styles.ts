@@ -63,13 +63,13 @@ const styles = (theme: Theme): StyleRules => createStyles({
     height: "width",
     marginTop: theme.spacing(1)
   },
-  upFab: {
+  yearFab: {
     position: "fixed",
     right: theme.spacing(2),
     bottom: theme.spacing(13),
     zIndex: 20
   },
-  bottomFab: {
+  searchFab: {
     position: "fixed",
     right: theme.spacing(2),
     bottom: theme.spacing(2),
@@ -91,7 +91,7 @@ const styles = (theme: Theme): StyleRules => createStyles({
   menuButton: {
     marginRight: theme.spacing(2),
   },
-  selectYear: {
+  selectYearForm: {
     marginTop: 20,
     right: '4%',
     position: "absolute",

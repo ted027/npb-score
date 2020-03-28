@@ -30,37 +30,6 @@ export const HideOnScroll: React.FC<HideOnScrollProps> = ({
   );
 };
 
-// interface yearState {
-//   year_selected: selectYears;
-// }
-
-// interface SelectYearFormProps extends WithStyles<typeof styles> {
-//   yearState: yearState;
-//   onSelectYear: (event: any) => any;
-// }
-
-// const SelectYearFormWithoutStyles: React.FC<SelectYearFormProps> = props => (
-//   <FormControl className={props.classes.selectYear}>
-//     <Select
-//       id="filled-select-year"
-//       value={props.yearState.year_selected}
-//       onChange={props.onSelectYear}
-//       defaultValue={years_list.slice(-1)[0]}
-//     >
-//       <MenuItem value="" disabled>
-//         年
-//       </MenuItem>
-//       {years_list.map(year => (
-//         <MenuItem key={year} value={year}>
-//           {year}
-//         </MenuItem>
-//       ))}
-//     </Select>
-//   </FormControl>
-// );
-
-// const SelectYearForm = withStyles(styles)(SelectYearFormWithoutStyles);
-
 interface MainAppBarProps extends WithStyles<typeof styles> {
   selected: number;
   onSelectRecords: (event: any, selected: number) => any;

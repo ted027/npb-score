@@ -21,7 +21,7 @@ interface SelectYearFormProps extends WithStyles<typeof styles> {
 }
 
 const SelectYearFormWithoutStyles: React.FC<SelectYearFormProps> = props => (
-  <FormControl className={props.classes.selectYear}>
+  <FormControl className={props.classes.selectYearForm}>
     <Select
       id="filled-select-year"
       value={props.yearState.year_selected}
@@ -59,7 +59,7 @@ class SelectYearPopperWithoutStyles extends React.Component<SelectYearPopperProp
     const { anchorEl, open } = yearState;
 
     return (
-      <div>
+      <div className={classes.yearFab}>
         <Popper open={open} anchorEl={anchorEl} placement="top-end" transition>
           {({ TransitionProps }) => (
             <Fade {...TransitionProps} timeout={30}>

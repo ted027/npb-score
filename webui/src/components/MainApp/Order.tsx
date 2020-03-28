@@ -10,7 +10,10 @@ import { CommonTable } from "../Tables";
 import { VisibleOrderAppBar } from "../../containers/changeTab";
 import { top_ad, middle_ad1, middle_ad4 } from "../Ad";
 import { MainProps } from ".";
-import { VisibleSelectYearForm, VisibleSelectYearPopper } from "../../containers/selectYear";
+import {
+  VisibleSelectYearForm,
+  VisibleSelectYearPopper
+} from "../../containers/selectYear";
 import {
   teams_header_stats,
   teams_header_offense,
@@ -26,7 +29,7 @@ import {
 const ORDER = 0;
 const PARKFACTOR = 1;
 
-const Order: React.FC<MainProps> = (props) => {
+const Order: React.FC<MainProps> = props => {
   const { classes, pageState, yearState } = props;
   const { order_selected } = pageState;
   const { year_selected } = yearState;
@@ -38,16 +41,16 @@ const Order: React.FC<MainProps> = (props) => {
       {top_ad(classes)}
       {order_selected === ORDER && (
         <div>
-          <HideOnScroll {...props} direction="down">
-            <div>
-            <MediaQuery query="(max-width: 767px)">
-              <VisibleSelectYearPopper />
-            </MediaQuery>
-            <MediaQuery query="(min-width: 767px)">
-              <VisibleSelectYearForm />
-            </MediaQuery>
-            </div>
-          </HideOnScroll>
+          <MediaQuery query="(max-width: 767px)">
+              <HideOnScroll {...props} direction="down">
+                <VisibleSelectYearPopper />
+              </HideOnScroll>
+          </MediaQuery>
+          <MediaQuery query="(min-width: 767px)">
+              <HideOnScroll {...props} direction="down">
+                <VisibleSelectYearForm />
+              </HideOnScroll>
+          </MediaQuery>
           <div>
             <AppBar position="static" color="default" className={classes.des}>
               <Toolbar variant="dense">
