@@ -42,14 +42,18 @@ const Order: React.FC<MainProps> = props => {
       {order_selected === ORDER && (
         <div>
           <MediaQuery query="(max-width: 767px)">
-              <HideOnScroll {...props} direction="down">
-                <VisibleSelectYearPopper />
-              </HideOnScroll>
+              <div className={classes.bottom1Fab}>
+                <HideOnScroll {...props} direction="up">
+                  <VisibleSelectYearPopper />
+                </HideOnScroll>
+              </div>
           </MediaQuery>
           <MediaQuery query="(min-width: 767px)">
-              <HideOnScroll {...props} direction="down">
-                <VisibleSelectYearForm />
-              </HideOnScroll>
+              <div className={classes.selectYearForm}>
+                <HideOnScroll {...props} direction="down">
+                  <VisibleSelectYearForm />
+                </HideOnScroll>
+              </div>
           </MediaQuery>
           <div>
             <AppBar position="static" color="default" className={classes.des}>

@@ -41,7 +41,7 @@ class SearchContents extends React.Component<Props> {
       <div>
         <Popper open={open} anchorEl={anchorEl} placement="top-end" transition>
           {({ TransitionProps }) => (
-            <Fade {...TransitionProps} timeout={30}>
+            <Fade {...TransitionProps} timeout={20}>
               {/* <ClickAwayListener onClickAway={this.handleClickAway}> */}
               <HideOnScroll direction="up">
                 <Paper>

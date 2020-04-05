@@ -20,24 +20,27 @@ interface SelectYearFormProps extends WithStyles<typeof styles> {
   onSelectYear: (event: any) => any;
 }
 
-const SelectYearFormWithoutStyles: React.FC<SelectYearFormProps> = props => (
-  <FormControl className={props.classes.selectYearForm}>
-    <Select
-      id="filled-select-year"
-      value={props.yearState.year_selected}
-      onChange={props.onSelectYear}
-      defaultValue={years_list.slice(-1)[0]}
-    >
-      <MenuItem value="" disabled>
-        年
-      </MenuItem>
-      {years_list.map(year => (
-        <MenuItem key={year} value={year}>
-          {year}
+const SelectYearFormWithoutStyles: React.FC<SelectYearFormProps> = React.forwardRef(
+  (props, ref) => (
+    <FormControl>
+      <Select
+        id="filled-select-year"
+        value={props.yearState.year_selected}
+        onChange={props.onSelectYear}
+        defaultValue={years_list.slice(-1)[0]}
+        ref={ref}
+      >
+        <MenuItem value="" disabled>
+          年
         </MenuItem>
-      ))}
-    </Select>
-  </FormControl>
+        {years_list.map(year => (
+          <MenuItem key={year} value={year}>
+            {year}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  )
 );
 
 export const SelectYearForm = withStyles(styles)(SelectYearFormWithoutStyles);
@@ -48,21 +51,18 @@ interface SelectYearPopperProps extends WithStyles<typeof styles> {
   yearHandlePopper: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => any;
 }
 
-class SelectYearPopperWithoutStyles extends React.Component<SelectYearPopperProps> {
+class SelectYearPopperWithoutStyles extends React.Component<
+  SelectYearPopperProps
+> {
   render() {
-    const {
-      classes,
-      yearState,
-      onSelectYear,
-      yearHandlePopper
-    } = this.props;
+    const { classes, yearState, onSelectYear, yearHandlePopper } = this.props;
     const { anchorEl, open } = yearState;
 
     return (
-      <div className={classes.yearFab}>
+      <div>
         <Popper open={open} anchorEl={anchorEl} placement="top-end" transition>
           {({ TransitionProps }) => (
-            <Fade {...TransitionProps} timeout={30}>
+            <Fade {...TransitionProps} timeout={20}>
               {/* <ClickAwayListener onClickAway={this.handleClickAway}> */}
               <HideOnScroll direction="up">
                 <Paper>
@@ -84,4 +84,6 @@ class SelectYearPopperWithoutStyles extends React.Component<SelectYearPopperProp
   }
 }
 
-export const SelectYearPopper = withStyles(styles)(SelectYearPopperWithoutStyles);
+export const SelectYearPopper = withStyles(styles)(
+  SelectYearPopperWithoutStyles
+);

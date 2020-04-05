@@ -63,13 +63,13 @@ const styles = (theme: Theme): StyleRules => createStyles({
     height: "width",
     marginTop: theme.spacing(1)
   },
-  yearFab: {
+  bottom2Fab: {
     position: "fixed",
     right: theme.spacing(2),
     bottom: theme.spacing(13),
     zIndex: 20
   },
-  searchFab: {
+  bottom1Fab: {
     position: "fixed",
     right: theme.spacing(2),
     bottom: theme.spacing(2),
