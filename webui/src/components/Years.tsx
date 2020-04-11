@@ -76,7 +76,7 @@ class SelectYearPopperWithoutStyles extends React.Component<
             </Fade>
           )}
         </Popper>
-        <Fab color="secondary" aria-label="Search">
+        <Fab color="default" aria-label="Search">
           <SettingsIcon onClick={yearHandlePopper} />
         </Fab>
       </div>

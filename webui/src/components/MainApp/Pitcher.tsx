@@ -19,10 +19,15 @@ import {
   pitchers_header_relief,
   pitchers_header_closer,
   pitchers_header_oth,
-  pitchers_body_of_year
+  pitchers_body_of_year,
 } from "../../datastore/Pitchers";
+import MediaQuery from "react-responsive";
+import {
+  VisibleSelectYearForm,
+  VisibleSelectYearPopper,
+} from "../../containers/selectYear";
 
-const Pitcher: React.FC<MainProps> = props => {
+const Pitcher: React.FC<MainProps> = (props) => {
   const { classes, pageState, yearState } = props;
   const { league_selected, league } = pageState;
   const { year_selected } = yearState;
@@ -37,6 +42,20 @@ const Pitcher: React.FC<MainProps> = props => {
         </HideOnScroll>
       </div>
       {top_ad(classes)}
+      <MediaQuery query="(max-width: 767px)">
+        <div className={classes.bottom2Fab}>
+          <HideOnScroll {...props} direction="up">
+            <VisibleSelectYearPopper />
+          </HideOnScroll>
+        </div>
+      </MediaQuery>
+      <MediaQuery query="(min-width: 767px)">
+        <div className={classes.selectYearForm}>
+          <HideOnScroll {...props} direction="down">
+            <VisibleSelectYearForm />
+          </HideOnScroll>
+        </div>
+      </MediaQuery>
       <div>
         <AppBar position="static" color="default" className={classes.des}>
           <Toolbar variant="dense">

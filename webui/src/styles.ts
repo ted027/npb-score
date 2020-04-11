@@ -66,7 +66,7 @@ const styles = (theme: Theme): StyleRules => createStyles({
   bottom2Fab: {
     position: "fixed",
     right: theme.spacing(2),
-    bottom: theme.spacing(13),
+    bottom: theme.spacing(11),
     zIndex: 20
   },
   bottom1Fab: {
@@ -92,15 +92,16 @@ const styles = (theme: Theme): StyleRules => createStyles({
     marginRight: theme.spacing(2),
   },
   selectYearForm: {
-    marginTop: 20,
-    right: '4%',
+    top: theme.spacing(3),
+    right: theme.spacing(5),
     position: "absolute",
     backgroundColor: fade(theme.palette.common.white, 0.85),
     "&:hover": {
       backgroundColor: fade(theme.palette.common.white, 1)
     },
     transition: theme.transitions.create('width'),
-    width: 80
+    width: 80,
+    zIndex: theme.zIndex.appBar + 1
   },
   // listMenu: {
   //   width: '50%',
