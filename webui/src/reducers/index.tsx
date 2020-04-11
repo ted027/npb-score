@@ -1,7 +1,8 @@
 import { combineReducers } from "redux";
-import MainPage, { MainPageIf } from "./page";
-import Search, { SearchIf } from "./search";
-import Years, { YearsIf } from "./years";
+import MainPage from "./page";
+import Search from "./search";
+import Years from "./years";
+import { MainPageIf, SearchIf, YearsIf } from "../constants";
 
 export interface state {
     MainPage: MainPageIf,

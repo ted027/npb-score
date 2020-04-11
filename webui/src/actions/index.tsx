@@ -83,3 +83,10 @@ export const selectYear = (event: any) => {
     year_selected: event.target.value
   }
 }
+
+export const yearHandlePopper = (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+  return {
+    type: "YEAR_HANDLE_POPPER",
+    anchorEl: event.currentTarget,
+  };
+};

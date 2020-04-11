@@ -2,15 +2,12 @@ import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import MenuItem from "@material-ui/core/MenuItem";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import MediaQuery from "react-responsive";
 import Slide from "@material-ui/core/Slide";
-import { LinkTab, years_list } from "./Common";
+import { LinkTab } from "./Common";
 import styles from "../styles";
 import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
-import { selectYears } from "../constants";
-import { FormControl, Select } from "@material-ui/core";
 import TableChartIcon from "@material-ui/icons/TableChart";
 import SportsCricketIcon from "@material-ui/icons/SportsCricket";
 import SportsBaseballIcon from "@material-ui/icons/SportsBaseball";
@@ -33,42 +30,9 @@ export const HideOnScroll: React.FC<HideOnScrollProps> = ({
   );
 };
 
-interface yearState {
-  year_selected: selectYears;
-}
-
-interface SelectYearFormProps extends WithStyles<typeof styles> {
-  yearState: yearState;
-  onSelectYear: (event: any) => any;
-}
-
-const SelectYearFormWithoutStyles: React.FC<SelectYearFormProps> = props => (
-  <FormControl className={props.classes.selectYear}>
-    <Select
-      id="filled-select-year"
-      value={props.yearState.year_selected}
-      onChange={props.onSelectYear}
-      defaultValue={years_list.slice(-1)[0]}
-    >
-      <MenuItem value="" disabled>
-        年
-      </MenuItem>
-      {years_list.map(year => (
-        <MenuItem key={year} value={year}>
-          {year}
-        </MenuItem>
-      ))}
-    </Select>
-  </FormControl>
-);
-
-const SelectYearForm = withStyles(styles)(SelectYearFormWithoutStyles);
-
 interface MainAppBarProps extends WithStyles<typeof styles> {
   selected: number;
-  yearState: yearState;
   onSelectRecords: (event: any, selected: number) => any;
-  onSelectYear: (event: any) => any;
 }
 
 export const MainAppBarWithoutStyles: React.FC<MainAppBarProps> = React.forwardRef(
@@ -93,10 +57,6 @@ export const MainAppBarWithoutStyles: React.FC<MainAppBarProps> = React.forwardR
           <Tab icon={<SportsBaseballIcon />} label="投手成績" />
           <LinkTab icon={<KeyboardReturnIcon />} label="BLOG" href="/" />
         </Tabs>
-        <SelectYearForm
-          onSelectYear={props.onSelectYear}
-          yearState={props.yearState}
-        />
       </MediaQuery>
     </AppBar>
   )
