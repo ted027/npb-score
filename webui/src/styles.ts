@@ -94,7 +94,7 @@ const styles = (theme: Theme): StyleRules => createStyles({
   selectYearForm: {
     top: theme.spacing(3),
     right: theme.spacing(5),
-    position: "absolute",
+    position: "fixed",
     backgroundColor: fade(theme.palette.common.white, 0.85),
     "&:hover": {
       backgroundColor: fade(theme.palette.common.white, 1)

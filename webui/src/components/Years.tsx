@@ -10,7 +10,7 @@ import {
   Popper,
   Paper,
   Fade,
-  Fab
+  Fab,
 } from "@material-ui/core";
 import { HideOnScroll } from "./Pages";
 import SettingsIcon from "@material-ui/icons/Settings";
@@ -22,24 +22,22 @@ interface SelectYearFormProps extends WithStyles<typeof styles> {
 
 const SelectYearFormWithoutStyles: React.FC<SelectYearFormProps> = React.forwardRef(
   (props, ref) => (
-    <FormControl>
-      <Select
-        id="filled-select-year"
-        value={props.yearState.year_selected}
-        onChange={props.onSelectYear}
-        defaultValue={years_list.slice(-1)[0]}
-        ref={ref}
-      >
-        <MenuItem value="" disabled>
-          年
+    <Select
+      id="filled-select-year"
+      value={props.yearState.year_selected}
+      onChange={props.onSelectYear}
+      defaultValue={years_list.slice(-1)[0]}
+      ref={ref}
+    >
+      <MenuItem value="" disabled>
+        年
+      </MenuItem>
+      {years_list.map((year) => (
+        <MenuItem key={year} value={year}>
+          {year}
         </MenuItem>
-        {years_list.map(year => (
-          <MenuItem key={year} value={year}>
-            {year}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+      ))}
+    </Select>
   )
 );
 
