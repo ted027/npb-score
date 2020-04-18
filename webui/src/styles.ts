@@ -95,19 +95,12 @@ const styles = (theme: Theme): StyleRules => createStyles({
     top: theme.spacing(3),
     right: theme.spacing(5),
     position: "fixed",
-    backgroundColor: fade(theme.palette.common.white, 0.85),
-    "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 1)
-    },
     transition: theme.transitions.create('width'),
-    width: 80,
     zIndex: theme.zIndex.appBar + 1
   },
-  // listMenu: {
-  //   width: '50%',
-  //   maxWidth: 360,
-  //   backgroundColor: theme.palette.background.paper,
-  // },
+  yearPaper: {
+    width: 80
+  },
 });
 
 export default styles;

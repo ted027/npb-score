@@ -18,26 +18,31 @@ import SettingsIcon from "@material-ui/icons/Settings";
 interface SelectYearFormProps extends WithStyles<typeof styles> {
   yearState: YearsIf;
   onSelectYear: (event: any) => any;
+  direction?: "up" | "down";
 }
 
 const SelectYearFormWithoutStyles: React.FC<SelectYearFormProps> = React.forwardRef(
   (props, ref) => (
-    <Select
-      id="filled-select-year"
-      value={props.yearState.year_selected}
-      onChange={props.onSelectYear}
-      defaultValue={years_list.slice(-1)[0]}
-      ref={ref}
-    >
-      <MenuItem value="" disabled>
-        年
-      </MenuItem>
-      {years_list.map((year) => (
-        <MenuItem key={year} value={year}>
-          {year}
-        </MenuItem>
-      ))}
-    </Select>
+    <HideOnScroll direction={props.direction ? props.direction : "down"}>
+      <Paper className={props.classes.yearPaper}>
+        <Select
+          id="filled-select-year"
+          value={props.yearState.year_selected}
+          onChange={props.onSelectYear}
+          defaultValue={years_list.slice(-1)[0]}
+          ref={ref}
+        >
+          <MenuItem value="" disabled>
+            年
+          </MenuItem>
+          {years_list.map((year) => (
+            <MenuItem key={year} value={year}>
+              {year}
+            </MenuItem>
+          ))}
+        </Select>
+      </Paper>
+    </HideOnScroll>
   )
 );
 
@@ -63,12 +68,11 @@ class SelectYearPopperWithoutStyles extends React.Component<
             <Fade {...TransitionProps} timeout={20}>
               {/* <ClickAwayListener onClickAway={this.handleClickAway}> */}
               <HideOnScroll direction="up">
-                <Paper>
-                  <SelectYearForm
-                    onSelectYear={onSelectYear}
-                    yearState={yearState}
-                  />
-                </Paper>
+                <SelectYearForm
+                  onSelectYear={onSelectYear}
+                  yearState={yearState}
+                  direction="up"
+                />
               </HideOnScroll>
               {/* </ClickAwayListener> */}
             </Fade>
