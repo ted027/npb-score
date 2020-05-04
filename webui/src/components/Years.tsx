@@ -72,6 +72,7 @@ class SelectYearPopperWithoutStyles extends React.Component<
                   onSelectYear={onSelectYear}
                   yearState={yearState}
                   direction="up"
+                  className={TransitionProps.classes.textField}
                 />
               </HideOnScroll>
               {/* </ClickAwayListener> */}
