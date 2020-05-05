@@ -24,8 +24,8 @@ interface Props extends WithStyles<typeof styles> {
   decideNameText: (event: any) => any;
 }
 
-class SearchContents extends React.Component<Props> {
-  render() {
+const SearchContents: React.FC<Props> = React.forwardRef(
+  (props, ref: React.Ref<any>) => {
     const {
       classes,
       searchState,
@@ -33,8 +33,8 @@ class SearchContents extends React.Component<Props> {
       resetSearch,
       handlePopper,
       decideTeamText,
-      decideNameText
-    } = this.props;
+      decideNameText,
+    } = props;
     const { anchorEl, open, team, name } = searchState;
 
     return (
@@ -57,7 +57,7 @@ class SearchContents extends React.Component<Props> {
                       fullWidth={true}
                       margin="normal"
                     >
-                      {Object.keys(teamConverter).map(shortTeam => (
+                      {Object.keys(teamConverter).map((shortTeam) => (
                         <MenuItem key={shortTeam} value={shortTeam}>
                           {shortTeam}
                         </MenuItem>
@@ -71,7 +71,7 @@ class SearchContents extends React.Component<Props> {
                       className={classes.textField}
                       value={name}
                       onChange={decideNameText}
-                      onKeyPress={ev => {
+                      onKeyPress={(ev) => {
                         if (ev.key === "Enter") {
                           ev.preventDefault();
                           execSearch(team, name);
@@ -111,12 +111,12 @@ class SearchContents extends React.Component<Props> {
             </Fade>
           )}
         </Popper>
-        <Fab color="primary" aria-label="Search">
+        <Fab color="primary" aria-label="Search" ref={ref}>
           <SearchIcon onClick={handlePopper} />
         </Fab>
       </div>
     );
   }
-}
+);
 
 export default withStyles(styles)(SearchContents);
