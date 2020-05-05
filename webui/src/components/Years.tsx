@@ -5,7 +5,6 @@ import styles from "../styles";
 import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 import { YearsIf } from "../constants";
 import {
-  FormControl,
   Select,
   Popper,
   Paper,
@@ -31,6 +30,7 @@ const SelectYearFormWithoutStyles: React.FC<SelectYearFormProps> = React.forward
           onChange={props.onSelectYear}
           defaultValue={years_list.slice(-1)[0]}
           ref={ref}
+          className={props.classes.textField}
         >
           <MenuItem value="" disabled>
             年
@@ -54,11 +54,9 @@ interface SelectYearPopperProps extends WithStyles<typeof styles> {
   yearHandlePopper: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => any;
 }
 
-class SelectYearPopperWithoutStyles extends React.Component<
-  SelectYearPopperProps
-> {
-  render() {
-    const { classes, yearState, onSelectYear, yearHandlePopper } = this.props;
+const SelectYearPopperWithoutStyles: React.FC<SelectYearPopperProps> = React.forwardRef(
+  (props, ref: React.Ref<any>) => {
+    const { classes, yearState, onSelectYear, yearHandlePopper } = props;
     const { anchorEl, open } = yearState;
 
     return (
@@ -72,20 +70,19 @@ class SelectYearPopperWithoutStyles extends React.Component<
                   onSelectYear={onSelectYear}
                   yearState={yearState}
                   direction="up"
-                  className={TransitionProps.classes.textField}
                 />
               </HideOnScroll>
               {/* </ClickAwayListener> */}
             </Fade>
           )}
         </Popper>
-        <Fab color="default" aria-label="Search">
+        <Fab color="default" aria-label="Search" ref={ref}>
           <SettingsIcon onClick={yearHandlePopper} />
         </Fab>
       </div>
     );
   }
-}
+);
 
 export const SelectYearPopper = withStyles(styles)(
   SelectYearPopperWithoutStyles
