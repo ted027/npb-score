@@ -1,6 +1,6 @@
 from decimal import Decimal
 
-YEAR = 2019
+YEAR = 2020
 TEAM_NUM = 6
 
 RECORDS_DIRECTORY = f'records/{YEAR}'
