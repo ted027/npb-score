@@ -44,7 +44,7 @@ class SearchContents extends React.Component<Props> {
             <Fade {...TransitionProps} timeout={20}>
               {/* <ClickAwayListener onClickAway={this.handleClickAway}> */}
               <HideOnScroll direction="up">
-                <Paper>
+                <Paper className={classes.popPaper}>
                   <form noValidate autoComplete="off">
                     <TextField
                       id="filled-select-team"
@@ -111,7 +111,7 @@ class SearchContents extends React.Component<Props> {
             </Fade>
           )}
         </Popper>
-        <Fab color="primary" aria-label="Search">
+        <Fab color="primary" aria-label="Search" className={classes.commonFab}>
           <SearchIcon onClick={handlePopper} />
         </Fab>
       </div>

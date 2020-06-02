@@ -2,7 +2,6 @@ import blue from "@material-ui/core/colors/blue";
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { StyleRules } from '@material-ui/core/styles/withStyles';
 import createStyles from '@material-ui/core/styles/createStyles';
-import { fade } from "@material-ui/core/styles";
 
 const styles = (theme: Theme): StyleRules => createStyles({
   root: {
@@ -27,17 +26,17 @@ const styles = (theme: Theme): StyleRules => createStyles({
   des: {
     backgroundColor: blue[600],
     color: theme.palette.common.white,
-    height: 35
+    height: 35,
   },
   des2: {
     backgroundColor: "rgba(0,0,0,0)",
     color: theme.palette.common.white,
     fontSize: "100%",
-    height: 36
+    height: 36,
   },
   tableButton: {
     width: "100%",
-    maxWidth: 140
+    maxWidth: 140,
   },
   adTypo: {
     display: "flex",
@@ -67,13 +66,16 @@ const styles = (theme: Theme): StyleRules => createStyles({
     position: "fixed",
     right: theme.spacing(2),
     bottom: theme.spacing(11),
-    zIndex: 20
+    zIndex: theme.zIndex.appBar + 1,
   },
   bottom1Fab: {
     position: "fixed",
     right: theme.spacing(2),
     bottom: theme.spacing(2),
-    zIndex: 20
+    zIndex: theme.zIndex.appBar + 1,
+  },
+  commonFab: {
+    zIndex: theme.zIndex.appBar + 1,
   },
   textField: {
     width: "100%"
@@ -98,9 +100,13 @@ const styles = (theme: Theme): StyleRules => createStyles({
     transition: theme.transitions.create('width'),
     zIndex: theme.zIndex.appBar + 1
   },
-  yearPaper: {
-    width: 80
+  yearPopPaper: {
+    width: 80,
+    zIndex: theme.zIndex.appBar + 2
   },
+  popPaper: {
+    zIndex: theme.zIndex.appBar + 2
+  }
 });
 
 export default styles;

@@ -24,13 +24,14 @@ interface SelectYearFormProps extends WithStyles<typeof styles> {
 const SelectYearFormWithoutStyles: React.FC<SelectYearFormProps> = React.forwardRef(
   (props, ref) => (
     <HideOnScroll direction={props.direction ? props.direction : "down"}>
-      <Paper className={props.classes.yearPaper}>
+      <Paper className={props.classes.yearPopPaper}>
         <Select
           id="filled-select-year"
           value={props.yearState.year_selected}
           onChange={props.onSelectYear}
           defaultValue={years_list.slice(-1)[0]}
           ref={ref}
+          className={props.classes.textField}
         >
           <MenuItem value="" disabled>
             年
@@ -54,18 +55,15 @@ interface SelectYearPopperProps extends WithStyles<typeof styles> {
   yearHandlePopper: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => any;
 }
 
-class SelectYearPopperWithoutStyles extends React.Component<
-  SelectYearPopperProps
-> {
-  render() {
-    const { classes, yearState, onSelectYear, yearHandlePopper } = this.props;
+const SelectYearPopperWithoutStyles: React.FC<SelectYearPopperProps> = React.forwardRef(
+  (props, ref: React.Ref<any>) => {
+    const { classes, yearState, onSelectYear, yearHandlePopper } = props;
     const { anchorEl, open } = yearState;
-
     return (
       <div>
         <Popper open={open} anchorEl={anchorEl} placement="top-end" transition>
           {({ TransitionProps }) => (
-            <Fade {...TransitionProps} timeout={20}>
+            <Fade {...TransitionProps} timeout={20} ref={ref}>
               {/* <ClickAwayListener onClickAway={this.handleClickAway}> */}
               <HideOnScroll direction="up">
                 <SelectYearForm
@@ -78,13 +76,13 @@ class SelectYearPopperWithoutStyles extends React.Component<
             </Fade>
           )}
         </Popper>
-        <Fab color="default" aria-label="Search">
+        <Fab color="default" aria-label="Search" ref={ref} className={classes.commonFab}>
           <SettingsIcon onClick={yearHandlePopper} />
         </Fab>
       </div>
     );
   }
-}
+);
 
 export const SelectYearPopper = withStyles(styles)(
   SelectYearPopperWithoutStyles
