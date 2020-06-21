@@ -67,8 +67,9 @@ def average_pf(live_pf, live_game_num, past_pf_dic, pf_str):
     total_pf_num = Decimal(live_pf) * Decimal(live_game_num) + Decimal(
         past_pf_dic[str(YEAR - 1)][pf_str]) * Decimal('143') + Decimal(
             past_pf_dic[str(YEAR - 2)][pf_str]) * Decimal('143') + Decimal(
-                past_pf_dic[str(YEAR - 3)][pf_str]) * Decimal('143')
-    total_pf_den = Decimal(live_game_num) + Decimal('143') * 3
+                past_pf_dic[str(YEAR - 3)][pf_str]) * Decimal('143') + Decimal(
+                    past_pf_dic[str(YEAR - 4)][pf_str]) * Decimal('143')
+    total_pf_den = Decimal(live_game_num) + Decimal('143') * 4
     raw_total_pf = total_pf_num / total_pf_den
     total_pf = digits_under_one(raw_total_pf, 2)
     return str(total_pf)

@@ -7,8 +7,8 @@ from common import unify_teams, RECORDS_DIRECTORY
 from sabr.common import return_outcounts
 from datastore_json import read_json, write_json
 
-NAME_HI = -1
-TEAM_H1 = -2
+NAME_HI = 1
+TEAM_H1 = 0
 
 TRAINING_NUM_DIGIT = 3
 
@@ -50,8 +50,9 @@ def request_soup(url):
 def link_tail_list(url):
     soup = request_soup(url)
     table = soup.find('table')
-    td_number_list = table.find_all('td', class_='ct active')
-    td_player_list = table.find_all('td', class_='lt yjM')
+    # 育成選手を除外するために背番号も取得
+    td_number_list = table.find_all('td', class_='bb-playerTable__data--number')
+    td_player_list = table.find_all('td', class_='bb-playerTable__data--player')
     return [
         pl.find('a').get('href')
         for num, pl in zip(td_number_list, td_player_list)
@@ -66,7 +67,7 @@ def full_val(str_val):
 
 
 def basic_information(personal_soup):
-    name = personal_soup.find_all('h1')[NAME_HI].text.split('（')[0]
+    name = personal_soup.find_all('h1')[NAME_HI].text
     team = unify_teams(personal_soup.find_all('h1')[TEAM_H1].text)
     if team in CENTRAL_LIST:
         league = 'Central'
@@ -77,41 +78,47 @@ def basic_information(personal_soup):
     return {'Name': name, 'Team': team, 'League': league}
 
 
-def confirm_pitcher_tables(tables):
+def confirm_pitcher_tables(sections):
     """
     return basic, right/left, park records
     """
     records_table = rl_table = park_table = None
-    for table in tables:
-        table_type = table.find('tr').text.replace('\n', '')
-        if table_type == '投手成績':
-            records_table = table
-        elif table_type == '左右打者別成績':
-            rl_table = table
-        elif table_type == '球場別成績':
-            park_table = table
+    for setion in sections:
+        try:
+            record_type = section.find('header').find('h1').text
+        except BaseException:
+            pass
+        if record_type == '投手成績':
+            records_table = section.find('table')
+        elif record_type == '対左右別成績':
+            rl_table = section.find('table')
+        elif record_type == '球場別成績':
+            park_table = section.find('table')
     return records_table, rl_table, park_table
 
 
-def confirm_hitter_tables(tables):
+def confirm_hitter_tables(sections):
     """
     return basic, chance, right/left, count, runner, park records
     """
     records_table = chance_table = rl_table = count_table = runner_table = park_table = None
-    for table in tables:
-        table_type = table.find('tr').text.replace('\n', '')
-        if table_type == '打者成績':
-            records_table = table
-        elif table_type == '得点圏成績':
-            chance_table = table
-        elif table_type == '左右投手別成績':
-            rl_table = table
-        # elif table_type == 'カウント別成績':
-        #     count_table = table
-        # elif table_type == '塁状況別成績':
-        #     runner_table = table
-        elif table_type == '球場別成績':
-            park_table = table
+    for section in sections:
+        try:
+            record_type = section.find('header').find('h1').text
+        except BaseException:
+            continue
+        if record_type == '打者成績':
+            records_table = section.find('table')
+        elif record_type == '得点圏成績':
+            chance_table = section.find('table')
+        elif record_type == '対左右別成績':
+            rl_table = section.find('table')
+        # elif record_type == 'カウント別成績':
+        #     count_table = section.find('table')
+        # elif record_type == '塁状況別成績':
+        #     runner_table = section.find('table')
+        elif record_type == '球場別成績':
+            park_table = section.find('table')
     return records_table, chance_table, rl_table, count_table, runner_table, park_table
 
 
@@ -189,8 +196,8 @@ def append_team_pitcher_array(link_tail_list):
 
             personal_dict = basic_information(personal_soup)
 
-            tables = personal_soup.find_all('table')
-            records_table, rl_table, park_table = confirm_pitcher_tables(tables)
+            sections = personal_soup.find_all('section')
+            records_table, rl_table, park_table = confirm_pitcher_tables(sections)
 
             records = dict_records(records_table)
 
@@ -288,7 +295,7 @@ def append_records_array(player_type):
     player_list = []
     for i in TEAM_NUM_LIST:
 
-        url = BASEURL + '/npb/teams/' + str(i) + '/memberlist?type=' + player_type
+        url = BASEURL + '/npb/teams/' + str(i) + '/memberlist?kind=' + player_type
 
         ltail_list = link_tail_list(url)
 

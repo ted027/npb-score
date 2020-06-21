@@ -27,8 +27,8 @@ if __name__ == "__main__":
     hit_process.join()
     team_process.join()
 
-    update_records_by_official()
-    update_team_park_records()
-    write_league_records()
-    add_sabr_pitcher()
-    add_sabr_hitter()
+    # update_records_by_official()
+    # update_team_park_records()
+    # write_league_records()
+    # add_sabr_pitcher()
+    # add_sabr_hitter()

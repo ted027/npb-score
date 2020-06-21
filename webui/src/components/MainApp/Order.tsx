@@ -181,7 +181,7 @@ const Order: React.FC<MainProps> = props => {
             <AppBar position="static" color="default" className={classes.des}>
               <Toolbar variant="dense">
                 <Typography variant="h6" className={classes.des2}>
-                  パークファクター(2019)　※参考値
+                  パークファクター(今年)　※参考値
                 </Typography>
               </Toolbar>
             </AppBar>
@@ -200,7 +200,7 @@ const Order: React.FC<MainProps> = props => {
             <AppBar position="static" color="default" className={classes.des}>
               <Toolbar variant="dense">
                 <Typography variant="h6" className={classes.des2}>
-                  パークファクター(2016以降)　※参考値
+                  パークファクター(直近5年)　※参考値
                 </Typography>
               </Toolbar>
             </AppBar>
