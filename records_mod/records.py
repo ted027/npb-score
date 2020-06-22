@@ -33,12 +33,13 @@ BASEURL = 'https://baseball.yahoo.co.jp'
 
 def request_soup(url):
     while True:
+        time.sleep(2)
         res = requests.get(url)
         if 200 <= res.status_code < 300 and res.content:
             break
         else:
             print(f'{res.status_code}: {res.url}')
-            time.sleep(0.5)
+            time.sleep(60)
     return BeautifulSoup(res.content, 'html.parser')
 
 
@@ -58,7 +59,7 @@ def link_tail_list(url):
 def full_val(str_val):
     if str_val == '-':
         return '0'
-    return str_val
+    return str_val.replace('\n', '')
 
 
 def basic_information(personal_soup):
@@ -85,9 +86,9 @@ def confirm_pitcher_tables(sections):
             record_type = ''
         if record_type == '投手成績':
             records_table = section.find('table')
-        elif record_type == '対左右別成績':
+        elif record_type == '対左右別成績' and not rl_table:
             rl_table = section.find('table')
-        elif record_type == '球場別成績':
+        elif record_type == '球場別成績' and not park_table:
             park_table = section.find('table')
     return records_table, rl_table, park_table
 
@@ -104,15 +105,15 @@ def confirm_hitter_tables(sections):
             record_type = ''
         if record_type == '打者成績':
             records_table = section.find('table')
-        elif record_type == '得点圏成績':
+        elif record_type == '得点圏成績' and not chance_table:
             chance_table = section.find('table')
-        elif record_type == '対左右別成績':
+        elif record_type == '対左右別成績' and not rl_table:
             rl_table = section.find('table')
-        # elif record_type == 'カウント別成績':
+        # elif record_type == 'カウント別成績' and not count_table:
         #     count_table = section.find('table')
-        # elif record_type == '塁状況別成績':
+        # elif record_type == '塁状況別成績' and not runner_table:
         #     runner_table = section.find('table')
-        elif record_type == '球場別成績':
+        elif record_type == '球場別成績' and not park_table:
             park_table = section.find('table')
     return records_table, chance_table, rl_table, count_table, runner_table, park_table
 
@@ -141,6 +142,10 @@ def records_by_rl(rl_table, dump_val):
             hitter: 2 ('投手', '打席')
     """
     rl_header = [th.text for th in rl_table.find_all('th')][dump_val:]
+    if len(rl_header) > 10:
+        print(f'dump_val\n{dump_val}')
+        print(f'rl_header\n{rl_header}')
+        print(rl_table.find_all('th'))
 
     rl_trs = rl_table.find_all('tr')[EXCEPT_TITLE:]
     if len(rl_trs) == RL_PITCHER_VALUE:
@@ -166,8 +171,8 @@ def _rl_hitter(rl_trs, rl_header):
     for i in range(2):
         rl_text = rl_trs[i * 2].find('td').text
         # [-len(rl_header):] 打者のtr length違いに対応するため
-        rl_body_right = [full_val(td.text) for td in rl_trs[i * 2].find_all('td')[-len(rl_header)]:]]
-        rl_body_left = [full_val(td.text) for td in rl_trs[i * 2 + 1].find_all('td')[-len(rl_header)]:]]
+        rl_body_right = [full_val(td.text) for td in rl_trs[i * 2].find_all('td')[-len(rl_header):]]
+        rl_body_left = [full_val(td.text) for td in rl_trs[i * 2 + 1].find_all('td')[-len(rl_header):]]
         rl_body = [str(Decimal(right) + Decimal(left)) for right, left in zip(rl_body_right, rl_body_left)]
         if '右' in rl_text:
             rl_records['対右'] = dict(zip(rl_header, rl_body))
@@ -267,7 +272,7 @@ def append_team_hitter_array(link_tail_list):
             records = dict_records(records_table)
 
             # section length > 出場なしならbreak. 後半は保険
-            if len(tables) > HIT_TOO_SHORT_SECTIONS or not Decimal(records['試合']):
+            if len(sections) > HIT_TOO_SHORT_SECTIONS or not Decimal(records['試合']):
                 break
             else:
                 print(f'retry: {personal_link}')
