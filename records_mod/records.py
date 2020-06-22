@@ -13,20 +13,15 @@ TEAM_H1 = 0
 TRAINING_NUM_DIGIT = 3
 
 EXCEPT_TITLE = 1
-EXCEPT_TITLE_HEADER = 2
-
-EXCEPT_HEAD_CONTENT = 1
-
-CHANCE_STR_DIVIDER = 3
 
 PITCHER_DUMP_VAL = 1
 HITTER_DUMP_VAL = 2
 
-# profile, records, le, park, open
-PITCH_TOO_SHORT_TABLES = 4
+RL_PITCHER_VALUE = 2
+RL_HITTER_VALUE = 4
 
-# profile, records, open
-HIT_TOO_SHORT_TABLES = 2
+PITCH_TOO_SHORT_SECTIONS = 9
+HIT_TOO_SHORT_SECTIONS = 9
 
 TEAM_NUM_LIST = [376 if i == 10 else i for i in list(range(1, 13))]
 
@@ -50,9 +45,9 @@ def request_soup(url):
 def link_tail_list(url):
     soup = request_soup(url)
     table = soup.find('table')
+    td_player_list = table.find_all('td', class_='bb-playerTable__data--player')
     # 育成選手を除外するために背番号も取得
     td_number_list = table.find_all('td', class_='bb-playerTable__data--number')
-    td_player_list = table.find_all('td', class_='bb-playerTable__data--player')
     return [
         pl.find('a').get('href')
         for num, pl in zip(td_number_list, td_player_list)
@@ -83,11 +78,11 @@ def confirm_pitcher_tables(sections):
     return basic, right/left, park records
     """
     records_table = rl_table = park_table = None
-    for setion in sections:
+    for section in sections:
         try:
             record_type = section.find('header').find('h1').text
         except BaseException:
-            pass
+            record_type = ''
         if record_type == '投手成績':
             records_table = section.find('table')
         elif record_type == '対左右別成績':
@@ -106,7 +101,7 @@ def confirm_hitter_tables(sections):
         try:
             record_type = section.find('header').find('h1').text
         except BaseException:
-            continue
+            record_type = ''
         if record_type == '打者成績':
             records_table = section.find('table')
         elif record_type == '得点圏成績':
@@ -123,7 +118,7 @@ def confirm_hitter_tables(sections):
 
 
 def dict_records(records_table):
-    rheader = [th.text for th in records_table.find_all('th')[EXCEPT_TITLE:]]
+    rheader = [th.text for th in records_table.find_all('th')]
     rbody = [full_val(td.text) for td in records_table.find_all('td')]
     dict(zip(rheader, rbody))
     return dict(zip(rheader, rbody))
@@ -131,12 +126,9 @@ def dict_records(records_table):
 
 def chance_records(chance_table):
     chheader_raw = [th.text for th in chance_table.find_all('th')]
-    # [0][2:3]'圏' + header値
+    # '得点圏' + header値
     # [1:] remove table title
-    chheader = [
-        chheader_raw[0][(CHANCE_STR_DIVIDER - 1):CHANCE_STR_DIVIDER] + h
-        for h in chheader_raw[EXCEPT_HEAD_CONTENT:]
-    ]
+    chheader = ['得点圏' + h for h in chheader_raw]
 
     chbody = [full_val(td.text) for td in chance_table.find_all('td')]
     return dict(zip(chheader, chbody))
@@ -150,31 +142,52 @@ def records_by_rl(rl_table, dump_val):
     """
     rl_header = [th.text for th in rl_table.find_all('th')][dump_val:]
 
-    rl_trs = rl_table.find_all('tr')[EXCEPT_TITLE_HEADER:]
+    rl_trs = rl_table.find_all('tr')[EXCEPT_TITLE:]
+    if len(rl_trs) == RL_PITCHER_VALUE:
+        return _rl_pitcher(rl_trs, rl_header)
+    elif len(rl_trs) == RL_HITTER_VALUE:
+        return _rl_hitter(rl_trs, rl_header)
+
+
+def _rl_pitcher(rl_trs, rl_header):
     rl_records = {}
     for rl_tr in rl_trs:
         rl_text = rl_tr.find('td').text
-        rl_body = [full_val(td.text) for td in rl_tr.find_all('td')[dump_val:]]
+        rl_body = [full_val(td.text) for td in rl_tr.find_all('td')[-len(rl_header):]]
         if '右' in rl_text:
             rl_records['対右'] = dict(zip(rl_header, rl_body))
         elif '左' in rl_text:
             rl_records['対左'] = dict(zip(rl_header, rl_body))
+    return rl_records
 
+
+def _rl_hitter(rl_trs, rl_header):
+    rl_records = {}
+    for i in range(2):
+        rl_text = rl_trs[i * 2].find('td').text
+        # [-len(rl_header):] 打者のtr length違いに対応するため
+        rl_body_right = [full_val(td.text) for td in rl_trs[i * 2].find_all('td')[-len(rl_header)]:]]
+        rl_body_left = [full_val(td.text) for td in rl_trs[i * 2 + 1].find_all('td')[-len(rl_header)]:]]
+        rl_body = [str(Decimal(right) + Decimal(left)) for right, left in zip(rl_body_right, rl_body_left)]
+        if '右' in rl_text:
+            rl_records['対右'] = dict(zip(rl_header, rl_body))
+        elif '左' in rl_text:
+            rl_records['対左'] = dict(zip(rl_header, rl_body))
     return rl_records
 
 
 def records_by_count_runner_park(table_by):
     # [1:] remove header content 'カウント/ランナー/球場'
     header = [th.text.replace('|', 'ー')
-              for th in table_by.find_all('th')][EXCEPT_HEAD_CONTENT:]
+              for th in table_by.find_all('th')][EXCEPT_TITLE:]
 
-    # [2:] remove title and header row
-    body_tr = table_by.find_all('tr')[EXCEPT_TITLE_HEADER:]
+    # [2:] remove header row
+    body_tr = table_by.find_all('tr')[EXCEPT_TITLE:]
     records_by_count_runner_park = {}
     for tr in body_tr:
         situation = tr.find('td').text
         body = [
-            full_val(td.text) for td in tr.find_all('td')[EXCEPT_HEAD_CONTENT:]
+            full_val(td.text) for td in tr.find_all('td')[EXCEPT_TITLE:]
         ]
         records_by_count_runner_park[situation] = dict(zip(header, body))
     return records_by_count_runner_park
@@ -184,7 +197,6 @@ def append_team_pitcher_array(link_tail_list):
     team_pitcher_list = []
     for ptail in link_tail_list:
         # personal id
-        # [-1] is null
         # personal_id = ptail.split('/')[-2]
         # personal_dict = {'id': personal_id}
 
@@ -201,18 +213,20 @@ def append_team_pitcher_array(link_tail_list):
 
             records = dict_records(records_table)
 
-            if len(tables) > PITCH_TOO_SHORT_TABLES or not Decimal(records['登板']):
+            # section length > 出場なしならbreak. 後半は保険
+            if len(sections) > PITCH_TOO_SHORT_SECTIONS or not Decimal(records['登板']):
                 break
             else:
                 print(f'retry: {personal_link}')
 
+        # skip after here if 登板なし
         if not Decimal(records['登板']):
             continue
 
         records['アウト'] = str(return_outcounts(Decimal(records['投球回'])))
 
         if rl_table:
-            # 1: dump '○打'
+            # 1: dump '○打者'
             records_rl = records_by_rl(rl_table, PITCHER_DUMP_VAL)
             records.update(records_rl)
 
@@ -235,7 +249,6 @@ def append_team_hitter_array(link_tail_list):
     team_hitter_list = []
     for htail in link_tail_list:
         # personal id
-        # [-1] is null
         # personal_id = htail.split('/')[-2]
         # personal_dict = {'id': personal_id}
 
@@ -247,13 +260,14 @@ def append_team_hitter_array(link_tail_list):
 
             personal_dict = basic_information(personal_soup)
 
-            tables = personal_soup.find_all('table')
+            sections = personal_soup.find_all('section')
             records_table, chance_table, rl_table, count_table, runner_table, park_table = confirm_hitter_tables(
-            tables)
+            sections)
 
             records = dict_records(records_table)
 
-            if len(tables) > HIT_TOO_SHORT_TABLES or not Decimal(records['試合']):
+            # section length > 出場なしならbreak. 後半は保険
+            if len(tables) > HIT_TOO_SHORT_SECTIONS or not Decimal(records['試合']):
                 break
             else:
                 print(f'retry: {personal_link}')
@@ -268,7 +282,7 @@ def append_team_hitter_array(link_tail_list):
             records.update(ch_records)
 
         if rl_table:
-            # 2: dump '○投' | '○打席'
+            # 2: dump '○投' | '○打者'
             records_rl = records_by_rl(rl_table, HITTER_DUMP_VAL)
             records.update(records_rl)
 
