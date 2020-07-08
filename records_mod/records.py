@@ -39,7 +39,7 @@ def request_soup(url):
             break
         else:
             print(f'{res.status_code}: {res.url}')
-            time.sleep(60)
+            time.sleep(10)
     return BeautifulSoup(res.content, 'html.parser')
 
 
@@ -309,33 +309,62 @@ def append_team_hitter_array(link_tail_list):
 
     return team_hitter_list
 
+def create_team_player_list(td_team_players, team, headers):
+    team_player_list = []
+    for td_player in td_team_players:
+        # basic_information
+        # records
+        pass
 
-def append_records_array(player_type):
+
+def create_td_team_player_list(soup):
+    table = soup.find('table')
+    td_player_list = table.find_all('td', class_='bb-playerTable__data--player')
+    # 育成選手を除外するために背番号も取得
+    td_number_list = table.find_all('td', class_='bb-playerTable__data--number')
+    return [
+        # pl.find('a').get('href')
+        td_pl
+        for td_num, td_pl in zip(td_number_list, td_player_list)
+        if len(td_num.text) < TRAINING_NUM_DIGIT
+    ]
+
+
+def extend_team_player_list(player_type):
     player_list = []
+    # thから項目を作る
+    default_url = BASEURL + '/npb/teams/' + '1' + '/memberlist?kind=' + player_type
+    headers = []
     for i in TEAM_NUM_LIST:
 
         url = BASEURL + '/npb/teams/' + str(i) + '/memberlist?kind=' + player_type
 
-        ltail_list = link_tail_list(url)
+        # ltail_list = link_tail_list(url)
+        soup = request_soup(url)
+        team = "" # from soup
+        
+        td_team_players = create_td_team_player_list(soup)
 
-        if player_type == 'p':
-            team_player_list = append_team_pitcher_array(ltail_list)
-        elif player_type == 'b':
-            team_player_list = append_team_hitter_array(ltail_list)
-        else:
-            raise BaseException('player type is invalid.')
-        player_list.extend(team_player_list)
+        team_player_list = create_team_player_list(td_team_players, team, headers)
+
+        # if player_type == 'p':
+        #     team_player_list = append_team_pitcher_array(ltail_list)
+        # elif player_type == 'b':
+        #     team_player_list = append_team_hitter_array(ltail_list)
+        # else:
+        #     raise BaseException('player type is invalid.')
+        player_records.extend(team_player_list)
 
     return player_list
 
 
 def write_pitcher_records():
-    pitcher_list = append_records_array('p')
+    pitcher_list = extend_team_player_list('p')
 
     write_json('pitchers.json', {'Pitcher': pitcher_list})
 
 
 def write_hitter_records():
-    hitter_list = append_records_array('b')
+    hitter_list = extend_team_player_list('b')
 
     write_json('hitters.json', {'Hitter': hitter_list})
