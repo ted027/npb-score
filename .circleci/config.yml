@@ -17,7 +17,7 @@ jobs:
           no_output_timeout: 15m
       - add_ssh_keys:
           fingerprints:
-            - "5b:34:87:bd:d6:91:8b:25:22:32:04:16:30:88:c2:04"
+            - "e5:f7:07:ca:a4:5c:76:22:db:ba:db:23:1c:ae:b8:95"
       - run:
           name: push
           command: |
@@ -52,7 +52,7 @@ jobs:
           at: .
       - add_ssh_keys:
           fingerprints:
-            - "5b:34:87:bd:d6:91:8b:25:22:32:04:16:30:88:c2:04"
+            - "e5:f7:07:ca:a4:5c:76:22:db:ba:db:23:1c:ae:b8:95"
       - run:
           name: deploy
           command: |
