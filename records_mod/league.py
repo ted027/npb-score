@@ -5,7 +5,7 @@ from sabr.common import (digits_under_one, return_outcounts, FULL_OUTCOUNTS,
                          ZERO_VALUE, IGNORE_VALUE, fix_rate_records)
 from datastore_json import read_json, write_json
 
-PERSONAL_DATA_KEY = ['Name', 'Team', 'League', '規定']
+PERSONAL_DATA_KEY = ['Name', 'Team', 'League', '規定', '背番号', '選手名']
 
 
 def sum_deep_dict(league_dic, player):

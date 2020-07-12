@@ -47,20 +47,20 @@ def team_information(tr_player, team):
     return {'Team': team, 'League': league}
 
 
-def records(tr_player, headers):
+def records(tr_player):
     records_raw = [td.text if td.text else td.find('a').text for td in tr_player.find_all('td')]
-    return [full_val(record.replace('\n', '')) for record in records]
+    return [full_val(record.replace('\n', '')) for record in records_raw]
 
 
 def create_team_player_list(tr_team_players, team, headers):
     team_player_list = []
     for tr_player in tr_team_players:
-        # basic_information
-        personal_dict = basic_information(tr_player, team)
+        # team_information
+        personal_dict = team_information(tr_player, team)
         
         # records
         personal_record_values = records(tr_player)
-        personal records = dict(zip(headers, personal_record_values))
+        personal_records = dict(zip(headers, personal_record_values))
         personal_dict.update(personal_records)
 
         # 2019とのUI共通互換性 Name <- 選手名 の項目にコピー
@@ -71,6 +71,7 @@ def create_team_player_list(tr_team_players, team, headers):
             personal_dict['アウト'] = str(return_outcounts(Decimal(personal_dict['投球回'])))
         
         team_player_list.append(personal_dict)
+    return team_player_list
 
 
 
@@ -107,7 +108,7 @@ def all_player_list(player_type):
 
         team_player_list = create_team_player_list(tr_team_players, team, headers)
 
-        player_records.extend(team_player_list)
+        player_list.extend(team_player_list)
 
     return player_list
 
