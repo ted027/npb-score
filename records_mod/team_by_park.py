@@ -42,5 +42,7 @@ def update_team_park_records():
             '得点PF': total_score_pf,
             'HRPF': total_hr_pf
         })
+    
+    # write_json('teams.json', {'Team': team_list})
 
     write_json('parks.json', {'Park': pf_list})

@@ -63,8 +63,14 @@ def create_team_player_list(tr_team_players, team, headers):
         personal_records = dict(zip(headers, personal_record_values))
         personal_dict.update(personal_records)
 
-        # 2019とのUI共通互換性 Name <- 選手名 の項目にコピー
+        # 2019とのUI共通互換性 Name <- 選手名
         personal_dict['Name'] = personal_dict['選手名']
+        del personal_dict['選手名']
+
+        # '得点圏' -> '圏打率'
+        if personal_dict.get('得点圏', ''):
+            personal_dict['圏打率'] = personal_dict['得点圏']
+            del personal_dict['得点圏']
 
         # add outcount if pitcher
         if personal_dict.get('投球回', ''):
