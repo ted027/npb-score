@@ -21,7 +21,6 @@ export const pitchers_sabr_header: strBoolDictWithId[] = createHeader(
 // main records
 const pheader_title = ["投球回", "勝利", "敗戦", "勝率", "奪三振", "規定", "League"];
 const pheader_regulated_title = [false, false, false, true, false, false, false];
-const pheader_order_title = ["desc", "desc", "desc", "desc", "desc", "desc", "desc"];
 const pheader_order_title = new Array(pheader_title.length).fill("desc");
 export const pitchers_header_title: strBoolDictWithId[] = createHeader(
   pheader_title,
