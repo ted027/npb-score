@@ -14,7 +14,7 @@ TEAM_INITIAL_LIST = [
 TEAM_TR_LIST = [2, 4, 6, 8, 10, 12]
 
 IBB_COLUMN_DICT = {'p': 18, 'b': 17}
-HITTERS_COLUMN_DICT = {'p': 13}
+HITTERS_COLUMN_DICT = {'p': 12}
 
 
 def create_additional_dicts(p_or_b):
@@ -56,7 +56,7 @@ def regulation_innings(games, innings):
 
 
 def update_hitter_y_records(hitter_list, team_list):
-    hitter_ibb_dict = create_intentional_bb_dict('b')
+    hitter_ibb_dict, unuse = create_additional_dicts('b')
 
     for hitter in hitter_list:
         if not hitter['試合']:
@@ -88,6 +88,9 @@ def update_pitcher_y_records(pitcher_list, team_list):
         pitcher['規定'] = reg_innings
         pitcher['故意四球'] = intentional_bb
         pitcher['打者'] = hitters
+
+        # 打数を仮で出す 犠打、犠飛は取得できないため無視
+        pitcher['被打数'] = str(Decimal(pitcher['打者']) - Decimal(pitcher['与四球']) - Decimal(pitcher['与死球']))
 
     return pitcher_list
 

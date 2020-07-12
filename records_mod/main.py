@@ -32,7 +32,9 @@ if __name__ == "__main__":
     write_pitcher_records()
 
     update_records_by_official()
-    # update_team_park_records()
-    # write_league_records()
+
+    update_team_park_records()
+
+    write_league_records()
     # add_sabr_pitcher()
     # add_sabr_hitter()
