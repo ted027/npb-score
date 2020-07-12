@@ -36,5 +36,5 @@ if __name__ == "__main__":
     update_team_park_records()
 
     write_league_records()
-    # add_sabr_pitcher()
-    # add_sabr_hitter()
+    add_sabr_pitcher()
+    add_sabr_hitter()

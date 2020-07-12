@@ -91,11 +91,12 @@ def add_sabr_pitcher():
         league = calc_sabr_pitcher(league)
 
     for pitcher in pitcher_list:
-        cor_pf = correct_pf(pitcher, pf_list, '登板')
-        if not cor_pf:
-            print(pitcher['Name'])
-            print(f'PF補正係数: {cor_pf}')
-            cor_pf = Decimal('1')
+        # cor_pf = correct_pf(pitcher, pf_list, '登板')
+        # if not cor_pf:
+        #     print(pitcher['Name'])
+        #     print(f'PF補正係数: {cor_pf}')
+        #     cor_pf = Decimal('1')
+        cor_pf = Decimal('1')
         pitcher = calc_sabr_pitcher(pitcher,
                                     league_pitcher_dic[pitcher['League']],
                                     cor_pf)
