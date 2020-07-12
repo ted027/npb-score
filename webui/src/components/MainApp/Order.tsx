@@ -189,7 +189,7 @@ const Order: React.FC<MainProps> = props => {
               default_orderBy="得点PF"
               head={parks_header}
               data={parks_total_body}
-              const_row_length={parks_body.length}
+              const_row_length={parks_total_body.length}
               league=""
               main_state={pageState}
             />
