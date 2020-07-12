@@ -22,7 +22,6 @@ import {
 } from "../../datastore/Teams";
 import {
   parks_header,
-  parks_body,
   parks_total_body
 } from "../../datastore/Parks";
 
@@ -181,26 +180,7 @@ const Order: React.FC<MainProps> = props => {
             <AppBar position="static" color="default" className={classes.des}>
               <Toolbar variant="dense">
                 <Typography variant="h6" className={classes.des2}>
-                  パークファクター(今年)　※参考値
-                </Typography>
-              </Toolbar>
-            </AppBar>
-            <CommonTable
-              default_order="desc"
-              default_orderBy="得点PF"
-              head={parks_header}
-              data={parks_body}
-              const_row_length={parks_body.length}
-              league=""
-              main_state={pageState}
-            />
-          </div>
-          {middle_ad1(classes)}
-          <div>
-            <AppBar position="static" color="default" className={classes.des}>
-              <Toolbar variant="dense">
-                <Typography variant="h6" className={classes.des2}>
-                  パークファクター(直近5年)　※参考値
+                  パークファクター(2016〜)
                 </Typography>
               </Toolbar>
             </AppBar>

@@ -1,12 +1,13 @@
 import teamsj2019 from "../records/2019/teams.json";
-// import teamsj2020 from "../../records/2020/teams.json";
+import teamsj2020 from "../records/2020/teams.json";
 import { createData, teamConverter } from "./DataCommon";
 import { selectYears, strBoolDict, strBoolDictWithId } from "../constants";
 
 
 
 var yearJson = {
-  '2019': teamsj2019.Team
+  '2019': teamsj2019.Team,
+  '2020': teamsj2020.Team,
 }
 
 const theader_stats = [
@@ -59,15 +60,7 @@ const theader_offense = [
 
 const teams_numeric_offense = [false, true, true, true, true, true, false];
 
-const teams_order_offense = [
-  "desc",
-  "desc",
-  "desc",
-  "desc",
-  "desc",
-  "desc",
-  "desc"
-];
+const teams_order_offense = new Array(theader_offense.length).fill("desc");
 
 export const teams_header_offense: strBoolDictWithId[] = [];
 for (var ta = 0; ta < theader_offense.length; ta++) {

@@ -1,10 +1,11 @@
 import hittersj2019 from "../records/2019/hitters.json";
-// import hittersj2020 from "../../records/2020/hitters.json";
+import hittersj2020 from "../records/2020/hitters.json";
 import { createHeader, createBody, createBodyClutch } from "./DataCommon";
 import { selectYears, strBoolDict, strBoolDictWithId } from "../constants";
 
 var yearJson = {
-  '2019': hittersj2019.Hitter
+  '2019': hittersj2019.Hitter,
+  '2020': hittersj2020.Hitter
 }
 
 //sabr
@@ -113,8 +114,8 @@ export const hitters_header_steal: strBoolDictWithId[] = createHeader(
 
 // clutch
 
-const hheader_clutch = ["圏打率", "圏打数", "圏安打", "打点", "規定", "League"];
-const hheader_clutch_regulated = [true, false, false, false, false, false];
+const hheader_clutch = ["圏打率", "打点", "規定", "League"];
+const hheader_clutch_regulated = [true, false, false, false];
 const hheader_clutch_order = new Array(hheader_clutch.length).fill("desc");
 export const hitters_header_clutch: strBoolDictWithId[] = createHeader(
   hheader_clutch,

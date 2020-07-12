@@ -1,5 +1,4 @@
-export type selectYears = "2019";
-// export type selectYears = '2019' | '2020';
+export type selectYears = '2019' | '2020';
 
 export interface YearsIf {
   anchorEl: HTMLDivElement | null;
