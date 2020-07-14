@@ -24,6 +24,9 @@ def initialize_team_dic(player):
     for key, value in player.items():
         if key in PERSONAL_DATA_KEY:
             continue
+        # 圏打数, 圏安打が取れず再計算出来ないため
+        elif key == '圏打率':
+            continue
         team_dic[key] = value
     return team_dic
 
