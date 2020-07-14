@@ -5,6 +5,8 @@ TEAM_NUM = 6
 
 RECORDS_DIRECTORY = f'records/{YEAR}'
 
+PERSONAL_DATA_KEY = ['Name', 'Team', 'League', '規定', '背番号', '選手名']
+
 TEAM_LIST = [
     '西武', 'ソフトバンク', '日本ハム', 'オリックス', 'ロッテ', '楽天', '広島', 'ヤクルト', '巨人', 'ＤｅＮＡ',
     '中日', '阪神'
@@ -39,3 +41,15 @@ def correct_pf(hitter, pf_list, game_str):
         correct_pf += Decimal(pf) * Decimal(value[game_str]) / Decimal(
             hitter[game_str])
     return correct_pf
+
+
+def sum_deep_dict(set_dic, player):
+    for key, value in player.items():
+        if key in PERSONAL_DATA_KEY:
+            continue
+        if isinstance(value, dict):
+            set_dic[key] = set_dic.get(key, {})
+            sum_deep_dict(set_dic[key], value)
+        else:
+            decimal_set_value = Decimal(set_dic.get(key, '0')) + Decimal(value)
+            set_dic[key] = str(decimal_set_value)
