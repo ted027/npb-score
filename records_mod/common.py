@@ -47,6 +47,9 @@ def sum_deep_dict(set_dic, player):
     for key, value in player.items():
         if key in PERSONAL_DATA_KEY:
             continue
+        # 圏打数, 圏安打が取れず再計算出来ないため
+        elif key == '圏打率':
+            continue
         if isinstance(value, dict):
             set_dic[key] = set_dic.get(key, {})
             sum_deep_dict(set_dic[key], value)

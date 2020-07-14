@@ -35,7 +35,7 @@ jobs:
       - checkout
       - run:
           command: |
-            cp -rf records_mod/records webui/src
+            cp -rf records_mod/records/2020 webui/src/2020
             cd webui
             sudo npm install
             sudo npm run build
