@@ -2,7 +2,7 @@ import requests
 import json
 import copy
 from decimal import Decimal
-from common import YEAR, TEAM_LIST, HOME_DIC, pick_dick
+from common import YEAR, TEAM_LIST, HOME_DIC, PERSONAL_DATA_KEY, sum_deep_dict
 from sabr.common import fix_rate_records, digits_under_one
 from datastore_json import read_json, write_json
 
@@ -18,54 +18,54 @@ def average_pf(past_pf_dic, pf_str):
     total_pf = digits_under_one(raw_total_pf, 2)
     return str(total_pf)
 
-def additional_team_dict(team_list, player_list):
-    additional_team_dict = {}
+
+def initialize_team_dic(player):
+    team_dic = {}
+    for key, value in player.items():
+        if key in PERSONAL_DATA_KEY:
+            continue
+        team_dic[key] = value
+    return team_dic
+
+
+def sum_team_records(player_list):
+    sum_team_dic = {}
     for player in player_list:
         team = player.get('Team', '')
-        if not additional_team_dict.get(team, ''):
-            additional_team_dict[team] = {
-                '二塁打': "0",
-                '三塁打': "0",
-                '塁打': "0",
-                '打点': "0",
-                '三振': "0",
-                '四球': "0",
-                '死球': "0",
-                '犠打': "0",
-                '犠飛': "0",
-                '盗塁死': "0",
-                '併殺打': "0",
-                '失策': "0",
-                "登板": "0",
-                "完投": "0",
-                "完封": "0",
-                "QS": "0",
-                "ホールド": "0",
-                "HP": "0",
-                "セーブ": "0",
-                "被安打": "0",
-                "被本塁打": "0",
-                "奪三振": "0",
-                "与四球": "0",
-                "与死球": "0",
-                "暴投": "0",
-                "ボーク": "0",
-                "失点": "0",
-                "自責点": "0",
-            }
-        # dict捜査
+        if sum_team_dic.get(team, ''):
+            sum_deep_dict(sum_team_dic[team], player)
+        else:
+            sum_team_dic[team] = initialize_team_dic(player)
+    return sum_team_dic
+
+
+def update_team_list(team_list, sum_team_dic):
+    for team_dic in team_list:
+        team = team_dic['チーム']
+        for key, value in sum_team_dic[team].items():
+            if team_dic.get(key, ''):
+                continue
+            else:
+                team_dic[key] = value
 
 
 def update_team_park_records():
     pitcher_list = read_json('pitchers.json')['Pitcher']
-
     hitter_list = read_json('hitters.json')['Hitter']
-
     team_list = read_json('teams.json')['Team']
+
+    sum_team_pitcher_dic = sum_team_records(pitcher_list)
+    fix_rate_records(sum_team_pitcher_dic)
+    sum_team_hitter_dic = sum_team_records(hitter_list)
+    fix_rate_records(sum_team_hitter_dic)
+
+    update_team_list(team_list, sum_team_pitcher_dic)
+    update_team_list(team_list, sum_team_hitter_dic)
+
+    write_json('teams.json', {'Team': team_list})
 
     with open('datasource/past_parks.json', 'r') as f:
         past_pf_dic = json.load(f)
-
 
     pf_list = []
     for team_dic in team_list:
@@ -79,7 +79,5 @@ def update_team_park_records():
             '得点PF': total_score_pf,
             'HRPF': total_hr_pf
         })
-    
-    # write_json('teams.json', {'Team': team_list})
 
     write_json('parks.json', {'Park': pf_list})
