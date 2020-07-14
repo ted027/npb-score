@@ -2,7 +2,7 @@ import requests
 import json
 import copy
 from decimal import Decimal
-from common import YEAR, TEAM_LIST, HOME_DIC, pick_dick, PERSONAL_DATA_KEY, sum_deep_dict
+from common import YEAR, TEAM_LIST, HOME_DIC, PERSONAL_DATA_KEY, sum_deep_dict
 from sabr.common import fix_rate_records, digits_under_one
 from datastore_json import read_json, write_json
 
