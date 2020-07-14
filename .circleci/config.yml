@@ -11,7 +11,7 @@ jobs:
           command: |
             sudo pip install -r requirements.txt
             cd records_mod
-            rm -rf records/*
+            rm -rf records/2020/*
             python main.py
             cd -            
           no_output_timeout: 15m
