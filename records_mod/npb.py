@@ -22,7 +22,7 @@ def create_additional_dicts(p_or_b):
     hitters_dict = {}
     for team_initial in TEAM_INITIAL_LIST:
         url = f'http://npb.jp/bis/{str(YEAR)}/stats/id{p_or_b}1_{team_initial}.html'
-        soup = request_soup(url)
+        soup = request_soup(url, verify=False)
         player_trs = soup.find_all('tr', class_='ststats')
         team_intentional_bb_dict = {
             pl_trs.find('td', class_='stplayer').text.replace('　', ' '):

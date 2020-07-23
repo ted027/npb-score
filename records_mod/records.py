@@ -19,10 +19,10 @@ PACIFIC_LIST = ['西武', 'ソフトバンク', '日本ハム', 'オリックス
 BASEURL = 'https://baseball.yahoo.co.jp'
 
 
-def request_soup(url):
+def request_soup(url, verify=True):
     while True:
         time.sleep(1)
-        res = requests.get(url)
+        res = requests.get(url, verify=verify)
         if 200 <= res.status_code < 300 and res.content:
             break
         else:
