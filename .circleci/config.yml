@@ -9,6 +9,7 @@ jobs:
       - run:
           name: build
           command: |
+            export CIRCLE_IGNORE_CERT_HOST=npb.jp
             sudo pip install -r requirements.txt
             cd records_mod
             rm -rf records/2020/*
