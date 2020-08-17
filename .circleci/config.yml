@@ -36,6 +36,7 @@ jobs:
       - checkout
       - run:
           command: |
+            cat /etc/ssl/openssl.cnf
             cp -rf records_mod/records/2020/* webui/src/records/2020
             cp -rf webui/src/records/2020/parks.json webui/src/records
             cd webui
