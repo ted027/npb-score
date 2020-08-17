@@ -16,8 +16,10 @@ jobs:
           command: |
             cd records_mod
             rm -rf records/2020/*
-            PYTHONPATH=$PWD/lib:$PYTHONPATH
-            echo $PYTHONPATH
+            cd lib
+            ls
+            cd -
+            export PYTHONPATH=$PWD/lib:$PYTHONPATH
             python main.py
             cd -            
           no_output_timeout: 10m
