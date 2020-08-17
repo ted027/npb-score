@@ -8,12 +8,12 @@ jobs:
       - checkout
       - run:
           name: prepare
-          command:
+          command: |
             sudo sed -i 's/DEFAULT@SECLEVEL=2/DEFAULT@SECLEVEL=1/' /etc/ssl/openssl.cnf
             pip install -r requirements.txt -t ./lib
             export PYTHONPATH=`cwd`/lib:$PYTHONPATH
       - run:
-          name: build
+          name: records build
           command: |
             cd records_mod
             rm -rf records/2020/*
@@ -25,7 +25,7 @@ jobs:
           fingerprints:
             - "e5:f7:07:ca:a4:5c:76:22:db:ba:db:23:1c:ae:b8:95"
       - run:
-          name: push
+          name: records push
           command: |
             git config --global user.name "CircleCI"
             git config --global user.email "circleci@example.com"
@@ -40,6 +40,7 @@ jobs:
     steps:
       - checkout
       - run:
+          name: webui build
           command: |
             cp -rf records_mod/records/2020/* webui/src/records/2020
             cp -rf webui/src/records/2020/parks.json webui/src/records
@@ -61,7 +62,7 @@ jobs:
           fingerprints:
             - "e5:f7:07:ca:a4:5c:76:22:db:ba:db:23:1c:ae:b8:95"
       - run:
-          name: deploy
+          name: webui deploy
           command: |
             echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
             git clone git@github.com:ted027/ted027.github.io public
@@ -70,7 +71,7 @@ jobs:
             mv public/records/manifest.json public
             mv public/records/static/* public/static
       - run:
-          mame: push
+          mame: webui push
           command: |
             cd public
             git config --global user.name "CircleCI"
