@@ -9,7 +9,10 @@ jobs:
       - run:
           name: build
           command: |
-            export CIRCLE_IGNORE_CERT_HOST=npb.jp
+            cd /etc/ssl
+            ls -al
+            cat openssl.cnf
+            cd -
             sudo pip install -r requirements.txt
             cd records_mod
             rm -rf records/2020/*
@@ -36,7 +39,6 @@ jobs:
       - checkout
       - run:
           command: |
-            cat /etc/ssl/openssl.cnf
             cp -rf records_mod/records/2020/* webui/src/records/2020
             cp -rf webui/src/records/2020/parks.json webui/src/records
             cd webui
@@ -80,16 +82,17 @@ workflows:
   version: 2
   normal_build:
     jobs:
-      - webui_build:
-          filters:
-              branches:
-                only: master
-      - deploy:
-          filters:
-              branches:
-                only: master
-          requires:
-            - webui_build
+      - records_build
+      # - webui_build:
+      #     filters:
+      #         branches:
+      #           only: master
+      # - deploy:
+      #     filters:
+      #         branches:
+      #           only: master
+      #     requires:
+      #       - webui_build
   nightly_build:
     triggers:
       - schedule:
