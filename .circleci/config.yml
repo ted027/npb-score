@@ -11,7 +11,7 @@ jobs:
           command: |
             sudo sed -i 's/DEFAULT@SECLEVEL=2/DEFAULT@SECLEVEL=1/' /etc/ssl/openssl.cnf
             pip install -r requirements.txt -t ./lib
-            export PYTHONPATH=`cwd`/lib:$PYTHONPATH
+            export PYTHONPATH=$PWD/lib:$PYTHONPATH
       - run:
           name: records build
           command: |
