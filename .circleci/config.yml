@@ -16,9 +16,6 @@ jobs:
           command: |
             cd records_mod
             rm -rf records/2020/*
-            cd lib
-            ls
-            cd -
             export PYTHONPATH=$PWD/lib:$PYTHONPATH
             python main.py
             cd -            
@@ -87,17 +84,16 @@ workflows:
   version: 2
   normal_build:
     jobs:
-      - records_build
-      # - webui_build:
-      #     filters:
-      #         branches:
-      #           only: master
-      # - deploy:
-      #     filters:
-      #         branches:
-      #           only: master
-      #     requires:
-      #       - webui_build
+      - webui_build:
+          filters:
+              branches:
+                only: master
+      - deploy:
+          filters:
+              branches:
+                only: master
+          requires:
+            - webui_build
   nightly_build:
     triggers:
       - schedule:
