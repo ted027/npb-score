@@ -10,13 +10,13 @@ jobs:
           name: prepare
           command: |
             sudo sed -i 's/DEFAULT@SECLEVEL=2/DEFAULT@SECLEVEL=1/' /etc/ssl/openssl.cnf
-            pip install -r requirements.txt -t ./lib
-            export PYTHONPATH=$PWD/lib:$PYTHONPATH
+            pip install -r ./records_mod/requirements.txt -t ./records_mod/lib
       - run:
           name: records build
           command: |
             cd records_mod
             rm -rf records/2020/*
+            PYTHONPATH=$PWD/lib:$PYTHONPATH
             echo $PYTHONPATH
             python main.py
             cd -            
