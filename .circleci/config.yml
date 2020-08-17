@@ -9,16 +9,13 @@ jobs:
       - run:
           name: build
           command: |
-            cd /etc/ssl
-            ls -al
-            cat openssl.cnf
-            cd -
+            sed -i 's/DEFAULT@SECLEVEL=2/DEFAULT@SECLEVEL=1/' /etc/ssl/openssl.cnf
             sudo pip install -r requirements.txt
             cd records_mod
             rm -rf records/2020/*
             python main.py
             cd -            
-          no_output_timeout: 15m
+          no_output_timeout: 10m
       - add_ssh_keys:
           fingerprints:
             - "e5:f7:07:ca:a4:5c:76:22:db:ba:db:23:1c:ae:b8:95"
