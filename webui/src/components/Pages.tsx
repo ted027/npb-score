@@ -36,13 +36,15 @@ interface MainAppBarProps extends WithStyles<typeof styles> {
 }
 
 export const MainAppBarWithoutStyles: React.FC<MainAppBarProps> = React.forwardRef(
-  (props, ref) => (
-    <AppBar className={props.classes.tab} ref={ref}>
+  (props, ref) => {
+    const { classes, selected, onSelectRecords } = props;
+    return (
+    <AppBar className={classes.tab} ref={ref}>
       <MediaQuery query="(max-width: 767px)">
         <Tabs
           variant="fullWidth"
-          value={props.selected}
-          onChange={props.onSelectRecords}
+          value={selected}
+          onChange={onSelectRecords}
         >
           <Tab icon={<TableChartIcon />} label="順位表" />
           <Tab icon={<SportsCricketIcon />} label="野手成績" />
@@ -51,7 +53,7 @@ export const MainAppBarWithoutStyles: React.FC<MainAppBarProps> = React.forwardR
         </Tabs>
       </MediaQuery>
       <MediaQuery query="(min-width: 767px)">
-        <Tabs value={props.selected} onChange={props.onSelectRecords}>
+        <Tabs value={selected} onChange={onSelectRecords}>
           <Tab icon={<TableChartIcon />} label="順位表" />
           <Tab icon={<SportsCricketIcon />} label="野手成績" />
           <Tab icon={<SportsBaseballIcon />} label="投手成績" />
@@ -60,6 +62,7 @@ export const MainAppBarWithoutStyles: React.FC<MainAppBarProps> = React.forwardR
       </MediaQuery>
     </AppBar>
   )
+    }
 );
 
 export const MainAppBar = withStyles(styles)(MainAppBarWithoutStyles);
@@ -70,15 +73,17 @@ interface LeagueAppBarProps extends WithStyles<typeof styles> {
 }
 
 const LeagueAppBarWithoutStyles: React.FC<LeagueAppBarProps> = React.forwardRef(
-  (props, ref) => (
-    <AppBar className={props.classes.subtab} ref={ref}>
+  (props, ref) => {
+    const { classes, selected, onChange } = props;
+    return (
+    <AppBar className={classes.subtab} ref={ref}>
       <MediaQuery query="(max-width: 767px)">
         <Tabs
           variant="fullWidth"
-          value={props.selected}
+          value={selected}
           indicatorColor="primary"
           textColor="primary"
-          onChange={props.onChange}
+          onChange={onChange}
         >
           <Tab label="ALL" />
           <Tab label="セリーグ" />
@@ -87,10 +92,10 @@ const LeagueAppBarWithoutStyles: React.FC<LeagueAppBarProps> = React.forwardRef(
       </MediaQuery>
       <MediaQuery query="(min-width: 767px)">
         <Tabs
-          value={props.selected}
+          value={selected}
           indicatorColor="primary"
           textColor="primary"
-          onChange={props.onChange}
+          onChange={onChange}
         >
           <Tab label="ALL" />
           <Tab label="セリーグ" />
@@ -99,6 +104,7 @@ const LeagueAppBarWithoutStyles: React.FC<LeagueAppBarProps> = React.forwardRef(
       </MediaQuery>
     </AppBar>
   )
+    }
 );
 
 export const LeagueAppBar = withStyles(styles)(LeagueAppBarWithoutStyles);
@@ -109,15 +115,17 @@ interface OrderAppBarProps extends WithStyles<typeof styles> {
 }
 
 const OrderAppBarWithoutStyles: React.FC<OrderAppBarProps> = React.forwardRef(
-  (props, ref) => (
-    <AppBar className={props.classes.subtab} ref={ref}>
+  (props, ref) => {
+    const { classes, selected, onChange } = props;
+    return (
+    <AppBar className={classes.subtab} ref={ref}>
       <MediaQuery query="(max-width: 767px)">
         <Tabs
           variant="fullWidth"
-          value={props.selected}
+          value={selected}
           indicatorColor="primary"
           textColor="primary"
-          onChange={props.onChange}
+          onChange={onChange}
         >
           <Tab label="順位表" />
           <Tab label="パークファクター" />
@@ -125,10 +133,10 @@ const OrderAppBarWithoutStyles: React.FC<OrderAppBarProps> = React.forwardRef(
       </MediaQuery>
       <MediaQuery query="(min-width: 767px)">
         <Tabs
-          value={props.selected}
+          value={selected}
           indicatorColor="primary"
           textColor="primary"
-          onChange={props.onChange}
+          onChange={onChange}
         >
           <Tab label="順位表" />
           <Tab label="パークファクター" />
@@ -136,6 +144,7 @@ const OrderAppBarWithoutStyles: React.FC<OrderAppBarProps> = React.forwardRef(
       </MediaQuery>
     </AppBar>
   )
+    }
 );
 
 export const OrderAppBar = withStyles(styles)(OrderAppBarWithoutStyles);
