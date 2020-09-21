@@ -21,16 +21,19 @@ interface SelectYearFormProps extends WithStyles<typeof styles> {
 }
 
 const SelectYearFormWithoutStyles: React.FC<SelectYearFormProps> = React.forwardRef(
-  (props, ref) => (
-    <HideOnScroll direction={props.direction ? props.direction : "down"}>
-      <Paper className={props.classes.yearPaper}>
+  (props, ref) => {
+    const { classes, direction, yearState, onSelectYear } = props;
+    const { year_selected } = yearState;
+    return (
+    <HideOnScroll direction={direction ? direction : "down"}>
+      <Paper className={classes.yearPaper}>
         <Select
           id="filled-select-year"
-          value={props.yearState.year_selected}
-          onChange={props.onSelectYear}
+          value={year_selected}
+          onChange={onSelectYear}
           defaultValue={years_list.slice(-1)[0]}
           ref={ref}
-          className={props.classes.textField}
+          className={classes.textField}
         >
           <MenuItem value="" disabled>
             年
@@ -44,6 +47,7 @@ const SelectYearFormWithoutStyles: React.FC<SelectYearFormProps> = React.forward
       </Paper>
     </HideOnScroll>
   )
+          }
 );
 
 export const SelectYearForm = withStyles(styles)(SelectYearFormWithoutStyles);
@@ -56,7 +60,7 @@ interface SelectYearPopperProps extends WithStyles<typeof styles> {
 
 const SelectYearPopperWithoutStyles: React.FC<SelectYearPopperProps> = React.forwardRef(
   (props, ref: React.Ref<any>) => {
-    const { classes, yearState, onSelectYear, yearHandlePopper } = props;
+    const { yearState, onSelectYear, yearHandlePopper } = props;
     const { anchorEl, open } = yearState;
 
     return (
