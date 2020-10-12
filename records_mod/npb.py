@@ -14,10 +14,12 @@ TEAM_INITIAL_LIST = [
 TEAM_TR_LIST = [2, 4, 6, 8, 10, 12]
 
 IBB_COLUMN_DICT = {'p': 18, 'b': 17}
+HITTERS_COLUMN_DICT = {'p': 12}
 
 
-def create_intentional_bb_dict(p_or_b):
+def create_additional_dicts(p_or_b):
     intentional_bb_dict = {}
+    hitters_dict = {}
     for team_initial in TEAM_INITIAL_LIST:
         url = f'http://npb.jp/bis/{str(YEAR)}/stats/id{p_or_b}1_{team_initial}.html'
         soup = request_soup(url)
@@ -28,7 +30,15 @@ def create_intentional_bb_dict(p_or_b):
             for pl_trs in player_trs
         }
         intentional_bb_dict.update(team_intentional_bb_dict)
-    return intentional_bb_dict
+        if p_or_b == 'p':
+            team_hitters_dict = {
+                pl_trs.find('td', class_='stplayer').text.replace('　', ' '):
+                pl_trs.find_all('td')[HITTERS_COLUMN_DICT[p_or_b]].text
+                for pl_trs in player_trs
+            }
+            hitters_dict.update(team_hitters_dict)
+
+    return intentional_bb_dict, hitters_dict
 
 
 def regulation_at_bat(games, at_bat):
@@ -46,7 +56,7 @@ def regulation_innings(games, innings):
 
 
 def update_hitter_y_records(hitter_list, team_list):
-    hitter_ibb_dict = create_intentional_bb_dict('b')
+    hitter_ibb_dict, unuse = create_additional_dicts('b')
 
     for hitter in hitter_list:
         if not hitter['試合']:
@@ -63,18 +73,24 @@ def update_hitter_y_records(hitter_list, team_list):
 
 
 def update_pitcher_y_records(pitcher_list, team_list):
-    pitcher_ibb_dict = create_intentional_bb_dict('p')
+    pitcher_ibb_dict, hitters_dict = create_additional_dicts('p')
 
     for pitcher in pitcher_list:
         if not pitcher['登板']:
             intentional_bb = '0'
+            hitters = '0'
             reg_innings = False
         else:
             intentional_bb = pitcher_ibb_dict.get(pitcher['Name'], '0')
+            hitters = hitters_dict.get(pitcher['Name'], '0')
             team = pick_dick(team_list, 'チーム', pitcher['Team'])
             reg_innings = regulation_innings(team['試合'], pitcher['投球回'])
         pitcher['規定'] = reg_innings
         pitcher['故意四球'] = intentional_bb
+        pitcher['打者'] = hitters
+
+        # 打数を仮で出す 犠打、犠飛は取得できないため無視
+        pitcher['被打数'] = str(Decimal(pitcher['打者']) - Decimal(pitcher['与四球']) - Decimal(pitcher['与死球']))
 
     return pitcher_list
 

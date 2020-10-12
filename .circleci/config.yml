@@ -7,19 +7,24 @@ jobs:
     steps:
       - checkout
       - run:
-          name: build
+          name: prepare
           command: |
-            sudo pip install -r requirements.txt
+            sudo sed -i 's/DEFAULT@SECLEVEL=2/DEFAULT@SECLEVEL=1/' /etc/ssl/openssl.cnf
+            pip install -r ./records_mod/requirements.txt -t ./records_mod/lib
+      - run:
+          name: records build
+          command: |
             cd records_mod
-            rm -rf records/*
+            rm -rf records/2020/*
+            export PYTHONPATH=$PWD/lib:$PYTHONPATH
             python main.py
             cd -            
-          no_output_timeout: 15m
+          no_output_timeout: 10m
       - add_ssh_keys:
           fingerprints:
             - "e5:f7:07:ca:a4:5c:76:22:db:ba:db:23:1c:ae:b8:95"
       - run:
-          name: push
+          name: records push
           command: |
             git config --global user.name "CircleCI"
             git config --global user.email "circleci@example.com"
@@ -34,8 +39,10 @@ jobs:
     steps:
       - checkout
       - run:
+          name: webui build
           command: |
-            cp -rf records_mod/records webui/src
+            cp -rf records_mod/records/2020/* webui/src/records/2020
+            cp -rf webui/src/records/2020/parks.json webui/src/records
             cd webui
             sudo npm install
             sudo npm run build
@@ -54,7 +61,7 @@ jobs:
           fingerprints:
             - "e5:f7:07:ca:a4:5c:76:22:db:ba:db:23:1c:ae:b8:95"
       - run:
-          name: deploy
+          name: webui deploy
           command: |
             echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
             git clone git@github.com:ted027/ted027.github.io public
@@ -63,7 +70,7 @@ jobs:
             mv public/records/manifest.json public
             mv public/records/static/* public/static
       - run:
-          mame: push
+          mame: webui push
           command: |
             cd public
             git config --global user.name "CircleCI"
@@ -87,12 +94,12 @@ workflows:
                 only: master
           requires:
             - webui_build
-  # nightly_build:
-  #   triggers:
-  #     - schedule:
-  #         cron: "0,40 14 * * *"
-  #         filters:
-  #           branches:
-  #             only: master
-  #   jobs:
-  #     - records_build
+  nightly_build:
+    triggers:
+      - schedule:
+          cron: "15,45 10,14,15 * * *"
+          filters:
+            branches:
+              only: master
+    jobs:
+      - records_build

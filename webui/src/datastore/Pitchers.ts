@@ -1,16 +1,17 @@
 import pitchersj2019 from "../records/2019/pitchers.json";
-// import pitchersj2020 from "../../records/2020/pitchers.json";
+import pitchersj2020 from "../records/2020/pitchers.json";
 import { createHeader, createBody, createHeaderRelief } from "./DataCommon";
 import { selectYears, strBoolDict, strBoolDictWithId } from "../constants";
 
 var yearJson = {
-  '2019': pitchersj2019.Pitcher
+  '2019': pitchersj2019.Pitcher,
+  '2020': pitchersj2020.Pitcher
 }
 
 // sabr
-const pheader_sabr = ["防御率", "FIP", "FIP_pf", "K/BB", "規定", "League"];
-const pheader_sabr_regulated = [true, true, true, true, false, false];
-const pheader_sabr_order = ["asc", "asc", "asc", "desc", "desc", "desc"];
+const pheader_sabr = ["防御率", "FIP", "K/BB", "規定", "League"];
+const pheader_sabr_regulated = [true, true, true, false, false];
+const pheader_sabr_order = ["asc", "asc", "desc", "desc", "desc"];
 export const pitchers_sabr_header: strBoolDictWithId[] = createHeader(
   pheader_sabr,
   pheader_sabr_regulated,
@@ -20,7 +21,7 @@ export const pitchers_sabr_header: strBoolDictWithId[] = createHeader(
 // main records
 const pheader_title = ["投球回", "勝利", "敗戦", "勝率", "奪三振", "規定", "League"];
 const pheader_regulated_title = [false, false, false, true, false, false, false];
-const pheader_order_title = ["desc", "desc", "desc", "desc", "desc", "desc", "desc"];
+const pheader_order_title = new Array(pheader_title.length).fill("desc");
 export const pitchers_header_title: strBoolDictWithId[] = createHeader(
   pheader_title,
   pheader_regulated_title,
@@ -40,15 +41,7 @@ export const pitchers_header_whip: strBoolDictWithId[] = createHeader(
 // qs
 const pheader_qs = ["QS率", "QS", "先発", "完投", "完封", "規定", "League"];
 const pheader_regulated_qs = [true, false, false, false, false, false, false];
-const pheader_order_qs = [
-  "desc",
-  "desc",
-  "desc",
-  "desc",
-  "desc",
-  "desc",
-  "desc"
-];
+const pheader_order_qs = new Array(pheader_qs.length).fill("desc");
 export const pitchers_header_qs: strBoolDictWithId[] = createHeader(
   pheader_qs,
   pheader_regulated_qs,

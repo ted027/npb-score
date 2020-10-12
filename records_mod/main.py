@@ -7,13 +7,8 @@ from team_by_park import update_team_park_records
 
 from multiprocessing import Process
 
-
-def para_records_func():
-    write_pitcher_records()
-    write_hitter_records()
-    write_team_records()
-
 if __name__ == "__main__":
+    # parallel
     pitch_process = Process(target=write_pitcher_records)
     pitch_process.start()
 
@@ -27,8 +22,15 @@ if __name__ == "__main__":
     hit_process.join()
     team_process.join()
 
+    # not parallel
+    # write_team_records()
+    # write_hitter_records()
+    # write_pitcher_records()
+
     update_records_by_official()
+
     update_team_park_records()
+
     write_league_records()
     add_sabr_pitcher()
     add_sabr_hitter()

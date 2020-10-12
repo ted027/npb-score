@@ -1,24 +1,9 @@
 import json
 from decimal import Decimal
-from common import RECORDS_DIRECTORY
+from common import RECORDS_DIRECTORY, PERSONAL_DATA_KEY, sum_deep_dict
 from sabr.common import (digits_under_one, return_outcounts, FULL_OUTCOUNTS,
                          ZERO_VALUE, IGNORE_VALUE, fix_rate_records)
 from datastore_json import read_json, write_json
-
-PERSONAL_DATA_KEY = ['Name', 'Team', 'League', '規定']
-
-
-def sum_deep_dict(league_dic, player):
-    for key, value in player.items():
-        if key in PERSONAL_DATA_KEY:
-            continue
-        if isinstance(value, dict):
-            league_dic[key] = league_dic.get(key, {})
-            sum_deep_dict(league_dic[key], value)
-        else:
-            decimal_league_value = Decimal(league_dic.get(
-                key, '0')) + Decimal(value)
-            league_dic[key] = str(decimal_league_value)
 
 
 def sum_league_records(player_list):

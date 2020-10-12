@@ -2,6 +2,8 @@ import React from "react";
 import Tab from "@material-ui/core/Tab";
 import { selectYears } from "../constants";
 
+export const years_list: selectYears[] = ["2019", "2020"];
+
 export const LinkTab = (props: { [key: string]: any }) => (
   <Tab component="a" onClick={(event: any) => {}} {...props} />
 );
@@ -99,5 +101,3 @@ export const judgeSearch = (
   }
   return false;
 }
-
-export const years_list: selectYears[] = ["2019"];
