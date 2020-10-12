@@ -39,12 +39,18 @@ const SearchContents: React.FC<Props> = React.forwardRef(
 
     return (
       <div>
-        <Popper open={open} anchorEl={anchorEl} placement="top-end" transition>
+        <Popper
+          open={open}
+          anchorEl={anchorEl}
+          placement="top-end"
+          transition
+          className={classes.popper}
+        >
           {({ TransitionProps }) => (
             <Fade {...TransitionProps} timeout={20}>
               {/* <ClickAwayListener onClickAway={this.handleClickAway}> */}
               <HideOnScroll direction="up">
-                <Paper>
+                <Paper className={classes.popPaper}>
                   <form noValidate autoComplete="off">
                     <TextField
                       id="filled-select-team"
