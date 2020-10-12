@@ -66,16 +66,13 @@ const styles = (theme: Theme): StyleRules => createStyles({
     position: "fixed",
     right: theme.spacing(2),
     bottom: theme.spacing(11),
-    zIndex: theme.zIndex.appBar + 1,
+    zIndex: theme.zIndex.appBar + 2
   },
   bottom1Fab: {
     position: "fixed",
     right: theme.spacing(2),
     bottom: theme.spacing(2),
-    zIndex: theme.zIndex.appBar + 1,
-  },
-  commonFab: {
-    zIndex: theme.zIndex.appBar + 1,
+    zIndex: theme.zIndex.appBar + 2
   },
   textField: {
     width: "100%"
@@ -104,8 +101,8 @@ const styles = (theme: Theme): StyleRules => createStyles({
     width: 80,
     zIndex: theme.zIndex.appBar + 2
   },
-  popPaper: {
-    zIndex: theme.zIndex.appBar + 2
+  popper: {
+    zIndex: theme.zIndex.appBar + 3
   }
 });
 

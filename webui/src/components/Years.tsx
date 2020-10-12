@@ -4,13 +4,7 @@ import { years_list } from "./Common";
 import styles from "../styles";
 import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 import { YearsIf } from "../constants";
-import {
-  Select,
-  Popper,
-  Paper,
-  Fade,
-  Fab,
-} from "@material-ui/core";
+import { Select, Popper, Paper, Fade, Fab } from "@material-ui/core";
 import { HideOnScroll } from "./Pages";
 import SettingsIcon from "@material-ui/icons/Settings";
 
@@ -25,29 +19,29 @@ const SelectYearFormWithoutStyles: React.FC<SelectYearFormProps> = React.forward
     const { classes, direction, yearState, onSelectYear } = props;
     const { year_selected } = yearState;
     return (
-    <HideOnScroll direction={direction ? direction : "down"}>
-      <Paper className={classes.yearPaper}>
-        <Select
-          id="filled-select-year"
-          value={year_selected}
-          onChange={onSelectYear}
-          defaultValue={years_list.slice(-1)[0]}
-          ref={ref}
-          className={classes.textField}
-        >
-          <MenuItem value="" disabled>
-            年
-          </MenuItem>
-          {years_list.map((year) => (
-            <MenuItem key={year} value={year}>
-              {year}
+      <HideOnScroll direction={direction ? direction : "down"}>
+        <Paper className={classes.yearPaper}>
+          <Select
+            id="filled-select-year"
+            value={year_selected}
+            onChange={onSelectYear}
+            defaultValue={years_list.slice(-1)[0]}
+            ref={ref}
+            className={classes.textField}
+          >
+            <MenuItem value="" disabled>
+              年
             </MenuItem>
-          ))}
-        </Select>
-      </Paper>
-    </HideOnScroll>
-  )
-          }
+            {years_list.map((year) => (
+              <MenuItem key={year} value={year}>
+                {year}
+              </MenuItem>
+            ))}
+          </Select>
+        </Paper>
+      </HideOnScroll>
+    );
+  }
 );
 
 export const SelectYearForm = withStyles(styles)(SelectYearFormWithoutStyles);
@@ -60,11 +54,17 @@ interface SelectYearPopperProps extends WithStyles<typeof styles> {
 
 const SelectYearPopperWithoutStyles: React.FC<SelectYearPopperProps> = React.forwardRef(
   (props, ref: React.Ref<any>) => {
-    const { yearState, onSelectYear, yearHandlePopper } = props;
+    const { classes, yearState, onSelectYear, yearHandlePopper } = props;
     const { anchorEl, open } = yearState;
     return (
       <div>
-        <Popper open={open} anchorEl={anchorEl} placement="top-end" transition>
+        <Popper
+          open={open}
+          anchorEl={anchorEl}
+          placement="top-end"
+          transition
+          className={classes.popper}
+        >
           {({ TransitionProps }) => (
             <Fade {...TransitionProps} timeout={20} ref={ref}>
               {/* <ClickAwayListener onClickAway={this.handleClickAway}> */}
