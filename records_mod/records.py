@@ -333,26 +333,33 @@ def create_td_team_player_list(soup):
 def extend_team_player_list(player_type):
     player_list = []
     # thから項目を作る
-    default_url = BASEURL + '/npb/teams/' + '1' + '/memberlist?kind=' + player_type
+    # default_url = BASEURL + '/npb/teams/' + '1' + '/memberlist?kind=' + player_type
     headers = []
     for i in TEAM_NUM_LIST:
 
         url = BASEURL + '/npb/teams/' + str(i) + '/memberlist?kind=' + player_type
 
-        # ltail_list = link_tail_list(url)
+        ltail_list = link_tail_list(url)
         soup = request_soup(url)
-        team = "" # from soup
+        # get headers from th
+        # if not headers:
+        #     th_headers = [th for th in soup.find('thead').find_all('th')]
+        #     headers_raw = [th_header.find('p').text if th_header.find('p') else th_header.text for th_header in th_headers]
+        #     # 全角 -> 半角
+        #     headers = [header.replace('\u3000', '').translate(str.maketrans({chr(0xFF01 + i): chr(0x21 + i) for i in range(94)})) for header in headers_raw]
+        # # get team name from h1
+        # team = unify_teams(soup.find('h1').text)
         
-        td_team_players = create_td_team_player_list(soup)
+        # td_team_players = create_td_team_player_list(soup)
 
-        team_player_list = create_team_player_list(td_team_players, team, headers)
+        # team_player_list = create_team_player_list(td_team_players, team, headers)
 
-        # if player_type == 'p':
-        #     team_player_list = append_team_pitcher_array(ltail_list)
-        # elif player_type == 'b':
-        #     team_player_list = append_team_hitter_array(ltail_list)
-        # else:
-        #     raise BaseException('player type is invalid.')
+        if player_type == 'p':
+            team_player_list = append_team_pitcher_array(ltail_list)
+        elif player_type == 'b':
+            team_player_list = append_team_hitter_array(ltail_list)
+        else:
+            raise BaseException('player type is invalid.')
         player_list.extend(team_player_list)
 
     return player_list
