@@ -74,6 +74,9 @@ def fix_rate_records(dic):
             fix_value = fix_rate_common(dic, Decimal(dic['勝利']), denominator)
             dic[key] = str(digits_under_one(fix_value, 3))
         elif key == '被打率':
+            # 球場別等 被打数が取れない場合はskip
+            if not dic.get('被打数'):
+                continue
             fix_value = fix_rate_common(dic, Decimal(dic['被安打']),
                                         Decimal(dic['被打数']))
             dic[key] = str(digits_under_one(fix_value, 3))

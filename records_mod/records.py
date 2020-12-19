@@ -19,6 +19,8 @@ HITTER_DUMP_VAL = 2
 
 RL_PITCHER_VALUE = 2
 RL_HITTER_VALUE = 4
+# 被打数なし を判断しskipするため
+RL_PITCHER_NOVALUE = 1
 
 PITCH_TOO_SHORT_SECTIONS = 9
 HIT_TOO_SHORT_SECTIONS = 9
@@ -108,13 +110,19 @@ def confirm_hitter_tables(sections):
         elif record_type == '得点圏成績' and not chance_table:
             chance_table = section.find('table')
         elif record_type == '対左右別成績' and not rl_table:
-            rl_table = section.find('table')
+            # 野手が登板した場合に打撃成績部分を取れるように
+            headers = [header.fint('p').text for header in section.find_all('th')]
+            if '打率' in headers:
+                rl_table = section.find('table')
         # elif record_type == 'カウント別成績' and not count_table:
         #     count_table = section.find('table')
         # elif record_type == '塁状況別成績' and not runner_table:
         #     runner_table = section.find('table')
         elif record_type == '球場別成績' and not park_table:
-            park_table = section.find('table')
+            # 野手が登板した場合に打撃成績部分を取れるように
+            headers = [header.fint('p').text for header in section.find_all('th')]
+            if '打率' in headers:
+                park_table = section.find('table')
     return records_table, chance_table, rl_table, count_table, runner_table, park_table
 
 
@@ -159,6 +167,8 @@ def _rl_pitcher(rl_trs, rl_header):
     for rl_tr in rl_trs:
         rl_text = rl_tr.find('td').text
         rl_body = [full_val(td.text) for td in rl_tr.find_all('td')[-len(rl_header):]]
+        if rl_body[RL_PITCHER_NOVALUE] == '0':
+            continue
         if '右' in rl_text:
             rl_records['対右'] = dict(zip(rl_header, rl_body))
         elif '左' in rl_text:
