@@ -111,7 +111,7 @@ def confirm_hitter_tables(sections):
             chance_table = section.find('table')
         elif record_type == '対左右別成績' and not rl_table:
             # 野手が登板した場合に打撃成績部分を取れるように
-            headers = [header.fint('p').text for header in section.find_all('th')]
+            headers = [header.text for header in section.find_all('th')]
             if '打率' in headers:
                 rl_table = section.find('table')
         # elif record_type == 'カウント別成績' and not count_table:
@@ -120,7 +120,7 @@ def confirm_hitter_tables(sections):
         #     runner_table = section.find('table')
         elif record_type == '球場別成績' and not park_table:
             # 野手が登板した場合に打撃成績部分を取れるように
-            headers = [header.fint('p').text for header in section.find_all('th')]
+            headers = [header.text for header in section.find_all('th')]
             if '打率' in headers:
                 park_table = section.find('table')
     return records_table, chance_table, rl_table, count_table, runner_table, park_table
