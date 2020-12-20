@@ -18,7 +18,7 @@ jobs:
             rm -rf records/2020/*
             export PYTHONPATH=$PWD/lib:$PYTHONPATH
             python main.py
-            cd -            
+            cd -
           no_output_timeout: 10m
       - add_ssh_keys:
           fingerprints:

@@ -1,9 +1,6 @@
 from records import write_pitcher_records, write_hitter_records
 from records_team import write_team_records
 from npb import update_records_by_official
-from league import write_league_records
-from add_sabr import add_sabr_pitcher, add_sabr_hitter
-from team_by_park import update_team_park_records
 
 from multiprocessing import Process
 
@@ -28,9 +25,3 @@ if __name__ == "__main__":
     # write_pitcher_records()
 
     update_records_by_official()
-
-    update_team_park_records()
-
-    write_league_records()
-    add_sabr_pitcher()
-    add_sabr_hitter()
