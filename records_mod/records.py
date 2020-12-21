@@ -35,13 +35,13 @@ BASEURL = 'https://baseball.yahoo.co.jp'
 
 def request_soup(url):
     while True:
-        time.sleep(10)
+        time.sleep(8)
         res = requests.get(url)
         if 200 <= res.status_code < 300 and res.content:
             break
         else:
             print(f'{res.status_code}: {res.url}')
-            time.sleep(10)
+            time.sleep(15)
     return BeautifulSoup(res.content, 'html.parser')
 
 
@@ -135,9 +135,9 @@ def dict_records(records_table):
 
 def chance_records(chance_table):
     chheader_raw = [th.text for th in chance_table.find_all('th')]
-    # '得点圏' + header値
+    # '圏' + header値
     # [1:] remove table title
-    chheader = ['得点圏' + h for h in chheader_raw]
+    chheader = ['圏' + h for h in chheader_raw]
 
     chbody = [full_val(td.text) for td in chance_table.find_all('td')]
     return dict(zip(chheader, chbody))
