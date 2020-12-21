@@ -114,8 +114,8 @@ export const hitters_header_steal: strBoolDictWithId[] = createHeader(
 
 // clutch
 
-const hheader_clutch = ["圏打率", "打点", "規定", "League"];
-const hheader_clutch_regulated = [true, false, false, false];
+const hheader_clutch = ["圏打率", "圏打数", "圏安打", "打点", "規定", "League"];
+const hheader_clutch_regulated = [true, false, false, false, false, false];
 const hheader_clutch_order = new Array(hheader_clutch.length).fill("desc");
 export const hitters_header_clutch: strBoolDictWithId[] = createHeader(
   hheader_clutch,
