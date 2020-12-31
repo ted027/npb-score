@@ -7,7 +7,7 @@ from common import unify_teams, RECORDS_DIRECTORY
 from sabr.common import return_outcounts
 from datastore_json import read_json, write_json
 
-NAME_HI = 1
+NAME_H1 = 1
 TEAM_H1 = 0
 
 TRAINING_NUM_DIGIT = 3
@@ -65,8 +65,12 @@ def full_val(str_val):
 
 
 def basic_information(personal_soup):
-    name = personal_soup.find_all('h1')[NAME_HI].text
-    team = unify_teams(personal_soup.find_all('h1')[TEAM_H1].text)
+    # '現在JavaScriptが無効です。'があれば削除
+    personal_soup.find('h1', class_='bb-jsOff__title').extract()
+    h1s = personal_soup.find_all('h1')
+
+    name = h1s[NAME_H1].text
+    team = unify_teams(h1s[TEAM_H1].text)
     if team in CENTRAL_LIST:
         league = 'Central'
     elif team in PACIFIC_LIST:
@@ -239,6 +243,15 @@ def append_team_pitcher_array(link_tail_list):
             continue
 
         records['アウト'] = str(return_outcounts(Decimal(records['投球回'])))
+
+        # UI表記のため 被本塁打 -> 被HR
+        records['被HR'] = records['被本塁打']
+
+        # QS 球場別から加算
+        qs_value = Decimal('0')
+        for value in records.get('球場', {}).values():
+            qs_value += Decimal(value.get('QS', '0'))
+        records['QS'] = str(qs_value)
 
         if rl_table:
             # 1: dump '○打者'
