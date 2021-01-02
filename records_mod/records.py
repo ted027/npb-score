@@ -247,12 +247,6 @@ def append_team_pitcher_array(link_tail_list):
         # UI表記のため 被本塁打 -> 被HR
         records['被HR'] = records['被本塁打']
 
-        # QS 球場別から加算
-        qs_value = Decimal('0')
-        for value in records.get('球場', {}).values():
-            qs_value += Decimal(value.get('QS', '0'))
-        records['QS'] = str(qs_value)
-
         if rl_table:
             # 1: dump '○打者'
             records_rl = records_by_rl(rl_table, PITCHER_DUMP_VAL)
@@ -265,6 +259,12 @@ def append_team_pitcher_array(link_tail_list):
         if park_table:
             records_by_park = records_by_count_runner_park(park_table)
             records.update({'球場': records_by_park})
+
+        # QS 球場別から加算
+        qs_value = Decimal('0')
+        for value in records.get('球場', {}).values():
+            qs_value += Decimal(value.get('ＱＳ', '0'))
+        records['QS'] = str(qs_value)
 
         personal_dict.update(records)
 
