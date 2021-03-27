@@ -15,7 +15,7 @@ jobs:
           name: records build
           command: |
             cd records_mod
-            rm -rf records/2020/*
+            rm -rf records/2021/*
             export PYTHONPATH=$PWD/lib:$PYTHONPATH
             python main.py
             cd -
@@ -41,8 +41,8 @@ jobs:
       - run:
           name: webui build
           command: |
-            cp -rf records_mod/records/2020/* webui/src/records/2020
-            cp -rf webui/src/records/2020/parks.json webui/src/records
+            cp -rf records_mod/records/2021/* webui/src/records/2021
+            cp -rf webui/src/records/2021/parks.json webui/src/records
             cd webui
             sudo npm install
             sudo npm run build

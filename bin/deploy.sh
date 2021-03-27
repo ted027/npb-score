@@ -1,6 +1,6 @@
 #!bin/bash
 
-YEAR="2020"
+YEAR="2021"
 
 cd records_mod
 python main.py
