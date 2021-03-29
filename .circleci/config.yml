@@ -3,6 +3,8 @@ jobs:
   records_build:
     docker:
       - image: circleci/python:3.6
+    environment:
+      YEAR: 2021
     working_directory: ~/work
     steps:
       - checkout
@@ -15,9 +17,10 @@ jobs:
           name: records build
           command: |
             cd records_mod
-            rm -rf records/2021/*
+            rm -rf records/$YEAR/*
             export PYTHONPATH=$PWD/lib:$PYTHONPATH
-            python main.py
+            python main_query.py
+            python main_calc.py
             cd -
           no_output_timeout: 10m
       - add_ssh_keys:
@@ -41,8 +44,8 @@ jobs:
       - run:
           name: webui build
           command: |
-            cp -rf records_mod/records/2021/* webui/src/records/2021
-            cp -rf webui/src/records/2021/parks.json webui/src/records
+            cp -rf records_mod/records/$YEAR/* webui/src/records/$YEAR
+            cp -rf webui/src/records/$YEAR/parks.json webui/src/records
             cd webui
             sudo npm install
             sudo npm run build
