@@ -135,17 +135,17 @@ const middle_ad_game_wide = (classes: any) => (
     />
     <a
       target="_blank"
-      href="//af.moshimo.com/af/c/click?a_id=1414800&amp;p_id=170&amp;pc_id=185&amp;pl_id=4062&amp;url=https%3A%2F%2Fwww.amazon.co.jp%2FMLB-Show-19-%25E8%25BC%25B8%25E5%2585%25A5%25E7%2589%2588-PS4%2Fdp%2FB07NWWTRZB"
+      href="//af.moshimo.com/af/c/click?a_id=1414800&amp;p_id=170&amp;pc_id=185&amp;pl_id=4062&amp;url=https%3A%2F%2Fwww.amazon.co.jp%2Fdp%2FB08VRMHQK7"
       rel="nofollow"
       className={classes.adA}
     >
       <img
-        src="https://images-fe.ssl-images-amazon.com/images/I/516lcsxQbCL._SL160_.jpg"
+        src="https://images-fe.ssl-images-amazon.com/images/I/61oOby8Lp-L._SL160_.jpg"
         alt=""
         style={{ border: "none" }}
       />
       <br />
-      MLB The Show 19(輸入版)
+      MLB The Show 21(輸入版:北米)- PS4
     </a>
     <img
       src="//i.moshimo.com/af/i/impression?a_id=1414800&amp;p_id=170&amp;pc_id=185&amp;pl_id=4062"
