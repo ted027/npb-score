@@ -96,8 +96,10 @@ export const middle_ad4 = (classes: any) => (
 const middle_ad_game_wide = (classes: any) => (
   <Typography className={classes.adTypo}>
     <a
+      target="_blank"
       href="//af.moshimo.com/af/c/click?a_id=1414800&amp;p_id=170&amp;pc_id=185&amp;pl_id=4062&amp;url=https%3A%2F%2Fwww.amazon.co.jp%2Fdp%2FB086GVXQN8"
       rel="nofollow"
+      className={classes.adA}
     >
       <img
         src="https://images-fe.ssl-images-amazon.com/images/I/51U+14VutJL._SL160_.jpg"
@@ -115,8 +117,10 @@ const middle_ad_game_wide = (classes: any) => (
       style={{ border: "0px" }}
     />
     <a
+      target="_blank"
       href="//af.moshimo.com/af/c/click?a_id=1414800&amp;p_id=170&amp;pc_id=185&amp;pl_id=4062&amp;url=https%3A%2F%2Fwww.amazon.co.jp%2Fdp%2FB086GTLZ6K"
       rel="nofollow"
+      className={classes.adA}
     >
       <img
         src="https://images-fe.ssl-images-amazon.com/images/I/51KgWXU0JML._SL160_.jpg"
