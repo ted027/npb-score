@@ -46,6 +46,7 @@ jobs:
       - run:
           name: webui build
           command: |
+            mkdir -p webui/src/records/$YEAR
             cp -rf records_mod/records/$YEAR/* webui/src/records/$YEAR
             cp -rf webui/src/records/$YEAR/parks.json webui/src/records
             cd webui
