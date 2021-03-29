@@ -19,9 +19,4 @@ if __name__ == "__main__":
     hit_process.join()
     team_process.join()
 
-    # not parallel
-    # write_team_records()
-    # write_hitter_records()
-    # write_pitcher_records()
-
     update_records_by_official()
