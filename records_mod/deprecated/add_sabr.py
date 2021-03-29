@@ -13,7 +13,8 @@ from datastore_json import read_json, write_json
 
 
 def calc_sabr_pitcher(pitcher, league_pitcher_dic=None, cor_pf=None):
-    pitcher['QS率'] = qs_rate(pitcher)
+    # QS率デフォルトで存在のため
+    # pitcher['QS率'] = qs_rate(pitcher)
     pitcher['BABIP'] = babip_p(pitcher)
     pitcher['BB/9'] = bb_per_nine(pitcher)
     pitcher['HR/9'] = hr_per_nine(pitcher)
@@ -85,18 +86,17 @@ def add_sabr_pitcher():
 
     league_pitcher_dic = league_dic['Pitcher']
 
-    # pf_list = read_json('parks.json')['Park']
+    pf_list = read_json('parks.json')['Park']
 
     for league in league_pitcher_dic.values():
         league = calc_sabr_pitcher(league)
 
     for pitcher in pitcher_list:
-        # cor_pf = correct_pf(pitcher, pf_list, '登板')
-        # if not cor_pf:
-        #     cor_pf = Decimal('1')
-        #     print(pitcher['Name'])
-        #     print(f'PF補正係数: {cor_pf}')
-        cor_pf = Decimal('1')
+        cor_pf = correct_pf(pitcher, pf_list, '登板')
+        if not cor_pf:
+            cor_pf = Decimal('1')
+            print(pitcher['Name'])
+            print(f'PF補正係数: {cor_pf}')
         pitcher = calc_sabr_pitcher(
             pitcher, league_pitcher_dic[pitcher['League']], cor_pf)
 
@@ -112,18 +112,17 @@ def add_sabr_hitter():
 
     league_hitter_dic = league_dic['Hitter']
 
-    # pf_list = read_json('parks.json')['Park']
+    pf_list = read_json('parks.json')['Park']
 
     for league in league_hitter_dic.values():
         league, league_rc, league_xr = calc_sabr_hitter(league)
 
     for hitter in hitter_list:
-        # cor_pf = correct_pf(hitter, pf_list, '試合')
-        # if not cor_pf:
-        #     cor_pf = Decimal('1')
-        #     print(hitter['Name'])
-        #     print(f'PF補正係数: {cor_pf}')
-        cor_pf = Decimal('1')
+        cor_pf = correct_pf(hitter, pf_list, '試合')
+        if not cor_pf:
+            cor_pf = Decimal('1')
+            print(hitter['Name'])
+            print(f'PF補正係数: {cor_pf}')
         hitter = calc_sabr_hitter(hitter, league_dic, league_rc, league_xr,
                                   cor_pf)
 

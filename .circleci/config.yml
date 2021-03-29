@@ -38,6 +38,8 @@ jobs:
   webui_build:
     docker:
       - image: circleci/node:8.10
+    environment:
+      YEAR: 2021
     working_directory: ~/work
     steps:
       - checkout
@@ -97,12 +99,12 @@ workflows:
                 only: master
           requires:
             - webui_build
-  # nightly_build:
-  #   triggers:
-  #     - schedule:
-  #         cron: "15,45 10,14,15 * * *"
-  #         filters:
-  #           branches:
-  #             only: master
-  #   jobs:
-  #     - records_build
+  nightly_build:
+    triggers:
+      - schedule:
+          cron: "15,45 10,14,15 * * *"
+          filters:
+            branches:
+              only: master
+    jobs:
+      - records_build
