@@ -1,5 +1,6 @@
 import teamsj2019 from "../records/2019/teams.json";
 import teamsj2020 from "../records/2020/teams.json";
+import teamsj2021 from "../records/2021/teams.json";
 import { createData, teamConverter } from "./DataCommon";
 import { selectYears, strBoolDict, strBoolDictWithId } from "../constants";
 
@@ -8,6 +9,7 @@ import { selectYears, strBoolDict, strBoolDictWithId } from "../constants";
 var yearJson = {
   '2019': teamsj2019.Team,
   '2020': teamsj2020.Team,
+  '2021': teamsj2021.Team
 }
 
 const theader_stats = [

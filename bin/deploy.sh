@@ -1,9 +1,10 @@
 #!bin/bash
 
-YEAR="2020"
+YEAR="2021"
 
 cd records_mod
-python main.py
+python main_query.py
+python main_calc.py
 cd -
 cp -rf records_mod/records/$YEAR/* webui/src/records/$YEAR
 cp -rf webui/src/records/$YEAR/parks.json webui/src/records
