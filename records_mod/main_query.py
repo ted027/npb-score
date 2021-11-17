@@ -1,4 +1,4 @@
-from records import write_pitcher_records, write_hitter_records
+from records_detail import write_pitcher_records, write_hitter_records
 from records_team import write_team_records
 from npb import update_records_by_official
 

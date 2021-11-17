@@ -34,13 +34,23 @@ def pick_dick(list_of_dict, str_key, str_value):
     return {}
 
 
-def correct_pf(hitter, pf_list, game_str):
+def correct_pf(player, pf_list, game_str):
     correct_pf = Decimal('0')
-    for key, value in hitter.get('球場', {}).items():
+    for key, value in player.get('球場', {}).items():
         pf = pick_dick(pf_list, '球場', key).get('得点PF', '1')
         correct_pf += Decimal(pf) * Decimal(value[game_str]) / Decimal(
-            hitter[game_str])
+            player[game_str])
     return correct_pf
+
+
+def calc_parkfactor(query_type: str, player, pf_list):
+    cor_pf = correct_pf(player, pf_list, '登板')
+    if not cor_pf:
+        print(player['Name'])
+        print(f'PF補正係数: {cor_pf}')
+        # 暫定実装
+        return Decimal('1')
+    return cor_pf
 
 
 def sum_deep_dict(set_dic, player):
