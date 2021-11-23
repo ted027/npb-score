@@ -1,4 +1,8 @@
+import requests
+import time
 from decimal import Decimal
+from bs4 import BeautifulSoup
+
 
 YEAR = 2021
 TEAM_NUM = 6
@@ -12,12 +16,34 @@ TEAM_LIST = [
     '中日', '阪神'
 ]
 
+CENTRAL_LIST = ['広島', '巨人', 'ヤクルト', 'ＤｅＮＡ', '中日', '阪神']
+PACIFIC_LIST = ['西武', 'ソフトバンク', '日本ハム', 'オリックス', 'ロッテ', '楽天']
+
 PARK_LIST = [
     "メットライフ", "ヤフオクドーム", "札幌ドーム", "京セラＤ大阪", "ＺＯＺＯマリン", "楽天生命パーク", "マツダスタジアム",
     "神宮", "東京ドーム", "横浜", "ナゴヤドーム", "甲子園"
 ]
 
 HOME_DIC = dict(zip(TEAM_LIST, PARK_LIST))
+
+
+def request_soup(url, time_before: int, time_after: int):
+    while True:
+        time.sleep(time_before)
+        res = requests.get(url)
+        if 200 <= res.status_code < 300 and res.content:
+            break
+        else:
+            print(f'{res.status_code}: {res.url}')
+            time.sleep(time_after)
+    return BeautifulSoup(res.content, 'html.parser')
+
+
+def full_val(str_val):
+    str_val = str_val.strip()
+    if str_val == '-':
+        return '0'
+    return str_val.replace('\n', '')
 
 
 def unify_teams(team_str):
@@ -34,13 +60,23 @@ def pick_dick(list_of_dict, str_key, str_value):
     return {}
 
 
-def correct_pf(hitter, pf_list, game_str):
+def correct_pf(player, pf_list, game_str):
     correct_pf = Decimal('0')
-    for key, value in hitter.get('球場', {}).items():
+    for key, value in player.get('球場', {}).items():
         pf = pick_dick(pf_list, '球場', key).get('得点PF', '1')
         correct_pf += Decimal(pf) * Decimal(value[game_str]) / Decimal(
-            hitter[game_str])
+            player[game_str])
     return correct_pf
+
+
+def calc_parkfactor(query_type: str, player, pf_list):
+    cor_pf = correct_pf(player, pf_list, '登板')
+    if not cor_pf:
+        print(player['Name'])
+        print(f'PF補正係数: {cor_pf}')
+        # 暫定実装
+        return Decimal('1')
+    return cor_pf
 
 
 def sum_deep_dict(set_dic, player):

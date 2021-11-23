@@ -1,9 +1,6 @@
-import requests
 import json
-import time
 from decimal import Decimal
-from bs4 import BeautifulSoup
-from common import unify_teams
+from common import unify_teams, request_soup, full_val, CENTRAL_LIST, PACIFIC_LIST
 from sabr.common import return_outcounts
 from datastore_json import write_json
 
@@ -13,28 +10,8 @@ TEAM_NAME_NUM = 1
 
 TEAM_NUM_LIST = [376 if i == 10 else i for i in list(range(1, 13))]
 
-CENTRAL_LIST = ['広島', '巨人', 'ヤクルト', 'ＤｅＮＡ', '中日', '阪神']
-PACIFIC_LIST = ['西武', 'ソフトバンク', '日本ハム', 'オリックス', 'ロッテ', '楽天']
 
-BASEURL = 'https://baseball.yahoo.co.jp'
-
-
-def request_soup(url):
-    while True:
-        time.sleep(1)
-        res = requests.get(url)
-        if 200 <= res.status_code < 300 and res.content:
-            break
-        else:
-            print(f'{res.status_code}: {res.url}')
-            time.sleep(5)
-    return BeautifulSoup(res.content, 'html.parser')
-
-
-def full_val(str_val):
-    if str_val == '-':
-        return '0'
-    return str_val.replace('\n', '')
+BASE_URL = 'https://baseball.yahoo.co.jp'
 
 
 def team_information(tr_player, team):
@@ -98,9 +75,9 @@ def all_player_list(player_type):
     headers = []
     for i in TEAM_NUM_LIST:
 
-        url = BASEURL + '/npb/teams/' + str(i) + '/memberlist?kind=' + player_type
+        url = BASE_URL + '/npb/teams/' + str(i) + '/memberlist?kind=' + player_type
 
-        soup = request_soup(url)
+        soup = request_soup(url, 1, 3)
         # get headers from th
         if not headers:
             th_headers = [th for th in soup.find('thead').find_all('th')]

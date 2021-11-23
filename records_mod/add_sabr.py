@@ -1,6 +1,6 @@
 import json
 from decimal import Decimal, ROUND_HALF_UP
-from common import RECORDS_DIRECTORY, correct_pf
+from common import RECORDS_DIRECTORY, calc_parkfactor
 from sabr.pitch import (qs_rate, bb_per_nine, hr_per_nine, bb_percent_p,
                         k_percent_p, hr_percent_p, k_bb_percent_p, lob_percent,
                         fip, fip_ra, fip_pf, babip_p, komatsu, one_outs_p)
@@ -12,8 +12,9 @@ from sabr.hit_rc import (rc_basic, xr_basic, rc_xr_27, rc_xr_plus, rc_xr_win)
 from datastore_json import read_json, write_json
 
 
-def calc_sabr_pitcher(pitcher, league_pitcher_dic=None, cor_pf=None):
-    pitcher['QS率'] = qs_rate(pitcher)
+def calc_sabr_pitcher(pitcher, league_pitcher_dic=None, cor_pf=None, query_type):
+    # individual 'detail' pageだとデフォルト存在のため
+    if query_type == 'summary': pitcher['QS率'] = qs_rate(pitcher)
     pitcher['BABIP'] = babip_p(pitcher)
     pitcher['BB/9'] = bb_per_nine(pitcher)
     pitcher['HR/9'] = hr_per_nine(pitcher)
@@ -79,26 +80,27 @@ def calc_sabr_hitter(hitter,
 
 
 def add_sabr_pitcher():
+    # query as team 'summary' page or individual 'detail' page
+    query_type = 'detail'
+
     pitcher_list = read_json('pitchers.json')['Pitcher']
 
     league_dic = read_json('league.json')
 
     league_pitcher_dic = league_dic['Pitcher']
 
-    # pf_list = read_json('parks.json')['Park']
+    pf_list = read_json('parks.json')['Park']
 
     for league in league_pitcher_dic.values():
         league = calc_sabr_pitcher(league)
 
     for pitcher in pitcher_list:
-        # cor_pf = correct_pf(pitcher, pf_list, '登板')
-        # if not cor_pf:
-        #     cor_pf = Decimal('1')
-        #     print(pitcher['Name'])
-        #     print(f'PF補正係数: {cor_pf}')
+        # 暫定実装
         cor_pf = Decimal('1')
+        if query_type == 'detail':
+            cor_pf = calc_parkfactor(pitcher, pf_list)
         pitcher = calc_sabr_pitcher(
-            pitcher, league_pitcher_dic[pitcher['League']], cor_pf)
+            pitcher, league_pitcher_dic[pitcher['League']], cor_pf, query_type)
 
     write_json('league.json', league_dic)
 
@@ -106,24 +108,23 @@ def add_sabr_pitcher():
 
 
 def add_sabr_hitter():
+    # query as team 'summary' page or individual 'detail' page
+    query_type = 'detail'
     hitter_list = read_json('hitters.json')['Hitter']
 
     league_dic = read_json('league.json')
 
     league_hitter_dic = league_dic['Hitter']
 
-    # pf_list = read_json('parks.json')['Park']
+    pf_list = read_json('parks.json')['Park']
 
     for league in league_hitter_dic.values():
         league, league_rc, league_xr = calc_sabr_hitter(league)
 
     for hitter in hitter_list:
-        # cor_pf = correct_pf(hitter, pf_list, '試合')
-        # if not cor_pf:
-        #     cor_pf = Decimal('1')
-        #     print(hitter['Name'])
-        #     print(f'PF補正係数: {cor_pf}')
+        # 暫定実装
         cor_pf = Decimal('1')
+        if query_type == 'detail': cor_pf = calc_parkfactor(hitter, pf_list)
         hitter = calc_sabr_hitter(hitter, league_dic, league_rc, league_xr,
                                   cor_pf)
 
