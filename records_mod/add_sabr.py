@@ -12,7 +12,7 @@ from sabr.hit_rc import (rc_basic, xr_basic, rc_xr_27, rc_xr_plus, rc_xr_win)
 from datastore_json import read_json, write_json
 
 
-def calc_sabr_pitcher(pitcher, league_pitcher_dic=None, cor_pf=None, query_type):
+def calc_sabr_pitcher(pitcher, league_pitcher_dic=None, cor_pf=None, query_type=""):
     # individual 'detail' pageだとデフォルト存在のため
     if query_type == 'summary': pitcher['QS率'] = qs_rate(pitcher)
     pitcher['BABIP'] = babip_p(pitcher)
@@ -92,13 +92,13 @@ def add_sabr_pitcher():
     pf_list = read_json('parks.json')['Park']
 
     for league in league_pitcher_dic.values():
-        league = calc_sabr_pitcher(league)
+        league = calc_sabr_pitcher(league, query_type="summary")
 
     for pitcher in pitcher_list:
         # 暫定実装
         cor_pf = Decimal('1')
         if query_type == 'detail':
-            cor_pf = calc_parkfactor(pitcher, pf_list)
+            cor_pf = calc_parkfactor(pitcher, pf_list, '登板')
         pitcher = calc_sabr_pitcher(
             pitcher, league_pitcher_dic[pitcher['League']], cor_pf, query_type)
 
@@ -124,7 +124,7 @@ def add_sabr_hitter():
     for hitter in hitter_list:
         # 暫定実装
         cor_pf = Decimal('1')
-        if query_type == 'detail': cor_pf = calc_parkfactor(hitter, pf_list)
+        if query_type == 'detail': cor_pf = calc_parkfactor(hitter, pf_list, '試合')
         hitter = calc_sabr_hitter(hitter, league_dic, league_rc, league_xr,
                                   cor_pf)
 

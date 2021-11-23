@@ -69,8 +69,8 @@ def correct_pf(player, pf_list, game_str):
     return correct_pf
 
 
-def calc_parkfactor(query_type: str, player, pf_list):
-    cor_pf = correct_pf(player, pf_list, '登板')
+def calc_parkfactor(player, pf_list, game_str):
+    cor_pf = correct_pf(player, pf_list, game_str)
     if not cor_pf:
         print(player['Name'])
         print(f'PF補正係数: {cor_pf}')
