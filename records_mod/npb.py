@@ -2,8 +2,7 @@ import requests
 import json
 from bs4 import BeautifulSoup
 from decimal import Decimal
-from common import YEAR, TEAM_NUM, RECORDS_DIRECTORY, pick_dick, unify_teams
-from records import request_soup
+from common import YEAR, TEAM_NUM, RECORDS_DIRECTORY, pick_dick, unify_teams, request_soup
 from datastore_json import read_json, write_json
 # from datastore_postgre import read_records, write_records
 
@@ -22,7 +21,7 @@ def create_additional_dicts(p_or_b):
     hitters_dict = {}
     for team_initial in TEAM_INITIAL_LIST:
         url = f'http://npb.jp/bis/{str(YEAR)}/stats/id{p_or_b}1_{team_initial}.html'
-        soup = request_soup(url)
+        soup = request_soup(url, 1, 5)
         player_trs = soup.find_all('tr', class_='ststats')
         team_intentional_bb_dict = {
             pl_trs.find('td', class_='stplayer').text.replace('　', ' '):

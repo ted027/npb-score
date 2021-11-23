@@ -1,9 +1,6 @@
-import requests
 import json
-import time
 from decimal import Decimal
-from bs4 import BeautifulSoup
-from common import unify_teams, RECORDS_DIRECTORY
+from common import unify_teams, RECORDS_DIRECTORY, request_soup, full_val, CENTRAL_LIST, PACIFIC_LIST
 from sabr.common import return_outcounts
 from datastore_json import read_json, write_json
 
@@ -27,26 +24,13 @@ HIT_TOO_SHORT_SECTIONS = 9
 
 TEAM_NUM_LIST = [376 if i == 10 else i for i in list(range(1, 13))]
 
-CENTRAL_LIST = ['広島', '巨人', 'ヤクルト', 'ＤｅＮＡ', '中日', '阪神']
-PACIFIC_LIST = ['西武', 'ソフトバンク', '日本ハム', 'オリックス', 'ロッテ', '楽天']
 
-BASEURL = 'https://baseball.yahoo.co.jp'
+BASE_URL = 'https://baseball.yahoo.co.jp'
 
-
-def request_soup(url):
-    while True:
-        time.sleep(8)
-        res = requests.get(url)
-        if 200 <= res.status_code < 300 and res.content:
-            break
-        else:
-            print(f'{res.status_code}: {res.url}')
-            time.sleep(15)
-    return BeautifulSoup(res.content, 'html.parser')
 
 
 def link_tail_list(url):
-    soup = request_soup(url)
+    soup = request_soup(url, 1, 5)
     table = soup.find('table')
     td_player_list = table.find_all('td', class_='bb-playerTable__data--player')
     # 育成選手を除外するために背番号も取得
@@ -56,12 +40,6 @@ def link_tail_list(url):
         for num, pl in zip(td_number_list, td_player_list)
         if len(num.text) < TRAINING_NUM_DIGIT
     ]
-
-
-def full_val(str_val):
-    if str_val == '-':
-        return '0'
-    return str_val.replace('\n', '')
 
 
 def basic_information(personal_soup):
@@ -87,7 +65,7 @@ def confirm_pitcher_tables(sections):
     records_table = rl_table = park_table = None
     for section in sections:
         try:
-            record_type = section.find('header').find('h1').text
+            record_type = section.find('header').find('h1').text.strip()
         except BaseException:
             record_type = ''
         if record_type == '投手成績':
@@ -106,7 +84,7 @@ def confirm_hitter_tables(sections):
     records_table = chance_table = rl_table = count_table = runner_table = park_table = None
     for section in sections:
         try:
-            record_type = section.find('header').find('h1').text
+            record_type = section.find('header').find('h1').text.strip()
         except BaseException:
             record_type = ''
         if record_type == '打者成績':
@@ -133,7 +111,6 @@ def confirm_hitter_tables(sections):
 def dict_records(records_table):
     rheader = [th.text for th in records_table.find_all('th')]
     rbody = [full_val(td.text) for td in records_table.find_all('td')]
-    dict(zip(rheader, rbody))
     return dict(zip(rheader, rbody))
 
 
@@ -187,7 +164,16 @@ def _rl_hitter(rl_trs, rl_header):
         # [-len(rl_header):] 打者のtr length違いに対応するため
         rl_body_right = [full_val(td.text) for td in rl_trs[i * 2].find_all('td')[-len(rl_header):]]
         rl_body_left = [full_val(td.text) for td in rl_trs[i * 2 + 1].find_all('td')[-len(rl_header):]]
-        rl_body = [str(Decimal(right) + Decimal(left)) for right, left in zip(rl_body_right, rl_body_left)]
+        # rl_body = [str(Decimal(right) + Decimal(left)) for right, left in zip(rl_body_right, rl_body_left)]
+        rl_body = []
+        for right, left in zip(rl_body_right, rl_body_left):
+            try:
+                rl_body.append(str(Decimal(right) + Decimal(left)))
+            except BaseException:
+                print(f'body_right: {rl_body_right}')
+                print(f'body_left: {rl_body_left}')
+                print(f'right: {right}')
+                print(f'left: {left}')
         if '右' in rl_text:
             rl_records['対右'] = dict(zip(rl_header, rl_body))
         elif '左' in rl_text:
@@ -219,11 +205,11 @@ def append_team_pitcher_array(link_tail_list):
         # personal_id = ptail.split('/')[-2]
         # personal_dict = {'id': personal_id}
 
-        personal_link = BASEURL + ptail
+        personal_link = BASE_URL + ptail
 
         # retry if contents is too short
         while True:
-            personal_soup = request_soup(personal_link)
+            personal_soup = request_soup(personal_link, 7, 14)
 
             personal_dict = basic_information(personal_soup)
 
@@ -280,11 +266,11 @@ def append_team_hitter_array(link_tail_list):
         # personal_id = htail.split('/')[-2]
         # personal_dict = {'id': personal_id}
 
-        personal_link = BASEURL + htail
+        personal_link = BASE_URL + htail
 
         # retry if contents is too short
         while True:
-            personal_soup = request_soup(personal_link)
+            personal_soup = request_soup(personal_link, 7, 14)
 
             personal_dict = basic_information(personal_soup)
 
@@ -355,27 +341,11 @@ def create_td_team_player_list(soup):
 
 def extend_team_player_list(player_type):
     player_list = []
-    # thから項目を作る
-    # default_url = BASEURL + '/npb/teams/' + '1' + '/memberlist?kind=' + player_type
-    headers = []
     for i in TEAM_NUM_LIST:
 
-        url = BASEURL + '/npb/teams/' + str(i) + '/memberlist?kind=' + player_type
+        url = BASE_URL + '/npb/teams/' + str(i) + '/memberlist?kind=' + player_type
 
         ltail_list = link_tail_list(url)
-        soup = request_soup(url)
-        # get headers from th
-        # if not headers:
-        #     th_headers = [th for th in soup.find('thead').find_all('th')]
-        #     headers_raw = [th_header.find('p').text if th_header.find('p') else th_header.text for th_header in th_headers]
-        #     # 全角 -> 半角
-        #     headers = [header.replace('\u3000', '').translate(str.maketrans({chr(0xFF01 + i): chr(0x21 + i) for i in range(94)})) for header in headers_raw]
-        # # get team name from h1
-        # team = unify_teams(soup.find('h1').text)
-        
-        # td_team_players = create_td_team_player_list(soup)
-
-        # team_player_list = create_team_player_list(td_team_players, team, headers)
 
         if player_type == 'p':
             team_player_list = append_team_pitcher_array(ltail_list)

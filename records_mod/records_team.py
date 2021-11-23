@@ -1,13 +1,12 @@
 import requests
 import json
 from bs4 import BeautifulSoup
-from common import unify_teams
-from records import request_soup, full_val, CENTRAL_LIST
+from common import unify_teams, request_soup, full_val, CENTRAL_LIST
 from datastore_json import read_json, write_json
 
 EXCEPT_HEAD_CONTENT = 1
 
-URL = 'https://baseball.yahoo.co.jp/npb/standings/'
+TEAM_URL = 'https://baseball.yahoo.co.jp/npb/standings/'
 
 
 def records_by_team(table):
@@ -30,7 +29,7 @@ def records_by_team(table):
 
 def append_team_array():
     team_list = []
-    team_soup = request_soup(URL)
+    team_soup = request_soup(TEAM_URL, 0, 0)
     # table_title_divs = team_soup.find_all('div', class_='p5')
     # table_titles = [div.text for div in table_title_divs]
     tables = team_soup.find_all('table')
