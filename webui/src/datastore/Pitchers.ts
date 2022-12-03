@@ -1,6 +1,7 @@
 import pitchersj2019 from "../records/2019/pitchers.json";
 import pitchersj2020 from "../records/2020/pitchers.json";
 import pitchersj2021 from "../records/2021/pitchers.json";
+import pitchersj2022 from "../records/2022/pitchers.json";
 import { createHeader, createBody, createHeaderRelief } from "./DataCommon";
 import { selectYears, strBoolDict, strBoolDictWithId } from "../constants";
 
@@ -8,6 +9,7 @@ var yearJson = {
   '2019': pitchersj2019.Pitcher,
   '2020': pitchersj2020.Pitcher,
   '2021': pitchersj2021.Pitcher,
+  '2022': pitchersj2022.Pitcher,
 }
 
 // sabr

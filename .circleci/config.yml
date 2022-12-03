@@ -4,7 +4,7 @@ jobs:
     docker:
       - image: circleci/python:3.6
     environment:
-      YEAR: 2021
+      YEAR: 2022
     working_directory: ~/work
     steps:
       - checkout
@@ -39,7 +39,7 @@ jobs:
     docker:
       - image: circleci/node:8.10
     environment:
-      YEAR: 2021
+      YEAR: 2022
     working_directory: ~/work
     steps:
       - checkout
@@ -100,12 +100,12 @@ workflows:
                 only: master
           requires:
             - webui_build
-  # nightly_build:
-  #   triggers:
-  #     - schedule:
-  #         cron: "15,45 10,14,15 * * *"
-  #         filters:
-  #           branches:
-  #             only: master
-  #   jobs:
-  #     - records_build
+  nightly_build:
+    triggers:
+      - schedule:
+          cron: "15,45 10,14,15 * * *"
+          filters:
+            branches:
+              only: master
+    jobs:
+      - records_build
