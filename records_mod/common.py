@@ -4,7 +4,7 @@ from decimal import Decimal
 from bs4 import BeautifulSoup
 
 
-YEAR = 2
+YEAR = 2022
 TEAM_NUM = 6
 
 RECORDS_DIRECTORY = f'records/{YEAR}'
