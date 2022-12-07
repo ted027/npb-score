@@ -43,6 +43,8 @@ def link_tail_list(url):
 
 
 def basic_information(personal_soup):
+    # 'ご利用のブラウザ（Internet Explorer）は、'があれば削除
+    personal_soup.find('h1', class_='bb-msSupport__title').extract()
     # '現在JavaScriptが無効です。'があれば削除
     personal_soup.find('h1', class_='bb-jsOff__title').extract()
     h1s = personal_soup.find_all('h1')
